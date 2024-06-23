@@ -1,0 +1,309 @@
+
+ body {
+        font-family: Arial, sans-serif; 
+        margin:0px;
+    }
+    
+ .container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.section h2 {
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+
+.section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.section ul li {
+    margin-bottom: 5px;
+}
+
+.section a {
+    text-decoration: none;
+    color: #333;
+}
+
+.section a:hover {
+    text-decoration: underline;
+}
+
+.options {
+    display: none; /* Oculta las opciones por defecto */
+}
+
+/* Estilos para el despliegue de opciones al hacer clic */
+.options.visible {
+    display: block;
+}  
+
+#General
+	{
+		width:100%;
+		height: 100%;
+		position: absolute;
+	
+	}
+	
+	
+
+
+ /* - LOGIN-*/
+ div#pantalla_principal_izquierda {
+    padding-left: 10%;
+    padding-top: 10%;
+}
+ 
+
+
+ /* -SECCION LOGIN INICIO -*/
+#Login
+	{
+		background-color:#D6DFE6;
+		width:40%;
+		height: 100%;
+		float:right;
+		display: inline-block;
+		border-radius: 40px 0px 0px 0px; 
+		justify-content: center;
+		align-items: center;	
+        text-align: center;
+        font: arial;
+	
+	}
+
+ #Login form {
+      width: 100%; 
+    }
+	
+	
+	
+#Login input[type="text"],
+#Login input[type="password"]
+{
+    width: 60%; /* Ajusta el ancho de las cajas de texto */
+    padding: 10px; /* Añade relleno dentro de las cajas de texto */
+    margin-bottom: 20px; /* Añade espacio entre las cajas de texto */
+    font-size: 16px; /* Ajusta el tamaño de la fuente */
+    border: 1px solid #ccc; /* Añade un borde */
+    border-radius: 5px; /* Añade bordes redondeados */
+}
+
+
+#Login input[type="submit"]	{
+	 margin-bottom: 5%; 
+	 border-radius: 5px; 
+	 width: 20%;
+	 font-size: 16px;
+	 
+	
+}
+
+
+ /* -SECCION LOGIN FIN -*/
+
+
+
+
+ /* - LINK RECUPERAR O CREAR USUARIO-*/
+
+ .info-text {
+            font-size: 18px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+
+  .info-list {
+            list-style-type: none;
+            padding: 0;
+        }  
+        
+        
+  .info-list a {
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        
+
+#Bienvenido
+	{
+		background-color:white;
+		width:60%;
+		display: inline-block;
+		color: black;
+		font-family: system-ui;
+	}
+	
+ /* -Margen izquierdo bienvenida-*/
+ 
+ .logo{
+ 	width: 23%;
+ }
+ 
+ 
+ 
+
+ #gift-bienvenida{
+ 	width: 88%;
+ }
+ 
+ /* - Fin Margen izquierdo bienvenida-*/
+	
+
+	
+	
+	
+ /* -SECCIÓN ALTA CLIENTE-*/
+ .accordion {
+   background-color: #eee;
+   color: #444;
+   cursor: pointer;
+   padding: 18px;
+   width: 100%;
+   border: none;
+   text-align: left;
+   outline: none;
+   font-size: 15px;
+   transition: 0.4s;
+   margin-top: 10px;
+  }
+ 
+.active, .accordion:hover {
+   background-color: #ccc;
+}
+
+.accordion:after {
+  content: '\002B';
+  color: #777;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+
+.panel {
+ padding: 0 18px;
+ background-color: white;
+ max-height: 0;
+ overflow: hidden;
+ transition: max-height 0.2s ease-out;
+ }
+
+.form-group {
+  margin-bottom: 5px;
+}
+
+label {
+ display: block;
+ margin-bottom: 5px;
+ }
+
+ input[type="text"], input[type="date"], input[type="email"], input[type="password"], select {
+   width: 100%;
+   padding: 10px;
+   border: 1px solid #ccc;
+   border-radius: 5px;
+   box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+}
+
+ input[type="submit"] {
+   background-color: #4CAF50;
+   color: white;
+   padding: 15px 20px;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   margin-top: 50px;
+   margin-left: 5px;
+   box-sizing: border-box;
+}
+
+
+input[type="submit"]:hover {
+   background-color: #45a049;
+}
+
+ input[type="button"] {
+   background-color: #778899;
+   color: white;
+   padding: 15px 20px;
+   border: none;
+   border-radius: 5px;
+   cursor: pointer;
+   margin-top: 50px;
+   box-sizing: border-box;
+}
+
+   .flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px; /* aumentar este valor para más separación */
+}
+
+.flex-item {
+    flex: 1 1 calc(50% - 30px); 
+    min-width: 200px;
+   
+}
+
+
+
+
+.banner {
+background-color:#D6DFE6;
+color: black;
+padding: 7px;
+text-align: center;
+}
+
+/* Estilos del popup */
+.popup {
+    display: none;
+    position: fixed;
+    top: 30%;
+    left: 30%;
+    width: 30%;
+    background-color: #f5f7f9;
+    color: black;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+    z-index: 1000;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup.active {
+    display: flex;
+}
+
+.popup-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 4px;
+    text-align: center;
+    position: relative; 
+}
+
+.close-btn {
+    position: fixed;
+    top: 30%;
+    right: 40%;
+    cursor: pointer;
+    color: black;
+    font-size: 24px;
+    font-weight: bold;
+}

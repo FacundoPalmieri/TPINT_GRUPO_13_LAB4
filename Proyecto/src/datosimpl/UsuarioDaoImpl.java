@@ -1,0 +1,175 @@
+ package datosimpl;
+import datos.UsuarioDao;
+
+import entidad.Usuario;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class UsuarioDaoImpl implements UsuarioDao{
+	private Conexion cn;
+	
+
+
+	@Override
+	public boolean validarLogin(String usuario, String contrasenia) {
+	    Conexion cn = new Conexion();
+	    cn.Open();
+
+	    boolean estado = false;
+	    String query = "SELECT usuario, contrasenia FROM Usuarios WHERE usuario=? and contrasenia=?";
+
+	    try {
+	        PreparedStatement preparedStatement = cn.prepareStatement(query);
+	        preparedStatement.setString(1, usuario);
+	        preparedStatement.setString(2, contrasenia);
+
+	        // Usar executeQuery para obtener un ResultSet
+	        ResultSet rs = preparedStatement.executeQuery();
+
+	        // Si se encuentra al menos un registro, el usuario existe
+	        if (rs.next()) {
+	            estado = true;
+	            System.out.println(" DAO IMPL - Usuario encontrado: " + rs.getString("usuario") + " " + rs.getString("contrasenia"));
+	        } else {
+	            System.out.println("DAO IMPL - No se encontró usuario: " );
+	        }
+
+	        rs.close();
+	        preparedStatement.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        cn.close();
+	    }
+
+	    System.out.println("Estado retorno USUARIODAO: " + estado);
+	    return estado;
+	}
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	@Override
+	public boolean validarUsuario(String DNI, String usuario) {
+	    Conexion cn = new Conexion();
+	    cn.Open();
+
+	    boolean estado = true;
+	    String query = "SELECT nombre, apellido FROM Usuarios WHERE dni=? OR usuario=?";
+
+	    try {
+	        PreparedStatement preparedStatement = cn.prepareStatement(query);
+	        preparedStatement.setString(1, DNI);
+	        preparedStatement.setString(2, usuario);
+
+	        // Usar executeQuery para obtener un ResultSet
+	        ResultSet rs = preparedStatement.executeQuery();
+
+	        // Si se encuentra al menos un registro, el usuario existe
+	        if (rs.next()) {
+	            estado = false;
+	            System.out.println("Usuario encontrado: " + rs.getString("nombre") + " " + rs.getString("apellido"));
+	        } else {
+	            System.out.println("No se encontró usuario con DNI: " + DNI + " o usuario: " + usuario);
+	        }
+
+	        rs.close();
+	        preparedStatement.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        cn.close();
+	    }
+
+	    System.out.println("Estado retorno USUARIODAO: " + estado);
+	    return estado;
+	}
+
+
+	@Override
+	public boolean agregarCliente(Usuario usuario) {
+		
+		boolean estado=false;
+		
+		cn = new Conexion();
+		cn.Open();	
+		
+		String query = "INSERT INTO usuarios (dni, cuil, nombre, apellido, sexo, celular, telefono, direccion, localidad, provincia, nacionalidad, fecha_nacimiento, email, usuario, contrasenia) " +
+	               "VALUES ('" + usuario.getDni() + "','" + usuario.getCuil() + "','" + usuario.getNombre() + "','" + usuario.getApellido() + "','" +
+	               usuario.getSexo() + "','" + usuario.getCelular() + "','" + usuario.getTelefono() + "','" + usuario.getDireccion() + "','" +
+	               usuario.getLocalidad() + "','" + usuario.getProvincia() + "','" + usuario.getNacionalidad() + "','" +
+	               usuario.getFechaNacimiento() + "','" + usuario.getEmail() + "','" + usuario.getUsuario() + "','" + usuario.getContrasena() + "')";
+		System.out.println(query);
+		try
+		 {
+			estado=cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			
+			e.printStackTrace();
+			
+		}
+		finally
+		{
+			cn.close();
+		}
+	
+		return estado;
+	}
+
+
+	@Override
+	public Usuario ObtenerUsuario(String usuario) {
+	    cn = new Conexion();
+	    cn.Open();
+	    System.out.println("CONEXION ABIERTA OBTENER USUARIO");
+	    Usuario u = new Usuario();
+	    try {
+	        // Construimos la consulta SQL en el mismo formato
+	    	String query = "SELECT usuarios.dni, usuarios.cuil, usuarios.nombre, usuarios.apellido, " +
+	                "usuarios.sexo, usuarios.celular, usuarios.telefono, usuarios.direccion, " +
+	                "usuarios.localidad, usuarios.provincia, usuarios.nacionalidad, " +
+	                "usuarios.fecha_nacimiento, usuarios.email, usuarios.usuario, usuarios.contrasenia " +
+	                "FROM usuarios WHERE usuarios.usuario = '" + usuario + "'";
+
+	        // Ejecutamos la consulta
+	        ResultSet rs = cn.query(query);
+	        System.out.println("QWERY" + rs);
+
+	        // Procesamos el resultado
+	        if (rs.next()) {
+	            u.setDni(rs.getString("usuarios.dni"));
+	            u.setCuil(rs.getString("usuarios.cuil"));
+	            u.setNombre(rs.getString("usuarios.nombre"));
+	            u.setApellido(rs.getString("usuarios.apellido"));
+	            u.setSexo(rs.getString("usuarios.sexo"));
+	            u.setCelular(rs.getString("usuarios.Celular"));
+	            u.setTelefono(rs.getString("usuarios.Telefono"));
+	            u.setDireccion(rs.getString("usuarios.direccion"));
+	            u.setLocalidad(rs.getString("usuarios.localidad"));
+	            u.setProvincia(rs.getString("usuarios.provincia"));
+	            u.setNacionalidad(rs.getString("usuarios.nacionalidad"));
+	            u.setFechaNacimiento(rs.getString("usuarios.fecha_nacimiento"));
+	            u.setEmail(rs.getString("usuarios.email"));
+	            u.setUsuario(rs.getString("usuarios.usuario"));
+	            u.setContrasena(rs.getString("usuarios.contrasenia"));
+	            System.out.println("QUERY RESULT: " + u.getDni());
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        cn.close();
+	    }
+	    return u;
+	}
+}
+	
+
+
