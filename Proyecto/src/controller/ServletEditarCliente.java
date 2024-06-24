@@ -72,17 +72,40 @@ public class ServletEditarCliente extends HttpServlet {
 			    	RequestDispatcher dispatcher = request.getRequestDispatcher("/EditarCliente.jsp");
 					dispatcher.forward(request, response);	
 	            } else {
-	                // No hay objeto Usuario en la sesión, redirige a la página de login
 	                response.sendRedirect("Login.jsp");
 	            }
 	        } else {
-	            // No hay sesión, redirige a la página de login
-	            System.out.println("NO HAY SESION");
 	            response.sendRedirect("Login.jsp");
 	        }
 	    }
+	    if(request.getParameter("btnAceptar")!=null)
+	    {
+			Usuario usuario = new Usuario();
+			
+			usuario.setDni(request.getParameter("dni"));
+			usuario.setCuil(request.getParameter("cuil"));
+			usuario.setNombre(request.getParameter("nombre"));
+			usuario.setApellido(request.getParameter("apellido"));
+			usuario.setSexo(request.getParameter("sexo"));
+			usuario.setCelular(request.getParameter("celular"));
+			usuario.setTelefono(request.getParameter("telefonos"));
+			usuario.setFechaNacimiento(request.getParameter("fechaNacimiento"));
+			usuario.setNacionalidad(request.getParameter("nacionalidad"));
+			usuario.setLocalidad(request.getParameter("localidad"));
+			usuario.setProvincia(request.getParameter("provincia"));
+			usuario.setDireccion(request.getParameter("direccion"));
+			usuario.setEmail(request.getParameter("correoElectronico"));
+			usuario.setUsuario(request.getParameter("usuario"));
+			usuario.setContrasena(request.getParameter("contrasena"));
+			usuario.setTipoUsuarioId(0);
+			boolean estado = true;
+			estado = usuarioNeg.editarUsuario(usuario);	
+		    request.setAttribute("estadoCliente", estado);
+		    RequestDispatcher dispatcher = request.getRequestDispatcher("/EditarCliente.jsp");
+			dispatcher.forward(request, response);	
+	    }		
 	}
-} 
+}
 	
 
 

@@ -104,17 +104,17 @@
     <div class="panel">
          <div class="form-group" style= "margin-top:10px;">
             <label for="usuario">Usuario:</label>
-            <input type="text" id="usuario" name="usuario" value="<%= request.getAttribute("usuario") %>" required>
+            <input type="text" id="usuario" name="usuario" value="<%= request.getAttribute("usuario") %>" readonly style="background-color: #e9ecef;">
         </div>
         <div class="form-group flex-item">
             <label for="contrasena">Contraseña:</label>
-            <input type="password" id="contrasena" name="contrasena" value="<%= request.getAttribute("contrasena") %>" readonly>
+            <input type="password" id="contrasena" name="contrasena" value="<%= request.getAttribute("contrasena") %>" readonly style="background-color: #e9ecef;">
         </div>
       
     </div>
 
     <input type="submit" value="Aceptar" name="btnAceptar">
-    <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='Login.jsp';">
+    <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='InicioCliente.jsp';">
 
 	</form>
 

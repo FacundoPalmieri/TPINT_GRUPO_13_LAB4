@@ -1,5 +1,4 @@
 package datos;
-
 import entidad.Usuario;
 
 public interface UsuarioDao {
@@ -11,6 +10,8 @@ public interface UsuarioDao {
 	  public boolean agregarCliente(Usuario usuario);
 	  
 	  public Usuario ObtenerUsuario (String usuario);
+	  
+	  public boolean editarUsuario(Usuario usuario);
 	   
 	
 }

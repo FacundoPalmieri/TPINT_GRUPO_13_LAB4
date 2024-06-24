@@ -36,6 +36,13 @@ public class UsuarioNegImpl implements UsuarioNeg{
 		return usuarioDao.ObtenerUsuario(usuario);
 	}
 
+
+	@Override
+	public boolean editarUsuario(Usuario usuario) {
+		// TODO Auto-generated method stub
+		return usuarioDao.editarUsuario(usuario);
+	}
+
 	
 	
 }

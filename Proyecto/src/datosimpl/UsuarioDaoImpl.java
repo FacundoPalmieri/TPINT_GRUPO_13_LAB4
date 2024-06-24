@@ -169,6 +169,31 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    }
 	    return u;
 	}
+
+
+	@Override
+	public boolean editarUsuario(Usuario usuario) {
+		boolean estado=true;
+
+		cn = new Conexion();
+		cn.Open();	
+
+		String query = "UPDATE  usuarios SET dni='"+ usuario.getDni()+"',cuil='"+ usuario.getCuil()+"',nombre='"+ usuario.getNombre()+"',apellido='"+ usuario.getApellido()+"',sexo='"+ usuario.getSexo()+"',celular='"+ usuario.getCelular() +"',telefono='"+ usuario.getTelefono() +"',direccion='"+ usuario.getDireccion() + "',localidad='"+ usuario.getLocalidad() +"',provincia='"+ usuario.getProvincia() +"',nacionalidad='"+ usuario.getNacionalidad() +"', fecha_nacimiento='"+ usuario.getFechaNacimiento() +"', email='"+ usuario.getEmail()+"' WHERE dni='"+usuario.getDni()+"'";
+		try
+		 {
+			estado=cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		
+		return estado;
+	}
 }
 	
 

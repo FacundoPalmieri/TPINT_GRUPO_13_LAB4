@@ -40,10 +40,10 @@
                     <input id="usuario" type="text" placeholder="Usuario" required name="txtUsuario">
                 </p>
                 <p>
-                    <input id="contrasenia" type="password" placeholder="Contraseña" required name="txtContrasenia">
+                    <input id="contrasenia" type="password" placeholder="Contraseña" name="txtContrasenia">
                 </p>
                 <p>
-                    <input type="submit" required name="btnIngresar" value="Ingresar"><br>
+                    <input type="submit" name="btnIngresar" value="Ingresar"><br>
                 </p>
 	        	    	
 			    <div id="popup" class="popup">
@@ -54,18 +54,14 @@
 				       
 				     <div>
 			    <%
-			        // Obtén los atributos desde el request
+			        
 			        Boolean validacion = (Boolean) request.getAttribute("validacionCliente");
-			
-			        // Imprime en consola para verificar los valores
-			        System.out.println("Validación Cliente JSP: " + validacion);
-			
-			        // Verifica que 'validacion' no sea null antes de continuar
+
 			        if (validacion != null && !validacion) {
 			    %>
 			        <script>
 			            document.addEventListener('DOMContentLoaded', function() {
-			                // Mostrar el popup con el mensaje correspondiente
+			                // Mensaje del popUp
 			                showPopup("Usuario o Contraseña Incorrecta");
 			            });
 			        </script>
