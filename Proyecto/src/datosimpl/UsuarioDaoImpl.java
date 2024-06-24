@@ -38,7 +38,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	            }
 	            System.out.println(" DAO IMPL - Usuario encontrado: " + rs.getString("usuario") + " " + rs.getString("contrasenia"));
 	        } else {
-	            System.out.println("DAO IMPL - No se encontró usuario: " );
+	            System.out.println("DAO IMPL - No se encontrï¿½ usuario: " );
 	        }
 
 	        rs.close();
@@ -76,7 +76,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	            estado = false;
 	            System.out.println("Usuario encontrado: " + rs.getString("nombre") + " " + rs.getString("apellido"));
 	        } else {
-	            System.out.println("No se encontró usuario con DNI: " + DNI + " o usuario: " + usuario);
+	            System.out.println("No se encontrï¿½ usuario con DNI: " + DNI + " o usuario: " + usuario);
 	        }
 
 	        rs.close();
@@ -168,6 +168,38 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    }
 	    return u;
 	}
+	
+	
+	
+	
+	@Override
+	public Usuario ObtenerUsuarioPorDni(String DNI) {
+	    cn = new Conexion();
+	    cn.Open();
+	    System.out.println("CONEXION ABIERTA OBTENER USUARIO X DNI");
+	    Usuario u = new Usuario();
+	    try {
+	       
+	    	String query = "SELECT usuarios.usuario, usuarios.contrasenia " +
+	                "FROM usuarios WHERE usuarios.dni = '" + DNI + "'";
+
+	        ResultSet rs = cn.query(query);
+	        System.out.println("QWERY" + rs);
+
+	      
+	        if (rs.next()) {
+	          
+	            u.setUsuario(rs.getString("usuarios.usuario"));
+	            u.setContrasena(rs.getString("usuarios.contrasenia"));
+	            System.out.println("QUERY RESULT: " + u.getDni());
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        cn.close();
+	    }
+	    return u;
+	}
 
 
 	@Override
@@ -195,17 +227,57 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	}
 	
 	
+	@Override
+	public boolean editarContraseÃ±a(Usuario usuario) {
+		boolean estado=true;
+
+		cn = new Conexion();
+		cn.Open();	
+
+		String query = "UPDATE  usuarios SET contrasenia ='"+ usuario.getContrasena() +"' WHERE dni='"+ usuario.getDni()+"'";
+		 System.out.println("query" + usuario.getContrasena());
+		try
+		 {
+			estado=cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		
+		 System.out.println("estado" + estado);
+		return estado;
+		
+	}
+	
+	
+	
+	
+
+	
+	
 	public ArrayList<Usuario> listarUsuarios(){
+		
 		ArrayList<Usuario> listaUsuarios = new ArrayList<Usuario>();
+		
 		cn = new Conexion();
 	    cn.Open();
-	    System.out.println("CONEXION ABIERTA OBTENER USUARIO");
+		
+	    System.out.println("CONEXION ABIERTA LISTAR USUARIO");
+	    
+	    
 		String query="select * from usuarios"; 
 		
 		try {
 		ResultSet rs = cn.query(query);
 		while(rs.next()) {
+			
 			Usuario u = new Usuario(); 
+		
             u.setDni(rs.getString("usuarios.dni"));
             u.setCuil(rs.getString("usuarios.cuil"));
             u.setNombre(rs.getString("usuarios.nombre"));
@@ -223,14 +295,25 @@ public class UsuarioDaoImpl implements UsuarioDao{
             u.setContrasena(rs.getString("usuarios.contrasenia"));
             listaUsuarios.add(u);
         }
+		
     } catch (Exception e) {
         e.printStackTrace();
+        
     } finally {
+    	
         cn.close();
     }
 		
 		return listaUsuarios;
 	}
+
+
+
+	
+
+
+
+	
 }
 	
 

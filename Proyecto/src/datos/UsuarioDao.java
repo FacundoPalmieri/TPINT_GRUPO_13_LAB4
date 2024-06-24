@@ -13,7 +13,11 @@ public interface UsuarioDao {
 	  
 	  public Usuario ObtenerUsuario (String usuario);
 	  
+	  public Usuario ObtenerUsuarioPorDni (String DNI);
+	  
 	  public boolean editarUsuario(Usuario usuario);
+	  
+	  public boolean editarContraseña(Usuario usuario);
 	   
 	  public ArrayList<Usuario> listarUsuarios();
 }

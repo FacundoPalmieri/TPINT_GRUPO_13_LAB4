@@ -37,6 +37,11 @@ public class UsuarioNegImpl implements UsuarioNeg{
 	public Usuario obtenerCliente(String usuario) {
 		return usuarioDao.ObtenerUsuario(usuario);
 	}
+	
+	@Override
+	public Usuario obtenerClientePorDNI(String DNI) {
+		return usuarioDao.ObtenerUsuarioPorDni(DNI);
+	}
 
 
 	@Override
@@ -44,6 +49,12 @@ public class UsuarioNegImpl implements UsuarioNeg{
 		// TODO Auto-generated method stub
 		return usuarioDao.editarUsuario(usuario);
 	}
+	
+	@Override
+	public boolean editarContraseña(Usuario usuario) {
+		return usuarioDao.editarContraseña(usuario);
+	}
+
 
 	
 	public ArrayList<Usuario> listaUsuarios(){
@@ -51,4 +62,9 @@ public class UsuarioNegImpl implements UsuarioNeg{
 		lista = usuarioDao.listarUsuarios();
 		return lista;
 	}
+
+
+	
+
+	
 }

@@ -38,7 +38,7 @@ public class ServletEditarCliente extends HttpServlet {
 
 	
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false); // No crear nueva sesión si no existe
+        HttpSession session = request.getSession(false); // No crear nueva sesiï¿½n si no existe
         if (session != null) {
             Usuario usuario = (Usuario) session.getAttribute("usuarioEnSesion");
             if (usuario != null) {
@@ -46,7 +46,7 @@ public class ServletEditarCliente extends HttpServlet {
                 System.out.println("Nombre Usuario Session: " + nombreUsuario);
 
                 if (request.getParameter("btnEditar") != null) {
-                    // Llama al método para obtener los datos completos del usuario
+                    // Llama al mï¿½todo para obtener los datos completos del usuario
                     Usuario usuarioCompleto = usuarioNeg.obtenerCliente(nombreUsuario); 
 
                     // Establece los datos del usuario en el request para que el JSP pueda mostrarlos
@@ -121,6 +121,42 @@ public class ServletEditarCliente extends HttpServlet {
         } else {
             response.sendRedirect("InicioCliente.jsp");
         }
+        
+        
+        
+        if (request.getParameter("btnBuscar") != null) {
+        	
+        	String DNI = new String();
+        	Usuario usuario = new Usuario();
+        	
+        	DNI = (request.getParameter("dniCliente"));
+        	usuario = usuarioNeg.obtenerClientePorDNI(DNI);
+        	 request.setAttribute("usuario", usuario.getUsuario());
+             request.setAttribute("contrasena", usuario.getContrasena());
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/BuscarCliente.jsp");
+            dispatcher.forward(request, response); 
+            
+        } 
+            else if (request.getParameter("btnActualizar") != null) {
+                Usuario usuarioEditado = new Usuario();
+                
+                usuarioEditado.setDni(request.getParameter("dniCliente"));
+                usuarioEditado.setContrasena(request.getParameter("contrasena"));
+                
+                boolean filas = usuarioNeg.editarContraseÃ±a(usuarioEditado);
+                
+               if(filas == true) {
+            	   request.setAttribute("filas", filas);
+            	   RequestDispatcher dispatcher = request.getRequestDispatcher("/BuscarCliente.jsp");
+                   dispatcher.forward(request, response); 
+            	   
+            	   
+               }
+                
+            }
+     
+        
     }
 
 }

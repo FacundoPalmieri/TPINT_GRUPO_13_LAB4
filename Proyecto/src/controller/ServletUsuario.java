@@ -82,18 +82,24 @@ public class ServletUsuario extends HttpServlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-    	String paramValue = request.getParameter("Param");
-    	if(paramValue != null && paramValue.equals("1")) {
-    		UsuarioNeg un = new UsuarioNegImpl();
-    		ArrayList<Usuario> listaUsuarios = new ArrayList<Usuario>();
-    		listaUsuarios = un.listaUsuarios();
-    		request.setAttribute("listaUsuarios", listaUsuarios);
-    		RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarClientes.jsp");
-			dispatcher.forward(request, response);	
-    	}
-    	else {
-    		 // Por seguridad, si alguien intenta acceder por GET a este servlet
-    		response.sendRedirect("Login.jsp");
-    	}
+    
+	    	  if (request.getParameter("btnListarCliente") != null) {
+	    		UsuarioNeg un = new UsuarioNegImpl();
+	    		ArrayList<Usuario> listaUsuarios = new ArrayList<Usuario>();
+	    		listaUsuarios = un.listaUsuarios();
+	    		request.setAttribute("listaUsuarios", listaUsuarios);
+	    		RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarClientes.jsp");
+				dispatcher.forward(request, response);	
+	    	  }
+    
+    	
+    
+    		if (request.getParameter("btnBuscarCliente") != null) {
+    			  response.sendRedirect("BuscarCliente.jsp");
+    			
+    			
+    			
+    		}
+    		
     }
 }

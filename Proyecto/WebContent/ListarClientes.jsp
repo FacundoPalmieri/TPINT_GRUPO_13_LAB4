@@ -9,29 +9,32 @@
 <meta charset="ISO-8859-1">
 <title>Listado de Clientes</title>
 <style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-    table, th, td {
-        border: 1px solid black;
-    }
-    th, td {
-        padding: 15px;
-        text-align: left;
-    }
-    th {
-        background-color: #f2f2f2;
-    }
+	<jsp:include page="css\Style.css"></jsp:include>
 </style>
+
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
+	
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script type="text/javascript" charset="utf8"
+	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		$('#table_id').DataTable();
+	});
+</script>
 </head>
 <body>
 	<% if(session.getAttribute("tipoUsuario")!=null){%>
-    <h1>Listado de Clientes</h1>
-    <a href="UsuarioAdministrador.jsp">Volver</a>
-    <table>
+    <div class="banner">
+  <h2> Listado de Clientes</h2>
+</div>
+<div style= "margin-top: 10px;">
+   <table id="table_id" class="display">
         <tr>
-            <th>ID</th>
+             <%--   <th>ID</th>  --%>
             <th>DNI</th>
             <th>CUIL</th>
             <th>Nombre</th>
@@ -52,7 +55,7 @@
                 for (Usuario cliente : listaUsuarios) {
         %>
         <tr>
-            <td><%= cliente.getId() %></td>
+           <%-- <td><%= cliente.getId() %></td>  --%>
             <td><%= cliente.getDni() %></td>
             <td><%= cliente.getCuil() %></td>
             <td><%= cliente.getNombre() %></td>
@@ -74,9 +77,13 @@
         <%
             }
         %>
+       
     </table>
+    <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLclientes.jsp';">
     <%}else{%>
  	<h1>No tiene permisos para trabajar en esta URL, presione <a href="Login.jsp">aquí</a> para volver al Login</h1>
  <%}%>
+ 
+ </div>
 </body>
 </html>

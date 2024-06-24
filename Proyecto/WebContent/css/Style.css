@@ -90,11 +90,11 @@
 #Login input[type="password"]
 {
     width: 60%; /* Ajusta el ancho de las cajas de texto */
-    padding: 10px; /* A�ade relleno dentro de las cajas de texto */
-    margin-bottom: 20px; /* A�ade espacio entre las cajas de texto */
-    font-size: 16px; /* Ajusta el tama�o de la fuente */
-    border: 1px solid #ccc; /* A�ade un borde */
-    border-radius: 5px; /* A�ade bordes redondeados */
+    padding: 10px; /* Añade relleno dentro de las cajas de texto */
+    margin-bottom: 20px; /* Añade espacio entre las cajas de texto */
+    font-size: 16px; /* Ajusta el tamaño de la fuente */
+    border: 1px solid #ccc; /* Añade un borde */
+    border-radius: 5px; /* Añade bordes redondeados */
 }
 
 
@@ -165,7 +165,7 @@
 	
 	
 	
- /* -SECCI�N ALTA CLIENTE-*/
+ /* -SECCIÓN ALTA CLIENTE-*/
  .accordion {
    background-color: #eee;
    color: #444;
@@ -249,7 +249,7 @@ input[type="submit"]:hover {
    .flex-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 30px; /* aumentar este valor para m�s separaci�n */
+    gap: 30px; /* aumentar este valor para más separación */
 }
 
 .flex-item {
@@ -306,4 +306,76 @@ text-align: center;
     color: black;
     font-size: 24px;
     font-weight: bold;
+}
+
+
+
+
+/*TABLA DE LISTAR CLIENTES */
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    table, th, td {
+        border: 1px solid black;
+    }
+    th, td {
+        padding: 15px;
+        text-align: left;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+  
+  
+  
+  /*USUARIO ADMINISTRADOR */  
+  
+   .button-container {
+    display: flex;
+    justify-content: center; /* Centra los elementos horizontalmente */
+}
+
+
+
+
+/*BUSCAR CLIENTES */
+#BusquedaCliente {
+    background-color: white;
+    width: 300px; /* Ajustado para dar más espacio al botón */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: black;
+    font-family: system-ui;
+    margin-top: 20px;
+    margin-left: 550px;
+}
+
+#BusquedaCliente input[type="submit"] {
+    margin-top: -5px; /* Ajusta este valor según sea necesario */
+}
+
+#ResultadoBusqueda {
+    background-color: white;
+    width: calc(100% - 450px); /* Calcula el ancho del contenedor excluyendo el espacio del contenedor BusquedaCliente y un margen adicional */
+    margin-top: 20px;
+    margin-left: 100px;
+    float: right; /* Hace que el contenedor flote a la derecha */
+}
+
+#ResultadoBusqueda input[type="text"],
+#ResultadoBusqueda input[type="password"] {
+    width: 450px; /* Define el ancho deseado para los campos de entrada */
+}
+
+
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    margin-right: 50%;
 }
