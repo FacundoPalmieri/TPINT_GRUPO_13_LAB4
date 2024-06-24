@@ -4,6 +4,7 @@ import datos.UsuarioDao;
 import entidad.Usuario;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class UsuarioDaoImpl implements UsuarioDao{
 	private Conexion cn;
@@ -11,13 +12,16 @@ public class UsuarioDaoImpl implements UsuarioDao{
 
 
 	@Override
-	public boolean validarLogin(String usuario, String contrasenia) {
+	public int validarLogin(String usuario, String contrasenia) {
 	    Conexion cn = new Conexion();
 	    cn.Open();
-
+	    
+	    /*
 	    boolean estado = false;
 	    String query = "SELECT usuario, contrasenia FROM Usuarios WHERE usuario=? and contrasenia=?";
-
+	     */
+	    int estado = 0;
+	    String query = "SELECT usuario, contrasenia, tipo_usuario_id FROM Usuarios WHERE usuario=? and contrasenia=?";
 	    try {
 	        PreparedStatement preparedStatement = cn.prepareStatement(query);
 	        preparedStatement.setString(1, usuario);
@@ -28,7 +32,10 @@ public class UsuarioDaoImpl implements UsuarioDao{
 
 	        // Si se encuentra al menos un registro, el usuario existe
 	        if (rs.next()) {
-	            estado = true;
+	        	estado = 2;
+	        	if(rs.getInt("tipo_usuario_id")==1) {
+	            	estado=1;
+	            }
 	            System.out.println(" DAO IMPL - Usuario encontrado: " + rs.getString("usuario") + " " + rs.getString("contrasenia"));
 	        } else {
 	            System.out.println("DAO IMPL - No se encontró usuario: " );
@@ -185,6 +192,44 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		}
 		
 		return estado;
+	}
+	
+	
+	public ArrayList<Usuario> listarUsuarios(){
+		ArrayList<Usuario> listaUsuarios = new ArrayList<Usuario>();
+		cn = new Conexion();
+	    cn.Open();
+	    System.out.println("CONEXION ABIERTA OBTENER USUARIO");
+		String query="select * from usuarios"; 
+		
+		try {
+		ResultSet rs = cn.query(query);
+		if (rs.next()) {
+			Usuario u = new Usuario(); 
+            u.setDni(rs.getString("usuarios.dni"));
+            u.setCuil(rs.getString("usuarios.cuil"));
+            u.setNombre(rs.getString("usuarios.nombre"));
+            u.setApellido(rs.getString("usuarios.apellido"));
+            u.setSexo(rs.getString("usuarios.sexo"));
+            u.setCelular(rs.getString("usuarios.Celular"));
+            u.setTelefono(rs.getString("usuarios.Telefono"));
+            u.setDireccion(rs.getString("usuarios.direccion"));
+            u.setLocalidad(rs.getString("usuarios.localidad"));
+            u.setProvincia(rs.getString("usuarios.provincia"));
+            u.setNacionalidad(rs.getString("usuarios.nacionalidad"));
+            u.setFechaNacimiento(rs.getString("usuarios.fecha_nacimiento"));
+            u.setEmail(rs.getString("usuarios.email"));
+            u.setUsuario(rs.getString("usuarios.usuario"));
+            u.setContrasena(rs.getString("usuarios.contrasenia"));
+            listaUsuarios.add(u);
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        cn.close();
+    }
+		
+		return listaUsuarios;
 	}
 }
 	

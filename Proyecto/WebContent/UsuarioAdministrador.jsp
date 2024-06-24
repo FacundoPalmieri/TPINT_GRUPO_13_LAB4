@@ -17,46 +17,12 @@
         <h1>Bienvenido Administrador</h1>
         
         <div class="section">
-            <h2>Clientes</h2>
-            <ul class="options hidden">
-                <li><a href="gestionClientes?action=list">Listar Clientes</a></li>
-                <li><a href="gestionClientes?action=add">Agregar Cliente</a></li>
-                <li><a href="gestionClientes?action=edit">Editar Cliente</a></li>
-                <li><a href="gestionClientes?action=delete">Eliminar Cliente</a></li>
-            </ul>
+            <h1>Listar Clientes <a href="ServletUsuario?Param=1">aquí</a></h1>
         </div>
         
         <div class="section">
-            <h2>Cuentas</h2>
-            <ul class="options hidden">
-                <li><a href="gestionCuentas?action=list">Listar Cuentas</a></li>
-                <li><a href="gestionCuentas?action=add">Agregar Cuenta</a></li>
-                <li><a href="gestionCuentas?action=edit">Editar Cuenta</a></li>
-                <li><a href="gestionCuentas?action=delete">Eliminar Cuenta</a></li>
-            </ul>
-        </div>
-        
-        <div class="section">
-            <h2>Préstamos</h2>
-            <ul class="options hidden">
-                <li><a href="gestionPrestamos?action=list">Listar Préstamos</a></li>
-                <li><a href="gestionPrestamos?action=add">Agregar Préstamo</a></li>
-                <li><a href="gestionPrestamos?action=edit">Editar Préstamo</a></li>
-                <li><a href="gestionPrestamos?action=delete">Eliminar Préstamo</a></li>
-            </ul>
-        </div>
-        
-        <div class="section">
-            <h2>Informes</h2>
-            <ul class="options hidden">
-                <li><a href="generarInforme?type=clientes">Informe de Clientes</a></li>
-                <li><a href="generarInforme?type=cuentas">Informe de Cuentas</a></li>
-                <li><a href="generarInforme?type=prestamos">Informe de Préstamos</a></li>
-            </ul>
-        </div>
-        
-        
-        
+            <h1>Agregar Clientes <a href="AgregarCliente.jsp">aquí</a></h1>
+        </div>      
     </div>
  <%}else{%>
  	<h1>No tiene permisos para trabajar en esta URL, presione <a href="Login.jsp">aquí</a> para volver al Login</h1>

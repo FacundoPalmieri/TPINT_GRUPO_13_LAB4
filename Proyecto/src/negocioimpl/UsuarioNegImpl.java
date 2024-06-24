@@ -1,5 +1,7 @@
 package negocioimpl;
 
+import java.util.ArrayList;
+
 import datos.UsuarioDao;
 import datosimpl.UsuarioDaoImpl;
 import entidad.Usuario;
@@ -14,7 +16,7 @@ public class UsuarioNegImpl implements UsuarioNeg{
     
     
     @Override
-	public boolean validarLogin(String usuario, String contrasenia) {
+	public int validarLogin(String usuario, String contrasenia) {
 		return usuarioDao.validarLogin(usuario, contrasenia);
 		
 	}
@@ -44,5 +46,9 @@ public class UsuarioNegImpl implements UsuarioNeg{
 	}
 
 	
-	
+	public ArrayList<Usuario> listaUsuarios(){
+		ArrayList<Usuario> lista = null;
+		lista = usuarioDao.listarUsuarios();
+		return lista;
+	}
 }

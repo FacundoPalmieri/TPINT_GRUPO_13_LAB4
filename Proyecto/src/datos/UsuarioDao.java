@@ -1,9 +1,11 @@
 package datos;
+import java.util.ArrayList;
+
 import entidad.Usuario;
 
 public interface UsuarioDao {
 	
-	  public boolean validarLogin(String usuario, String contrasenia);
+	  public int validarLogin(String usuario, String contrasenia);
 	  
 	  public boolean validarUsuario(String DNI, String usuario);
 	
@@ -13,5 +15,5 @@ public interface UsuarioDao {
 	  
 	  public boolean editarUsuario(Usuario usuario);
 	   
-	
+	  public ArrayList<Usuario> listarUsuarios();
 }

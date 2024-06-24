@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,7 +31,8 @@ public class ServletUsuario extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	String nombreUsuario = request.getParameter("txtUsuario");
         String contrasenia = request.getParameter("txtContrasenia");
-        boolean estado = true;
+        
+        /*boolean estado = true;
         estado = usuarioNegocio.validarLogin(nombreUsuario, contrasenia);
         
         if(estado == true) {
@@ -41,6 +43,21 @@ public class ServletUsuario extends HttpServlet {
 		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/InicioCliente.jsp");
 				dispatcher.forward(request, response);	
         	
+        }*/
+        int estado = 0;
+        estado = usuarioNegocio.validarLogin(nombreUsuario, contrasenia);
+        
+        if(estado == 2) {
+        	System.out.println("Estado SERVLET : "+ estado);
+			request.setAttribute("validacionCliente", estado);
+		    RequestDispatcher dispatcher = request.getRequestDispatcher("/InicioCliente.jsp");
+			dispatcher.forward(request, response);	
+        }
+        else if(estado==1) {
+        	HttpSession session = request.getSession();
+        	session.setAttribute("tipoUsuario",1);
+        	RequestDispatcher dispatcher = request.getRequestDispatcher("/UsuarioAdministrador.jsp");
+        	dispatcher.forward(request, response);	
         }
         else {
 	        request.setAttribute("validacionCliente", estado);
@@ -65,7 +82,18 @@ public class ServletUsuario extends HttpServlet {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        // Por seguridad, si alguien intenta acceder por GET a este servlet
-        response.sendRedirect("Login.jsp");
+    	String paramValue = request.getParameter("Param");
+    	if(paramValue != null && paramValue.equals("1")) {
+    		UsuarioNeg un = new UsuarioNegImpl();
+    		ArrayList<Usuario> listaUsuarios = new ArrayList<Usuario>();
+    		listaUsuarios = un.listaUsuarios();
+    		request.setAttribute("listaUsuarios", listaUsuarios);
+    		RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarClientes.jsp");
+			dispatcher.forward(request, response);	
+    	}
+    	else {
+    		 // Por seguridad, si alguien intenta acceder por GET a este servlet
+    		response.sendRedirect("Login.jsp");
+    	}
     }
 }

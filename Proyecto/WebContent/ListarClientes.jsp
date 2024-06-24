@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.List"%>
 <%@page import="entidad.Usuario"%>
+<%@page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,6 +26,7 @@
 </style>
 </head>
 <body>
+	<% if(session.getAttribute("tipoUsuario")!=null){%>
     <h1>Listado de Clientes</h1>
     <a href="UsuarioAdministrador.jsp">Volver</a>
     <table>
@@ -44,9 +46,10 @@
             <th>Usuario</th>
         </tr>
         <%
-            List<Usuario> listaClientes = (List<Usuario>) request.getAttribute("ListaClientes");
-            if (listaClientes != null) {
-                for (Usuario cliente : listaClientes) {
+        	ArrayList<Usuario> listaUsuarios = null;
+            listaUsuarios = (ArrayList<Usuario>)request.getAttribute("listaUsuarios");
+            if (listaUsuarios != null) {
+                for (Usuario cliente : listaUsuarios) {
         %>
         <tr>
             <td><%= cliente.getId() %></td>
@@ -72,5 +75,8 @@
             }
         %>
     </table>
+    <%}else{%>
+ 	<h1>No tiene permisos para trabajar en esta URL, presione <a href="Login.jsp">aquí</a> para volver al Login</h1>
+ <%}%>
 </body>
 </html>
