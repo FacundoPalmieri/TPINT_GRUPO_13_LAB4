@@ -67,8 +67,7 @@ public class ServletAltaCliente extends HttpServlet {
 			}
 			else {
 				estado = usuarioNeg.agregarCliente(usuario);
-		    	System.out.println("Estado inserción: "+estado);
-		        
+		    
 		    	request.setAttribute("validacionCliente", validacion);
 		        request.setAttribute("estadoCliente", estado);
 		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
