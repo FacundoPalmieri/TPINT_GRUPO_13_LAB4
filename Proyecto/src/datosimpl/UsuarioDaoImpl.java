@@ -48,13 +48,6 @@ public class UsuarioDaoImpl implements UsuarioDao{
 
 	
 	
-	
-	
-	
-	
-	
-	
-	
 	@Override
 	public boolean validarUsuario(String DNI, String usuario) {
 	    Conexion cn = new Conexion();
@@ -132,18 +125,17 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    System.out.println("CONEXION ABIERTA OBTENER USUARIO");
 	    Usuario u = new Usuario();
 	    try {
-	        // Construimos la consulta SQL en el mismo formato
+	       
 	    	String query = "SELECT usuarios.dni, usuarios.cuil, usuarios.nombre, usuarios.apellido, " +
 	                "usuarios.sexo, usuarios.celular, usuarios.telefono, usuarios.direccion, " +
 	                "usuarios.localidad, usuarios.provincia, usuarios.nacionalidad, " +
 	                "usuarios.fecha_nacimiento, usuarios.email, usuarios.usuario, usuarios.contrasenia " +
 	                "FROM usuarios WHERE usuarios.usuario = '" + usuario + "'";
 
-	        // Ejecutamos la consulta
 	        ResultSet rs = cn.query(query);
 	        System.out.println("QWERY" + rs);
 
-	        // Procesamos el resultado
+	      
 	        if (rs.next()) {
 	            u.setDni(rs.getString("usuarios.dni"));
 	            u.setCuil(rs.getString("usuarios.cuil"));

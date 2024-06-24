@@ -124,25 +124,14 @@
         <p id="popupMessage"></p>
    </div>
 	<%
-	    // Obtén los atributos desde el request
-	    Boolean estadoCliente = (Boolean) request.getAttribute("estadoCliente");
-		Boolean validacion = (Boolean) request.getAttribute("validacionCliente");
+	    Boolean estado = (Boolean) request.getAttribute("estado");
 
-	    // Imprime en consola para verificar los valores
-	    System.out.println("Estado Cliente: " + estadoCliente);
-	    System.out.println("Validación Cliente: " + validacion);
-
-	    // Verifica que 'validacion' no sea null antes de continuar
-	    if (validacion != null) {
+	    if (estado != null) {
 	%>
 	    <script>
 	        document.addEventListener('DOMContentLoaded', function() {
-	            <% if (validacion == false) { %>
-	                showPopup("Usuario ya existente.");
-	            <% } else { %>
-	                // Aquí usamos el operador ternario para simplificar el script
-	                showPopup("<%= estadoCliente != null && estadoCliente ? "Usuario agregado con éxito" : "Usuario no agregado, vuelva a intentarlo." %>");
-	            <% } %>
+	           
+	                showPopup("<%= estado != null && estado ? "Datos modificados" : "Error, vuelva a intentarlo." %>");
 	        });
 	    </script>
 	<%

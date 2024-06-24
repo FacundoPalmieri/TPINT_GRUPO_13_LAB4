@@ -100,7 +100,7 @@ public class ServletEditarCliente extends HttpServlet {
 			usuario.setTipoUsuarioId(0);
 			boolean estado = true;
 			estado = usuarioNeg.editarUsuario(usuario);	
-		    request.setAttribute("estadoCliente", estado);
+		    request.setAttribute("estado", estado);
 		    RequestDispatcher dispatcher = request.getRequestDispatcher("/EditarCliente.jsp");
 			dispatcher.forward(request, response);	
 	    }		
