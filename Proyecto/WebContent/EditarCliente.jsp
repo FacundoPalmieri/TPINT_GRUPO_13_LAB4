@@ -26,7 +26,7 @@
  
 
 	<form action="EditarCliente" method="post">
-    <button type="button" class="accordion">Información Personal &#x1F4DD;</button>
+    <button type="button" class="accordion">InformaciÃ³n Personal &#x1F4DD;</button>
     <div class="panel">
      <div class="flex-container">
         <div class="form-group flex-item" style= "margin-top: 10px;">
@@ -72,7 +72,7 @@
             <input type="text" id="provincia" name="provincia" value="<%= request.getAttribute("provincia") %>" required>
         </div>
         <div class="form-group flex-item">
-           <label for="direccion">Dirección:</label>
+           <label for="direccion">Direcciï¿½n:</label>
             <input type="text" id="direccion" name="direccion" value="<%= request.getAttribute("direccion") %>" required>
         </div>
           </div>
@@ -81,7 +81,7 @@
     </div>
     
     
-    <button type="button" class="accordion">Información de Contacto &#x1F4F1;</button>
+    <button type="button" class="accordion">InformaciÃ³n de Contacto &#x1F4F1;</button>
     <div class="panel">
       <div class="flex-container">
          <div class="form-group flex-item" style= "margin-top: 10px;">
@@ -89,11 +89,11 @@
             <input type="text" id="celular" name="celular" value="<%= request.getAttribute("celular") %>" required>
         </div>
        <div class="form-group flex-item" style= "margin-top: 10px;">
-            <label for="telefonos">Teléfono:</label>
+            <label for="telefonos">Telï¿½fono:</label>
             <input type="text" id="telefonos" name="telefonos" value="<%= request.getAttribute("telefonos") %>" required>
         </div>
         <div class="form-group  flex-item">
-         <label for="correoElectronico">Correo Electrónico:</label>
+         <label for="correoElectronico">Correo Electrï¿½nico:</label>
             <input type="email" id="correoElectronico" name="correoElectronico" value="<%= request.getAttribute("correoElectronico") %>" required>
         </div>
       </div>
@@ -107,7 +107,7 @@
             <input type="text" id="usuario" name="usuario" value="<%= request.getAttribute("usuario") %>" readonly style="background-color: #e9ecef;">
         </div>
         <div class="form-group flex-item">
-            <label for="contrasena">Contraseña:</label>
+            <label for="contrasena">Contraseï¿½a:</label>
             <input type="password" id="contrasena" name="contrasena" value="<%= request.getAttribute("contrasena") %>" readonly style="background-color: #e9ecef;">
         </div>
       
@@ -170,27 +170,6 @@
         var popup = document.getElementById("popup");
         popup.classList.remove("active");
     }
-    
-    
-    //
-    <button type="button" class="accordion">Solicitar Baja &#x1F6AB;</button>
-	<div class="panel">
-    	<div class="form-group">
-        	<label for="motivoBaja">Motivo de la Baja:</label>
-        	<textarea id="motivoBaja" name="motivoBaja" rows="4"></textarea>
-   		 </div>
-   		 <div class="form-group">
-            <label for="tipoCuenta">Seleccione la cuenta:</label>
-            <select id="tipoCuenta" name="tipoCuenta">
-                <option value="cuenta1">Cuenta 1</option>
-                <option value="cuenta2">Cuenta 2</option>
-                <option value="cuenta3">Cuenta 3</option>
-            </select>
-        </div>
-        <input type="submit" value="Solicitar Baja" name="btnSolicitarBaja">
-	</div>
-    
-    //
 </script>
 
 </body>
