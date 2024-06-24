@@ -170,6 +170,27 @@
         var popup = document.getElementById("popup");
         popup.classList.remove("active");
     }
+    
+    
+    //
+    <button type="button" class="accordion">Solicitar Baja &#x1F6AB;</button>
+	<div class="panel">
+    	<div class="form-group">
+        	<label for="motivoBaja">Motivo de la Baja:</label>
+        	<textarea id="motivoBaja" name="motivoBaja" rows="4"></textarea>
+   		 </div>
+   		 <div class="form-group">
+            <label for="tipoCuenta">Seleccione la cuenta:</label>
+            <select id="tipoCuenta" name="tipoCuenta">
+                <option value="cuenta1">Cuenta 1</option>
+                <option value="cuenta2">Cuenta 2</option>
+                <option value="cuenta3">Cuenta 3</option>
+            </select>
+        </div>
+        <input type="submit" value="Solicitar Baja" name="btnSolicitarBaja">
+	</div>
+    
+    //
 </script>
 
 </body>
