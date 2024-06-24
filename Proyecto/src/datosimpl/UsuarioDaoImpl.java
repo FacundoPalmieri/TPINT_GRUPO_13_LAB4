@@ -204,7 +204,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		
 		try {
 		ResultSet rs = cn.query(query);
-		if (rs.next()) {
+		while(rs.next()) {
 			Usuario u = new Usuario(); 
             u.setDni(rs.getString("usuarios.dni"));
             u.setCuil(rs.getString("usuarios.cuil"));
