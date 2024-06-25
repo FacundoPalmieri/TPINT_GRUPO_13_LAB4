@@ -21,6 +21,7 @@
     <div class="button-container">
         <input type="submit" value="ABML Clientes" name="btnABMLcliente" onclick="window.location.href='ABMLclientes.jsp';">
         <input type="submit" value="ABML Cuentas" name="btnABMLcuenta" onclick="window.location.href='ABMLcuentas.jsp';">
+        <input type="submit" value="Prestamos" name="btnAdminPrestamos" onclick="window.location.href='AdminPrestmos.jsp';">
     </div>
     
 

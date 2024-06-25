@@ -22,11 +22,15 @@
 <body>
     <div id="General">
         <div class="banner">
-            <p>Mi Cuenta</p>
-            <form action="EditarCliente" method="post">
-                <input type="submit" value="Mis Datos" name="btnEditar"  onclick="window.location.href='EditarCliente.jsp';">
-            </form>
+            <H2>Mi Cuenta</H2>
         </div>
+           <div class="button-container">
+            <form action="EditarCliente" method="get">
+				<input type="submit" value="Mis Datos" name="btnEditar"  onclick="window.location.href='DatosCliente.jsp';"> 
+			</form> 
+			     <input type="submit" value="Prestamos" name="btnClientePrestamos" onclick="window.location.href='ClientePrestamos.jsp';">
+		 </div>  
+       
     </div>
 </body>
 </html>

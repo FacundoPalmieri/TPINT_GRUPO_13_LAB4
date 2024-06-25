@@ -25,37 +25,37 @@
 </div>
  
 
-	<form action="EditarCliente" method="post">
+	<form action="EditarCliente" method="get">
     <button type="button" class="accordion">Información Personal &#x1F4DD;</button>
     <div class="panel">
      <div class="flex-container">
         <div class="form-group flex-item" style= "margin-top: 10px;">
             <label for="dni">DNI:</label>
-               <input type="text" id="dni" name="dni" value="<%= request.getAttribute("dni") %>" required>
+               <input type="text" id="dni" name="dni" value="<%= request.getAttribute("dni") %>"   readonly required>
         </div>
            <div class="form-group flex-item" style= "margin-top: 10px;">
             <label for="cuil">CUIL:</label>
-            <input type="text" id="cuil" name="cuil" value="<%= request.getAttribute("cuil") %>" required>
+            <input type="text" id="cuil" name="cuil" value="<%= request.getAttribute("cuil") %>"  readonly  required>
         </div>
         <div class="form-group flex-item">
             <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" value="<%= request.getAttribute("nombre") %>" required>
+            <input type="text" id="nombre" name="nombre" value="<%= request.getAttribute("nombre") %>"  readonly  required>
         </div>
        <div class="form-group flex-item">
             <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="apellido" value="<%= request.getAttribute("apellido") %>" required>
+            <input type="text" id="apellido" name="apellido" value="<%= request.getAttribute("apellido") %>"  readonly  required>
         </div>
        <div class="form-group flex-item">
             <label for="sexo">Sexo:</label>
-            <input type="text" id="sexo" name="sexo" value="<%= request.getAttribute("sexo") %>" required>
+            <input type="text" id="sexo" name="sexo" value="<%= request.getAttribute("sexo") %>"  readonly required>
         </div>
         <div class="form-group flex-item">
             <label for="fechaNacimiento">Fecha de Nacimiento:</label>
-            <input type="date" id="fechaNacimiento" name="fechaNacimiento" value="<%= request.getAttribute("fechaNacimiento") %>" required>
+            <input type="date" id="fechaNacimiento" name="fechaNacimiento" value="<%= request.getAttribute("fechaNacimiento") %>"  readonly required>
         </div>
         <div class="form-group flex-item">
             <label for="nacionalidad">Nacionalidad:</label>
-            <input type="text" id="nacionalidad" name="nacionalidad" value="<%= request.getAttribute("nacionalidad") %>" required>
+            <input type="text" id="nacionalidad" name="nacionalidad" value="<%= request.getAttribute("nacionalidad") %>"   readonly required>
         </div>
         </div>
     </div>
@@ -65,15 +65,15 @@
   	  <div class="flex-container">
         <div class="form-group flex-item" style= "margin-top: 10px;">
          <label for="localidad">Localidad:</label>
-            <input type="text" id="localidad" name="localidad" value="<%= request.getAttribute("localidad") %>" required> 
+            <input type="text" id="localidad" name="localidad" value="<%= request.getAttribute("localidad") %>"  readonly required> 
         </div>
         <div class="form-group flex-item" style= "margin-top: 10px;">
         <label for="provincia">Provincia:</label>
-            <input type="text" id="provincia" name="provincia" value="<%= request.getAttribute("provincia") %>" required>
+            <input type="text" id="provincia" name="provincia" value="<%= request.getAttribute("provincia") %>"  readonly required>
         </div>
         <div class="form-group flex-item">
-           <label for="direccion">Direcci�n:</label>
-            <input type="text" id="direccion" name="direccion" value="<%= request.getAttribute("direccion") %>" required>
+           <label for="direccion">Dirección:</label>
+            <input type="text" id="direccion" name="direccion" value="<%= request.getAttribute("direccion") %>"  readonly required>
         </div>
           </div>
             <p style="font-size: smaller; font-weight: bold;">* Aclarar piso y departamento en caso de corresponder</p>
@@ -86,15 +86,15 @@
       <div class="flex-container">
          <div class="form-group flex-item" style= "margin-top: 10px;">
            <label for="Celular">Celular:</label>
-            <input type="text" id="celular" name="celular" value="<%= request.getAttribute("celular") %>" required>
+            <input type="text" id="celular" name="celular" value="<%= request.getAttribute("celular") %>"  readonly required>
         </div>
        <div class="form-group flex-item" style= "margin-top: 10px;">
-            <label for="telefonos">Tel�fono:</label>
-            <input type="text" id="telefonos" name="telefonos" value="<%= request.getAttribute("telefonos") %>" required>
+            <label for="telefonos">Telófono:</label>
+            <input type="text" id="telefonos" name="telefonos" value="<%= request.getAttribute("telefonos") %>"  readonly required>
         </div>
         <div class="form-group  flex-item">
-         <label for="correoElectronico">Correo Electr�nico:</label>
-            <input type="email" id="correoElectronico" name="correoElectronico" value="<%= request.getAttribute("correoElectronico") %>" required>
+         <label for="correoElectronico">Correo Electrónico:</label>
+            <input type="email" id="correoElectronico" name="correoElectronico" value="<%= request.getAttribute("correoElectronico") %>"  readonly required>
         </div>
       </div>
     </div>
@@ -107,7 +107,7 @@
             <input type="text" id="usuario" name="usuario" value="<%= request.getAttribute("usuario") %>" readonly style="background-color: #e9ecef;">
         </div>
         <div class="form-group flex-item">
-            <label for="contrasena">Contrase�a:</label>
+            <label for="contrasena">Contraseña:</label>
             <input type="password" id="contrasena" name="contrasena" value="<%= request.getAttribute("contrasena") %>" readonly style="background-color: #e9ecef;">
         </div>
       
@@ -118,26 +118,7 @@
 
 	</form>
 
-	    	
-    <div id="popup" class="popup">
-        <span class="close-btn" onclick="closePopup()">&times;</span>
-        <p id="popupMessage"></p>
-   </div>
-	<%
-	    Boolean estado = (Boolean) request.getAttribute("estado");
-
-	    if (estado != null) {
-	%>
-	    <script>
-	        document.addEventListener('DOMContentLoaded', function() {
-	           
-	                showPopup("<%= estado != null && estado ? "Datos modificados" : "Error, vuelva a intentarlo." %>");
-	        });
-	    </script>
-	<%
-	    }
-	%>
-</div>
+</div>	    
 
 
 <script>

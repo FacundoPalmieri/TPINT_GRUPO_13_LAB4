@@ -68,13 +68,7 @@
 			    <%
 			        }
 			    %>
-			</div>
-    
-                <p class="info-text">Si no tenés u olvidaste tu clave y/o usuario</p>
-                <ul class="info-list">
-                    <li><a href="AgregarCliente.jsp">Crear o Recuperar Usuario</a></li>
-                </ul>
-            </div>
+		
         </form>
     </div>
 </div>

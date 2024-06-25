@@ -31,13 +31,6 @@ public class ServletEditarCliente extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
-		doPost(request, response);
-	}
-
-	
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession(false); // No crear nueva sesi�n si no existe
         if (session != null) {
             Usuario usuario = (Usuario) session.getAttribute("usuarioEnSesion");
@@ -66,64 +59,17 @@ public class ServletEditarCliente extends HttpServlet {
                     request.setAttribute("usuario", usuarioCompleto.getUsuario());
                     request.setAttribute("contrasena", usuarioCompleto.getContrasena());
 
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/EditarCliente.jsp");
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/DatosCliente.jsp");
                     dispatcher.forward(request, response); 
                 } 
-                else if (request.getParameter("btnAceptar") != null) {
-                    Usuario usuarioEditado = new Usuario();
-                    
-                    usuarioEditado.setDni(request.getParameter("dni"));
-                    usuarioEditado.setCuil(request.getParameter("cuil"));
-                    usuarioEditado.setNombre(request.getParameter("nombre"));
-                    usuarioEditado.setApellido(request.getParameter("apellido"));
-                    usuarioEditado.setSexo(request.getParameter("sexo"));
-                    usuarioEditado.setCelular(request.getParameter("celular"));
-                    usuarioEditado.setTelefono(request.getParameter("telefonos"));
-                    usuarioEditado.setFechaNacimiento(request.getParameter("fechaNacimiento"));
-                    usuarioEditado.setNacionalidad(request.getParameter("nacionalidad"));
-                    usuarioEditado.setLocalidad(request.getParameter("localidad"));
-                    usuarioEditado.setProvincia(request.getParameter("provincia"));
-                    usuarioEditado.setDireccion(request.getParameter("direccion"));
-                    usuarioEditado.setEmail(request.getParameter("correoElectronico"));
-                    usuarioEditado.setUsuario(request.getParameter("usuario"));
-                    usuarioEditado.setContrasena(request.getParameter("contrasena"));
-                    usuarioEditado.setTipoUsuarioId(0);
-                    
-                    boolean estado = usuarioNeg.editarUsuario(usuarioEditado);
-                    
-                    // traigo el usuario actualizado
-                    Usuario usuarioActualizado = usuarioNeg.obtenerCliente(nombreUsuario);
-                    
-                    // actualizo los campos del jsp
-                    request.setAttribute("dni", usuarioActualizado.getDni());
-                    request.setAttribute("cuil", usuarioActualizado.getCuil());
-                    request.setAttribute("nombre", usuarioActualizado.getNombre());
-                    request.setAttribute("apellido", usuarioActualizado.getApellido());
-                    request.setAttribute("sexo", usuarioActualizado.getSexo());
-                    request.setAttribute("fechaNacimiento", usuarioActualizado.getFechaNacimiento());
-                    request.setAttribute("nacionalidad", usuarioActualizado.getNacionalidad());
-                    request.setAttribute("localidad", usuarioActualizado.getLocalidad());
-                    request.setAttribute("provincia", usuarioActualizado.getProvincia());
-                    request.setAttribute("direccion", usuarioActualizado.getDireccion());
-                    request.setAttribute("celular", usuarioActualizado.getCelular());
-                    request.setAttribute("telefonos", usuarioActualizado.getTelefono());
-                    request.setAttribute("correoElectronico", usuarioActualizado.getEmail());
-                    request.setAttribute("usuario", usuarioActualizado.getUsuario());
-                    request.setAttribute("contrasena", usuarioActualizado.getContrasena());
-                    request.setAttribute("estado", estado);
-
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/EditarCliente.jsp");
-                    dispatcher.forward(request, response); 
-                }
-            } else {
-                response.sendRedirect("InicioCliente.jsp");
             }
-        } else {
-            response.sendRedirect("InicioCliente.jsp");
-        }
+        }              
         
-        
-        
+	}
+
+	
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+   
         if (request.getParameter("btnBuscar") != null) {
         	
         	String DNI = new String();
@@ -155,6 +101,9 @@ public class ServletEditarCliente extends HttpServlet {
                }
                 
             }
+        
+        
+        
         
         
         
