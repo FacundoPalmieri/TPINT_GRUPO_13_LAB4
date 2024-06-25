@@ -11,31 +11,35 @@
 </head>
 <body>
     <div class="banner">
-        <h2>Busqueda de Cliente</h2>
+        <h2>Eliminar usuario</h2>
     </div>
  <form action="EditarCliente" method="post">
     <div id="BusquedaCliente">
         <input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%= (request.getParameter("dniCliente") != null) ? request.getParameter("dniCliente") : "" %>" required>
-        <input type="submit" value="Buscar" name="btnBuscar">
+        <input type="submit" value="Buscar" name="btnBuscarEliminar">
     </div>
 
    
-        <div id="ResultadoBusqueda">
-            <div class="form-group flex-item">
-                <div style="margin-top: 10px;">
-                    <label for="usuario">Usuario:</label>
-                  <input type="text" id="usuario" name="usuario" value="<%= (request.getAttribute("usuario") != null) ? request.getAttribute("usuario") : "" %>" readonly style="background-color: #e9ecef;">
-
-                </div>
-                <div class="form-group flex-item" style="margin-top: 10px;">
-                    <label for="contrasena">Contraseña:</label>
-                    <input type="password" id="contrasena" name="contrasena"value="<%= (request.getAttribute("contrasena") != null) ? request.getAttribute("contrasena") : "" %>" style="background-color: #e9ecef;">
-                </div>
-                <div class="center-container">
-                    <input type="submit" value="Actualizar" name="btnActualizar">
-                </div>
+    <div id="ResultadoBusqueda">
+        <div class="form-group">
+            <div class="form-item">
+                <label for="usuario">Usuario:</label>
+                <input type="text" id="usuario" name="usuario" value="<%= (request.getAttribute("usuario") != null) ? request.getAttribute("usuario") : "" %>" readonly>
+            </div>
+            <div class="form-item">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" value="<%= (request.getAttribute("nombre") != null) ? request.getAttribute("nombre") : "" %>" readonly>
+            </div>
+            <div class="form-item">
+                <label for="apellido">Apellido:</label>
+                <input type="text" id="apellido" name="apellido" value="<%= (request.getAttribute("apellido") != null) ? request.getAttribute("apellido") : "" %>" readonly>
+            </div>
+            <div class="center-container">
+                <input type="submit" value="Eliminar" name="btnEliminar" style="background-color: #dc3545; margin-right: 2%;">
+                <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLclientes.jsp';">
             </div>
         </div>
+    </div>
     </form>
     
 	    	
@@ -54,9 +58,9 @@
 	    <script>
 	        document.addEventListener('DOMContentLoaded', function() {
 	            <% if (filas == true) { %>
-	            showPopup("Contraseña Actualizada" );
+	            showPopup("Usuario dado de baja" );
 	            <% } else { %>
-	            showPopup( "No se pudo actualizar la contraseña");
+	            showPopup( "Error, vuelva a intentarlo");
 	            <% } %>
 	        });
 	    </script>

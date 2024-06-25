@@ -20,7 +20,8 @@
 <form method="get" action="ServletUsuario">
     <div class="button-container">
         <input type="submit" value="Listar Clientes" name="btnListarCliente" onclick="window.location.href='ListarClientes.jsp';">
-        <input type="submit" value="Buscar Cliente" name="btnBuscarCliente" >
+        <input type="submit" value="Modificar usuario" name="btnModificarUsuario">
+        <input type="submit" value="Eliminar usuario" name="btnEliminarUsuario">
     </div>
 </form>
  <div style = "display: flex; justify-content: center;" >

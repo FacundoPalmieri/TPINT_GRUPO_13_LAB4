@@ -9,8 +9,6 @@ import java.util.ArrayList;
 public class UsuarioDaoImpl implements UsuarioDao{
 	private Conexion cn;
 	
-
-
 	@Override
 	public int validarLogin(String usuario, String contrasenia) {
 	    Conexion cn = new Conexion();
@@ -180,7 +178,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    Usuario u = new Usuario();
 	    try {
 	       
-	    	String query = "SELECT usuarios.usuario, usuarios.contrasenia " +
+	    	String query = "SELECT usuarios.usuario, usuarios.contrasenia, usuarios.nombre, usuarios.apellido " +
 	                "FROM usuarios WHERE usuarios.dni = '" + DNI + "'";
 
 	        ResultSet rs = cn.query(query);
@@ -191,6 +189,8 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	          
 	            u.setUsuario(rs.getString("usuarios.usuario"));
 	            u.setContrasena(rs.getString("usuarios.contrasenia"));
+	            u.setNombre(rs.getString("usuarios.nombre"));
+	            u.setApellido(rs.getString("usuarios.apellido"));
 	            System.out.println("QUERY RESULT: " + u.getDni());
 	        }
 	    } catch (Exception e) {
@@ -228,7 +228,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	
 	
 	@Override
-	public boolean editarContraseña(Usuario usuario) {
+	public boolean editarContrasena(Usuario usuario) {
 		boolean estado=true;
 
 		cn = new Conexion();
@@ -254,12 +254,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		
 	}
 	
-	
-	
-	
 
-	
-	
 	public ArrayList<Usuario> listarUsuarios(){
 		
 		ArrayList<Usuario> listaUsuarios = new ArrayList<Usuario>();
@@ -309,11 +304,32 @@ public class UsuarioDaoImpl implements UsuarioDao{
 
 
 
-	
+	@Override
+	public boolean eliminarUsuario(Usuario usuario) {
+		boolean estado=true;
 
+		cn = new Conexion();
+		cn.Open();	
 
+		String query = "UPDATE  usuarios SET habilitado ='"+ usuario.getHabilitado() +"' WHERE dni='"+ usuario.getDni()+"'";
+		System.out.println("query" + usuario.getContrasena());
+		try
+		 {
+			estado=cn.execute(query);
+		 }
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		
+		return estado;
+		
+	}
 
-	
 }
 	
 

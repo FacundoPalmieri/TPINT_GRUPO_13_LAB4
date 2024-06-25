@@ -131,10 +131,10 @@ public class ServletEditarCliente extends HttpServlet {
         	
         	DNI = (request.getParameter("dniCliente"));
         	usuario = usuarioNeg.obtenerClientePorDNI(DNI);
-        	 request.setAttribute("usuario", usuario.getUsuario());
-             request.setAttribute("contrasena", usuario.getContrasena());
+        	request.setAttribute("usuario", usuario.getUsuario());
+            request.setAttribute("contrasena", usuario.getContrasena());
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/BuscarCliente.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/ModificarUsuario.jsp");
             dispatcher.forward(request, response); 
             
         } 
@@ -144,18 +144,54 @@ public class ServletEditarCliente extends HttpServlet {
                 usuarioEditado.setDni(request.getParameter("dniCliente"));
                 usuarioEditado.setContrasena(request.getParameter("contrasena"));
                 
-                boolean filas = usuarioNeg.editarContraseña(usuarioEditado);
+                boolean filas = usuarioNeg.editarContrasena(usuarioEditado);
                 
                if(filas == true) {
             	   request.setAttribute("filas", filas);
-            	   RequestDispatcher dispatcher = request.getRequestDispatcher("/BuscarCliente.jsp");
+            	   RequestDispatcher dispatcher = request.getRequestDispatcher("/ModificarUsuario.jsp");
                    dispatcher.forward(request, response); 
             	   
             	   
                }
                 
             }
-     
+        
+        
+        
+		if (request.getParameter("btnBuscarEliminar") != null) {
+		        	String DNI = new String();
+		        	Usuario usuario = new Usuario();
+		        	
+		        	DNI = (request.getParameter("dniCliente"));
+		        	usuario = usuarioNeg.obtenerClientePorDNI(DNI);
+		        	
+		        	request.setAttribute("usuario", usuario.getUsuario());
+		            request.setAttribute("nombre", usuario.getNombre());
+		            request.setAttribute("apellido", usuario.getApellido());
+		            
+		            System.out.println("Usuario btnBuscarEliminar: " + usuario.getUsuario());
+		            System.out.println("Nombre btnBuscarEliminar: " + usuario.getNombre());
+		            System.out.println("Apellido : " + usuario.getApellido());
+		           
+		            RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarUsuario.jsp");
+		            dispatcher.forward(request, response); 
+		            
+		        } 
+		 else if (request.getParameter("btnEliminar") != null) {
+			 Usuario usuarioEditado = new Usuario();
+		                
+			 usuarioEditado.setDni(request.getParameter("dniCliente"));
+		     usuarioEditado.setHabilitado(0);
+		                
+		     boolean filas = usuarioNeg.eliminarUsuario(usuarioEditado);
+		                
+		     if(filas == true) {
+		    	 request.setAttribute("filas", filas);
+		         RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarUsuario.jsp");
+		         dispatcher.forward(request, response); 
+		      }
+		                
+		 }
         
     }
 

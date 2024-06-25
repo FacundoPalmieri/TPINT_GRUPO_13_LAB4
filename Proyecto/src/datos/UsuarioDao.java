@@ -17,7 +17,9 @@ public interface UsuarioDao {
 	  
 	  public boolean editarUsuario(Usuario usuario);
 	  
-	  public boolean editarContraseña(Usuario usuario);
+	  public boolean editarContrasena(Usuario usuario);
+	  
+	  public boolean eliminarUsuario(Usuario usuario);
 	   
 	  public ArrayList<Usuario> listarUsuarios();
 }

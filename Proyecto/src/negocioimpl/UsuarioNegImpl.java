@@ -51,8 +51,8 @@ public class UsuarioNegImpl implements UsuarioNeg{
 	}
 	
 	@Override
-	public boolean editarContraseña(Usuario usuario) {
-		return usuarioDao.editarContraseña(usuario);
+	public boolean editarContrasena(Usuario usuario) {
+		return usuarioDao.editarContrasena(usuario);
 	}
 
 
@@ -61,6 +61,12 @@ public class UsuarioNegImpl implements UsuarioNeg{
 		ArrayList<Usuario> lista = null;
 		lista = usuarioDao.listarUsuarios();
 		return lista;
+	}
+
+
+	@Override
+	public boolean eliminarUsuario(Usuario usuario) {
+		return usuarioDao.eliminarUsuario(usuario);
 	}
 
 

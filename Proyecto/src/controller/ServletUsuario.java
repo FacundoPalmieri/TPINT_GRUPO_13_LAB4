@@ -94,11 +94,12 @@ public class ServletUsuario extends HttpServlet {
     
     	
     
-    		if (request.getParameter("btnBuscarCliente") != null) {
-    			  response.sendRedirect("BuscarCliente.jsp");
-    			
-    			
-    			
+    		if (request.getParameter("btnModificarUsuario") != null) {
+    			  response.sendRedirect("ModificarUsuario.jsp");
+    		}
+    		
+    		if (request.getParameter("btnEliminarUsuario") != null) {
+  			  response.sendRedirect("EliminarUsuario.jsp");
     		}
     		
     }

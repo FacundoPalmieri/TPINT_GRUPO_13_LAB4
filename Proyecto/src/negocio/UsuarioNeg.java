@@ -12,6 +12,7 @@ public interface UsuarioNeg {
 	public Usuario obtenerCliente (String usuario);
 	public Usuario obtenerClientePorDNI (String DNI);
 	public boolean editarUsuario(Usuario usuario);
-	public boolean editarContraseña(Usuario usuario);
+	public boolean editarContrasena(Usuario usuario);
+	public boolean eliminarUsuario(Usuario usuario);
 	public ArrayList<Usuario> listaUsuarios();
 }
