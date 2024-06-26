@@ -29,6 +29,7 @@
 <body>
 	<% if(session.getAttribute("tipoUsuario")!=null){%>
     <div class="banner">
+    <jsp:include page="Encabezado.jsp"></jsp:include>
   <h2> Listado de Clientes</h2>
 </div>
 <div style= "margin-top: 10px;">

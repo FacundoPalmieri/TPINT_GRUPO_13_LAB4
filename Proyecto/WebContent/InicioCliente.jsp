@@ -22,6 +22,7 @@
 <body>
     <div id="General">
         <div class="banner">
+        <jsp:include page="Encabezado.jsp"></jsp:include>
        
             <h2>Bienvenido, <%= (String) session.getAttribute("nombre") %></h2>
             

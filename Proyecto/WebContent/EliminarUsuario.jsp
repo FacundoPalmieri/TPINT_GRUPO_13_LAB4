@@ -11,6 +11,7 @@
 </head>
 <body>
     <div class="banner">
+    <jsp:include page="Encabezado.jsp"></jsp:include>
         <h2>Eliminar usuario</h2>
     </div>
  <form action="EditarCliente" method="post">

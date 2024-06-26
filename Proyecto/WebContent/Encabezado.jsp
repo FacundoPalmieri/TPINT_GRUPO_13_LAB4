@@ -11,9 +11,9 @@
 
 
 
-    <h2>Hola, <%= request.getAttribute("nombre") %>!</h2>
- 
+     <h2>Hola, <%= request.getAttribute("nombre") %>!</h2>
+     
+     <a href="ServletCerrarSesion">Cerrar sesion</a>
 
-<a href="ServletCerrarSesion">Cerrar sesión</a>
 </div>
 </html>
