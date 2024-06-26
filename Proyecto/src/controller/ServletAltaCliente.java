@@ -36,6 +36,8 @@ public class ServletAltaCliente extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(request.getParameter("btnAceptar")!=null)
 	    {
+	      
+			
 			Usuario usuario = new Usuario();
 			
 			usuario.setDni(request.getParameter("dni"));
@@ -57,6 +59,15 @@ public class ServletAltaCliente extends HttpServlet {
 			boolean estado = true;
 			boolean validacion = true;
 			
+			//Validación de contraseña
+			String Contrasenia1 = request.getParameter("contrasena");
+			String Contrasenia2 = request.getParameter("contrasena2");
+			System.out.println("PASS1 : "+ Contrasenia1);
+			System.out.println("PASS2 : "+ Contrasenia2);
+			
+			if (Contrasenia1.equals(Contrasenia2)) {
+				
+		   //Valida que el cliente no exista antes de agregarlo.
 			validacion = usuarioNeg.validarUsuario(usuario.getDni(), usuario.getUsuario());
 			if (validacion == false){
 				 System.out.println("Estado de validacion : "+ validacion);
@@ -73,6 +84,13 @@ public class ServletAltaCliente extends HttpServlet {
 		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
 				dispatcher.forward(request, response);	
 			}
+		  }
+			else {
+			    request.setAttribute("errorMensaje", "Las contraseñas no coinciden.");
+			    RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
+			    dispatcher.forward(request, response);
+			}
+			 
 	        
 	    }
 		

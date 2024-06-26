@@ -40,7 +40,7 @@
 	</div>
  
 
-	<form action="AltaCliente" method="post">
+	<form action="AltaCliente" method="post" >
     <button type="button" class="accordion">Información Personal &#x1F4DD;</button>
     <div class="panel">
      <div class="flex-container">
@@ -121,10 +121,17 @@
             <label for="usuario">Usuario:</label>
             <input type="text" id="usuario" name="usuario" required>
         </div>
+        
+    
         <div class="form-group flex-item">
             <label for="contrasena">Contraseña:</label>
             <input type="password" id="contrasena" name="contrasena" required>
         </div>
+         <div class="form-group flex-item">
+            <label for="contrasena">Contraseña:</label>
+            <input type="password" id="contrasena2" name="contrasena2" required>
+        </div>
+    
       
     </div>
 
@@ -138,27 +145,35 @@
         <span class="close-btn" onclick="closePopup()">&times;</span>
         <p id="popupMessage"></p>
    </div>
-	<%
-	    Boolean estadoCliente = (Boolean) request.getAttribute("estadoCliente");
-		Boolean validacion = (Boolean) request.getAttribute("validacionCliente");
+ <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            <% 
+                Boolean estadoCliente = (Boolean) request.getAttribute("estadoCliente");
+                Boolean validacion = (Boolean) request.getAttribute("validacionCliente");
+                String errorMensaje = (String) request.getAttribute("errorMensaje");
 
-	    System.out.println("Estado Cliente: " + estadoCliente);
-	    System.out.println("Validación Cliente: " + validacion);
+                System.out.println("Estado Cliente: " + estadoCliente);
+                System.out.println("Validación Cliente: " + validacion);
+                System.out.println("Error Mensaje: " + errorMensaje);
 
-	    if (validacion != null) {
-	%>
-	    <script>
-	        document.addEventListener('DOMContentLoaded', function() {
-	            <% if (validacion == false) { %>
-	                showPopup("Usuario ya existente.");
-	            <% } else { %>
-	                showPopup("<%= estadoCliente != null && estadoCliente ? "Usuario agregado con éxito" : "Usuario no agregado, vuelva a intentarlo." %>");
-	            <% } %>
-	        });
-	    </script>
-	<%
-	    }
-	%>
+                if (validacion != null) {
+                    if (validacion == false) { 
+            %>
+                        showPopup("Usuario ya existente.");
+            <% 
+                    } else {
+            %>
+           			 showPopup("<%= estadoCliente != null && estadoCliente ? "Usuario agregado con éxito" : "Usuario no agregado, vuelva a intentarlo." %>");
+            <% 
+                    }
+                } else if (errorMensaje != null) {
+            %>
+                    showPopup("<%= errorMensaje %>");
+            <% 
+                }
+            %>
+        });
+    </script>
 </div>
 
 
@@ -192,6 +207,9 @@
         var popup = document.getElementById("popup");
         popup.classList.remove("active");
     }
+    
+    
+    
 </script>
 </body>
 </html>
