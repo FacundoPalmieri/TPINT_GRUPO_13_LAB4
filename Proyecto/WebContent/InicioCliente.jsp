@@ -22,7 +22,10 @@
 <body>
     <div id="General">
         <div class="banner">
-            <H2>Mi Cuenta</H2>
+       
+            <h2>Bienvenido, <%= (String) session.getAttribute("nombre") %></h2>
+            
+            
         </div>
            <div class="button-container">
             <form action="EditarCliente" method="get">

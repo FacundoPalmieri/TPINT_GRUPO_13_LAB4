@@ -33,26 +33,20 @@ public class ServletUsuario extends HttpServlet {
     	String nombreUsuario = request.getParameter("txtUsuario");
         String contrasenia = request.getParameter("txtContrasenia");
         
-        /*boolean estado = true;
-        estado = usuarioNegocio.validarLogin(nombreUsuario, contrasenia);
-        
-        if(estado == true) {
-        	
-        	 System.out.println("Estado SERVLET : "+ estado);
-			 
-				request.setAttribute("validacionCliente", estado);
-		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/InicioCliente.jsp");
-				dispatcher.forward(request, response);	
-        	
-        }*/
+
         int estado = 0;
         estado = usuarioNegocio.validarLogin(nombreUsuario, contrasenia);
         
         if(estado == 2) {
-        	System.out.println("Estado SERVLET : "+ estado);
-			request.setAttribute("validacionCliente", estado);
-		    RequestDispatcher dispatcher = request.getRequestDispatcher("/InicioCliente.jsp");
-			dispatcher.forward(request, response);	
+            HttpSession session = request.getSession();
+            Usuario u = new Usuario();
+            u = usuarioNegocio.obtenerCliente(nombreUsuario);
+            
+            session.setAttribute("nombre", u.getNombre());
+            request.setAttribute("validacionCliente", estado);
+            
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/InicioCliente.jsp");
+            dispatcher.forward(request, response); 
         }
         else if(estado==1) {
         	HttpSession session = request.getSession();
@@ -67,23 +61,17 @@ public class ServletUsuario extends HttpServlet {
         	
         	
         }
-     // Supongamos que tienes un objeto Usuario y has validado las credenciales del usuario
-        Usuario usuario = new Usuario(); // Objeto Usuario con la información del usuario
+
+        Usuario usuario = new Usuario(); 
         usuario.setUsuario(request.getParameter("txtUsuario"));
         usuario.setContrasena(request.getParameter("txtContrasenia"));
 
         {
-        // Obtener la sesión y almacenar el objeto Usuario en ella
+        
         HttpSession session = request.getSession();
         session.setAttribute("usuarioEnSesion", usuario);
        
 
-        // Establece los datos del usuario en el request para que el JSP pueda mostrarlos
-      
-        //     session.setAttribute("nombre", usuario.getNombre());
-       // 	request.setAttribute("nombre", "txtUsuario");
-  //      request.getSession().setAttribute("nombre", usuario.getUsuario());
-  //      request.getSession().setAttribute("nombre", "txtUsuario");
         request.getSession().setAttribute("nombre", nombreUsuario);
         RequestDispatcher dispatcher = request.getRequestDispatcher("/Encabezado.jsp");
         dispatcher.forward(request, response);
