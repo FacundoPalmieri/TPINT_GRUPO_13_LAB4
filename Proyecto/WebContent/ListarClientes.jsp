@@ -21,10 +21,23 @@
 <script type="text/javascript" charset="utf8"
 	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
+
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#table_id').DataTable();
-	});</script>
+	});
+	
+	document.addEventListener("DOMContentLoaded",function(){
+		let botones = document.getElementsByName("btnEliminar");
+		
+		botones.forEach(function(boton){
+			boton.addEventListener("click",function(){
+				console.log(boton.value);
+			})
+		})
+	})
+	
+</script>
 
 
 </head>
@@ -46,7 +59,7 @@
 <div style= "margin-top: 10px;">
    <table id="table_id" class="display">
         <tr>
-             <%--   <th>ID</th>  --%>
+            <th>ID</th>
             <th>DNI</th>
             <th>CUIL</th>
             <th>Nombre</th>
@@ -59,6 +72,7 @@
             <th>Localidad</th>
             <th>Email</th>
             <th>Usuario</th>
+            <th>Opciones</th>
         </tr>
         <%
         	ArrayList<Usuario> listaUsuarios = null;
@@ -67,7 +81,7 @@
                 for (Usuario cliente : listaUsuarios) {
         %>
         <tr>
-           <%-- <td><%= cliente.getId() %></td>  --%>
+            <td><%= cliente.getId() %></td>
             <td><%= cliente.getDni() %></td>
             <td><%= cliente.getCuil() %></td>
             <td><%= cliente.getNombre() %></td>

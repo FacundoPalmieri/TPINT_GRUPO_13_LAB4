@@ -263,6 +263,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		    
 		    while(rs.next()){
 		    	Usuario u = new Usuario(); 
+		    	u.setId(rs.getInt("usuarios.id"));
 		    	u.setDni(rs.getString("usuarios.dni"));
 		    	u.setCuil(rs.getString("usuarios.cuil"));
 		    	u.setNombre(rs.getString("usuarios.nombre"));
