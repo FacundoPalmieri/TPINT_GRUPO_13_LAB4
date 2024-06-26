@@ -1,8 +1,6 @@
 package controller;
 
 import java.io.IOException;
-
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,14 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import entidad.Usuario;
-import negocio.UsuarioNeg;
-import negocioimpl.UsuarioNegImpl;
-
-
-/**
- * Servlet implementation class AltaCliente
- */
 @WebServlet("/ServletCerrarSesion")
 public class ServletCerrarSesion extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -41,7 +31,4 @@ public class ServletCerrarSesion extends HttpServlet {
 	}
 
 
-		
 	
-
-}
