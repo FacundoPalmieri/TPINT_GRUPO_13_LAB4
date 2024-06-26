@@ -22,6 +22,7 @@
 <title>Agregar Cliente</title>
 </head>
 <body>
+<jsp:include page="Encabezado.jsp"></jsp:include>
 
 <div id="General">
 <div class="banner">

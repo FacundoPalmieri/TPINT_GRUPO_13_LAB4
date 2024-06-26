@@ -25,6 +25,7 @@ public class ServletUsuario extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         usuarioNegocio = new UsuarioNegImpl();
+        
     }
 
     
@@ -71,10 +72,22 @@ public class ServletUsuario extends HttpServlet {
         usuario.setUsuario(request.getParameter("txtUsuario"));
         usuario.setContrasena(request.getParameter("txtContrasenia"));
 
-
+        {
         // Obtener la sesión y almacenar el objeto Usuario en ella
         HttpSession session = request.getSession();
         session.setAttribute("usuarioEnSesion", usuario);
+       
+
+        // Establece los datos del usuario en el request para que el JSP pueda mostrarlos
+      
+        //     session.setAttribute("nombre", usuario.getNombre());
+       // 	request.setAttribute("nombre", "txtUsuario");
+  //      request.getSession().setAttribute("nombre", usuario.getUsuario());
+  //      request.getSession().setAttribute("nombre", "txtUsuario");
+        request.getSession().setAttribute("nombre", nombreUsuario);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/Encabezado.jsp");
+        dispatcher.forward(request, response);
+        }
 
       
     }
@@ -92,7 +105,7 @@ public class ServletUsuario extends HttpServlet {
 				dispatcher.forward(request, response);	
 	    	  }
     
-    	
+    
     
     		if (request.getParameter("btnModificarUsuario") != null) {
     			  response.sendRedirect("ModificarUsuario.jsp");

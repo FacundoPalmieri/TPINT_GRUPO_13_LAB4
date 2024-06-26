@@ -13,8 +13,11 @@
 
 <% if(session.getAttribute("tipoUsuario")!=null){%>
 	
+
+	
 <div id="General">
 <div class="banner">
+<jsp:include page="Encabezado.jsp"></jsp:include>
   <h2>Gestión Administrador</h2>
  </div>
 

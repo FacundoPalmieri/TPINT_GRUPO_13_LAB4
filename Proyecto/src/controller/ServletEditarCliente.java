@@ -60,7 +60,9 @@ public class ServletEditarCliente extends HttpServlet {
                     request.setAttribute("contrasena", usuarioCompleto.getContrasena());
 
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/DatosCliente.jsp");
-                    dispatcher.forward(request, response); 
+               
+                    dispatcher.forward(request, response);
+              
                 } 
             }
         }              
