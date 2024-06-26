@@ -10,10 +10,19 @@
 </style>
 </head>
 <body>
-    <div class="banner">
-    <jsp:include page="Encabezado.jsp"></jsp:include>
-        <h2>Busqueda de Cliente</h2>
-    </div>
+	<div class="banner">
+	<div class="logo_encabezado_izquierda">
+	    <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
+	    <h3>Modificar Usuario</h3>
+	</div>
+	<div class="logo_encabezado_derecha">
+	    <%= (String) session.getAttribute("nombre") %>
+	    <a href="logout-url" class="logout">
+	        <img src="img/logout.png" alt="Logout" class="logo_encabezado">
+	    </a>
+	</div>
+
+	</div>
  <form action="EditarCliente" method="post">
     <div id="BusquedaCliente">
         <input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%= (request.getParameter("dniCliente") != null) ? request.getParameter("dniCliente") : "" %>" required>
@@ -34,7 +43,7 @@
                 </div>
                 <div class="center-container">
                     <input type="submit" value="Actualizar" name="btnActualizar">
-                    <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLclientes.jsp';">
+                    <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLclientes.jsp';" style="margin-left: 2%;">
                 </div>
             </div>
         </div>

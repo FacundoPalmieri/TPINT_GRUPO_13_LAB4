@@ -10,10 +10,19 @@
 </style>
 </head>
 <body>
-    <div class="banner">
-    <jsp:include page="Encabezado.jsp"></jsp:include>
-        <h2>Eliminar usuario</h2>
-    </div>
+	<div class="banner">
+	<div class="logo_encabezado_izquierda">
+	    <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
+	    <h3>Eliminar Usuario</h3>
+	</div>
+	<div class="logo_encabezado_derecha">
+	    <%= (String) session.getAttribute("nombre") %>
+	    <a href="logout-url" class="logout">
+	        <img src="img/logout.png" alt="Logout" class="logo_encabezado">
+	    </a>
+	</div>
+
+	</div>
  <form action="EditarCliente" method="post">
     <div id="BusquedaCliente">
         <input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%= (request.getParameter("dniCliente") != null) ? request.getParameter("dniCliente") : "" %>" required>

@@ -21,7 +21,6 @@
 
 <div id="General">
 <div class="banner">
-<jsp:include page="Encabezado.jsp"></jsp:include>
   <h2>Mis datos</h2>
 </div>
  

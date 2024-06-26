@@ -28,10 +28,19 @@
 </head>
 <body>
 	<% if(session.getAttribute("tipoUsuario")!=null){%>
-    <div class="banner">
-    <jsp:include page="Encabezado.jsp"></jsp:include>
-  <h2> Listado de Clientes</h2>
-</div>
+	<div class="banner">
+	<div class="logo_encabezado_izquierda">
+	    <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
+	    <h3>Bienvenido</h3>
+	</div>
+	<div class="logo_encabezado_derecha">
+	    <%= (String) session.getAttribute("nombre") %>
+	    <a href="logout-url" class="logout">
+	        <img src="img/logout.png" alt="Logout" class="logo_encabezado">
+	    </a>
+	</div>
+
+	</div>
 <div style= "margin-top: 10px;">
    <table id="table_id" class="display">
         <tr>

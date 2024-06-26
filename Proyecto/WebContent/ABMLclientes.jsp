@@ -14,17 +14,27 @@
 <% if(session.getAttribute("tipoUsuario")!=null){%>
 	
 <div id="General">
-<div class="banner">
-  <h2> ABML Clientes</h2>
-</div>
+	<div class="banner">
+	<div class="logo_encabezado_izquierda">
+	    <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
+	    <h3>ABML Clientes</h3>
+	</div>
+	<div class="logo_encabezado_derecha">
+	    <%= (String) session.getAttribute("nombre") %>
+	    <a href="logout-url" class="logout">
+	        <img src="img/logout.png" alt="Logout" class="logo_encabezado">
+	    </a>
+	</div>
+
+	</div>
 
  	<div class="button-container">
-		 <input type="submit" value="Agregar Clientes" name="btnAgregarCliente" onclick="window.location.href='AgregarCliente.jsp';">
-		  <input type="submit" value="Modificar usuario" name="btnModificarUsuario" onclick="window.location.href='ModificarUsuario.jsp';">
-          <input type="submit" value="Eliminar usuario" name="btnEliminarUsuario" onclick="window.location.href='EliminarUsuario.jsp';">
+		 <input type="submit" value="Agregar Clientes" name="btnAgregarCliente" onclick="window.location.href='AgregarCliente.jsp';" class="botonera">
+		  <input type="submit" value="Modificar usuario" name="btnModificarUsuario" onclick="window.location.href='ModificarUsuario.jsp';" class="botonera">
+          <input type="submit" value="Eliminar usuario" name="btnEliminarUsuario" onclick="window.location.href='EliminarUsuario.jsp';" class="botonera">
           
 		<form method="get" action="ServletUsuario">
-        	<input type="submit" value="Listar Clientes" name="btnListarCliente" onclick="window.location.href='ListarClientes.jsp';">
+        	<input type="submit" value="Listar Clientes" name="btnListarCliente" onclick="window.location.href='ListarClientes.jsp';" class="botonera">
         </form>
 
 	</div>

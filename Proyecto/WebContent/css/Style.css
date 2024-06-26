@@ -257,16 +257,54 @@ input[type="submit"]:hover {
     min-width: 200px;
    
 }
-
-
-
-
 .banner {
-background-color:#D6DFE6;
-color: black;
-padding: 7px;
-text-align: center;
+    background-color: #78AD89;
+    color: black;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
 }
+
+.logo_encabezado_izquierda {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.logo_encabezado_izquierda img.logo_encabezado {
+    max-width: 100px; 
+    margin-right: 10px;
+}
+
+.logo_encabezado_derecha {
+    display: flex;
+    align-items: center;
+    color: white;
+}
+
+.logo_encabezado_derecha a.logout {
+    margin-left: 10px; 
+}
+
+.logo_encabezado_derecha a.logout img.logo_encabezado {
+    width: 40px; 
+    height: auto;
+}
+
+.botonera{
+	background-color: white!important; 
+    color: #808080!important;
+    border: 2px solid #78AD89!important;
+    padding: 10px 20px!important; 
+    font-size: 16px!important;
+    cursor: pointer!important; 
+    text-decoration: none!important; 
+    display: inline-block!important;
+    text-align: center!important; 
+    border-radius: 5px!important;
+}
+
 
 /* Estilos del popup */
 .popup {

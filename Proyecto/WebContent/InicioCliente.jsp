@@ -21,20 +21,29 @@
 </head>
 <body>
     <div id="General">
-        <div class="banner">
-        <jsp:include page="Encabezado.jsp"></jsp:include>
-       
-            <h2>Bienvenido, <%= (String) session.getAttribute("nombre") %></h2>
-            
-            
-        </div>
+	<div class="banner">
+	<div class="logo_encabezado_izquierda">
+	    <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
+	    <h3>Bienvenido</h3>
+	</div>
+	<div class="logo_encabezado_derecha">
+	    <%= (String) session.getAttribute("nombre") %>
+	    <a href="logout-url" class="logout">
+	        <img src="img/logout.png" alt="Logout" class="logo_encabezado">
+	    </a>
+	</div>
+
+	</div>
+
            <div class="button-container">
             <form action="EditarCliente" method="get">
-				<input type="submit" value="Mis Datos" name="btnEditar"  onclick="window.location.href='DatosCliente.jsp';"> 
+				<input type="submit" value="Mis Datos" name="btnEditar"  onclick="window.location.href='DatosCliente.jsp';" class="botonera"> 
 			</form> 
-			     <input type="submit" value="Prestamos" name="btnClientePrestamos" onclick="window.location.href='ClientePrestamos.jsp';">
+			     <input type="submit" value="Prestamos" name="btnClientePrestamos" onclick="window.location.href='ClientePrestamos.jsp';" class="botonera">
 		 </div>  
-       
+		 <div class="button-container"> <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='Login.jsp';"> </div>
+		 
+      
     </div>
 </body>
 </html>
