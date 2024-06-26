@@ -17,14 +17,16 @@
 	
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+	
 <script type="text/javascript" charset="utf8"
 	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#table_id').DataTable();
-	});
-</script>
+	});</script>
+
+
 </head>
 <body>
 	<% if(session.getAttribute("tipoUsuario")!=null){%>
@@ -78,6 +80,7 @@
             <td><%= cliente.getLocalidad() %></td>
             <td><%= cliente.getEmail() %></td>
             <td><%= cliente.getUsuario() %></td>
+            <td><input type="button" value="<%= cliente.getHabilitado()==1 ? "Eliminar Cliente" : "Habilitar Cliente"%>" name="btnEliminar"></td>
         </tr>
         <%
                 }

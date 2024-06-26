@@ -11,16 +11,11 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	
 	@Override
 	public int validarLogin(String usuario, String contrasenia) {
-	    Conexion cn = new Conexion();
-	    cn.Open();
-	    
-	    /*
-	    boolean estado = false;
-	    String query = "SELECT usuario, contrasenia FROM Usuarios WHERE usuario=? and contrasenia=?";
-	     */
 	    int estado = 0;
+	    Conexion cn = new Conexion();
 	    String query = "SELECT usuario, contrasenia, tipo_usuario_id FROM Usuarios WHERE usuario=? and contrasenia=?";
 	    try {
+	    	cn.Open();
 	        PreparedStatement preparedStatement = cn.prepareStatement(query);
 	        preparedStatement.setString(1, usuario);
 	        preparedStatement.setString(2, contrasenia);
@@ -28,15 +23,16 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        // Usar executeQuery para obtener un ResultSet
 	        ResultSet rs = preparedStatement.executeQuery();
 
-	        // Si se encuentra al menos un registro, el usuario existe
+	        // Si se encuentra al menos un registro, el usuario existe sin se devuelve un 0
 	        if (rs.next()) {
+	        	//Si el usuario es de tipo Cliente(2) se devuelve un 2 si es de tipo Admin sera un 1
 	        	estado = 2;
 	        	if(rs.getInt("tipo_usuario_id")==1) {
 	            	estado=1;
 	            }
 	            System.out.println(" DAO IMPL - Usuario encontrado: " + rs.getString("usuario") + " " + rs.getString("contrasenia"));
 	        } else {
-	            System.out.println("DAO IMPL - No se encontr� usuario: " );
+	            System.out.println("DAO IMPL - No se encontro usuario: " );
 	        }
 
 	        rs.close();
@@ -74,7 +70,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	            estado = false;
 	            System.out.println("Usuario encontrado: " + rs.getString("nombre") + " " + rs.getString("apellido"));
 	        } else {
-	            System.out.println("No se encontr� usuario con DNI: " + DNI + " o usuario: " + usuario);
+	            System.out.println("No se encontro usuario con DNI: " + DNI + " o usuario: " + usuario);
 	        }
 
 	        rs.close();
@@ -256,49 +252,42 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	
 
 	public ArrayList<Usuario> listarUsuarios(){
-		
 		ArrayList<Usuario> listaUsuarios = new ArrayList<Usuario>();
-		
-		cn = new Conexion();
-	    cn.Open();
-		
-	    System.out.println("CONEXION ABIERTA LISTAR USUARIO");
-	    
-	    
-		String query="select * from usuarios"; 
+		String query="select * from usuarios where tipo_usuario_id=2"; 
 		
 		try {
-		ResultSet rs = cn.query(query);
-		while(rs.next()) {
-			
-			Usuario u = new Usuario(); 
+			cn = new Conexion();
+		    cn.Open();
+		    System.out.println("CONEXION ABIERTA LISTAR USUARIO");
+		    ResultSet rs = cn.query(query);
+		    
+		    while(rs.next()){
+		    	Usuario u = new Usuario(); 
+		    	u.setDni(rs.getString("usuarios.dni"));
+		    	u.setCuil(rs.getString("usuarios.cuil"));
+		    	u.setNombre(rs.getString("usuarios.nombre"));
+		    	u.setApellido(rs.getString("usuarios.apellido"));
+		    	u.setSexo(rs.getString("usuarios.sexo"));
+		    	u.setCelular(rs.getString("usuarios.Celular"));
+		    	u.setTelefono(rs.getString("usuarios.Telefono"));
+		    	u.setDireccion(rs.getString("usuarios.direccion"));
+		    	u.setLocalidad(rs.getString("usuarios.localidad"));
+		    	u.setProvincia(rs.getString("usuarios.provincia"));
+		    	u.setNacionalidad(rs.getString("usuarios.nacionalidad"));
+		    	u.setFechaNacimiento(rs.getString("usuarios.fecha_nacimiento"));
+		    	u.setEmail(rs.getString("usuarios.email"));
+		    	u.setUsuario(rs.getString("usuarios.usuario"));
+		    	u.setContrasena(rs.getString("usuarios.contrasenia"));
+		    	u.setHabilitado(rs.getInt("usuarios.habilitado"));
+		    	listaUsuarios.add(u);
+		    }
 		
-            u.setDni(rs.getString("usuarios.dni"));
-            u.setCuil(rs.getString("usuarios.cuil"));
-            u.setNombre(rs.getString("usuarios.nombre"));
-            u.setApellido(rs.getString("usuarios.apellido"));
-            u.setSexo(rs.getString("usuarios.sexo"));
-            u.setCelular(rs.getString("usuarios.Celular"));
-            u.setTelefono(rs.getString("usuarios.Telefono"));
-            u.setDireccion(rs.getString("usuarios.direccion"));
-            u.setLocalidad(rs.getString("usuarios.localidad"));
-            u.setProvincia(rs.getString("usuarios.provincia"));
-            u.setNacionalidad(rs.getString("usuarios.nacionalidad"));
-            u.setFechaNacimiento(rs.getString("usuarios.fecha_nacimiento"));
-            u.setEmail(rs.getString("usuarios.email"));
-            u.setUsuario(rs.getString("usuarios.usuario"));
-            u.setContrasena(rs.getString("usuarios.contrasenia"));
-            listaUsuarios.add(u);
-        }
-		
-    } catch (Exception e) {
-        e.printStackTrace();
+		}catch (Exception e){
+			e.printStackTrace();
         
-    } finally {
-    	
-        cn.close();
-    }
-		
+		}finally{
+			cn.close();
+		}
 		return listaUsuarios;
 	}
 
