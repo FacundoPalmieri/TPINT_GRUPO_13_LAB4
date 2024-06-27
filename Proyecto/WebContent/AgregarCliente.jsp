@@ -136,7 +136,7 @@
     </div>
 
     <input type="submit" value="Aceptar" name="btnAceptar">
-    <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='Login.jsp';">
+    <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLclientes.jsp';">
 
 	</form>
 
