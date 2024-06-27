@@ -22,6 +22,7 @@
 	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
 
+
 <script type="text/javascript">
 	$(document).ready(function() {
 		$('#table_id').DataTable();
@@ -29,15 +30,35 @@
 	
 	document.addEventListener("DOMContentLoaded",function(){
 		let botones = document.getElementsByName("btnEliminar");
-		
 		botones.forEach(function(boton){
 			boton.addEventListener("click",function(){
-				console.log(boton.value);
+				let fila= boton.parentNode.parentNode;
+				let dni = fila.cells[1].textContent;
+				let estado = fila.cells[2].textContent;
+				let usuario = fila.cells[13].textContent;
+				enviarDatos(dni,estado,usuario);
 			})
 		})
 	})
 	
+	function enviarDatos(dni,estado,usuario){
+		let xhr = new XMLHttpRequest();
+		xhr.open("POST","ModificarUsuario.jsp","true");
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		let params="dniCliente=" +encodeURIComponent(dni) + "&estado=" +encodeURIComponent(estado)+"&usuario="+encodeURIComponent(usuario);
+		
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState===4 && xhr.status===200){
+				window.location.href='ModificarUsuario.jsp'
+			}
+			else{
+				console.log("Error al enviar los datos");
+			}
+		}
+		xhr.send(params);
+	}
 </script>
+
 
 
 </head>
@@ -61,6 +82,7 @@
         <tr>
             <th>ID</th>
             <th>DNI</th>
+            <th>Estado Cliente</th>
             <th>CUIL</th>
             <th>Nombre</th>
             <th>Apellido</th>
@@ -83,6 +105,7 @@
         <tr>
             <td><%= cliente.getId() %></td>
             <td><%= cliente.getDni() %></td>
+            <td><%= cliente.getHabilitado()%></td>
             <td><%= cliente.getCuil() %></td>
             <td><%= cliente.getNombre() %></td>
             <td><%= cliente.getApellido() %></td>

@@ -130,10 +130,9 @@ public class ServletEditarCliente extends HttpServlet {
 		        } 
 		 else if (request.getParameter("btnEliminar") != null) {
 			 Usuario usuarioEditado = new Usuario();
-		                
-			 usuarioEditado.setDni(request.getParameter("dniCliente"));
+		     usuarioEditado.setDni(request.getParameter("dniCliente"));
 		     usuarioEditado.setHabilitado(0);
-		                
+		          
 		     boolean filas = usuarioNeg.eliminarUsuario(usuarioEditado);
 		                
 		     if(filas == true) {
