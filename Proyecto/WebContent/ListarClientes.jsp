@@ -29,8 +29,8 @@
 	});
 	
 	document.addEventListener("DOMContentLoaded",function(){
-		let botones = document.getElementsByName("btnEliminar");
-		botones.forEach(function(boton){
+		let botonesEliminar = document.getElementsByName("btnEliminar");
+		botonesEliminar.forEach(function(boton){
 			boton.addEventListener("click",function(){
 				let fila= boton.parentNode.parentNode;
 				let dni = fila.cells[1].textContent;
@@ -121,6 +121,9 @@
             <td><%= cliente.getEmail() %></td>
             <td><%= cliente.getUsuario() %></td>
 			<td><input type="button" value="<%= cliente.getHabilitado()==1 ? "Eliminar" : "Habilitar"%>" name="btnEliminar" class="btnEspecial"></td>
+			<% if (cliente.getHabilitado()==1){%>
+			<td><input type="button" value="Modificar Contraseña" class="btnEspecial"></td>
+			<%}%>
         </tr>
         <%
                 }
