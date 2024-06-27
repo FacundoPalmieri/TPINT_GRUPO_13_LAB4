@@ -26,7 +26,7 @@
  <form action="EditarCliente" method="post">
     <div id="BusquedaCliente">
         <input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%= (request.getParameter("dniCliente") != null) ? request.getParameter("dniCliente") : "" %>" required>
-        <input type="submit" value="&#128269;" name="btnBuscar" style="background-color: #78AD89">
+        <input type="submit" value="&#128269;" name="btnBuscarEliminar" style="background-color: #78AD89">
     </div>
 
    
@@ -45,7 +45,7 @@
                 <input type="text" id="apellido" name="apellido" value="<%= (request.getAttribute("apellido") != null) ? request.getAttribute("apellido") : "" %>" readonly>
             </div>
             <div class="center-container">
-                <input type="submit" value="Eliminar" name="btnEliminar" style="background-color: #dc3545; margin-right: 2%;">
+                <input type="submit" value="Eliminar" name="btnEliminar" style="background-color: #dc3545; margin-right: 2%;"  onclick="confirmarEliminacion()">
                 <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLclientes.jsp';">
             </div>
         </div>
@@ -93,6 +93,14 @@
     function closePopup() {
         var popup = document.getElementById("popup");
         popup.classList.remove("active");
+    }
+    
+    
+    function confirmarEliminacion() {
+        var confirmacion = confirm("¿Está seguro que quiere eliminar el usuario?");
+        if (confirmacion) {
+            document.getElementById("eliminarForm").submit();
+        }
     }
 </script>   
 </body>
