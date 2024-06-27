@@ -77,7 +77,7 @@
 	</div>
 
 	</div>
-<div style= "margin-top: 10px;">
+<div style= "margin: 0.5%;">
    <table id="table_id" class="display">
         <tr>
             <th>ID</th>
@@ -117,7 +117,7 @@
             <td><%= cliente.getLocalidad() %></td>
             <td><%= cliente.getEmail() %></td>
             <td><%= cliente.getUsuario() %></td>
-            <td><input type="button" value="<%= cliente.getHabilitado()==1 ? "Eliminar Cliente" : "Habilitar Cliente"%>" name="btnEliminar"></td>
+			<td><input type="button" value="<%= cliente.getHabilitado()==1 ? "Eliminar" : "Habilitar"%>" name="btnEliminar" class="btnEspecial"></td>
         </tr>
         <%
                 }

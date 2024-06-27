@@ -37,7 +37,7 @@
 }
 
 .options {
-    display: none; /* Oculta las opciones por defecto */
+    display: none;
 }
 
 /* Estilos para el despliegue de opciones al hacer clic */
@@ -416,4 +416,51 @@ input[type="submit"]:hover {
     align-items: center;
     margin-top: 10px;
     margin-right: 50%;
+}
+
+/* ESTILO TABLA */
+
+.display {
+        width: 100%;
+        table-layout: fixed;
+        border-collapse: collapse;
+    }
+    
+.display th, .display td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+        word-wrap: break-word;
+        font-size: 12px;
+    }
+
+.display th {
+	background-color: #f2f2f2;
+	font-weight: bold;
+    }
+
+.display tr:nth-child(even) {
+	background-color: #f9f9f9;
+    }
+
+.display tr:hover {
+	background-color: #f1f1f1;
+    }
+    
+input[type="button"].btnEspecial {
+    background-color: #78AD89;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 0;
+    box-sizing: border-box;
+    margin-top: 0px;
+    font-size: 90%;
+    padding: 10px 10px;
+  
+}
+
+.display td {
+    overflow: hidden; 
 }
