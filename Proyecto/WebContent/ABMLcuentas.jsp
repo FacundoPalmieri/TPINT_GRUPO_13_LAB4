@@ -10,11 +10,15 @@
 </style>
 </head>
 <body>
+
+<% if(session.getAttribute("tipoUsuario")!=null){%>
+	
+<div id="General">
 	<div class="banner">
-	<div class="logo_encabezado_izquierda">
-	    <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
-	    <h3>AMBL Cuentas</h3>
-	</div>
+		<div class="logo_encabezado_izquierda">
+		 	  <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
+		  	  <h3>ABML Clientes</h3>
+		</div>
 	<div class="logo_encabezado_derecha">
 	    <%= (String) session.getAttribute("nombre") %>
 	    <a href="ServletCerrarSesion" class="logout">
@@ -23,79 +27,21 @@
 	</div>
 
 	</div>
- <form action="CAMBIAR AL QUE CORRESPONDA" method="post">
-    <div id="BusquedaCliente">
-        <input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%= (request.getParameter("dniCliente") != null) ? request.getParameter("dniCliente") : "" %>" required>
-        <input type="submit" value="&#128269;" name="btnBuscar" style="background-color: #78AD89">
-    </div>
 
-   
-        <div id="ResultadoBusqueda">
-            <div class="form-group flex-item">
-                <div style="margin-top: 10px;">
-                    <label for="nombre">Nombre:</label>
-                  	<input type="text" id="nombre" name="nombre" value="<%= (request.getAttribute("nombre") != null) ? request.getAttribute("nombre") : "" %>" readonly style="background-color: #e9ecef;">
-
-                </div>
-                <div class="form-group flex-item" style="margin-top: 10px;">
-                    <label for="Apellido">Apellido:</label>
-                    <input type="text" id="contrasena" name="apellido" value="<%= (request.getAttribute("apellido") != null) ? request.getAttribute("apellido") : "" %>" style="background-color: #e9ecef;">
-                <label for="tipoCuenta" style="margin-top: 10px;">Tipo de cuenta:</label>
-				<select id="tipoCuenta" name="tipoCuenta" style="width: 49%;">
-				  <option value="1">Caja de ahorro</option>
-				  <option value="2">Cuenta corriente</option>
-				</select>
-                </div>
-                <div class="center-container">
-                    <input type="submit" value="Crear" name="btnCrear">
-                    <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLclientes.jsp';" style="margin-left: 2%;">
-                </div>
-            </div>
-        </div>
-    </form>
+ 	<div class="button-container">
+		 <input type="submit" value="Crear Cuenta" name="btnCrearCuenta" onclick="window.location.href='CrearCuenta.jsp';" class="botonera">
+          <input type="submit" value="Eliminar Cuenta" name="btnEliminarCuenta onclick="window.location.href='.jsp';" class="botonera">
+  
+	</div>
+		 <div style = "display: flex; justify-content: center;" >
+ 			 <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='UsuarioAdministrador.jsp';">
+		</div>
     
-	    	
-    <div id="popup" class="popup">
-        <span class="close-btn" onclick="closePopup()">&times;</span>
-        <p id="popupMessage"></p>
-   </div>
-	<%
-	    Boolean filas= (Boolean) request.getAttribute("filas");
-	
-
-
-
-	    if (filas != null) {
-	%>
-	    <script>
-	        document.addEventListener('DOMContentLoaded', function() {
-	            <% if (filas == true) { %>
-	            showPopup("Contraseña Actualizada" );
-	            <% } else { %>
-	            showPopup( "No se pudo actualizar la contraseña");
-	            <% } %>
-	        });
-	    </script>
-	<%
-	    }
-	%>
-   
- <script>
+ <%}else{%>
+ 	<h1>No tiene permisos para trabajar en esta URL, presione <a href="Login.jsp">aquí</a> para volver al Login</h1>
+ <%}%>
  
-    
-    //funcionalidad pop up
-    
-    function showPopup(message) {
-        var popup = document.getElementById("popup");
-        var popupMessage = document.getElementById("popupMessage");
-        popupMessage.innerText = message;
-        popup.classList.add("active");
-    }
-
-    function closePopup() {
-        var popup = document.getElementById("popup");
-        popup.classList.remove("active");
-    }
-</script>  
+</div> 
+<script src="js/scripts.js"></script>
 </body>
 </html>

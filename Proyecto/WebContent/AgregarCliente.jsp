@@ -128,7 +128,7 @@
             <input type="password" id="contrasena" name="contrasena" required>
         </div>
          <div class="form-group flex-item">
-            <label for="contrasena">Contraseña:</label>
+            <label for="contrasena">Reingrese Contraseña:</label>
             <input type="password" id="contrasena2" name="contrasena2" required>
         </div>
     

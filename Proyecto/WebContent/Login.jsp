@@ -52,7 +52,7 @@
 			    </div>
 	       
 				       
-				     <div>
+			<div>
 			    <%
 			        
 			        Boolean validacion = (Boolean) request.getAttribute("validacionCliente");

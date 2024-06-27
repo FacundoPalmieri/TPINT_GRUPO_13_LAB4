@@ -72,6 +72,8 @@ public class ServletEditarCliente extends HttpServlet {
 	
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
    
+    	
+    	// MODIFICAR USUARIO.JSP
         if (request.getParameter("btnBuscar") != null) {
         	
         	String DNI = new String();
@@ -107,7 +109,7 @@ public class ServletEditarCliente extends HttpServlet {
         
         
         
-        
+        // Eliminar USUARIO.JSP
         
 		if (request.getParameter("btnBuscarEliminar") != null) {
 		        	String DNI = new String();
