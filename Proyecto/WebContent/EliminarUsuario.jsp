@@ -10,6 +10,17 @@
 </style>
 </head>
 <body>
+
+	<% if (request.getParameter("usuario")!=null && request.getParameter("nombre")!=null && request.getParameter("apellido")!=null){
+		String usuario = (String)request.getParameter("usuario");
+		String nombre = (String)request.getParameter("nombre");
+		String apellido = (String)request.getParameter("apellido");
+		
+		request.setAttribute("usuario",usuario);
+		request.setAttribute("nombre", nombre);
+		request.setAttribute("apellido",apellido);
+	}
+	%>
 	<div class="banner">
 	<div class="logo_encabezado_izquierda">
 	    <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">

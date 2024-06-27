@@ -35,27 +35,30 @@
 				let fila= boton.parentNode.parentNode;
 				let dni = fila.cells[1].textContent;
 				let estado = fila.cells[2].textContent;
+				let nombre = fila.cells[4].textContent;
+				let apellido = fila.cells[5].textContent;
 				let usuario = fila.cells[13].textContent;
-				enviarDatos(dni,estado,usuario);
+				enviarDatos(dni,estado,usuario,nombre,apellido);
 			})
 		})
 	})
 	
-	function enviarDatos(dni,estado,usuario){
+	function enviarDatos(dni,estado,usuario,nombre,apellido){
 		let xhr = new XMLHttpRequest();
-		xhr.open("POST","ModificarUsuario.jsp","true");
+		xhr.open("POST","EliminarUsuario.jsp","true");
 		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		let params="dniCliente=" +encodeURIComponent(dni) + "&estado=" +encodeURIComponent(estado)+"&usuario="+encodeURIComponent(usuario);
+		let params="dniCliente="+encodeURIComponent(dni)+"&estado="+encodeURIComponent(estado)+"&usuario="+encodeURIComponent(usuario)
+					+"&nombre="+encodeURIComponent(nombre)+"&apellido="+encodeURIComponent(apellido);
 		
+		xhr.send(params);
 		xhr.onreadystatechange = function(){
 			if(xhr.readyState===4 && xhr.status===200){
-				window.location.href='ModificarUsuario.jsp'
+				window.location.href='EliminarUsuario.jsp?'+params;
 			}
-			else{
+			else if(xhr.readyState===4){
 				console.log("Error al enviar los datos");
 			}
 		}
-		xhr.send(params);
 	}
 </script>
 
