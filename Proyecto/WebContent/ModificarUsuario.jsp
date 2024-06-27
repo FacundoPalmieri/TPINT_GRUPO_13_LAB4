@@ -10,6 +10,13 @@
 </style>
 </head>
 <body>
+	<% if (request.getParameter("usuario")!=null) {
+		String usuario = (String)request.getParameter("usuario");
+		request.setAttribute("usuario",usuario);
+	}
+	%>
+
+
 	<div class="banner">
 	<div class="logo_encabezado_izquierda">
 	    <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
@@ -38,7 +45,7 @@
 
                 </div>
                 <div class="form-group flex-item" style="margin-top: 10px;">
-                    <label for="contrasena">Contraseña:</label>
+                    <label for="contrasena">Contrasenia:</label>
                     <input type="password" id="contrasena" name="contrasena"value="<%= (request.getAttribute("contrasena") != null) ? request.getAttribute("contrasena") : "" %>" style="background-color: #e9ecef;">
                 </div>
                 <div class="center-container">
@@ -65,9 +72,9 @@
 	    <script>
 	        document.addEventListener('DOMContentLoaded', function() {
 	            <% if (filas == true) { %>
-	            showPopup("Contraseña Actualizada" );
+	            showPopup("Contrasenia Actualizada" );
 	            <% } else { %>
-	            showPopup( "No se pudo actualizar la contraseña");
+	            showPopup( "No se pudo actualizar la contrasenia");
 	            <% } %>
 	        });
 	    </script>

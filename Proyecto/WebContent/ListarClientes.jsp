@@ -30,6 +30,7 @@
 	
 	document.addEventListener("DOMContentLoaded",function(){
 		let botonesEliminar = document.getElementsByName("btnEliminar");
+		let botonesModificar = document.getElementsByName("btnModificar");
 		botonesEliminar.forEach(function(boton){
 			boton.addEventListener("click",function(){
 				let fila= boton.parentNode.parentNode;
@@ -38,12 +39,21 @@
 				let nombre = fila.cells[4].textContent;
 				let apellido = fila.cells[5].textContent;
 				let usuario = fila.cells[13].textContent;
-				enviarDatos(dni,estado,usuario,nombre,apellido);
+				enviarDatosEliminar(dni,estado,usuario,nombre,apellido);
+			})
+		})
+		
+		botonesModificar.forEach(function(boton){
+			boton.addEventListener("click",function(){
+				let fila= boton.parentNode.parentNode;
+				let dni = fila.cells[1].textContent;
+				let usuario = fila.cells[13].textContent;
+				enviarDatosModificar(dni,usuario);
 			})
 		})
 	})
 	
-	function enviarDatos(dni,estado,usuario,nombre,apellido){
+	function enviarDatosEliminar(dni,estado,usuario,nombre,apellido){
 		let xhr = new XMLHttpRequest();
 		xhr.open("POST","EliminarUsuario.jsp","true");
 		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -54,6 +64,24 @@
 		xhr.onreadystatechange = function(){
 			if(xhr.readyState===4 && xhr.status===200){
 				window.location.href='EliminarUsuario.jsp?'+params;
+			}
+			else if(xhr.readyState===4){
+				console.log("Error al enviar los datos");
+			}
+		}
+	}
+	
+	
+	function enviarDatosModificar(dni,usuario){
+		let xhr = new XMLHttpRequest();
+		xhr.open("POST","ModificarUsuario.jsp","true");
+		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+		let params="dniCliente="+encodeURIComponent(dni)+"&usuario="+encodeURIComponent(usuario)
+		
+		xhr.send(params);
+		xhr.onreadystatechange = function(){
+			if(xhr.readyState===4 && xhr.status===200){
+				window.location.href='ModificarUsuario.jsp?'+params;
 			}
 			else if(xhr.readyState===4){
 				console.log("Error al enviar los datos");
@@ -122,7 +150,7 @@
             <td><%= cliente.getUsuario() %></td>
 			<td><input type="button" value="<%= cliente.getHabilitado()==1 ? "Eliminar" : "Habilitar"%>" name="btnEliminar" class="btnEspecial"></td>
 			<% if (cliente.getHabilitado()==1){%>
-			<td><input type="button" value="Modificar Contraseña" class="btnEspecial"></td>
+			<td><input type="button" value="Modificar Contraseña" name="btnModificar" class="btnEspecial"></td>
 			<%}%>
         </tr>
         <%
