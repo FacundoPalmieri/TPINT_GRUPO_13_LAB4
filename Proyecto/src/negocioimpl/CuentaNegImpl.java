@@ -1,6 +1,9 @@
 package negocioimpl;
+
+import java.util.ArrayList;
 import datos.CuentaDao;
 import datosimpl.CuentaDaoImpl;
+import entidad.Cuenta;
 import negocio.CuentaNeg;
 
 public class CuentaNegImpl implements CuentaNeg {
@@ -22,9 +25,17 @@ public class CuentaNegImpl implements CuentaNeg {
 		
 	}
 
+
 	public int buscarNCuenta(String DNI) {
 		return cuentaDao.buscarNCuenta(DNI);
 	};
+
+	@Override
+	public ArrayList<Cuenta> obtenerCuentasPorDNI(String DNI) {
+	
+		return cuentaDao.obtenerCuentasPorDNI(DNI);
+	}
+	
 }
 
 			

@@ -3,7 +3,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
+import java.util.ArrayList;
+
 import datos.CuentaDao;
+import entidad.Cuenta;
 
 public class CuentaDaoImpl implements CuentaDao {
 	
@@ -142,5 +145,39 @@ public class CuentaDaoImpl implements CuentaDao {
 		return nCuenta;
 	}
 
+	@Override
+	public ArrayList<Cuenta> obtenerCuentasPorDNI(String DNI) {
+		  ArrayList<Cuenta> cuentas = new ArrayList<>();
+		    String query = "select * from cuentas where cliente_dni = ?";
 
-}
+		    try {
+		        cn = new Conexion();
+		        cn.Open();
+		        System.out.println("CONEXIÓN ABIERTA - OBTENER CUENTAS POR DNI");
+		        PreparedStatement preparedStatement = cn.prepareStatement(query);
+		        preparedStatement.setString(1, DNI);
+		        ResultSet rs = preparedStatement.executeQuery();
+
+		        while (rs.next()) {
+		            Cuenta cuenta = new Cuenta();
+		            cuenta.setNumeroCuenta(rs.getInt("numero_cuenta"));
+		            cuenta.setIdTipoCuenta(rs.getInt("tipo_cuenta_id"));
+		            cuenta.setSaldo(rs.getFloat("saldo"));
+
+		            cuentas.add(cuenta);
+		        }
+
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    } finally {
+		        cn.close();
+		    }
+		    
+		    return cuentas;
+		}
+
+	}
+	
+
+
+
