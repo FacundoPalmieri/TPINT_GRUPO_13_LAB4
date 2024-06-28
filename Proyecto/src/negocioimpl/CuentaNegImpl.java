@@ -18,6 +18,12 @@ public class CuentaNegImpl implements CuentaNeg {
 	public int ValidarCantidad(String DNI) {
 		return  cuentaDao.ValidarCantidad(DNI);
 	}
+
+	@Override
+	public int CrearCuenta(String DNI, int TipoCuenta) {
+		return cuentaDao.CrearCuenta(DNI, TipoCuenta);
+		
+	}
 	
 }
 

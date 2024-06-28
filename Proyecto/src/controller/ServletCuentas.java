@@ -65,19 +65,37 @@ public class ServletCuentas extends HttpServlet {
         } 
 		
 		
-		//CREAR CUENTA
+		//VALIDAR CLIENTE Y CREAR CUENTA
 		if(request.getParameter("btnCrearCuenta") != null){
 			String DNI = new String();
-		
-			
+	
 			DNI = request.getParameter("dniCliente");
-			
+	
 			int CantidadCuenta = cuentaNeg.ValidarCantidad(DNI);
+			
+			
 			if (CantidadCuenta < 3) {
+				int tipoCuenta = 0;
+				int estado = 0;
 				
+				String tipoCuentaStr = request.getParameter("tipoCuenta");
+				tipoCuenta = Integer.parseInt(tipoCuentaStr);
 				
-			    // No permitir agregar más cuentas
-			} else {
+				estado = cuentaNeg.CrearCuenta(DNI, tipoCuenta);
+				
+				if(estado == 1) {
+					 request.setAttribute("Mensaje", "La cuenta ha sido creada");
+				     RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearCuenta.jsp");
+					 dispatcher.forward(request, response);
+					
+				}else {
+					 request.setAttribute("Mensaje", "La cuenta NO puedo ser creada");
+				     RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearCuenta.jsp");
+					 dispatcher.forward(request, response);
+				}
+			
+	   
+			} else { // No permitir agregar más cuentas
 				request.setAttribute("Mensaje", "El cliente ha alcanzado el limite de cuentas.");
 			    RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearCuenta.jsp");
 			    dispatcher.forward(request, response);
