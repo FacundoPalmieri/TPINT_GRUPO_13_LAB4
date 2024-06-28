@@ -1,9 +1,6 @@
 package negocioimpl;
-
 import datos.CuentaDao;
-
 import datosimpl.CuentaDaoImpl;
-
 import negocio.CuentaNeg;
 
 public class CuentaNegImpl implements CuentaNeg {
@@ -24,7 +21,10 @@ public class CuentaNegImpl implements CuentaNeg {
 		return cuentaDao.CrearCuenta(DNI, TipoCuenta);
 		
 	}
-	
+
+	public int buscarNCuenta(String DNI) {
+		return cuentaDao.buscarNCuenta(DNI);
+	};
 }
 
 			

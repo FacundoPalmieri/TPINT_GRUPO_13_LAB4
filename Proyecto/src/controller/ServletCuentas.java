@@ -11,19 +11,20 @@ import javax.servlet.http.HttpServletResponse;
 
 import entidad.Usuario;
 import negocio.CuentaNeg;
+import negocio.MovimientoNeg;
 import negocio.UsuarioNeg;
 import negocioimpl.CuentaNegImpl;
+import negocioimpl.MovimientoNegImpl;
 import negocioimpl.UsuarioNegImpl;
 
-/**
- * Servlet implementation class ServletCuentas
- */
+
 @WebServlet("/ServletCuentas")
 public class ServletCuentas extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	CuentaNeg cuentaNeg = new CuentaNegImpl();
 	UsuarioNeg usuarioNeg = new UsuarioNegImpl();
+	MovimientoNeg movimientoNeg = new MovimientoNegImpl();
 	
        
    
@@ -54,10 +55,6 @@ public class ServletCuentas extends HttpServlet {
         	request.setAttribute("usuario", usuario.getUsuario());
             request.setAttribute("nombre", usuario.getNombre());
             request.setAttribute("apellido", usuario.getApellido());
-            
-            System.out.println("Usuario btnBuscarEliminar: " + usuario.getUsuario());
-            System.out.println("Nombre btnBuscarEliminar: " + usuario.getNombre());
-            System.out.println("Apellido : " + usuario.getApellido());
            
             RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearCuenta.jsp");
             dispatcher.forward(request, response); 
@@ -76,14 +73,20 @@ public class ServletCuentas extends HttpServlet {
 			
 			if (CantidadCuenta < 3) {
 				int tipoCuenta = 0;
-				int estado = 0;
+				int nCuenta = 0;
+				int estadoCrearCuenta = 0;
+				int estadoCrearMovimiento = 0;
 				
 				String tipoCuentaStr = request.getParameter("tipoCuenta");
 				tipoCuenta = Integer.parseInt(tipoCuentaStr);
 				
-				estado = cuentaNeg.CrearCuenta(DNI, tipoCuenta);
+				estadoCrearCuenta = cuentaNeg.CrearCuenta(DNI, tipoCuenta);
 				
-				if(estado == 1) {
+				nCuenta = cuentaNeg.buscarNCuenta(DNI);
+				estadoCrearMovimiento = movimientoNeg.CrearMovimiento(nCuenta, " ", 10000, 1);
+				
+						
+				if(estadoCrearCuenta == 1) {
 					 request.setAttribute("Mensaje", "La cuenta ha sido creada");
 				     RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearCuenta.jsp");
 					 dispatcher.forward(request, response);

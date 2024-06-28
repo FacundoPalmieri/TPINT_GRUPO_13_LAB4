@@ -53,8 +53,8 @@
                 </div>
             </div>
             <div class="center-container">
-                <input type="submit" value="CrearCuenta" name="btnCrearCuenta">
-                <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLclientes.jsp';" style="margin-left: 2%;">
+                <input type="submit" value="Crear cuenta" name="btnCrearCuenta">
+                <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLcuentas.jsp';" style="margin-left: 2%;">
             </div>
         </div>
     </div>

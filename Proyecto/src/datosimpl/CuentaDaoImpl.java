@@ -1,10 +1,8 @@
 package datosimpl;
-
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.time.LocalDate;
-
 import datos.CuentaDao;
 
 public class CuentaDaoImpl implements CuentaDao {
@@ -22,9 +20,6 @@ public class CuentaDaoImpl implements CuentaDao {
 	}
 
 
-	
-	
-	
 
 	@Override
 	public int ValidarCantidad(String DNI) {
@@ -105,9 +100,47 @@ public class CuentaDaoImpl implements CuentaDao {
 		
 		return estado;
 	}
+
+	@Override
+	public int buscarNCuenta(String DNI) {
+		
+		int nCuenta=0;
+		
+		Conexion cn = new Conexion();
+		
+		System.out.println("DNI CLIENTE A BUSCAR: " + DNI);
+		String query ="SELECT max(numero_cuenta) FROM cuentas WHERE cliente_dni = ?";
+		System.out.println("query de buscar cliente: " + query);
+		
+		try {
+			cn.Open();
+			PreparedStatement preparedStatement = cn.prepareStatement(query);
+			preparedStatement.setString(1, DNI);
+			
+			ResultSet rs = preparedStatement.executeQuery();
+		     
+		     
+		     if (rs.next()) {
+		    	 nCuenta = rs.getInt(1);
+		      }
+		     System.out.println("nCuenta Encontrada" + nCuenta);
+
+
+		        rs.close();
+		        preparedStatement.close();
 	
-	
-	
-	
+			
+		} catch (Exception e) {
+			 e.printStackTrace();
+		}
+		finally
+		{
+			cn.close();
+		}
+		
+		
+		return nCuenta;
+	}
+
 
 }
