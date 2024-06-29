@@ -10,6 +10,20 @@
 <title>Listado de Clientes</title>
 <style>
 	<jsp:include page="css\Style.css"></jsp:include>
+	
+    .filtro-container {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        margin-left:35px;
+    }
+
+    #txtFiltro {
+        width: 250px;
+        margin-left: 10px;
+    }
+    
 </style>
 
 <link rel="stylesheet" type="text/css"
@@ -51,7 +65,27 @@
 				enviarDatosModificar(dni,usuario);
 			})
 		})
-	})
+		
+		  const inputFiltro = document.querySelector('#txtFiltro');
+        inputFiltro.addEventListener('keyup', function() {
+            let filterValue = inputFiltro.value.toLowerCase();
+            let table = document.querySelector('#table_id');
+            let rows = table.getElementsByTagName('tr');
+
+            for (let i = 1; i < rows.length; i++) {
+                let cells = rows[i].getElementsByTagName('td');
+                let match = false;
+                for (let j = 0; j < cells.length; j++) {
+                    if (cells[j].textContent.toLowerCase().includes(filterValue)) {
+                        match = true;
+                        break;
+                    }
+                }
+                rows[i].style.display = match ? '' : 'none';
+            }
+        });
+    });
+	
 	
 	function enviarDatosEliminar(dni,estado,usuario,nombre,apellido){
 		let xhr = new XMLHttpRequest();
@@ -108,6 +142,12 @@
 	</div>
 
 	</div>
+	
+   <div class="filtro-container">
+        <label for="txtFiltro">Filtrar</label>
+        <input type="text" id="txtFiltro">
+    </div>
+    
 <div style= "margin: 0.5%;">
    <table id="table_id" class="display">
         <tr>
