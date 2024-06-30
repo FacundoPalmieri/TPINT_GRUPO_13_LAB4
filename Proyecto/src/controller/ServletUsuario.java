@@ -1,3 +1,4 @@
+
 package controller;
 
 import java.io.IOException;
@@ -43,6 +44,7 @@ public class ServletUsuario extends HttpServlet {
             u = usuarioNegocio.obtenerCliente(nombreUsuario);
             
             session.setAttribute("nombre", u.getNombre());
+            session.setAttribute("usuario", u.getUsuario());
             request.setAttribute("validacionCliente", estado);
             
             RequestDispatcher dispatcher = request.getRequestDispatcher("/InicioCliente.jsp");
@@ -60,21 +62,6 @@ public class ServletUsuario extends HttpServlet {
 			dispatcher.forward(request, response);	
         	
         	
-        }
-
-        Usuario usuario = new Usuario(); 
-        usuario.setUsuario(request.getParameter("txtUsuario"));
-        usuario.setContrasena(request.getParameter("txtContrasenia"));
-
-        {
-        
-        HttpSession session = request.getSession();
-        session.setAttribute("usuarioEnSesion", usuario);
-       
-
-        request.getSession().setAttribute("nombre", nombreUsuario);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/Encabezado.jsp");
-        dispatcher.forward(request, response);
         }
 
       

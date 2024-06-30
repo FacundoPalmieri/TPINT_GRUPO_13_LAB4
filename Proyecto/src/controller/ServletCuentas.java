@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 import entidad.Cuenta;
 import entidad.Usuario;
 import negocio.CuentaNeg;
@@ -39,17 +40,28 @@ public class ServletCuentas extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		 HttpSession session = request.getSession();
-		    String dniUsuario = (String) session.getAttribute("dniCliente");
+		
+		 //Listar cuentas
+		 if (request.getParameter("Param") != null) {
+		    HttpSession session = request.getSession();
+		    String Usuario = (String) session.getAttribute("usuario");
+		    System.out.println("SESION USUARIO: " + Usuario);
+		    String DNI = new String();
+		    Usuario usuario = new Usuario();
+		    
+		    usuario = usuarioNeg.obtenerCliente(Usuario);
+		    DNI = usuario.getDni();
+		    System.out.println("DNI  " + DNI);
+		    ArrayList<Cuenta> listaCuentas = cuentaNeg.obtenerCuentasPorDNI(DNI);
+		    System.out.println();
+		    
+		    
+		    request.setAttribute("listaCuentas", listaCuentas);
+    		RequestDispatcher dispatcher = request.getRequestDispatcher("/CuentasCliente.jsp");
+			dispatcher.forward(request, response);	
+		   
+		 }
 
-		    if (dniUsuario != null) {
-		        ArrayList<Cuenta> cuentas = cuentaNeg.obtenerCuentasPorDNI(dniUsuario);
-		        request.setAttribute("obtenerCuentasPorDNI", cuentas);
-		        RequestDispatcher dispatcher = request.getRequestDispatcher("/CuentasCliente.jsp");
-		        dispatcher.forward(request, response);
-		    } else {
-		        response.sendRedirect("Login.jsp");
-		    }
 	}
 
 
@@ -94,6 +106,7 @@ public class ServletCuentas extends HttpServlet {
 				tipoCuenta = Integer.parseInt(tipoCuentaStr);
 				
 				estadoCrearCuenta = cuentaNeg.CrearCuenta(DNI, tipoCuenta);
+				System.out.println("Estado Crear Cuenta " + estadoCrearCuenta);
 				
 				nCuenta = cuentaNeg.buscarNCuenta(DNI);
 				estadoCrearMovimiento = movimientoNeg.CrearMovimiento(nCuenta, " ", 10000, 1);
@@ -118,6 +131,11 @@ public class ServletCuentas extends HttpServlet {
 			}
 			
 		}
+		
+		
+		
+
+		
 		
 	}
 

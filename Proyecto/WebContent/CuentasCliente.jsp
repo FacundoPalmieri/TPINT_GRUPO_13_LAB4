@@ -48,6 +48,9 @@
 	            listaCuentas = (ArrayList<Cuenta>)request.getAttribute("listaCuentas");
 	            if (listaCuentas != null) {
 	                for (Cuenta cuenta : listaCuentas) {
+
+	                	    System.out.println(cuenta);
+	            
 	        %>
 	        <tr>
 	            <td><%= cuenta.getNumeroCuenta() %></td>

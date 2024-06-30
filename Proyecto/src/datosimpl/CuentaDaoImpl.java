@@ -126,7 +126,7 @@ public class CuentaDaoImpl implements CuentaDao {
 		     if (rs.next()) {
 		    	 nCuenta = rs.getInt(1);
 		      }
-		     System.out.println("nCuenta Encontrada" + nCuenta);
+		     System.out.println("nCuenta Encontrada " + nCuenta);
 
 
 		        rs.close();
