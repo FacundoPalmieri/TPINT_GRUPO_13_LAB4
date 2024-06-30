@@ -17,6 +17,9 @@ public class Cuenta {
 	public void setNumeroCuenta(int numeroCuenta) {
 		this.numeroCuenta = numeroCuenta;
 	}
+	public int getNumeroCuenta(int numeroCuenta) {
+		return numeroCuenta;
+	}
 	public int getClienteDni() {
 		return clienteDni;
 	}

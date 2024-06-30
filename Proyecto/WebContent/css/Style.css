@@ -464,3 +464,19 @@ input[type="button"].btnEspecial {
 .display td {
     overflow: hidden; 
 }
+
+
+/* estilo detalle cuenta*/
+
+.cuenta{
+    box-sizing: border-box;
+    font-size: 90%;
+    padding: 10px 10px;
+    border: 1px solid #778899;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 90%;
+    padding: 10px 10px;
+    margin: 2%;
+}
+	
