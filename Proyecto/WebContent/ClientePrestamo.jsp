@@ -112,7 +112,7 @@
             </form>
         </div>
         <div class="button-container">
-            <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='InicioCliente.jsp';"> 
+            <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='InicioCliente.jsp';" class="botonera"> 
         </div>
     </div>
 </body>

@@ -1,5 +1,18 @@
 package negocio;
 
-public interface PrestamoNeg {
+import java.util.List;
 
+import entidad.Prestamo;
+
+public interface PrestamoNeg {
+	
+	public boolean solicitarPrestamo(Prestamo prestamo);
+
+    public List<Prestamo> obtenerPrestamosPorCliente(int clienteId);
+
+    public Prestamo obtenerPrestamoPorId(int prestamoId);
+
+    public boolean actualizarPrestamo(Prestamo prestamo);
+
+    public boolean eliminarPrestamo(int prestamoId);
 }
