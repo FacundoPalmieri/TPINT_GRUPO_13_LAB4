@@ -72,7 +72,7 @@ public class ServletPrestamo extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Prestamo prestamo = new Prestamo();
-        prestamo.setClienteId((int) request.getSession().getAttribute("clienteId")); // Obtener el ID del cliente de la sesión
+        prestamo.setClienteId((int) request.getSession().getAttribute("clienteId"));
         prestamo.setFecha(LocalDate.now()); // Fecha actual
         prestamo.setImporteSolicitado(Float.parseFloat(request.getParameter("importe")));
         prestamo.setCuotas(Integer.parseInt(request.getParameter("cuotas")));
@@ -83,30 +83,29 @@ public class ServletPrestamo extends HttpServlet {
 
         prestamo.setImporteAPagar(importeTotal);
         prestamo.setImporteCuota(importeCuota);
-        prestamo.setEstado(1); // Estado inicial del préstamo
+        prestamo.setEstado(1); // Estado inicial del préstamo, quizas debamos meter algunos estados en la base
 
         // Guardar el préstamo en la base de datos
         PrestamoNeg prestamoNeg = new PrestamoNegImpl();
         boolean guardado = prestamoNeg.solicitarPrestamo(prestamo);
 
         if (guardado) {
-            // Redirigir a una página de éxito o mostrar un mensaje de éxito
-            response.sendRedirect("Exito.jsp");
+            
+            response.sendRedirect("InicioCliente.jsp");
         } else {
-            // Redirigir a una página de error o mostrar un mensaje de error
-            response.sendRedirect("Error.jsp");
+            
+            response.sendRedirect("InicioCliente.jsp");
         }
     }
 
-    // Método ficticio para obtener las cuentas del cliente
     private List<Cuenta> obtenerCuentasDelCliente() {
-        // Implementación para obtener las cuentas del cliente desde la capa de datos o negocio
-        return null; // Debes implementar la lógica real para obtener las cuentas del cliente
+  
+        return null; 
     }
 
-    // Método ficticio para calcular el importe total del préstamo
+
     private float calcularImporteTotal(float importeSolicitado, int cuotas) {
-        // Implementación para calcular el importe total a pagar
+    
         return importeSolicitado * (1 + (0.05f * cuotas)); // Supongamos una tasa de interés del 5% por cuota
     }
 
