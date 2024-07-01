@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public class Prestamo {
 
 	private int id;
-	private int clienteId;
+	private String clienteDni;
 	private LocalDate fecha;
 	private float importeSolicitado;
 	private float importeAPagar;
@@ -14,17 +14,19 @@ public class Prestamo {
 	private int estado;
 	private int cuotasAbonadas;
 	private float saldoRestante;
+	
+	
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getClienteId() {
-		return clienteId;
+	public String getClienteDni() {
+		return clienteDni;
 	}
-	public void setClienteId(int clienteId) {
-		this.clienteId = clienteId;
+	public void setClienteDni(String clienteDni) {
+		this.clienteDni = clienteDni;
 	}
 	public LocalDate getFecha() {
 		return fecha;
@@ -74,7 +76,7 @@ public class Prestamo {
 	public void setSaldoRestante(float saldoRestante) {
 		this.saldoRestante = saldoRestante;
 	}
-
+	
 	
 	
 }
