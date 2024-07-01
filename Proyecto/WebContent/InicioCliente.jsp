@@ -40,7 +40,7 @@
 				<input type="submit" value="Mis Datos" name="btnEditar"  onclick="window.location.href='DatosCliente.jsp';" class="botonera"> 
 			</form> 
 			
-			     <input type="submit" value="Prestamos" name="btnClientePrestamos" onclick="window.location.href='ClientePrestamos.jsp';" class="botonera">
+			     <input type="submit" value="Prestamos" name="btnClientePrestamos" onclick="window.location.href='ClientePrestamo.jsp';" class="botonera">
 	
 		 </div>  
 		  <a href="ServletCuentas?Param=1" class="botonera">Cuentas</a> 
