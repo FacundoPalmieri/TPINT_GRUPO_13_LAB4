@@ -39,9 +39,9 @@
             <form action="EditarCliente" method="get">
 				<input type="submit" value="Mis Datos" name="btnEditar"  onclick="window.location.href='DatosCliente.jsp';" class="botonera"> 
 			</form> 
-			
+			<form action="ClientePrestamo.jsp">
 			     <input type="submit" value="Prestamos" name="btnClientePrestamos" onclick="window.location.href='ClientePrestamo.jsp';" class="botonera">
-	
+			</form>
 		 </div>  
 		  <a href="ServletCuentas?Param=1" class="botonera">Cuentas</a> 
 		 <div class="button-container"> <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='Login.jsp';"> </div>
