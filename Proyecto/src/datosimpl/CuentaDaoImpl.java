@@ -63,8 +63,6 @@ public class CuentaDaoImpl implements CuentaDao {
 		
 	}
 
-	
-	
 
 	@Override
 	public int CrearCuenta(String DNI, int TipoCuenta) {

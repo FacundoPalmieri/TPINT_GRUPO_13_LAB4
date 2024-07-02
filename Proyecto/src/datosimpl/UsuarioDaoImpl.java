@@ -90,11 +90,9 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    return estado;
 	}
 
-
-	@Override
 	public boolean agregarCliente(Usuario usuario, Persona persona, Direccion direccion) {
 	    boolean estado = false;
-	    Conexion cn = null;
+	    Conexion cn = null;    
 	    String query1 = "INSERT INTO direcciones (calle,numero,piso, departamento, localidad_id) " +
 	                    " VALUES (?,?,?,?,?)";
 
@@ -107,8 +105,8 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    try {
 	        cn = new Conexion();
 	        cn.Open();
-	        cn.setAutoCommit(false);
-	        System.out.println("Auto-commit seteado: " + cn.getConexion().getAutoCommit());
+	        System.out.println("Estado inicial de Auto-commit: " + cn.getConexion().getAutoCommit());
+	        System.out.println("Auto-commit después de setAutoCommit(false): " + cn.getConexion().getAutoCommit());
 
 	        // Query 1: dirección
 	        PreparedStatement preparedStatement1 = cn.prepareStatement(query1, Statement.RETURN_GENERATED_KEYS);
@@ -119,6 +117,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        preparedStatement1.setInt(5, direccion.getLocalidad_id());
 
 	        try {
+	        	cn.setAutoCommit(false);  // Inicia la transacción
 	            preparedStatement1.executeUpdate();
 	            ResultSet generatedKeys = preparedStatement1.getGeneratedKeys();
 	            if (generatedKeys.next()) {
@@ -131,8 +130,10 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        } catch (Exception e) {
 	            System.out.println("Error en la consulta 1: " + e.getMessage());
 	            e.printStackTrace();
-	            cn.rollback();
-	            System.out.println("Rollback realizado en consulta 1");
+	            if (!cn.getConexion().getAutoCommit()) {
+	                cn.rollback();
+	                System.out.println("Rollback realizado en consulta 1");
+	            }
 	            return false;
 	        }
 
@@ -151,13 +152,16 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        preparedStatement2.setString(11, persona.getEmail());
 
 	        try {
+	        	cn.setAutoCommit(false);  // Inicia la transacción
 	            preparedStatement2.executeUpdate();
 	            System.out.println("Consulta 2 ejecutada correctamente");
 	        } catch (Exception e) {
 	            System.out.println("Error en la consulta 2: " + e.getMessage());
 	            e.printStackTrace();
-	            cn.rollback();
-	            System.out.println("Rollback realizado en consulta 2");
+	            if (!cn.getConexion().getAutoCommit()) {
+	                cn.rollback();
+	                System.out.println("Rollback realizado en consulta 2");
+	            }
 	            return false;
 	        }
 
@@ -168,23 +172,26 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        preparedStatement3.setString(3, usuario.getPersona_dni());
 
 	        try {
+	        	cn.setAutoCommit(false);  // Inicia la transacción
 	            preparedStatement3.executeUpdate();
 	            System.out.println("Consulta 3 ejecutada correctamente");
 	        } catch (Exception e) {
 	            System.out.println("Error en la consulta 3: " + e.getMessage());
 	            e.printStackTrace();
-	            cn.rollback();
-	            System.out.println("Rollback realizado en consulta 3");
+	            if (!cn.getConexion().getAutoCommit()) {
+	                cn.rollback();
+	                System.out.println("Rollback realizado en consulta 3");
+	            }
 	            return false;
 	        }
 
-	        cn.commit();
+	        cn.commit();  // Confirma la transacción
 	        System.out.println("Commit realizado");
 	        estado = true;
 
 	    } catch (Exception e) {
 	        try {
-	            if (cn != null) {
+	            if (cn != null && !cn.getConexion().getAutoCommit()) {
 	                cn.rollback();
 	                System.out.println("Rollback realizado en catch principal");
 	            }
@@ -197,20 +204,19 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	            try {
 	                if (!cn.getConexion().getAutoCommit()) {
 	                    cn.setAutoCommit(true); 
-	                    System.out.println("Auto-commit restablecido a: " + cn.getConexion().getAutoCommit());
+	                    System.out.println("Auto-commit en finally restablecido a: " + cn.getConexion().getAutoCommit());
 	                }
 	                cn.close();
-	                System.out.println("Conexión cerrada");
+	                System.out.println("Conexión cerrada en finally");
 	            } catch (Exception e) {
 	                e.printStackTrace();
 	            }
 	        }
 	    }
 
-	    System.out.println("ESTADO DAO AGREGAR USUARIO" + estado);
+	    System.out.println("ESTADO DAO AGREGAR USUARIO: " + estado);
 	    return estado;
 	}
-
 
 
 
@@ -316,7 +322,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        if (rs.next()) {
 	          
 	            u.setUsuario(rs.getString("usuarios.usuario"));
-	            u.setContrasena(rs.getString("usuarios.contrasenia"));
+	            u.setPass(rs.getString("usuarios.contrasenia"));
 	            u.setNombre(rs.getString("usuarios.nombre"));
 	            u.setApellido(rs.getString("usuarios.apellido"));
 	            System.out.println("QUERY RESULT: " + u.getDni());
