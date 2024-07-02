@@ -92,5 +92,56 @@ public class Conexion {
             throw new SQLException("Connection is not established.");
         }
     }
+    
+    
+    
+
+    public void setAutoCommit(boolean autoCommit) throws SQLException {
+        if (connection != null) {
+        	connection.setAutoCommit(autoCommit);
+        }
+    }
+    
+    public void commit() throws SQLException {
+        if (connection != null) {
+        	connection.commit();
+        }
+    }
+    
+    public void rollback() throws SQLException {
+        if (connection != null) {
+        	connection.rollback();
+        }
+    }
+
+    
+    
+    
+    
+    
+	public PreparedStatement prepareStatement(String query, int returnGeneratedKeys) {
+		
+		PreparedStatement preparedStatement = null;
+
+	    try {
+	    	connection = Open();
+	        if (returnGeneratedKeys == Statement.RETURN_GENERATED_KEYS) {
+	            preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+	        } else {
+	            preparedStatement = connection.prepareStatement(query);
+	        }
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	         // Re-lanza la excepción para que sea manejada por el método llamador
+	    } finally {
+	        // No cierres la conexión aquí, debe ser cerrada después de usar el PreparedStatement
+	    }
+
+	    return preparedStatement;
+	}
+
+	public Connection getConexion() {
+		return this.connection;
+	}
 	
 }

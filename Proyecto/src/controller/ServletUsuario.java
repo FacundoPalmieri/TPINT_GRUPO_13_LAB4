@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import negocio.UsuarioNeg;
 import negocioimpl.UsuarioNegImpl;
+import entidad.Persona;
 import entidad.Usuario;
 
 @WebServlet("/ServletUsuario")
@@ -35,29 +36,42 @@ public class ServletUsuario extends HttpServlet {
         String contrasenia = request.getParameter("txtContrasenia");
         
 
-        int estado = 0;
-        estado = usuarioNegocio.validarLogin(nombreUsuario, contrasenia);
+        int esCliente = 0;
+        esCliente = usuarioNegocio.validarLogin(nombreUsuario, contrasenia);
         
-        if(estado == 2) {
+        if(esCliente == 2) {
             HttpSession session = request.getSession();
             Usuario u = new Usuario();
-            u = usuarioNegocio.obtenerCliente(nombreUsuario);
+            Persona p = new Persona();
+            u = usuarioNegocio.obtenerUsuario(nombreUsuario);
+            p = usuarioNegocio.ObtenerCliente(nombreUsuario);
             
-            session.setAttribute("nombre", u.getNombre());
             session.setAttribute("usuario", u.getUsuario());
-            request.setAttribute("validacionCliente", estado);
+            session.setAttribute("tipoUsuario", u.getTipoUsuarioId());
+            session.setAttribute("Nombre",p.getNombre());
+            session.setAttribute("Apellido",p.getApellido());
+            session.setAttribute("dni",p.getDni());
+            session.setAttribute("cuil",p.getCuil());
+            session.setAttribute("Celular",p.getCelular());
+            session.setAttribute("Telefono",p.getTelefono());
+            session.setAttribute("Direccion_id",p.getDireccion_id());
+            session.setAttribute("Nacionalidad",p.getNacionalidad());
+            
+            
+            
+            request.setAttribute("validacionCliente", esCliente);
             
             RequestDispatcher dispatcher = request.getRequestDispatcher("/InicioCliente.jsp");
             dispatcher.forward(request, response); 
         }
-        else if(estado==1) {
+        else if(esCliente==1) {
         	HttpSession session = request.getSession();
         	session.setAttribute("tipoUsuario",1);
         	RequestDispatcher dispatcher = request.getRequestDispatcher("/UsuarioAdministrador.jsp");
         	dispatcher.forward(request, response);	
         }
         else {
-	        request.setAttribute("validacionCliente", estado);
+	        request.setAttribute("validacionCliente", esCliente);
 	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Login.jsp");
 			dispatcher.forward(request, response);	
         	

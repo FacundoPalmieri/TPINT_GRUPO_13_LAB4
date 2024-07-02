@@ -29,7 +29,9 @@
 	</div>
 
  	<div class="button-container">
-		 <input type="submit" value="Agregar Clientes" name="btnAgregarCliente" onclick="window.location.href='AgregarCliente.jsp';" class="botonera">
+ 		<form method="get" action="AltaCliente">
+   		 <input type="submit" value="Agregar Clientes" name="btnAgregarCliente" class="botonera">
+		</form>
 		  <input type="submit" value="Modificar usuario" name="btnModificarUsuario" onclick="window.location.href='ModificarUsuario.jsp';" class="botonera">
           <input type="submit" value="Eliminar usuario" name="btnEliminarUsuario" onclick="window.location.href='EliminarUsuario.jsp';" class="botonera">
           

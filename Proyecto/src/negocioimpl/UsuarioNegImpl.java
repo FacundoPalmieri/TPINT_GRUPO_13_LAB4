@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import datos.UsuarioDao;
 import datosimpl.UsuarioDaoImpl;
+import entidad.Direccion;
+import entidad.Persona;
 import entidad.Usuario;
 import negocio.UsuarioNeg;
 
@@ -28,15 +30,22 @@ public class UsuarioNegImpl implements UsuarioNeg{
     }
 
 	@Override
-	public boolean agregarCliente(Usuario usuario) {
-		return usuarioDao.agregarCliente(usuario);
+	public boolean agregarCliente(Usuario usuario, Persona persona, Direccion direccion) {
+		return usuarioDao.agregarCliente(usuario, persona, direccion);
 	}
 
 
 	@Override
-	public Usuario obtenerCliente(String usuario) {
+	public Usuario obtenerUsuario(String usuario) {
 		return usuarioDao.ObtenerUsuario(usuario);
 	}
+	
+
+	@Override
+	public Persona ObtenerCliente(String usuario) {
+		return usuarioDao.ObtenerCliente(usuario);
+	}
+
 	
 	@Override
 	public Usuario obtenerClientePorDNI(String DNI) {
@@ -68,6 +77,7 @@ public class UsuarioNegImpl implements UsuarioNeg{
 	public boolean eliminarUsuario(Usuario usuario) {
 		return usuarioDao.eliminarUsuario(usuario);
 	}
+
 
 
 	

@@ -1,6 +1,6 @@
 package entidad;
 
-public class Paises {
+public class Pais {
 	
 	private int id;
     private String nombre;

@@ -3,7 +3,7 @@ package entidad;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class Personas {
+public class Persona {
 	private int id;
     private String dni;
     private String cuil;
@@ -12,10 +12,29 @@ public class Personas {
     private String sexo;
     private String Celular;
     private String Telefono;
-    private String nacionalidad;
+    private int direccion_id;
+	private String nacionalidad;
     private LocalDate fechaNacimiento;
+    private String email;
     
     
+    public int getDireccion_id() {
+		return direccion_id;
+	}
+	public void setDireccion_id(int direccion_id) {
+		this.direccion_id = direccion_id;
+	}
+
+    
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public void setFechaNacimiento(LocalDate fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
+	}
 	public int getId() {
 		return id;
 	}

@@ -7,7 +7,7 @@ public class Usuario {
 	private int id;
     private String persona_dni;
     private String usuario;
-    private String contrasena;
+    private String Pass;
     private int tipoUsuarioId;
     private int habilitado;
 
@@ -45,13 +45,13 @@ public class Usuario {
 	}
 
 
-	public String getContrasena() {
-		return contrasena;
+	public String getPass() {
+		return Pass;
 	}
 
 
-	public void setContrasena(String contrasena) {
-		this.contrasena = contrasena;
+	public void setPass(String contrasena) {
+		this.Pass = contrasena;
 	}
 
 

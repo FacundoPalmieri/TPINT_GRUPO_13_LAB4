@@ -1,7 +1,9 @@
 <%@page import="java.util.ArrayList" %>
 <%@page import="entidad.Usuario" %>
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@page import="entidad.Pais" %>
+<%@page import="entidad.Provincia" %>
+<%@page import="entidad.Localidad" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,6 +22,7 @@
 </style>
 
 <title>Agregar Cliente</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
@@ -80,37 +83,82 @@
     </div>
 
     <button type="button" class="accordion">Domicilio  &#x1F3E0;</button>
-    <div class="panel">
-  	  <div class="flex-container">
-        <div class="form-group flex-item" style= "margin-top: 10px;">
-         <label for="localidad">País:</label>
-            <input type="text" id="localidad" name="localidad" required>   
+<div class="panel">
+    <div class="flex-container">
+        <div class="form-group flex-item" style="margin-top: 10px;">
+            <label for="pais">País:</label>
+            <select name="pais" id="pais">
+                <option value="">Selecciona un país</option>
+                <% 
+                ArrayList<Pais> listaPaises = null;
+                listaPaises = (ArrayList<Pais>) request.getAttribute("paises");
+                if (listaPaises != null) {
+                    for (Pais pais : listaPaises) {
+                    	 System.out.println(pais);
+                %>
+                <option value="<%= pais.getId() %>"><%= pais.getNombre() %></option>
+                <% 
+                    }
+                }
+                %>
+            </select>
         </div>
-        <div class="form-group flex-item" style= "margin-top: 10px;">
-        <label for="provincia">Provincia:</label>
-            <input type="text" id="provincia" name="provincia" required>  
+        <div class="form-group flex-item" style="margin-top: 10px;">
+            <label for="provincia">Provincia:</label>
+            <select name="provincia" id="provincia">
+                <option value="">Selecciona una provincia</option>
+                 <% 
+                ArrayList<Provincia> listaProvincias = null;
+                 listaProvincias = (ArrayList<Provincia>) request.getAttribute("provincias");
+                if (listaProvincias != null) {
+                    for (Provincia provincia : listaProvincias) {
+                    	 System.out.println(provincia);
+                %>
+                <option value="<%= provincia.getId() %>"><%= provincia.getNombre() %></option>
+                <% 
+                    }
+                }
+                %>
+            </select>
         </div>
-	    <div class="form-group-domicilio">
-	        <div class="group">
-	            <label for="calle">Calle:</label>
-	            <input type="text" id="calle" name="calle" required>
-	        </div>
-	        <div class="group">
-	            <label for="numero">Número:</label>
-	            <input type="text" id="numero" name="numero" required>
-	        </div>
-	        <div class="group">
-	            <label for="piso">Piso:</label>
-	            <input type="text" id="piso" name="piso">
-	        </div>
-	        <div class="group">
-	            <label for="depto">Depto:</label>
-	            <input type="text" id="depto" name="depto">
-	        </div>
-	    </div>
-
-       </div>
+        <div class="form-group flex-item" style="margin-top: 10px;">
+            <label for="localidad">Localidad:</label>
+             <select name="localidad" id="localidad">
+        <option value="">Selecciona una localidad</option>
+        <% 
+        ArrayList<Localidad> listaLocalidades = null;
+        listaLocalidades = (ArrayList<Localidad>) request.getAttribute("localidades");
+        if (listaLocalidades != null) {
+            for (Localidad localidad : listaLocalidades) {
+        %>
+        <option value="<%= localidad.getId() %>"><%= localidad.getNombre() %></option>
+        <% 
+            }
+        }
+        %>
+    </select>
+        </div>
+        <div class="form-group-domicilio">
+            <div class="group">
+                <label for="calle">Calle:</label>
+                <input type="text" id="calle" name="calle" required>
+            </div>
+            <div class="group">
+                <label for="numero">Número:</label>
+                <input type="text" id="numero" name="numero" required>
+            </div>
+            <div class="group">
+                <label for="piso">Piso:</label>
+                <input type="text" id="piso" name="piso">
+            </div>
+            <div class="group">
+                <label for="depto">Depto:</label>
+                <input type="text" id="depto" name="depto">
+            </div>
+        </div>
     </div>
+</div>
+    
     
     
     <button type="button" class="accordion">Información de Contacto &#x1F4F1;</button>
@@ -227,6 +275,39 @@
     
     
     
+    document.addEventListener('DOMContentLoaded', function() {
+        var provinciaSelect = document.getElementById('provincia');
+        var localidadSelect = document.getElementById('localidad');
+
+        provinciaSelect.addEventListener('change', function() {
+            var provinciaId = this.value;
+
+            // Hacer una llamada AJAX al servlet para obtener las localidades
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'AltaCliente?provincia=' + provinciaId, true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var localidades = JSON.parse(xhr.responseText);
+
+                    // Limpiar opciones actuales
+                    localidadSelect.innerHTML = '<option value="">Selecciona una localidad</option>';
+
+                    // Agregar las nuevas opciones de localidades
+                    localidades.forEach(function(localidad) {
+                        var option = document.createElement('option');
+                        option.value = localidad.id;
+                        option.textContent = localidad.nombre;
+                        localidadSelect.appendChild(option);
+                    });
+                } else {
+                    console.log('Error al obtener localidades');
+                }
+            };
+            xhr.send();
+        });
+    });
+    
+
 </script>
 </body>
 </html>

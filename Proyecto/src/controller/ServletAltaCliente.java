@@ -1,6 +1,9 @@
 package controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,8 +11,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import entidad.Direccion;
+import entidad.Localidad;
+import entidad.Pais;
+import entidad.Persona;
+import entidad.Provincia;
 import entidad.Usuario;
+import negocio.DatosGeograficosNeg;
 import negocio.UsuarioNeg;
+import negocioimpl.DatosGeograficosNegImpl;
 import negocioimpl.UsuarioNegImpl;
 
 /**
@@ -20,6 +30,7 @@ public class ServletAltaCliente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	UsuarioNeg usuarioNeg = new UsuarioNegImpl();
+	DatosGeograficosNeg datosGeoNeg = new DatosGeograficosNegImpl();
 	
     
     public ServletAltaCliente() {
@@ -28,8 +39,52 @@ public class ServletAltaCliente extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+			System.out.println("Iniciando método doGet de ServletAltaCliente...");
+		  	ArrayList<Pais> listaPaises = datosGeoNeg.ObtenerPais();
+	        ArrayList<Provincia> listaProvincias = datosGeoNeg.ObtenerProvincia();
+	     
+
+	        request.setAttribute("paises", listaPaises);
+	        request.setAttribute("provincias", listaProvincias);
+	        
+	        
+	        String provinciaId = request.getParameter("provincia");
+	        System.out.println("Provincia" + provinciaId);
+
+	        if (provinciaId != null && !provinciaId.isEmpty()) {
+	            int idProvincia = Integer.parseInt(provinciaId);
+	            ArrayList<Localidad> listaLocalidades = datosGeoNeg.ObtenerLocalidad(idProvincia);
+	            
+	            // Construir el JSON manualmente
+	            StringBuilder jsonLocalidades = new StringBuilder();
+	            jsonLocalidades.append("[");
+	            for (int i = 0; i < listaLocalidades.size(); i++) {
+	                Localidad localidad = listaLocalidades.get(i);
+	                jsonLocalidades.append("{");
+	                jsonLocalidades.append("\"id\":").append(localidad.getId()).append(",");
+	                jsonLocalidades.append("\"nombre\":\"").append(localidad.getNombre()).append("\"");
+	                jsonLocalidades.append("}");
+	                if (i < listaLocalidades.size() - 1) {
+	                    jsonLocalidades.append(",");
+	                }
+	            }
+	            jsonLocalidades.append("]");
+
+	            // Configurar la respuesta HTTP
+	            response.setContentType("application/json");
+	            response.setCharacterEncoding("UTF-8");
+
+	            // Enviar la respuesta JSON al cliente
+	            PrintWriter out = response.getWriter();
+	            out.print(jsonLocalidades.toString());
+	            out.flush();
+	            
+	            return;
+	        }
+	    
+	        System.out.println("Pais" + listaPaises);
+	        RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
+	        dispatcher.forward(request, response);
 	}
 
 
@@ -37,25 +92,34 @@ public class ServletAltaCliente extends HttpServlet {
 		if(request.getParameter("btnAceptar")!=null)
 	    {
 	      
-			
+			Persona persona = new Persona();
 			Usuario usuario = new Usuario();
+			Direccion direccion = new Direccion();
 			
-			usuario.setDni(request.getParameter("dni"));
-			usuario.setCuil(request.getParameter("cuil"));
-			usuario.setNombre(request.getParameter("nombre"));
-			usuario.setApellido(request.getParameter("apellido"));
-			usuario.setSexo(request.getParameter("sexo"));
-			usuario.setCelular(request.getParameter("celular"));
-			usuario.setTelefono(request.getParameter("telefonos"));
-			usuario.setFechaNacimiento(request.getParameter("fechaNacimiento"));
-			usuario.setNacionalidad(request.getParameter("nacionalidad"));
-			usuario.setLocalidad(request.getParameter("localidad"));
-			usuario.setProvincia(request.getParameter("provincia"));
-			usuario.setDireccion(request.getParameter("direccion"));
-			usuario.setEmail(request.getParameter("correoElectronico"));
+			persona.setDni(request.getParameter("dni"));
+			persona.setCuil(request.getParameter("cuil"));
+			persona.setNombre(request.getParameter("nombre"));
+			persona.setApellido(request.getParameter("apellido"));
+			persona.setSexo(request.getParameter("sexo"));
+			persona.setCelular(request.getParameter("celular"));
+			persona.setTelefono(request.getParameter("telefonos"));
+			persona.setFechaNacimiento(request.getParameter("fechaNacimiento"));
+			persona.setNacionalidad(request.getParameter("nacionalidad"));
+			persona.setEmail(request.getParameter("correoElectronico"));
+			
+		
+			direccion.setCalle(request.getParameter("calle"));
+	        direccion.setAltura(Integer.parseInt(request.getParameter("numero")));
+	        direccion.setPiso(request.getParameter("piso"));
+	        direccion.setDepartamento(request.getParameter("depto")); 
+            direccion.setLocalidad_id(Integer.parseInt(request.getParameter("localidad")));
+			
+			
 			usuario.setUsuario(request.getParameter("usuario"));
-			usuario.setContrasena(request.getParameter("contrasena"));
-			usuario.setTipoUsuarioId(0);
+			usuario.setPass(request.getParameter("contrasena"));
+			usuario.setTipoUsuarioId(2);
+			usuario.setPersona_dni(request.getParameter("dni"));
+			
 			boolean estado = true;
 			boolean validacion = true;
 			
@@ -68,7 +132,7 @@ public class ServletAltaCliente extends HttpServlet {
 			if (Contrasenia1.equals(Contrasenia2)) {
 				
 		   //Valida que el cliente no exista antes de agregarlo.
-			validacion = usuarioNeg.validarUsuario(usuario.getDni(), usuario.getUsuario());
+			validacion = usuarioNeg.validarUsuario(persona.getDni(), usuario.getUsuario());
 			if (validacion == false){
 				 System.out.println("Estado de validacion : "+ validacion);
 				 
@@ -77,7 +141,7 @@ public class ServletAltaCliente extends HttpServlet {
 				dispatcher.forward(request, response);	
 			}
 			else {
-				estado = usuarioNeg.agregarCliente(usuario);
+				estado = usuarioNeg.agregarCliente(usuario, persona, direccion);
 		    
 		    	request.setAttribute("validacionCliente", validacion);
 		        request.setAttribute("estadoCliente", estado);
@@ -93,7 +157,7 @@ public class ServletAltaCliente extends HttpServlet {
 			 
 	        
 	    }
-		
+	
 	}
-
+	
 }

@@ -1,6 +1,8 @@
 package datos;
 import java.util.ArrayList;
 
+import entidad.Direccion;
+import entidad.Persona;
 import entidad.Usuario;
 
 public interface UsuarioDao {
@@ -9,9 +11,11 @@ public interface UsuarioDao {
 	  
 	  public boolean validarUsuario(String DNI, String usuario);
 	
-	  public boolean agregarCliente(Usuario usuario);
+	  public boolean agregarCliente(Usuario usuario, Persona persona, Direccion direccion);
 	  
 	  public Usuario ObtenerUsuario (String usuario);
+	  
+	  public Persona ObtenerCliente (String usuario);
 	  
 	  public Usuario ObtenerUsuarioPorDni (String DNI);
 	  
