@@ -489,4 +489,22 @@ input[type="button"].btnEspecial {
     border-collapse: collapse;
     margin: 0 auto;
 }
-	
+
+/* estilo carga domicilio*/
+
+.form-group-domicilio {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+    }
+
+.form-group-domicilio .group {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	margin-right: 20px;
+    }
+
+.form-group-domicilio .group:last-child {
+	margin-right: 0;
+    }

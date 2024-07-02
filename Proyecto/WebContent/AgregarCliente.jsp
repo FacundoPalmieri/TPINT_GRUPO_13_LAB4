@@ -62,7 +62,11 @@
         </div>
        <div class="form-group flex-item">
             <label for="sexo">Sexo:</label>
-            <input type="text" id="sexo" name="sexo" required>
+            	<select id="sexo" name="sexo" required>
+                	<option value="1">F</option>
+                	<option value="2">M</option>
+                	<option value="3">X</option>
+                </select>
         </div>
         <div class="form-group flex-item">
             <label for="fechaNacimiento">Fecha de Nacimiento:</label>
@@ -79,20 +83,33 @@
     <div class="panel">
   	  <div class="flex-container">
         <div class="form-group flex-item" style= "margin-top: 10px;">
-         <label for="localidad">Localidad:</label>
+         <label for="localidad">País:</label>
             <input type="text" id="localidad" name="localidad" required>   
         </div>
         <div class="form-group flex-item" style= "margin-top: 10px;">
         <label for="provincia">Provincia:</label>
             <input type="text" id="provincia" name="provincia" required>  
         </div>
-        <div class="form-group flex-item">
-           <label for="direccion">Dirección:</label>
-            <input type="text" id="direccion" name="direccion" required> 
-        </div>
-          </div>
-            <p style="font-size: smaller; font-weight: bold;">* Aclarar piso y departamento en caso de corresponder</p>
+	    <div class="form-group-domicilio">
+	        <div class="group">
+	            <label for="calle">Calle:</label>
+	            <input type="text" id="calle" name="calle" required>
+	        </div>
+	        <div class="group">
+	            <label for="numero">Número:</label>
+	            <input type="text" id="numero" name="numero" required>
+	        </div>
+	        <div class="group">
+	            <label for="piso">Piso:</label>
+	            <input type="text" id="piso" name="piso">
+	        </div>
+	        <div class="group">
+	            <label for="depto">Depto:</label>
+	            <input type="text" id="depto" name="depto">
+	        </div>
+	    </div>
 
+       </div>
     </div>
     
     
