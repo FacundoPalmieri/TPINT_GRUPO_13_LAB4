@@ -27,7 +27,7 @@ public class PrestamoDaoImpl implements PrestamoDao{
 	   cn.Open();
 	   PreparedStatement ps = cn.prepareStatement(query);
        
-       ps.setInt(1, prestamo.getClienteId());
+       ps.setString(1, prestamo.getClienteDni());
        ps.setDate(2, java.sql.Date.valueOf(prestamo.getFecha()));
        ps.setFloat(3, prestamo.getImporteSolicitado());
        ps.setFloat(4, prestamo.getImporteAPagar());

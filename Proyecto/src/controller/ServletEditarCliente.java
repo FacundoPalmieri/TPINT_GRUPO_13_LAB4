@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import entidad.Usuario;
+import entidad.Persona;
+import entidad.Direccion;
 import negocio.UsuarioNeg;
 import negocioimpl.UsuarioNegImpl;
 
@@ -40,24 +42,12 @@ public class ServletEditarCliente extends HttpServlet {
 
                 if (request.getParameter("btnEditar") != null) {
                     // Llama al m�todo para obtener los datos completos del usuario
-                    Usuario usuarioCompleto = usuarioNeg.obtenerCliente(nombreUsuario); 
+                    Usuario usuarioCompleto = usuarioNeg.obtenerUsuario(nombreUsuario); 
 
                     // Establece los datos del usuario en el request para que el JSP pueda mostrarlos
-                    request.setAttribute("dni", usuarioCompleto.getDni());
-                    request.setAttribute("cuil", usuarioCompleto.getCuil());
-                    request.setAttribute("nombre", usuarioCompleto.getNombre());
-                    request.setAttribute("apellido", usuarioCompleto.getApellido());
-                    request.setAttribute("sexo", usuarioCompleto.getSexo());  
-                    request.setAttribute("fechaNacimiento", usuarioCompleto.getFechaNacimiento());
-                    request.setAttribute("nacionalidad", usuarioCompleto.getNacionalidad());
-                    request.setAttribute("localidad", usuarioCompleto.getLocalidad());
-                    request.setAttribute("provincia", usuarioCompleto.getProvincia());
-                    request.setAttribute("direccion", usuarioCompleto.getDireccion());
-                    request.setAttribute("celular", usuarioCompleto.getCelular());
-                    request.setAttribute("telefonos", usuarioCompleto.getTelefono());
-                    request.setAttribute("correoElectronico", usuarioCompleto.getEmail());
+                    
                     request.setAttribute("usuario", usuarioCompleto.getUsuario());
-                    request.setAttribute("contrasena", usuarioCompleto.getContrasena());
+                    request.setAttribute("contrasena", usuarioCompleto.getPass());
 
                     RequestDispatcher dispatcher = request.getRequestDispatcher("/DatosCliente.jsp");
                
@@ -82,7 +72,7 @@ public class ServletEditarCliente extends HttpServlet {
         	DNI = (request.getParameter("dniCliente"));
         	usuario = usuarioNeg.obtenerClientePorDNI(DNI);
         	request.setAttribute("usuario", usuario.getUsuario());
-            request.setAttribute("contrasena", usuario.getContrasena());
+            request.setAttribute("contrasena", usuario.getPass());
 
             RequestDispatcher dispatcher = request.getRequestDispatcher("/ModificarUsuario.jsp");
             dispatcher.forward(request, response); 
@@ -91,8 +81,8 @@ public class ServletEditarCliente extends HttpServlet {
             else if (request.getParameter("btnActualizar") != null) {
                 Usuario usuarioEditado = new Usuario();
                 
-                usuarioEditado.setDni(request.getParameter("dniCliente"));
-                usuarioEditado.setContrasena(request.getParameter("contrasena"));
+                usuarioEditado.setPersona_dni(request.getParameter("dniCliente"));
+                usuarioEditado.setPass(request.getParameter("contrasena"));
                 
                 boolean filas = usuarioNeg.editarContrasena(usuarioEditado);
                 
@@ -105,9 +95,7 @@ public class ServletEditarCliente extends HttpServlet {
                }
                 
             }
-        
-        
-        
+       
         
         // Eliminar USUARIO.JSP
         
@@ -119,12 +107,8 @@ public class ServletEditarCliente extends HttpServlet {
 		        	usuario = usuarioNeg.obtenerClientePorDNI(DNI);
 		        	
 		        	request.setAttribute("usuario", usuario.getUsuario());
-		            request.setAttribute("nombre", usuario.getNombre());
-		            request.setAttribute("apellido", usuario.getApellido());
 		            
 		            System.out.println("Usuario btnBuscarEliminar: " + usuario.getUsuario());
-		            System.out.println("Nombre btnBuscarEliminar: " + usuario.getNombre());
-		            System.out.println("Apellido : " + usuario.getApellido());
 		           
 		            RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarUsuario.jsp");
 		            dispatcher.forward(request, response); 
@@ -132,7 +116,7 @@ public class ServletEditarCliente extends HttpServlet {
 		        } 
 		 else if (request.getParameter("btnEliminar") != null) {
 			 Usuario usuarioEditado = new Usuario();
-		     usuarioEditado.setDni(request.getParameter("dniCliente"));
+		     usuarioEditado.setPersona_dni(request.getParameter("dniCliente"));
 		     usuarioEditado.setHabilitado(0);
 		          
 		     boolean filas = usuarioNeg.eliminarUsuario(usuarioEditado);

@@ -3,6 +3,13 @@ package entidad;
 public class Direccion {
 	
 	private int id;
+	
+	private String calle;
+	private int altura;
+	private String piso;
+	private String departamento;
+	private int localidad_id;
+	
 	public int getId() {
 		return id;
 	}
@@ -39,10 +46,6 @@ public class Direccion {
 	public void setLocalidad_id(int localidad_id) {
 		this.localidad_id = localidad_id;
 	}
-	private String calle;
-	private int altura;
-	private String piso;
-	private String departamento;
-	private int localidad_id;
+
 
 }

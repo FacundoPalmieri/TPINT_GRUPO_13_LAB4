@@ -266,7 +266,6 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    			    + " INNER JOIN usuario u ON p.dni = u.persona_dni"
 	    			    + " WHERE u.usuario = '" + usuario +"'";
 	    			
-	    		
 
 	        ResultSet rs = cn.query(query);
 	        System.out.println("QWERY" + rs);
@@ -289,7 +288,6 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	            }
 	            
 	            p.setEmail(rs.getString("p.email"));
-
 	            
 	        }
 	    } catch (Exception e) {
@@ -299,9 +297,6 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    }
 	    return p;
 	}
-
-	
-	
 	
 	
 	@Override
@@ -312,7 +307,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    Usuario u = new Usuario();
 	    try {
 	       
-	    	String query = "SELECT usuarios.usuario, usuarios.contrasenia, usuarios.nombre, usuarios.apellido " +
+	    	String query = "SELECT usuarios.usuario, usuarios.contrasenia, usuarios.persona_dni" +
 	                "FROM usuarios WHERE usuarios.dni = '" + DNI + "'";
 
 	        ResultSet rs = cn.query(query);
@@ -323,9 +318,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	          
 	            u.setUsuario(rs.getString("usuarios.usuario"));
 	            u.setPass(rs.getString("usuarios.contrasenia"));
-	            u.setNombre(rs.getString("usuarios.nombre"));
-	            u.setApellido(rs.getString("usuarios.apellido"));
-	            System.out.println("QUERY RESULT: " + u.getDni());
+	            u.setPersona_dni(rs.getString("usuarios.persona_dni"));
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
@@ -343,7 +336,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		cn = new Conexion();
 		cn.Open();	
 
-		String query = "UPDATE  usuarios SET dni='"+ usuario.getDni()+"',cuil='"+ usuario.getCuil()+"',nombre='"+ usuario.getNombre()+"',apellido='"+ usuario.getApellido()+"',sexo='"+ usuario.getSexo()+"',celular='"+ usuario.getCelular() +"',telefono='"+ usuario.getTelefono() +"',direccion='"+ usuario.getDireccion() + "',localidad='"+ usuario.getLocalidad() +"',provincia='"+ usuario.getProvincia() +"',nacionalidad='"+ usuario.getNacionalidad() +"', fecha_nacimiento='"+ usuario.getFechaNacimiento() +"', email='"+ usuario.getEmail()+"' WHERE dni='"+usuario.getDni()+"'";
+		String query = "UPDATE  usuarios SET pass='"+ usuario.getPass()+"', persona_dni='"+ usuario.getPersona_dni()+"', habilitado='"+ usuario.getHabilitado()+"' WHERE dni='"+usuario.getPersona_dni()+"'";
 		try
 		 {
 			estado=cn.execute(query);
@@ -368,8 +361,8 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		cn = new Conexion();
 		cn.Open();	
 
-		String query = "UPDATE  usuarios SET contrasenia ='"+ usuario.getContrasena() +"' WHERE dni='"+ usuario.getDni()+"'";
-		 System.out.println("query" + usuario.getContrasena());
+		String query = "UPDATE  usuarios SET contrasenia ='"+ usuario.getPass() +"' WHERE dni='"+ usuario.getPersona_dni()+"'";
+		 System.out.println("query" + usuario.getPass());
 		try
 		 {
 			estado=cn.execute(query);
@@ -402,21 +395,9 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		    while(rs.next()){
 		    	Usuario u = new Usuario(); 
 		    	u.setId(rs.getInt("usuarios.id"));
-		    	u.setDni(rs.getString("usuarios.dni"));
-		    	u.setCuil(rs.getString("usuarios.cuil"));
-		    	u.setNombre(rs.getString("usuarios.nombre"));
-		    	u.setApellido(rs.getString("usuarios.apellido"));
-		    	u.setSexo(rs.getString("usuarios.sexo"));
-		    	u.setCelular(rs.getString("usuarios.Celular"));
-		    	u.setTelefono(rs.getString("usuarios.Telefono"));
-		    	u.setDireccion(rs.getString("usuarios.direccion"));
-		    	u.setLocalidad(rs.getString("usuarios.localidad"));
-		    	u.setProvincia(rs.getString("usuarios.provincia"));
-		    	u.setNacionalidad(rs.getString("usuarios.nacionalidad"));
-		    	u.setFechaNacimiento(rs.getString("usuarios.fecha_nacimiento"));
-		    	u.setEmail(rs.getString("usuarios.email"));
+		    	u.setPersona_dni(rs.getString("usuarios.persona_dni"));
 		    	u.setUsuario(rs.getString("usuarios.usuario"));
-		    	u.setContrasena(rs.getString("usuarios.contrasenia"));
+		    	u.setPass(rs.getString("usuarios.pass"));
 		    	u.setHabilitado(rs.getInt("usuarios.habilitado"));
 		    	listaUsuarios.add(u);
 		    }
@@ -439,8 +420,8 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		cn = new Conexion();
 		cn.Open();	
 
-		String query = "UPDATE  usuarios SET habilitado ='"+ usuario.getHabilitado() +"' WHERE dni='"+ usuario.getDni()+"'";
-		System.out.println("query" + usuario.getContrasena());
+		String query = "UPDATE  usuarios SET habilitado ='"+ usuario.getHabilitado() +"' WHERE dni='"+ usuario.getPersona_dni()+"'";
+		System.out.println("query" + usuario.getPass());
 		try
 		 {
 			estado=cn.execute(query);

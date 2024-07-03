@@ -1,9 +1,6 @@
 package controller;
-
 import java.io.IOException;
 import java.util.ArrayList;
-
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,8 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 import entidad.Cuenta;
+import entidad.Persona;
 import entidad.Usuario;
 import negocio.CuentaNeg;
 import negocio.MovimientoNeg;
@@ -29,6 +26,7 @@ public class ServletCuentas extends HttpServlet {
 	
 	CuentaNeg cuentaNeg = new CuentaNegImpl();
 	UsuarioNeg usuarioNeg = new UsuarioNegImpl();
+	
 	MovimientoNeg movimientoNeg = new MovimientoNegImpl();
 	
        
@@ -49,8 +47,8 @@ public class ServletCuentas extends HttpServlet {
 		    String DNI = new String();
 		    Usuario usuario = new Usuario();
 		    
-		    usuario = usuarioNeg.obtenerCliente(Usuario);
-		    DNI = usuario.getDni();
+		    usuario = usuarioNeg.obtenerUsuario(Usuario);
+		    DNI = usuario.getPersona_dni();
 		    System.out.println("DNI  " + DNI);
 		    ArrayList<Cuenta> listaCuentas = cuentaNeg.obtenerCuentasPorDNI(DNI);
 		    System.out.println();
@@ -72,14 +70,18 @@ public class ServletCuentas extends HttpServlet {
 		if (request.getParameter("btnBuscarClienteCrearCuenta") != null) {
 			
         	Usuario usuario = new Usuario();
+        	Persona persona = new Persona();
+        	
         	String DNI = new String();
         	
         	DNI = request.getParameter("dniCliente"); 
         	usuario = usuarioNeg.obtenerClientePorDNI(DNI);
         	
+        	persona = usuarioNeg.ObtenerCliente(usuario.getUsuario());
+        	
         	request.setAttribute("usuario", usuario.getUsuario());
-            request.setAttribute("nombre", usuario.getNombre());
-            request.setAttribute("apellido", usuario.getApellido());
+            request.setAttribute("nombre", persona.getNombre());
+            request.setAttribute("apellido", persona.getApellido());
            
             RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearCuenta.jsp");
             dispatcher.forward(request, response); 
@@ -131,12 +133,7 @@ public class ServletCuentas extends HttpServlet {
 			}
 			
 		}
-		
-		
-		
-
-		
-		
+	
 	}
 
 }

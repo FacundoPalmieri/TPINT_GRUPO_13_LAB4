@@ -51,8 +51,8 @@ public class ServletPrestamo extends HttpServlet {
 		    String DNI = new String();
 		    Usuario usuario = new Usuario();
 		    
-		    usuario = usuarioNeg.obtenerCliente(Usuario);
-		    DNI = usuario.getDni();
+		    usuario = usuarioNeg.obtenerUsuario(Usuario);
+		    DNI = usuario.getPersona_dni();
 		    System.out.println("DNI  " + DNI);
 		    ArrayList<Cuenta> listaCuentas = cuentaNeg.obtenerCuentasPorDNI(DNI);
 		    System.out.println();
@@ -72,7 +72,14 @@ public class ServletPrestamo extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		Prestamo prestamo = new Prestamo();
-        prestamo.setClienteId((int) request.getSession().getAttribute("clienteId"));
+		
+		HttpSession session = request.getSession();
+	    String Usuario = (String) session.getAttribute("usuario");
+	    Usuario usuario = new Usuario();
+	    usuario = usuarioNeg.obtenerUsuario(Usuario);
+	    
+
+        prestamo.setClienteDni(usuario.getPersona_dni());
         prestamo.setFecha(LocalDate.now()); // Fecha actual
         prestamo.setImporteSolicitado(Float.parseFloat(request.getParameter("importe")));
         prestamo.setCuotas(Integer.parseInt(request.getParameter("cuotas")));
