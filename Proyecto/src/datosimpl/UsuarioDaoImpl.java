@@ -35,7 +35,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        	if(rs.getInt("tipo_usuario_id")==1) {
 	            	esCliente=1;
 	            }
-	            System.out.println(" DAO IMPL - Usuario encontrado: " + rs.getString("usuario") + " " + rs.getString("contrasenia"));
+	            System.out.println(" DAO IMPL - Usuario encontrado: " + rs.getString("usuario") + " " + rs.getString("pass"));
 	        } else {
 	            System.out.println("DAO IMPL - No se encontro usuario: " );
 	        }
@@ -60,7 +60,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    cn.Open();
 
 	    boolean estado = true;
-	    String query = "SELECT nombre, apellido FROM Usuarios WHERE dni=? OR usuario=?";
+	    String query = "SELECT nombre, apellido FROM Usuarios WHERE persona_dni=? OR usuario=?";
 
 	    try {
 	        PreparedStatement preparedStatement = cn.prepareStatement(query);
@@ -264,11 +264,15 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    	String query = "SELECT p.nombre, p.apellido,p.dni,p.cuil,p.celular,p.telefono,.direccion_id, p.nacionalidad,p.fecha_nacimiento,p.email"
 	    			    + " FROM  personas p "
 	    			    + " INNER JOIN usuario u ON p.dni = u.persona_dni"
-	    			    + " WHERE u.usuario = '" + usuario +"'";
+	    			    + " WHERE u.usuario = ? ";
 	    			
 
-	        ResultSet rs = cn.query(query);
-	        System.out.println("QWERY" + rs);
+
+	        PreparedStatement preparedStatement = cn.prepareStatement(query);
+	        preparedStatement.setString(1, usuario);
+	        
+	        ResultSet rs = preparedStatement.executeQuery();
+	        System.out.println("QUERY: " + preparedStatement);
 
 	      
 	        if (rs.next()) {      
@@ -307,19 +311,22 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    Usuario u = new Usuario();
 	    try {
 	       
-	    	String query = "SELECT usuarios.usuario, usuarios.contrasenia, usuarios.persona_dni" +
-	                "FROM usuarios WHERE usuarios.dni = '" + DNI + "'";
+	    	String query = "SELECT usuario, pass, persona_dni FROM usuarios WHERE persona_dni = ?" ;
 
-	        ResultSet rs = cn.query(query);
-	        System.out.println("QWERY" + rs);
-
+	        PreparedStatement preparedStatement = cn.prepareStatement(query);
+	        preparedStatement.setString(1, DNI);
+	        
+	        ResultSet rs = preparedStatement.executeQuery();
+	        System.out.println("QUERY: " + preparedStatement);
 	      
 	        if (rs.next()) {
 	          
-	            u.setUsuario(rs.getString("usuarios.usuario"));
-	            u.setPass(rs.getString("usuarios.contrasenia"));
-	            u.setPersona_dni(rs.getString("usuarios.persona_dni"));
+	            u.setUsuario(rs.getString("usuario"));
+	            u.setPass(rs.getString("pass"));
+	            u.setPersona_dni(rs.getString("persona_dni"));
 	        }
+	        rs.close();
+	        preparedStatement.close();
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    } finally {
@@ -361,7 +368,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		cn = new Conexion();
 		cn.Open();	
 
-		String query = "UPDATE  usuarios SET contrasenia ='"+ usuario.getPass() +"' WHERE dni='"+ usuario.getPersona_dni()+"'";
+		String query = "UPDATE  usuarios SET contrasenia ='"+ usuario.getPass() +"' WHERE persona_dni='"+ usuario.getPersona_dni()+"'";
 		 System.out.println("query" + usuario.getPass());
 		try
 		 {
@@ -420,7 +427,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		cn = new Conexion();
 		cn.Open();	
 
-		String query = "UPDATE  usuarios SET habilitado ='"+ usuario.getHabilitado() +"' WHERE dni='"+ usuario.getPersona_dni()+"'";
+		String query = "UPDATE  usuarios SET habilitado ='"+ usuario.getHabilitado() +"' WHERE persona_dni='"+ usuario.getPersona_dni()+"'";
 		System.out.println("query" + usuario.getPass());
 		try
 		 {
