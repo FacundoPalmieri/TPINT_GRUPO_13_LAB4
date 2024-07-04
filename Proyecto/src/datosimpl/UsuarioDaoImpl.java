@@ -368,23 +368,25 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		cn = new Conexion();
 		cn.Open();	
 
-		String query = "UPDATE  usuarios SET contrasenia ='"+ usuario.getPass() +"' WHERE persona_dni='"+ usuario.getPersona_dni()+"'";
+		String query = "UPDATE usuarios SET pass = ? WHERE persona_dni = ?";
 		 System.out.println("query" + usuario.getPass());
-		try
-		 {
-			estado=cn.execute(query);
-		 }
-		catch(Exception e)
-		{
-			e.printStackTrace();
-		}
-		finally
-		{
-			cn.close();
-		}
-		
-		 System.out.println("estado" + estado);
-		return estado;
+		 try {
+		        PreparedStatement preparedStatement = cn.prepareStatement(query);
+		        preparedStatement.setString(1, usuario.getPass());
+		        preparedStatement.setString(2, usuario.getPersona_dni());
+		        
+		        estado = preparedStatement.executeUpdate() > 0;
+		        
+		        preparedStatement.close();
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		        estado = false;
+		    } finally {
+		        cn.close();
+		    }
+		    
+		    System.out.println("estado: " + estado);
+		    return estado;
 		
 	}
 	
