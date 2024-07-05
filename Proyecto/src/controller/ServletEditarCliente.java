@@ -33,9 +33,12 @@ public class ServletEditarCliente extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		//VISUALIZAR DATOS SIENDO CLIENTE
+		
         HttpSession session = request.getSession(false); // No crear nueva sesiï¿½n si no existe
         if (session != null) {
-            Usuario usuario = (Usuario) session.getAttribute("usuarioEnSesion");
+            Usuario usuario = (Usuario) session.getAttribute("usuario");
             if (usuario != null) {
                 String nombreUsuario = usuario.getUsuario(); // Obtener el nombre de usuario desde el objeto Usuario
                 System.out.println("Nombre Usuario Session: " + nombreUsuario);
@@ -63,74 +66,47 @@ public class ServletEditarCliente extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
    
     	
-    	// MODIFICAR USUARIO.JSP
+    	// MODIFICAR CLIENTE.JSP
         if (request.getParameter("btnBuscar") != null) {
         	
         	String DNI = new String();
         	Usuario usuario = new Usuario();
         	
         	DNI = (request.getParameter("dniCliente"));
-        	usuario = usuarioNeg.obtenerClientePorDNI(DNI);
+        	usuario = usuarioNeg.obtenerUsuarioPorDNI(DNI);
         	request.setAttribute("usuario", usuario.getUsuario());
-            request.setAttribute("contrasena", usuario.getPass());
+         
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/ModificarUsuario.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/ModificarCliente.jsp");
             dispatcher.forward(request, response); 
             
         } 
-            else if (request.getParameter("btnActualizar") != null) {
-                Usuario usuarioEditado = new Usuario();
-                
-                usuarioEditado.setPersona_dni(request.getParameter("dniCliente"));
-                usuarioEditado.setPass(request.getParameter("contrasena"));
-                
-                boolean filas = usuarioNeg.editarContrasena(usuarioEditado);
-                
-               if(filas == true) {
-            	   request.setAttribute("filas", filas);
-            	   RequestDispatcher dispatcher = request.getRequestDispatcher("/ModificarUsuario.jsp");
-                   dispatcher.forward(request, response); 
-            	   
-            	   
-               }
-                
-            }
-       
         
-        // Eliminar USUARIO.JSP
-        
-		if (request.getParameter("btnBuscarEliminar") != null) {
-		        	String DNI = new String();
-		        	Usuario usuario = new Usuario();
-		        	
-		        	DNI = (request.getParameter("dniCliente"));
-		        	usuario = usuarioNeg.obtenerClientePorDNI(DNI);
-		        	
-		        	request.setAttribute("usuario", usuario.getUsuario());
-		            
-		            System.out.println("Usuario btnBuscarEliminar: " + usuario.getUsuario());
-		           
-		            RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarUsuario.jsp");
-		            dispatcher.forward(request, response); 
-		            
-		        } 
-		 else if (request.getParameter("btnEliminar") != null) {
-			 Usuario usuarioEditado = new Usuario();
-		     usuarioEditado.setPersona_dni(request.getParameter("dniCliente"));
-		     usuarioEditado.setHabilitado(0);
-		          
-		     boolean filas = usuarioNeg.eliminarUsuario(usuarioEditado);
-		                
-		     if(filas == true) {
-		    	 request.setAttribute("filas", filas);
-		         RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarUsuario.jsp");
-		         dispatcher.forward(request, response); 
-		      }
-		                
-		 }
-        
+        if (request.getParameter("btnActualizar") != null) {
+            	
+               //Validación de contraseña
+    			String Contrasenia1 = request.getParameter("contrasena");
+    			String Contrasenia2 = request.getParameter("contrasena2");
+    			System.out.println("PASS1 : "+ Contrasenia1);
+    			System.out.println("PASS2 : "+ Contrasenia2);
+    			
+    			if (Contrasenia1.equals(Contrasenia2)) {
+            	
+    				Usuario usuarioEditado = new Usuario();
+                
+	                usuarioEditado.setUsuario(request.getParameter("usuario"));
+	                usuarioEditado.setPass(request.getParameter("contrasena"));
+	                
+	                boolean filas = usuarioNeg.editarContrasena(usuarioEditado);
+	                
+	        	     if(filas == true) {
+	        	    	 request.setAttribute("filas", filas);
+		            	 RequestDispatcher dispatcher = request.getRequestDispatcher("/ModificarCliente.jsp");
+		                 dispatcher.forward(request, response);    
+	        	     }        
+    		   }		
+         } 
     }
-
 }
 	
 

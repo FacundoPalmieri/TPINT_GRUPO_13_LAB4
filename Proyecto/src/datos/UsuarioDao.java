@@ -1,4 +1,5 @@
 package datos;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import entidad.Direccion;

@@ -23,7 +23,7 @@
 	    <h3>Gestión Admin</h3>
 	</div>
 	<div class="logo_encabezado_derecha">
-	    <%= (String) session.getAttribute("nombre") %>
+	    <%= (String) session.getAttribute("usuario") %>
 	    <a href="ServletCerrarSesion" class="logout">
 	        <img src="img/logout.png" alt="Logout" class="logo_encabezado">
 	    </a>

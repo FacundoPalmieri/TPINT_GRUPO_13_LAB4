@@ -48,7 +48,7 @@ public class UsuarioNegImpl implements UsuarioNeg{
 
 	
 	@Override
-	public Usuario obtenerClientePorDNI(String DNI) {
+	public Usuario obtenerUsuarioPorDNI(String DNI) {
 		return usuarioDao.ObtenerUsuarioPorDni(DNI);
 	}
 

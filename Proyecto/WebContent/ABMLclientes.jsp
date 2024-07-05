@@ -20,7 +20,7 @@
 	    <h3>ABML Clientes</h3>
 	</div>
 	<div class="logo_encabezado_derecha">
-	    <%= (String) session.getAttribute("nombre") %>
+	    <%= (String) session.getAttribute("usuario") %>
 	    <a href="ServletCerrarSesion" class="logout">
 	        <img src="img/logout.png" alt="Logout" class="logo_encabezado">
 	    </a>
@@ -32,8 +32,8 @@
  		<form method="get" action="AltaCliente">
    		 <input type="submit" value="Agregar Clientes" name="btnAgregarCliente" class="botonera">
 		</form>
-		  <input type="submit" value="Modificar usuario" name="btnModificarUsuario" onclick="window.location.href='ModificarUsuario.jsp';" class="botonera">
-          <input type="submit" value="Eliminar usuario" name="btnEliminarUsuario" onclick="window.location.href='EliminarUsuario.jsp';" class="botonera">
+		  <input type="submit" value="Modificar Cliente" name="btnModificarCliente" onclick="window.location.href='ModificarCliente.jsp';" class="botonera">
+          <input type="submit" value="Eliminar Cliente" name="btnEliminarCliente" onclick="window.location.href='EliminarCliente.jsp';" class="botonera">
           
 		<form method="get" action="ServletUsuario">
         	<input type="submit" value="Listar Clientes" name="btnListarCliente" onclick="window.location.href='ListarClientes.jsp';" class="botonera">

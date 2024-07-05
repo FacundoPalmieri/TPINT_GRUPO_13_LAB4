@@ -12,8 +12,8 @@ public interface UsuarioNeg {
 	public boolean validarUsuario(String DNI, String usuario);
 	public boolean agregarCliente (Usuario usuario, Persona persona, Direccion direccion);
 	public Usuario obtenerUsuario (String usuario);
+	public Usuario obtenerUsuarioPorDNI (String DNI);
 	public Persona ObtenerCliente (String usuario);
-	public Usuario obtenerClientePorDNI (String DNI);
 	public boolean editarUsuario(Usuario usuario);
 	public boolean editarContrasena(Usuario usuario);
 	public boolean eliminarUsuario(Usuario usuario);

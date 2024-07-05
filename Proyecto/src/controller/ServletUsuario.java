@@ -32,51 +32,58 @@ public class ServletUsuario extends HttpServlet {
 
     
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-    	String nombreUsuario = request.getParameter("txtUsuario");
-        String contrasenia = request.getParameter("txtContrasenia");
         
-
-        int esCliente = 0;
-        esCliente = usuarioNegocio.validarLogin(nombreUsuario, contrasenia);
-        
-        if(esCliente == 2) {
-            HttpSession session = request.getSession();
+        if(request.getParameter("btnIngresar") != null) {
+        	
+        	String nombreUsuario = request.getParameter("txtUsuario");
+            String contrasenia = request.getParameter("txtContrasenia");
+      
             Usuario u = new Usuario();
             Persona p = new Persona();
             u = usuarioNegocio.obtenerUsuario(nombreUsuario);
             p = usuarioNegocio.ObtenerCliente(nombreUsuario);
             
-            session.setAttribute("usuario", u.getUsuario());
-            session.setAttribute("tipoUsuario", u.getTipoUsuarioId());
-            session.setAttribute("Nombre",p.getNombre());
-            session.setAttribute("Apellido",p.getApellido());
-            session.setAttribute("dni",p.getDni());
-            session.setAttribute("cuil",p.getCuil());
-            session.setAttribute("Celular",p.getCelular());
-            session.setAttribute("Telefono",p.getTelefono());
-            session.setAttribute("Direccion_id",p.getDireccion_id());
-            session.setAttribute("Nacionalidad",p.getNacionalidad());
             
+            //Inicio session
+            HttpSession session = request.getSession();
             
-            
-            request.setAttribute("validacionCliente", esCliente);
+	        int esCliente = 0;
+	        esCliente = usuarioNegocio.validarLogin(nombreUsuario, contrasenia);
+	        
+	        if(esCliente == 2) {
+	        	session.setAttribute("usuario", u.getUsuario());
+	            session.setAttribute("tipoUsuario", u.getTipoUsuarioId());
+	            session.setAttribute("Nombre",p.getNombre());
+	            session.setAttribute("Apellido",p.getApellido());
+	            session.setAttribute("dni",p.getDni());
+	            session.setAttribute("cuil",p.getCuil());
+	            session.setAttribute("Celular",p.getCelular());
+	            session.setAttribute("Telefono",p.getTelefono());
+	            session.setAttribute("Direccion_id",p.getDireccion_id());
+	            session.setAttribute("Nacionalidad",p.getNacionalidad());
+	            session.setAttribute("tipoUsuario",2);
+	            request.setAttribute("validacionCliente", esCliente);
             
             RequestDispatcher dispatcher = request.getRequestDispatcher("/InicioCliente.jsp");
             dispatcher.forward(request, response); 
+	        }
+	        else if(esCliente==1) {
+	        	session.setAttribute("usuario", u.getUsuario());
+	        	System.out.println("USUARIO EN SESION" + u.getUsuario() );
+	        	session.setAttribute("tipoUsuario",1);
+	        	RequestDispatcher dispatcher = request.getRequestDispatcher("/UsuarioAdministrador.jsp");
+	        	dispatcher.forward(request, response);	
+	        }
+	        else {
+		        request.setAttribute("validacionCliente", esCliente);
+		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Login.jsp");
+				dispatcher.forward(request, response);	  	
+	        }
+        
         }
-        else if(esCliente==1) {
-        	HttpSession session = request.getSession();
-        	session.setAttribute("tipoUsuario",1);
-        	RequestDispatcher dispatcher = request.getRequestDispatcher("/UsuarioAdministrador.jsp");
-        	dispatcher.forward(request, response);	
-        }
-        else {
-	        request.setAttribute("validacionCliente", esCliente);
-	    	RequestDispatcher dispatcher = request.getRequestDispatcher("/Login.jsp");
-			dispatcher.forward(request, response);	
-        	
-        	
-        }
+        
+        
+        
 
       
     }
@@ -100,9 +107,7 @@ public class ServletUsuario extends HttpServlet {
     			  response.sendRedirect("ModificarUsuario.jsp");
     		}
     		
-    		if (request.getParameter("btnEliminarUsuario") != null) {
-  			  response.sendRedirect("EliminarUsuario.jsp");
-    		}
+    	
     		
     }
 }

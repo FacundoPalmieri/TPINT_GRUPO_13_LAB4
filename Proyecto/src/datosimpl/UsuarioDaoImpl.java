@@ -7,6 +7,7 @@ import entidad.Usuario;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -230,11 +231,16 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	       
 	    	String query = "    SELECT u.usuario, u.tipo_usuario_id "
 	    		        	+ "	FROM usuarios u "
-	    		        	+ " INNER JOIN  Peronsas p ON p.dni = u.persona_dni"
-	    		        	+ " WHERE u.usuario = '" + usuario + "'";
-
-	        ResultSet rs = cn.query(query);
-	        System.out.println("QWERY" + rs);
+	    		        	+ " INNER JOIN  Personas p ON p.dni = u.persona_dni"
+	    		        	+ " WHERE u.habilitado = 1" 
+	    		        	+ " AND u.usuario = ? ";
+	    	
+	    	
+	    	 PreparedStatement preparedStatement = cn.prepareStatement(query);
+		     preparedStatement.setString(1, usuario);
+	    	
+		     ResultSet rs = preparedStatement.executeQuery();
+		     System.out.println("QUERY OBTENER CLIENTE DAO: " + preparedStatement);
 
 	      
 	        if (rs.next()) {
@@ -254,17 +260,18 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	
 
 	@Override
-	public Persona ObtenerCliente(String usuario) {
+	public Persona ObtenerCliente(String usuario) { 
 	    cn = new Conexion();
 	    cn.Open();
 	    System.out.println("CONEXION ABIERTA OBTENER USUARIO");
 	    Persona p = new Persona(); 
 	    try {
 	       
-	    	String query = "SELECT p.nombre, p.apellido,p.dni,p.cuil,p.celular,p.telefono,.direccion_id, p.nacionalidad,p.fecha_nacimiento,p.email"
+	    	String query = "SELECT p.nombre, p.apellido,p.dni,p.cuil,p.celular,p.telefono,p.direccion_id, p.nacionalidad,p.fecha_nacimiento,p.email"
 	    			    + " FROM  personas p "
-	    			    + " INNER JOIN usuario u ON p.dni = u.persona_dni"
-	    			    + " WHERE u.usuario = ? ";
+	    			    + " INNER JOIN usuarios u ON p.dni = u.persona_dni"
+	    			    + " WHERE u.habilitado = 1" 
+	    			    + " AND u.usuario = ? ";
 	    			
 
 
@@ -272,7 +279,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        preparedStatement.setString(1, usuario);
 	        
 	        ResultSet rs = preparedStatement.executeQuery();
-	        System.out.println("QUERY: " + preparedStatement);
+	        System.out.println("QUERY OBTENER CLIENTE DAO: " + preparedStatement);
 
 	      
 	        if (rs.next()) {      
@@ -295,7 +302,9 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	            
 	        }
 	    } catch (Exception e) {
+	    	  System.out.println("Error en la consulta obtener cliente");
 	        e.printStackTrace();
+	        
 	    } finally {
 	        cn.close();
 	    }
@@ -311,7 +320,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    Usuario u = new Usuario();
 	    try {
 	       
-	    	String query = "SELECT usuario, pass, persona_dni FROM usuarios WHERE persona_dni = ?" ;
+	    	String query = "SELECT usuario, pass, persona_dni FROM usuarios WHERE habilitado = 1 AND persona_dni = ?" ;
 
 	        PreparedStatement preparedStatement = cn.prepareStatement(query);
 	        preparedStatement.setString(1, DNI);
@@ -368,12 +377,12 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		cn = new Conexion();
 		cn.Open();	
 
-		String query = "UPDATE usuarios SET pass = ? WHERE persona_dni = ?";
-		 System.out.println("query" + usuario.getPass());
+		String query = "UPDATE usuarios SET pass = ? WHERE usuario= ?";
+		 System.out.println("query EDITAR CONTRASEÑA" + usuario.getPass());
 		 try {
 		        PreparedStatement preparedStatement = cn.prepareStatement(query);
 		        preparedStatement.setString(1, usuario.getPass());
-		        preparedStatement.setString(2, usuario.getPersona_dni());
+		        preparedStatement.setString(2, usuario.getUsuario());
 		        
 		        estado = preparedStatement.executeUpdate() > 0;
 		        
@@ -385,7 +394,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		        cn.close();
 		    }
 		    
-		    System.out.println("estado: " + estado);
+		    System.out.println("estado : " + estado);
 		    return estado;
 		
 	}

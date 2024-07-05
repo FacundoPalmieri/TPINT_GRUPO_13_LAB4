@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,20 +9,16 @@
 </style>
 </head>
 <body>
-	<% if (request.getParameter("usuario")!=null) {
-		String usuario = (String)request.getParameter("usuario");
-		request.setAttribute("usuario",usuario);
-	}
-	%>
+
 
 
 	<div class="banner">
 	<div class="logo_encabezado_izquierda">
 	    <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
-	    <h3>Modificar Usuario</h3>
+	    <h3>Modificar Cliente</h3>
 	</div>
 	<div class="logo_encabezado_derecha">
-	    <%= (String) session.getAttribute("nombre") %>
+	    <%= (String) session.getAttribute("usuario") %>
 	    <a href="ServletCerrarSesion" class="logout">
 	        <img src="img/logout.png" alt="Logout" class="logo_encabezado">
 	    </a>
@@ -36,7 +31,9 @@
         <input type="submit" value="&#128269;" name="btnBuscar" style="background-color: #78AD89">
     </div>
 
-   
+ </form>
+ 
+  <form action="EditarCliente" method="post">
         <div id="ResultadoBusqueda">
             <div class="form-group flex-item">
                 <div style="margin-top: 10px;">
@@ -45,17 +42,21 @@
 
                 </div>
                 <div class="form-group flex-item" style="margin-top: 10px;">
-                    <label for="contrasena">Contrasenia:</label>
-                    <input type="password" id="contrasena" name="contrasena"value="<%= (request.getAttribute("contrasena") != null) ? request.getAttribute("contrasena") : "" %>" style="background-color: #e9ecef;">
+                    <label for="contrasena">Contraseña:</label>
+                     <input type="password" id="contrasena" name="contrasena" required>
                 </div>
+	            <div class="form-group flex-item">
+		            <label for="contrasena">Reingrese Contraseña:</label>
+		            <input type="password" id="contrasena2" name="contrasena2" required>
+	         </div>
                 <div class="center-container">
                     <input type="submit" value="Actualizar" name="btnActualizar">
                     <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLclientes.jsp';" style="margin-left: 2%;">
                 </div>
             </div>
         </div>
-    </form>
-    
+  
+ </form> 
 	    	
     <div id="popup" class="popup">
         <span class="close-btn" onclick="closePopup()">&times;</span>
@@ -72,9 +73,9 @@
 	    <script>
 	        document.addEventListener('DOMContentLoaded', function() {
 	            <% if (filas == true) { %>
-	            showPopup("Contrasenia Actualizada" );
+	            showPopup("Contraseña Actualizada" );
 	            <% } else { %>
-	            showPopup( "No se pudo actualizar la contrasenia");
+	            showPopup( "No se pudo actualizar la contraseña");
 	            <% } %>
 	        });
 	    </script>
