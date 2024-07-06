@@ -1,5 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -7,9 +8,9 @@
 <title>Login</title>
 <style type="text/css">
     .error {
-            color: red;
+        color: red;
         font-weight: bold;
-        font-size: 20px; 
+        font-size: 20px;
         position: absolute;
         bottom: 40px;
         right: 40px;
@@ -32,8 +33,6 @@
         <h2>¡Hola! Te damos la bienvenida</h2>
         <h4>Completá tus datos y empezá a operar.</h4>
 
- 
-
         <form method="post" action="ServletUsuario">
             <div>
                 <p style="margin-top: 10%;">
@@ -54,42 +53,43 @@
 				       
 			<div>
 			    <%
-			        
 			        Boolean validacion = (Boolean) request.getAttribute("validacionCliente");
-
 			        if (validacion != null && !validacion) {
 			    %>
-			        <script>
-			            document.addEventListener('DOMContentLoaded', function() {
-			                // Mensaje del popUp
-			                showPopup("Usuario o Contraseña Incorrecta");
-			            });
-			        </script>
+			        <div class="error">Usuario o Contraseña Incorrecta</div>
 			    <%
 			        }
 			    %>
-		
+			</div>
         </form>
     </div>
 </div>
 
-
 	<script>
-    
 	    //funcionalidad pop up
-	    
 	    function showPopup(message) {
 	        var popup = document.getElementById("popup");
 	        var popupMessage = document.getElementById("popupMessage");
 	        popupMessage.innerText = message;
 	        popup.classList.add("active");
 	    }
-	
+
 	    function closePopup() {
 	        var popup = document.getElementById("popup");
 	        popup.classList.remove("active");
 	    }
+
+	    document.addEventListener('DOMContentLoaded', function() {
+	        <%
+	            if (validacion != null && !validacion) {
+	        %>
+	            showPopup("Usuario o Contraseña Incorrecta");
+	        <%
+	            }
+	        %>
+	    });
 	</script>
 
 </body>
 </html>
+
