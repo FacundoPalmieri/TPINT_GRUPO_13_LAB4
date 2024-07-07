@@ -54,10 +54,10 @@ public class ServletEliminarCliente extends HttpServlet {
 		    persona = usuarioNeg.ObtenerCliente(usuario.getUsuario());
 		    
 		    if(usuario.getPersona_dni() != null && persona.getNombre() != null && persona.getApellido() != null) {
-		       request.setAttribute("dni", usuario.getPersona_dni());
+		       request.setAttribute("Usuario", usuario.getUsuario());
 			   request.setAttribute("Nombre", persona.getNombre());
-			   request.setAttribute("apellido", persona.getApellido());
-			   System.out.println("Usuario btnBuscarEliminar: " + usuario.getUsuario());
+			   request.setAttribute("Apellido", persona.getApellido());
+			   
 			           
 			    RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarCliente.jsp");
 			    dispatcher.forward(request, response); 	    	
@@ -74,7 +74,7 @@ public class ServletEliminarCliente extends HttpServlet {
 		 } 
 		
 		
-		if (request.getParameter("btnEliminar") != null) {
+		if (request.getParameter("btnConfirmacion") != null) {
 			 Usuario usuarioEditado = new Usuario();
 		     usuarioEditado.setPersona_dni(request.getParameter("dniCliente"));
 		     usuarioEditado.setHabilitado(0);

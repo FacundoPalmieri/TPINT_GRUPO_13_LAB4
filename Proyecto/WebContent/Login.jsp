@@ -49,18 +49,6 @@
 			        <span class="close-btn" onclick="closePopup()">&times;</span>
 			        <p id="popupMessage"></p>
 			    </div>
-	       
-				       
-			<div>
-			    <%
-			        Boolean validacion = (Boolean) request.getAttribute("validacionCliente");
-			        if (validacion != null && !validacion) {
-			    %>
-			        <div class="error">Usuario o Contraseña Incorrecta</div>
-			    <%
-			        }
-			    %>
-			</div>
         </form>
     </div>
 </div>
@@ -81,6 +69,7 @@
 
 	    document.addEventListener('DOMContentLoaded', function() {
 	        <%
+	        	Boolean validacion = (Boolean) request.getAttribute("validacionCliente");
 	            if (validacion != null && !validacion) {
 	        %>
 	            showPopup("Usuario o Contraseña Incorrecta");

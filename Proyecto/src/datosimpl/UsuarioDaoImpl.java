@@ -433,20 +433,31 @@ public class UsuarioDaoImpl implements UsuarioDao{
 
 	@Override
 	public boolean eliminarUsuario(Usuario usuario) {
-		boolean estado=true;
+		boolean estado=false;
 
-		cn = new Conexion();
-		cn.Open();	
-
-		String query = "UPDATE  usuarios SET habilitado ='"+ usuario.getHabilitado() +"' WHERE persona_dni='"+ usuario.getPersona_dni()+"'";
-		System.out.println("query" + usuario.getPass());
+	
+		String query = "UPDATE  usuarios SET habilitado = ? WHERE persona_DNI = ? ";
+	
 		try
 		 {
-			estado=cn.execute(query);
+				cn = new Conexion();
+				cn.Open();	
+
+			    PreparedStatement preparedStatement = cn.prepareStatement(query);
+		        preparedStatement.setInt(1, usuario.getHabilitado());
+		        preparedStatement.setString(2, usuario.getPersona_dni());
+		        
+		        int filasAfectadas = preparedStatement.executeUpdate();
+		        
+		        if (filasAfectadas > 0) {
+		            estado = true;
+		        }
 		 }
 		catch(Exception e)
 		{
+			System.out.println("Error en Eliminar usuario DAO");
 			e.printStackTrace();
+			
 		}
 		finally
 		{
