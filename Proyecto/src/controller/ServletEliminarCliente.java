@@ -74,20 +74,23 @@ public class ServletEliminarCliente extends HttpServlet {
 		 } 
 		
 		
-		if (request.getParameter("btnConfirmacion") != null) {
-			 Usuario usuarioEditado = new Usuario();
-		     usuarioEditado.setPersona_dni(request.getParameter("dniCliente"));
-		     usuarioEditado.setHabilitado(0);
-		          
-		     boolean filas = usuarioNeg.eliminarUsuario(usuarioEditado);
-		                
-		     if(filas == true) {
-		    	 request.setAttribute("filas", filas);
-		         RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarCliente.jsp");
-		         dispatcher.forward(request, response); 
-		      }
-		                
-		 }
+	    if (request.getParameter("btnConfirmacion") != null) {
+	        Usuario usuarioEditado = new Usuario();
+	        usuarioEditado.setPersona_dni(request.getParameter("dniCliente"));
+	        usuarioEditado.setHabilitado(0);
+
+	        boolean filas = usuarioNeg.eliminarUsuario(usuarioEditado);
+
+	        if(filas) {
+	            request.setAttribute("filas", true);
+	        } else {
+	            request.setAttribute("filas", false);
+	        }
+	        RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarCliente.jsp");
+	        dispatcher.forward(request, response);
+	    } else {
+	        response.sendRedirect("EliminarCliente.jsp");
+	    }
         
 	}
 

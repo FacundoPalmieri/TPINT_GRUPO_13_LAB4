@@ -52,57 +52,69 @@
                 </div>
             </div>
         </div>
-		<div id="popup" class="popup">
-		    <span class="close-btn" onclick="closePopup()">&times;</span>
-		    <p id="popupMessage"></p>
-		    <div class="popup-buttons">
-		        <button name="btnConfirmacion" onclick="submitForm()">Sí</button>
-		        <button onclick="closePopup()">No</button>
-		    </div>
-		</div>
-
-        
+        <input type="hidden" id="btnConfirmacion" name="btnConfirmacion">
     </form>
-    
- 
-   
+
+    <!-- Popup para confirmación de eliminación -->
+    <div id="popupEliminar" class="popup">
+        <span class="close-btn" onclick="closePopup('popupEliminar')">&times;</span>
+        <p>¿Estás seguro de que deseas eliminar este usuario?</p>
+        <div class="popup-buttons">
+            <button type="button" onclick="confirmarEliminacionFinal()">Sí</button>
+            <button type="button" onclick="closePopup('popupEliminar')">No</button>
+        </div>
+    </div>
+
+    <!-- Popup para confirmación de transacción -->
+    <div id="popupTransaccion" class="popup">
+        <span class="close-btn" onclick="closePopup('popupTransaccion')">&times;</span>
+        <p id="popupMessageTransaccion"></p>
+    </div>
+
     <script>
         function confirmarEliminacion() {
-            showPopup('¿Estás seguro de que deseas eliminar este usuario?');
+            showPopup('popupEliminar');
+        }
+
+        function confirmarEliminacionFinal() {
+            document.getElementById('btnConfirmacion').value = 'true';
+            submitForm();
         }
 
         function submitForm() {
-            closePopup();
+            closePopup('popupEliminar');
             document.getElementById('eliminarUsuarioForm').submit();
         }
 
-        function showPopup(message) {
-            var popup = document.getElementById("popup");
-            var popupMessage = document.getElementById("popupMessage");
-            popupMessage.innerText = message;
+        function showPopup(popupId, message) {
+            if (message === undefined) {
+                message = '';
+            }
+            var popup = document.getElementById(popupId);
+            if (message) {
+                document.getElementById('popupMessageTransaccion').innerText = message;
+            }
             popup.classList.add("active");
         }
 
-        function closePopup() {
-            var popup = document.getElementById("popup");
+        function closePopup(popupId) {
+            var popup = document.getElementById(popupId);
             popup.classList.remove("active");
         }
 
-    <%
-        Boolean filas = (Boolean) request.getAttribute("filas");
-        String mensaje = (String) request.getAttribute("Mensaje");
-    %>
         document.addEventListener('DOMContentLoaded', function() {
+            <% Boolean filas = (Boolean) request.getAttribute("filas"); %>
+            <% String mensaje = (String) request.getAttribute("Mensaje"); %>
             <% if (filas != null) { %>
                 <% if (filas == true) { %>
-                    showPopup("Usuario dado de baja");
+                    showPopup('popupTransaccion', "Usuario dado de baja");
                 <% } else { %>
-                    showPopup("Error, vuelva a intentarlo");
+                    showPopup('popupTransaccion', "Error, vuelva a intentarlo");
                 <% } %>
             <% } else if (mensaje != null) { %>
-                showPopup("<%= mensaje %>");
+                showPopup('popupTransaccion', "<%= mensaje %>");
             <% } %>
         });
-    </script>   
+    </script>
 </body>
 </html>
