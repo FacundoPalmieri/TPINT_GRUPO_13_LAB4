@@ -71,12 +71,30 @@ public class UsuarioNegImpl implements UsuarioNeg{
 		lista = usuarioDao.listarUsuarios();
 		return lista;
 	}
+	
+	@Override
+	public ArrayList<Persona> listarPersonas() {
+		ArrayList<Persona> lista = null;
+		lista = usuarioDao.listarPersonas();
+		return lista;
+	}
+
+
+	@Override
+	public ArrayList<Direccion> listarDirecciones() {
+		ArrayList<Direccion> lista = null;
+		lista = usuarioDao.listarDirecciones();
+		return lista;
+	}
 
 
 	@Override
 	public boolean eliminarUsuario(Usuario usuario) {
 		return usuarioDao.eliminarUsuario(usuario);
 	}
+
+
+	
 
 
 

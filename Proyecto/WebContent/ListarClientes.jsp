@@ -2,6 +2,8 @@
     pageEncoding="ISO-8859-1"%>
 <%@page import="java.util.List"%>
 <%@page import="entidad.Usuario"%>
+<%@page import="entidad.Persona"%>
+<%@page import="entidad.Direccion"%>
 <%@page import="java.util.ArrayList" %>
 <!DOCTYPE html>
 <html>
@@ -151,45 +153,41 @@
 <div style= "margin: 0.5%;">
    <table id="table_id" class="display">
         <tr>
-            <th>ID</th>
+         
             <th>DNI</th>
-            <th>Estado Cliente</th>
-            <th>CUIL</th>
             <th>Nombre</th>
             <th>Apellido</th>
-            <th>Sexo</th>
-            <th>Nacionalidad</th>
-            <th>Fecha de Nacimiento</th>
             <th>Dirección</th>
-            <th>Provincia</th>
-            <th>Localidad</th>
+            <th>Altura</th>
             <th>Email</th>
             <th>Usuario</th>
             <th>Opciones</th>
         </tr>
         <%
-        	ArrayList<Usuario> listaUsuarios = null;
-            listaUsuarios = (ArrayList<Usuario>)request.getAttribute("listaUsuarios");
-            if (listaUsuarios != null) {
-                for (Usuario cliente : listaUsuarios) {
+        ArrayList<Persona> listaPersona = (ArrayList<Persona>) request.getAttribute("listaPersonas");
+        ArrayList<Direccion> listaDireccion = (ArrayList<Direccion>) request.getAttribute("listaDirecciones");
+        ArrayList<Usuario> listaUsuario = (ArrayList<Usuario>) request.getAttribute("listaUsuarios");
+        if (listaPersona != null && listaDireccion != null && listaUsuario != null) {
+            for (int i = 0; i < listaPersona.size(); i++) {
+                Persona persona = listaPersona.get(i);
+                Direccion direccion = listaDireccion.get(i);
+                Usuario usuario = listaUsuario.get(i);
         %>
         <tr>
-            <td><%= cliente.getId() %></td>
-            <td><%= cliente.getDni() %></td>
-            <td><%= cliente.getHabilitado()%></td>
-            <td><%= cliente.getCuil() %></td>
-            <td><%= cliente.getNombre() %></td>
-            <td><%= cliente.getApellido() %></td>
-            <td><%= cliente.getSexo() %></td>
-            <td><%= cliente.getNacionalidad() %></td>
-            <td><%= cliente.getFechaNacimiento() %></td>
-            <td><%= cliente.getDireccion() %></td>
-            <td><%= cliente.getProvincia() %></td>
-            <td><%= cliente.getLocalidad() %></td>
-            <td><%= cliente.getEmail() %></td>
-            <td><%= cliente.getUsuario() %></td>
-			<td><input type="button" value="<%= cliente.getHabilitado()==1 ? "Eliminar" : "Habilitar"%>" name="btnEliminar" class="btnEspecial"></td>
-			<% if (cliente.getHabilitado()==1){%>
+          
+               <td><%= persona.getDni() %></td>
+               <td><%= persona.getNombre() %></td>
+               <td><%= persona.getApellido() %></td>
+               <td><%= direccion.getCalle() %></td>
+               <td><%= direccion.getAltura() %></td>
+               <td><%= direccion.getPiso() %></td>
+               <td><%= direccion.getDepartamento() %></td>
+               <td><%= persona.getEmail() %></td>
+               <td><%= usuario.getUsuario() %></td>
+ 
+
+			<td><input type="button" value="<%= usuario.getHabilitado()==1 ? "Eliminar" : "Habilitar"%>" name="btnEliminar" class="btnEspecial"></td>
+			<% if (usuario.getHabilitado()==1){%>
 			<td><input type="button" value="Modificar Contraseña" name="btnModificar" class="btnEspecial"></td>
 			<%}%>
         </tr>

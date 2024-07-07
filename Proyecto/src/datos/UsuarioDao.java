@@ -1,5 +1,4 @@
 package datos;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import entidad.Direccion;
@@ -27,4 +26,8 @@ public interface UsuarioDao {
 	  public boolean eliminarUsuario(Usuario usuario);
 	   
 	  public ArrayList<Usuario> listarUsuarios();
+	  
+	  public ArrayList<Persona> listarPersonas();
+	  
+	  public ArrayList <Direccion> listarDirecciones();
 }

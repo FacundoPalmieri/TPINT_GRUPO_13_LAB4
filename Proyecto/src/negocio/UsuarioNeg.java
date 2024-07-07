@@ -18,4 +18,6 @@ public interface UsuarioNeg {
 	public boolean editarContrasena(Usuario usuario);
 	public boolean eliminarUsuario(Usuario usuario);
 	public ArrayList<Usuario> listaUsuarios();
+    public ArrayList<Persona> listarPersonas();
+    public ArrayList <Direccion> listarDirecciones();
 }

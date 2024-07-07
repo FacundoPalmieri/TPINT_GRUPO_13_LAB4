@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import negocio.UsuarioNeg;
 import negocioimpl.UsuarioNegImpl;
+import entidad.Direccion;
 import entidad.Persona;
 import entidad.Usuario;
 
@@ -67,10 +68,17 @@ public class ServletUsuario extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getParameter("btnListarCliente") != null) {
-            UsuarioNeg un = new UsuarioNegImpl();
-            ArrayList<Usuario> listaUsuarios = un.listaUsuarios();
+    	// LISTAR CLIENTES
+    	if (request.getParameter("btnListarCliente") != null) {
+            UsuarioNeg usuarioNeg = new UsuarioNegImpl();
+            ArrayList<Usuario> listaUsuarios = usuarioNeg.listaUsuarios();
+            ArrayList<Persona> listaPersonas = usuarioNeg.listarPersonas();
+            ArrayList<Direccion> listaDirecciones = usuarioNeg.listarDirecciones();
+            
             request.setAttribute("listaUsuarios", listaUsuarios);
+            request.setAttribute("listaPersonas", listaPersonas);
+            request.setAttribute("listaDirecciones", listaDirecciones);
+            
             RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarClientes.jsp");
             dispatcher.forward(request, response);
         }
