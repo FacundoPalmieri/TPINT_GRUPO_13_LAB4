@@ -262,43 +262,46 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	@Override
 	public Persona ObtenerCliente(String usuario) { 
 	    cn = new Conexion();
-	    cn.Open();
-	    System.out.println("CONEXION ABIERTA OBTENER USUARIO");
+	    PreparedStatement preparedStatement = null;
+	    ResultSet rs = null;
+	
 	    Persona p = new Persona(); 
 	    try {
-	       
-	    	String query = "SELECT p.nombre, p.apellido,p.dni,p.cuil,p.celular,p.telefono,p.direccion_id, p.nacionalidad,p.fecha_nacimiento,p.email"
-	    			    + " FROM  personas p "
-	    			    + " INNER JOIN usuarios u ON p.dni = u.persona_dni"
-	    			    + " WHERE u.habilitado = 1" 
-	    			    + " AND u.usuario = ? ";
+	        cn.Open();
+	        System.out.println("CONEXION ABIERTA OBTENER CLIENTE");
+	    	String query = "SELECT personas.nombre, personas.apellido,personas.dni,personas.cuil,personas.celular,personas.telefono,personas.direccion_id, personas.nacionalidad,personas.fecha_nacimiento,personas.email"
+	    			    + " FROM  personas"
+	    			    + " INNER JOIN usuarios ON personas.dni = usuarios.persona_dni"
+	    			    + " WHERE usuarios.usuario = ? "
+	    			    + " AND usuarios.habilitado = 1" ;
+	    			
 	    			
 
 
-	        PreparedStatement preparedStatement = cn.prepareStatement(query);
+	        preparedStatement = cn.prepareStatement(query);
 	        preparedStatement.setString(1, usuario);
 	        
-	        ResultSet rs = preparedStatement.executeQuery();
+	        rs = preparedStatement.executeQuery();
 	        System.out.println("QUERY OBTENER CLIENTE DAO: " + preparedStatement);
 
 	      
 	        if (rs.next()) {      
-	            p.setNombre(rs.getString("p.nombre"));
-	            p.setApellido(rs.getString("p.apellido"));
-	            p.setDni(rs.getString("p.dni"));
-	            p.setCuil(rs.getString("p.cuil"));
-	            p.setCelular(rs.getString("p.celular"));
-	            p.setTelefono(rs.getString("p.telefono"));
-	            p.setDireccion_id(rs.getInt("p.direccion_id"));
-	            p.setNacionalidad(rs.getString("p.nacionalidad"));
+	            p.setNombre(rs.getString("personas.nombre"));
+	            p.setApellido(rs.getString("personas.apellido"));
+	            p.setDni(rs.getString("personas.dni"));
+	            p.setCuil(rs.getString("personas.cuil"));
+	            p.setCelular(rs.getString("personas.celular"));
+	            p.setTelefono(rs.getString("personas.telefono"));
+	            p.setDireccion_id(rs.getInt("personas.direccion_id"));
+	            p.setNacionalidad(rs.getString("personas.nacionalidad"));
 	            
-	            Date sqlDate = rs.getDate("p.fecha_nacimiento");
+	            Date sqlDate = rs.getDate("personas.fecha_nacimiento");
 	            if (sqlDate != null) {
 	                LocalDate localDate = sqlDate.toLocalDate();
 	                p.setFechaNacimiento(localDate);
 	            }
 	            
-	            p.setEmail(rs.getString("p.email"));
+	            p.setEmail(rs.getString("personas.email"));
 	            
 	        }
 	    } catch (Exception e) {
@@ -313,34 +316,53 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	
 	
 	@Override
-	public Usuario ObtenerUsuarioPorDni(String DNI) {
+	public Usuario ObtenerUsuarioPorDni(String DNI)  {
 	    cn = new Conexion();
-	    cn.Open();
-	    System.out.println("CONEXION ABIERTA OBTENER USUARIO X DNI");
+	    PreparedStatement preparedStatement = null;
+	    ResultSet rs = null;
 	    Usuario u = new Usuario();
-	    try {
-	       
-	    	String query = "SELECT usuario, pass, persona_dni FROM usuarios WHERE habilitado = 1 AND persona_dni = ?" ;
 
-	        PreparedStatement preparedStatement = cn.prepareStatement(query);
+	    try {
+	        cn.Open();
+	        System.out.println("CONEXION ABIERTA OBTENER USUARIO X DNI");
+	       
+	        String query = "SELECT usuarios.usuario, usuarios.persona_dni, usuarios.Habilitado FROM usuarios WHERE usuarios.habilitado = 1 AND usuarios.persona_dni = ?";
+	        System.out.println("Query: " + query);
+	        preparedStatement = cn.prepareStatement(query);
 	        preparedStatement.setString(1, DNI);
+	   
 	        
-	        ResultSet rs = preparedStatement.executeQuery();
-	        System.out.println("QUERY: " + preparedStatement);
-	      
+	        rs = preparedStatement.executeQuery();
+
 	        if (rs.next()) {
-	          
-	            u.setUsuario(rs.getString("usuario"));
-	            u.setPass(rs.getString("pass"));
-	            u.setPersona_dni(rs.getString("persona_dni"));
+	            System.out.println("Usuario encontrado: " + rs.getString("usuarios.usuario"));
+	            u.setUsuario(rs.getString("usuarios.usuario"));
+	            u.setPersona_dni(rs.getString("usuarios.persona_dni"));
+	            u.setHabilitado(rs.getInt("usuarios.habilitado"));
+	        } else {
+	            System.out.println("No se encontró usuario con DNI: " + DNI);
 	        }
-	        rs.close();
-	        preparedStatement.close();
+
 	    } catch (Exception e) {
+	        System.out.println("ERROR USUARIO X DNI DAO");
 	        e.printStackTrace();
+	    
 	    } finally {
-	        cn.close();
+	        try {
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	            if (rs != null) {
+	                rs.close();
+	            }
+	            if (cn != null) {
+	                cn.close();
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
 	    }
+	    System.out.println("RETURN U: " + u.getUsuario());
 	    return u;
 	}
 

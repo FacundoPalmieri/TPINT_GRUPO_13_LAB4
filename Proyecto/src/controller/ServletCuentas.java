@@ -75,8 +75,8 @@ public class ServletCuentas extends HttpServlet {
         	String DNI = new String();
         	
         	DNI = request.getParameter("dniCliente"); 
-        	usuario = usuarioNeg.obtenerClientePorDNI(DNI);
-        	
+        	usuario = usuarioNeg.obtenerUsuarioPorDNI(DNI);
+        	System.out.println("USUARIO HABILITADO" + usuario.getHabilitado());
         	persona = usuarioNeg.ObtenerCliente(usuario.getUsuario());
         	
         	request.setAttribute("usuario", usuario.getUsuario());
@@ -85,7 +85,7 @@ public class ServletCuentas extends HttpServlet {
            
             RequestDispatcher dispatcher = request.getRequestDispatcher("/CrearCuenta.jsp");
             dispatcher.forward(request, response); 
-            
+ 
         } 
 		
 		

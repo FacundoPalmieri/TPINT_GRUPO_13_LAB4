@@ -85,6 +85,8 @@ public class Conexion {
 		return ok;
 	}
 
+	
+	
     public PreparedStatement prepareStatement(String query) throws SQLException {
         if (connection != null) {
             return connection.prepareStatement(query);
@@ -92,6 +94,9 @@ public class Conexion {
             throw new SQLException("Connection is not established.");
         }
     }
+    
+    
+    
     
     
     

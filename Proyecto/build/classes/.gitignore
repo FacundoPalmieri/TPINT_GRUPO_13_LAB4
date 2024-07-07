@@ -1,6 +1,3 @@
 /controller/
 /datosimpl/
-/datos/
-/negocio/
-/negocioimpl/
-
+/entidad/
