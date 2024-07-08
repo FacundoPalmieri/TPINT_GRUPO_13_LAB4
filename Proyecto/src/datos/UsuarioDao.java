@@ -30,4 +30,6 @@ public interface UsuarioDao {
 	  public ArrayList<Persona> listarPersonas();
 	  
 	  public ArrayList <Direccion> listarDirecciones();
+	  
+	  public ArrayList<Persona> listarPersonasComposicion();
 }

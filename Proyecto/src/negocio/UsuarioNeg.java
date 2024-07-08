@@ -20,4 +20,5 @@ public interface UsuarioNeg {
 	public ArrayList<Usuario> listaUsuarios();
     public ArrayList<Persona> listarPersonas();
     public ArrayList <Direccion> listarDirecciones();
+    public ArrayList<Persona> listarPersonasComposicion();
 }

@@ -584,7 +584,55 @@ public class UsuarioDaoImpl implements UsuarioDao{
 
 
 
-
+	public ArrayList<Persona> listarPersonasComposicion(){
+		ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
+		String query= "SELECT personas.id,personas.dni,personas.nombre,personas.apellido,personas.email "
+		    	+"FROM personas"
+		    	+"INNER JOIN usuarios ON usuarios.persona_dni=personas.dni"
+		    	+"INNER JOIN direcciones ON Personas.Direccion_id=direcciones.id"
+		    	+ "WHERE usuarios.tipo_usuario_id = 2";
+		
+		try {
+			cn = new Conexion();
+		    cn.Open();
+		    System.out.println("CONEXION ABIERTA LISTAR DIRECCIONES");
+		    ResultSet rs = cn.query(query);
+		    
+		    while(rs.next()){
+		    	Persona p = new Persona(); 
+	      	    p.setId(rs.getInt("personas.id"));
+	      		System.out.println("id" + p.getId());
+		    	p.setDni(rs.getString("personas.dni"));
+		    	p.setNombre(rs.getString("personas.nombre"));
+		    	p.setApellido(rs.getString("personas.apellido"));
+		    	p.setEmail(rs.getString("personas.email"));
+		    	Usuario u = new Usuario(); 
+		    	u.setId(rs.getInt("usuarios.id"));
+		    	u.setPersona_dni(rs.getString("usuarios.persona_dni"));
+		    	u.setUsuario(rs.getString("usuarios.usuario"));
+		    	u.setHabilitado(rs.getInt("usuarios.habilitado"));
+		    	Direccion d = new Direccion(); 
+	      	    d.setId(rs.getInt("direcciones.id"));
+		    	d.setCalle(rs.getString("direcciones.calle"));
+		    	d.setAltura(rs.getInt("direcciones.numero"));
+		    	d.setPiso(rs.getString("direcciones.piso"));
+		    	d.setDepartamento(rs.getString("direcciones.departamento"));
+		    	
+		    	//Se agregan los objetos Usuario y Direccion a Persona
+		    	p.setUsuario(u);
+		    	p.setDireccion(d);
+		    	listaPersonas.add(p);
+		    }
+		}
+		catch(Exception e){
+			System.out.println("ERROR EN LISTAR PERSONA DAO");
+			e.printStackTrace();
+		}
+		finally {
+			cn.close();
+		}
+		return listaPersonas;
+	}
 
 
 

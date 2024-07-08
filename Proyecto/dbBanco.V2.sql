@@ -3,7 +3,7 @@ USE bdbanco;
  
  CREATE TABLE Paises (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    Nombre VARCHAR(50) NOT NULL,
+    Nombre VARCHAR(50) NOT NULL
 );
 
 CREATE TABLE Provincia (
@@ -14,7 +14,7 @@ CREATE TABLE Provincia (
 );
 
 
-INSERT INTO Provincia (Nombre) VALUES ('Buenos Aires'),('Ciudad Autónoma de Buenos Aires');
+INSERT INTO Provincia (Nombre) VALUES ('Buenos Aires'),('Ciudad Autonoma de Buenos Aires');
 
 
 
@@ -26,7 +26,7 @@ CREATE TABLE Localidad (
 );
 
 INSERT INTO Localidad (Nombre, Provincia_id) VALUES 
-('Agronomía', 2), 
+('Agronomia', 2), 
 ('Almagro', 2), 
 ('Balvanera', 2), 
 ('Barracas', 2), 
@@ -36,7 +36,7 @@ INSERT INTO Localidad (Nombre, Provincia_id) VALUES
 ('Chacarita', 2), 
 ('Coghlan', 2), 
 ( 'Colegiales', 2), 
-('Constitución', 2), 
+('Constitucion', 2), 
 ('Flores', 2), 
 ('Floresta', 2), 
 ('La Boca', 2), 
@@ -56,10 +56,10 @@ INSERT INTO Localidad (Nombre, Provincia_id) VALUES
 ('Recoleta', 2), 
 ('Retiro', 2), 
 ('Saavedra', 2), 
-('San Cristóbal', 2), 
-('San Nicolás', 2), 
+('San Cristobal', 2), 
+('San Nicolas', 2), 
 ('San Telmo', 2), 
-('Vélez Sársfield', 2), 
+('Velez sarsfield', 2), 
 ('Versalles', 2), 
 ('Villa Crespo', 2), 
 ('Villa del Parque', 2), 
@@ -67,7 +67,7 @@ INSERT INTO Localidad (Nombre, Provincia_id) VALUES
 ('Villa General Mitre', 2), 
 ('Villa Lugano', 2), 
 ('Villa Luro', 2), 
-('Villa Ortúzar', 2), 
+('Villa Ortuzar', 2), 
 ('Villa Pueyrredón', 2), 
 ('Villa Real', 2), 
 ('Villa Riachuelo', 2), 
@@ -80,7 +80,7 @@ INSERT INTO Localidad (Nombre, Provincia_id) VALUES
 ('Lomas de Zamora', 1),
 ('Quilmes', 1),
 ('Avellaneda', 1),
-('Morón', 1),
+('Moron', 1),
 ('Tres de Febrero', 1),
 ('San Isidro', 1),
 ('San Fernando', 1),
@@ -89,21 +89,21 @@ INSERT INTO Localidad (Nombre, Provincia_id) VALUES
 ('Pilar', 1),
 ('Escobar', 1),
 ('Merlo', 1),
-('Ituzaingó', 1),
-('Vicente López', 1),
+('Ituzaingo', 1),
+('Vicente Lopez', 1),
 ('Berazategui', 1),
 ('Florencio Varela', 1),
-('General Rodríguez', 1),
+('General Rodriguez', 1),
 ('Hurlingham', 1),
-('José C. Paz', 1),
+('Jose C. Paz', 1),
 ('Malvinas Argentinas', 1),
-('San Martín', 1),
+('San Martin', 1),
 ('Berisso', 1),
 ('Ensenada', 1),
 ('Ezeiza', 1),
 ('General Pacheco', 1),
-('General San Martín', 1),
-('Lanús', 1),
+('General San Martin', 1),
+('Lanus', 1),
 ('Marcos Paz', 1),
 ('Moreno', 1),
 ('Rafael Castillo', 1),

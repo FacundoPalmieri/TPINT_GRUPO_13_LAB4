@@ -16,11 +16,30 @@ public class Persona {
 	private String nacionalidad;
     private LocalDate fechaNacimiento;
     private String email;
+    private Usuario usuario;
+    private Direccion direccion;
     
     
-    public int getDireccion_id() {
+    public Direccion getDireccion() {
+		return direccion;
+	}
+
+	public void setDireccion(Direccion direccion) {
+		this.direccion = direccion;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+    
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+	
+	public int getDireccion_id() {
 		return direccion_id;
 	}
+	
 	public void setDireccion_id(int direccion_id) {
 		this.direccion_id = direccion_id;
 	}

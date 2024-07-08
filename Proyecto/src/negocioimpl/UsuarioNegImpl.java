@@ -95,7 +95,9 @@ public class UsuarioNegImpl implements UsuarioNeg{
 
 
 	
-
+	public ArrayList<Persona> listarPersonasComposicion(){
+		return usuarioDao.listarPersonasComposicion();
+	}
 
 
 	
