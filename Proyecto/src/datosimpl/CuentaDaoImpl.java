@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import datos.CuentaDao;
 import entidad.Cuenta;
+import entidad.TipoCuenta;
 
 public class CuentaDaoImpl implements CuentaDao {
 	
@@ -146,7 +147,10 @@ public class CuentaDaoImpl implements CuentaDao {
 	@Override
 	public ArrayList<Cuenta> obtenerCuentasPorDNI(String DNI) {
 		  ArrayList<Cuenta> cuentas = new ArrayList<>();
-		    String query = "select * from cuentas where cliente_dni = ?";
+		    String query = "select cuentas.numero_cuenta, cuentas.tipo_cuenta_id, cuentas.saldo, tipocuenta.id, tipocuenta.descripcion "
+		    			  +"FROM cuentas "
+		    			  +"INNER JOIN tipocuenta ON cuentas.tipo_cuenta_id = tipocuenta.id "
+		    			  +"WHERE cliente_dni = ?";
 
 		    try {
 		        cn = new Conexion();
@@ -158,9 +162,15 @@ public class CuentaDaoImpl implements CuentaDao {
 
 		        while (rs.next()) {
 		            Cuenta cuenta = new Cuenta();
-		            cuenta.setNumeroCuenta(rs.getInt("numero_cuenta"));
-		            cuenta.setIdTipoCuenta(rs.getInt("tipo_cuenta_id"));
-		            cuenta.setSaldo(rs.getFloat("saldo"));
+		            TipoCuenta tipoCuenta = new TipoCuenta();
+		            
+		            cuenta.setNumeroCuenta(rs.getInt("cuentas.numero_cuenta"));            
+		            tipoCuenta.setId(rs.getInt("tipocuenta.id"));
+		            tipoCuenta.setDescripcion(rs.getString("tipocuenta.Descripcion"));
+		            
+		            //Seteo el ID de CUENTA con el objeto TipoCuenta
+		            cuenta.setIdTipoCuenta(tipoCuenta);
+		            cuenta.setSaldo(rs.getFloat("cuentas.saldo"));
 
 		            cuentas.add(cuenta);
 		        }

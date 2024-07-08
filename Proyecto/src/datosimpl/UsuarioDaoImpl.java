@@ -1,7 +1,9 @@
 package datosimpl;
 import datos.UsuarioDao;
 import entidad.Direccion;
+import entidad.Localidad;
 import entidad.Persona;
+import entidad.Provincia;
 import entidad.Usuario;
 
 import java.sql.Date;
@@ -285,7 +287,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    try {
 	        cn.Open();
 	        System.out.println("CONEXION ABIERTA OBTENER CLIENTE");
-	    	String query = "SELECT personas.nombre, personas.apellido,personas.dni,personas.cuil,personas.celular,personas.telefono,personas.direccion_id, personas.nacionalidad,personas.fecha_nacimiento,personas.email"
+	    	String query = "SELECT personas.nombre, personas.apellido,personas.dni,personas.cuil,personas.sexo, personas.celular,personas.telefono,personas.direccion_id, personas.nacionalidad,personas.fecha_nacimiento,personas.email"
 	    			    + " FROM  personas"
 	    			    + " INNER JOIN usuarios ON personas.dni = usuarios.persona_dni"
 	    			    + " WHERE usuarios.usuario = ? "
@@ -306,6 +308,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	            p.setApellido(rs.getString("personas.apellido"));
 	            p.setDni(rs.getString("personas.dni"));
 	            p.setCuil(rs.getString("personas.cuil"));
+	            p.setSexo(rs.getString("personas.sexo"));
 	            p.setCelular(rs.getString("personas.celular"));
 	            p.setTelefono(rs.getString("personas.telefono"));
 	            p.setDireccion_id(rs.getInt("personas.direccion_id"));
@@ -584,6 +587,180 @@ public class UsuarioDaoImpl implements UsuarioDao{
 
 
 
+	@Override
+	public Direccion ObtenerDireccionCliente(int IDdireccion) {
+		cn = new Conexion();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		
+		Direccion d = new Direccion();
+	  
+		String query = "SELECT direcciones.id, direcciones.calle, direcciones.numero, direcciones.piso, direcciones.departamento, direcciones.localidad_id "
+		        	 + "FROM direcciones "
+		        	 + "WHERE direcciones.id = ? ";
+		       
+		  try {
+		        cn.Open();
+		        System.out.println("CONEXION ABIERTA OBTENER DIRECCION X CLIENTE");
+			       
+		        System.out.println("Query: " + query);
+		        preparedStatement = cn.prepareStatement(query);
+		        preparedStatement.setInt(1, IDdireccion);
+		   
+		        
+		        rs = preparedStatement.executeQuery();
+
+		        if (rs.next()) {
+		            d.setId(rs.getInt("direcciones.id"));
+		            d.setCalle(rs.getString("direcciones.calle"));
+		            d.setAltura(rs.getInt("direcciones.numero"));
+		            d.setPiso(rs.getString("direcciones.piso"));
+		            d.setDepartamento(rs.getString("direcciones.departamento"));
+		            d.setLocalidad_id(rs.getInt("direcciones.localidad_id"));
+		            
+		        
+		        } 
+
+		    } catch (Exception e) {
+		        System.out.println("ERROR ObtenerDireccionCliente DAO");
+		        e.printStackTrace();
+		    
+		    } finally {
+		        try {
+		            if (preparedStatement != null) {
+		                preparedStatement.close();
+		            }
+		            if (rs != null) {
+		                rs.close();
+		            }
+		            if (cn != null) {
+		                cn.close();
+		            }
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		    }
+		   
+		    return d;
+		}
+
+
+
+	@Override
+	public Provincia ObtenerProvinciaCliente(int IDprovincia) {
+		cn = new Conexion();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		
+		Provincia p = new Provincia();
+	  
+		String query = "SELECT provincias.id, provincias.nombre "
+		        	 + "FROM provincias "
+		        	 + "WHERE provincias.id = ? ";
+		       
+		  try {
+		        cn.Open();
+		        System.out.println("CONEXION ABIERTA OBTENER ProvinciaCliente");
+			       
+		        System.out.println("Query: " + query);
+		        preparedStatement = cn.prepareStatement(query);
+		        preparedStatement.setInt(1, IDprovincia);
+		   
+		        
+		        rs = preparedStatement.executeQuery();
+
+		        if (rs.next()) {
+		            p.setId(rs.getInt("provincias.id"));
+		            p.setNombre(rs.getString("provincias.nombre"));
+		     
+		            
+		        
+		        } 
+
+		    } catch (Exception e) {
+		        System.out.println("ERROR OBTENER ProvinciaCliente DAO");
+		        e.printStackTrace();
+		    
+		    } finally {
+		        try {
+		            if (preparedStatement != null) {
+		                preparedStatement.close();
+		            }
+		            if (rs != null) {
+		                rs.close();
+		            }
+		            if (cn != null) {
+		                cn.close();
+		            }
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		    }
+		   
+		    return p;
+		}
+
+
+
+
+	@Override
+	public Localidad ObtenerLocalidadCliente(int IDlocalidad) {
+		cn = new Conexion();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		
+		Localidad l = new Localidad();
+	  
+		String query = "SELECT localidades.id, localidades.nombre "
+		        	 + "FROM localidades "
+		        	 + "WHERE localidades.id = ? ";
+		       
+		  try {
+		        cn.Open();
+		        System.out.println("CONEXION ABIERTA OBTENER LocalidadCliente");
+			       
+		        System.out.println("Query: " + query);
+		        preparedStatement = cn.prepareStatement(query);
+		        preparedStatement.setInt(1, IDlocalidad);
+		   
+		        
+		        rs = preparedStatement.executeQuery();
+
+		        if (rs.next()) {
+		            l.setId(rs.getInt("localidades.id"));
+		            l.setNombre(rs.getString("localidades.nombre"));
+		     
+		            
+		        
+		        } 
+
+		    } catch (Exception e) {
+		        System.out.println("ERROR ObtenerLocalidadesCliente DAO");
+		        e.printStackTrace();
+		    
+		    } finally {
+		        try {
+		            if (preparedStatement != null) {
+		                preparedStatement.close();
+		            }
+		            if (rs != null) {
+		                rs.close();
+		            }
+		            if (cn != null) {
+		                cn.close();
+		            }
+		        } catch (Exception e) {
+		            e.printStackTrace();
+		        }
+		    }
+		   
+		    return l;
+	}
+}
+
+
+
+/*
 	public ArrayList<Persona> listarPersonasComposicion(){
 		ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
 		String query= "SELECT personas.id,personas.dni,personas.nombre,personas.apellido,personas.email "
@@ -633,10 +810,77 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		}
 		return listaPersonas;
 	}
+	
+	*/
+	
+	/*
+	
+	public Persona ObtenerPersonaCompleta(String usuario){
+		cn = new Conexion();
+		ResultSet rs = null;
+		PreparedStatement preparedStatement = null;
+		Persona p = new Persona(); 
+		
+		String query= "SELECT personas.id,personas.dni,personas.cuil,personas.nombre,personas.apellido,personas.sexo, personas.celular, personas.telefono, personas.direccion_id, personas.nacionalidad, personas.fecha_nacimiento, personas.email "
+				     +"direcciones.id, direcciones.calle, direcciones.numero, direcciones.piso, direcciones.departamento, direcciones.localidad_id "
+				     + "paises.id, paises.nombre"
+				     +"provincias.id, provincias.nombre, provincias.pais_id"
+				     +"localidades.id, localidades.nombre, localidades.provincia_id"
+		    	     +"FROM personas"
+		    	     +"INNER JOIN usuarios ON usuarios.persona_dni=personas.dni"
+		         	 +"INNER JOIN direcciones ON Personas.Direccion_id=direcciones.id"
+		         	 +"INNER JOIN localidades ON localidades.id = direcciones.localidad_id"
+		         	 +"INNER JOIN provincias ON provincias.id = "
+		    	     +"WHERE usuarios.usuario = ?";
+		
+		try {
+			cn.Open();
+		    System.out.println("CONEXION ABIERTA LISTAR DIRECCIONES");
+		    
+		    preparedStatement.setString(1, usuario);
+      	    rs = preparedStatement.executeQuery();
+		    
+		    while(rs.next()){
+		    
+	      	    p.setId(rs.getInt("personas.id"));
+		    	p.setDni(rs.getString("personas.dni"));
+		    	p.setNombre(rs.getString("personas.nombre"));
+		    	p.setApellido(rs.getString("personas.apellido"));
+		    	p.setEmail(rs.getString("personas.email"));
+		    	
+		    	Usuario u = new Usuario(); 
+		    	u.setId(rs.getInt("usuarios.id"));
+		    	u.setPersona_dni(rs.getString("usuarios.persona_dni"));
+		    	u.setUsuario(rs.getString("usuarios.usuario"));
+		    	u.setHabilitado(rs.getInt("usuarios.habilitado"));
+		    	
+		    	Direccion d = new Direccion(); 
+	      	    d.setId(rs.getInt("direcciones.id"));
+		    	d.setCalle(rs.getString("direcciones.calle"));
+		    	d.setAltura(rs.getInt("direcciones.numero"));
+		    	d.setPiso(rs.getString("direcciones.piso"));
+		    	d.setDepartamento(rs.getString("direcciones.departamento"));
+		    	
+		    	//Se agregan los objetos Usuario y Direccion a Persona
+		    	p.setUsuario(u);
+		    	p.setDireccion(d);
+	
+		    }
+		}
+		catch(Exception e){
+			System.out.println("ERROR EN LISTAR PERSONA DAO");
+			e.printStackTrace();
+		}
+		finally {
+			cn.close();
+		}
+		return p;
+	}
 
 
+*/
 
-}
+
 	
 
 

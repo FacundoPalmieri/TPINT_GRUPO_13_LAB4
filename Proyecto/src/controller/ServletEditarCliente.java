@@ -12,7 +12,9 @@ import javax.servlet.http.HttpSession;
 
 import entidad.Usuario;
 import entidad.Persona;
+import entidad.Provincia;
 import entidad.Direccion;
+import entidad.Localidad;
 import negocio.UsuarioNeg;
 import negocioimpl.UsuarioNegImpl;
 
@@ -36,24 +38,32 @@ public class ServletEditarCliente extends HttpServlet {
 		
 		//VISUALIZAR DATOS SIENDO CLIENTE
 		
-        HttpSession session = request.getSession(false); // No crear nueva sesi�n si no existe
+        HttpSession session = request.getSession(false); 
         if (session != null) {
-            Usuario usuario = (Usuario) session.getAttribute("usuario");
-            if (usuario != null) {
-                String nombreUsuario = usuario.getUsuario(); // Obtener el nombre de usuario desde el objeto Usuario
-                System.out.println("Nombre Usuario Session: " + nombreUsuario);
-
-                if (request.getParameter("btnEditar") != null) {
-                    // Llama al m�todo para obtener los datos completos del usuario
-                    Usuario usuarioCompleto = usuarioNeg.obtenerUsuario(nombreUsuario); 
-
-                    // Establece los datos del usuario en el request para que el JSP pueda mostrarlos
-                    
-                    request.setAttribute("usuario", usuarioCompleto.getUsuario());
-                    request.setAttribute("contrasena", usuarioCompleto.getPass());
-
-                    RequestDispatcher dispatcher = request.getRequestDispatcher("/DatosCliente.jsp");
-               
+        	String nombreUsuario = (String)  session.getAttribute("usuario");
+        	int IdDireccion = (int) session.getAttribute("Direccion_id");
+            if (nombreUsuario != null) {
+                if (request.getParameter("Param") != null) {
+    
+                	Persona persona = new Persona();
+                	Direccion direccion = new Direccion();
+                	Provincia provincia = new Provincia();
+                	Localidad localidad = new Localidad();
+                	
+                	
+		            persona = usuarioNeg.ObtenerCliente(nombreUsuario);
+		            direccion = usuarioNeg.ObtenerDireccionCliente(IdDireccion);
+		            provincia = usuarioNeg.ObtenerProvinciaCliente(1);
+		            localidad = usuarioNeg.ObtenerLocalidadCliente(direccion.getLocalidad_id());
+		            
+		            System.out.println("DNI" + persona.getDni());
+	
+		            request.setAttribute("persona", persona);
+		            request.setAttribute("direccion",direccion);
+		            request.setAttribute("provincia",provincia);
+		            request.setAttribute("localidad",localidad);
+		            
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/DatosCliente.jsp");              
                     dispatcher.forward(request, response);
               
                 } 

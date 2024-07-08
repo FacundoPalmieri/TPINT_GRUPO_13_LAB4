@@ -28,7 +28,7 @@
                 <h3>Mis Cuentas</h3>
             </div>
             <div class="logo_encabezado_derecha">
-                <%= (String) session.getAttribute("nombre") %>
+                <%= (String) session.getAttribute("usuario") %>
                 <a href="ServletCerrarSesion" class="logout">
                     <img src="img/logout.png" alt="Logout" class="logo_encabezado">
                 </a>
@@ -54,7 +54,7 @@
 	        %>
 	        <tr>
 	            <td><%= cuenta.getNumeroCuenta() %></td>
-	            <td><%= cuenta.getIdTipoCuenta()%></td>
+	            <td><%= cuenta.getIdTipoCuenta().getDescripcion()%></td>
 	            <td><%= cuenta.getSaldo() %></td>
 	            <td><input type="button"  value="Cuenta" name="btnIngresarCuenta" class="btnEspecial"  onclick="window.location.href='DetalleCuenta.jsp';"></td>
 	        </tr>

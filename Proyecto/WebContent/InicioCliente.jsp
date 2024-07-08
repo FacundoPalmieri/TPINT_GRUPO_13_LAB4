@@ -27,7 +27,7 @@
 	    <h3>Bienvenido</h3>
 	</div>
 	<div class="logo_encabezado_derecha">
-	    <%= (String) session.getAttribute("nombre") %>
+	    <%= (String) session.getAttribute("usuario") %>
 	    <a href="ServletCerrarSesion" class="logout">
 	        <img src="img/logout.png" alt="Logout" class="logo_encabezado">
 	    </a>
@@ -36,17 +36,11 @@
 	</div>
 
            <div class="button-container">
-            <form action="EditarCliente" method="get">
-				<input type="submit" value="Mis Datos" name="btnEditar"  onclick="window.location.href='DatosCliente.jsp';" class="botonera"> 
-			</form> 
-			<form action="ClientePrestamo.jsp">
-			     <input type="submit" value="Prestamos" name="btnClientePrestamos" onclick="window.location.href='ClientePrestamo.jsp';" class="botonera">
-			</form>
-		 </div>  
-		  <a href="ServletCuentas?Param=1" class="botonera">Cuentas</a> 
-		 <div class="button-container"> <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='Login.jsp';"> </div>
-		 
-      
+           <a href="EditarCliente?Param=1" class="botonera">Mis Datos</a>
+		   <a href="ServletPrestamo?Param=1" class="botonera">Prestamos</a> 
+		   <a href="ServletCuentas?Param=1" class="botonera">Cuentas</a> 
+		  <div class="button-container"> <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='Login.jsp';"> </div>
+		    
     </div>
 </body>
 </html>

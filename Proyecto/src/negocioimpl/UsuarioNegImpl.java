@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import datos.UsuarioDao;
 import datosimpl.UsuarioDaoImpl;
 import entidad.Direccion;
+import entidad.Localidad;
 import entidad.Persona;
+import entidad.Provincia;
 import entidad.Usuario;
 import negocio.UsuarioNeg;
 
@@ -94,13 +96,41 @@ public class UsuarioNegImpl implements UsuarioNeg{
 	}
 
 
+	@Override
+	public Direccion ObtenerDireccionCliente(int IDdireccion) {
+		return usuarioDao.ObtenerDireccionCliente(IDdireccion);
+	}
+
+
+	@Override
+	public Provincia ObtenerProvinciaCliente(int IDprovincia) {
+		return usuarioDao.ObtenerProvinciaCliente(IDprovincia);
+	}
+
+
+	@Override
+	public Localidad ObtenerLocalidadCliente(int IDlocalidad) {
+		return usuarioDao.ObtenerLocalidadCliente(IDlocalidad);
+	}
+
+
+	
+	/*
 	
 	public ArrayList<Persona> listarPersonasComposicion(){
 		return usuarioDao.listarPersonasComposicion();
 	}
 
 
+	@Override
+	public Persona ObtenerPersonaCompleta(String usuario) {
+		return usuarioDao.ObtenerPersonaCompleta(usuario);
+		
+	*/
+	}
+
+
 	
 
 	
-}
+

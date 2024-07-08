@@ -2,7 +2,9 @@ package datos;
 import java.util.ArrayList;
 
 import entidad.Direccion;
+import entidad.Localidad;
 import entidad.Persona;
+import entidad.Provincia;
 import entidad.Usuario;
 
 public interface UsuarioDao {
@@ -31,5 +33,17 @@ public interface UsuarioDao {
 	  
 	  public ArrayList <Direccion> listarDirecciones();
 	  
+	  public Direccion ObtenerDireccionCliente (int IDdireccion);
+	  
+	  public Provincia ObtenerProvinciaCliente (int IDprovincia);
+	  
+	  public Localidad ObtenerLocalidadCliente (int IDlocalidad);
+	  
+	 
+	  /*
 	  public ArrayList<Persona> listarPersonasComposicion();
+	  
+	  public Persona ObtenerPersonaCompleta(String usuario);
+	  
+	  */
 }

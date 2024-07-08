@@ -7,7 +7,7 @@ public class Cuenta {
 	private int numeroCuenta;
 	private int clienteDni;
 	private LocalDate fechaCreacion;
-	private int idTipoCuenta;
+	private TipoCuenta idTipoCuenta;
 	private String cbu;
 	private float saldo;
 	private int habilitado;
@@ -32,10 +32,10 @@ public class Cuenta {
 	public void setFechaCreacion(LocalDate fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
-	public int getIdTipoCuenta() {
+	public TipoCuenta getIdTipoCuenta() {
 		return idTipoCuenta;
 	}
-	public void setIdTipoCuenta(int idTipoCuenta) {
+	public void setIdTipoCuenta(TipoCuenta idTipoCuenta) {
 		this.idTipoCuenta = idTipoCuenta;
 	}
 	public String getCbu() {
