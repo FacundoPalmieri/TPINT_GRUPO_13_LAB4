@@ -224,35 +224,51 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	@Override
 	public Usuario ObtenerUsuario(String usuario) {
 	    cn = new Conexion();
-	    cn.Open();
-	    System.out.println("CONEXION ABIERTA OBTENER USUARIO");
+	    PreparedStatement preparedStatement = null;
+	    ResultSet rs = null;
+
 	    Usuario u = new Usuario();
+	    
 	    try {
-	       
-	    	String query = "    SELECT u.usuario, u.tipo_usuario_id "
-	    		        	+ "	FROM usuarios u "
-	    		        	+ " INNER JOIN  Personas p ON p.dni = u.persona_dni"
-	    		        	+ " WHERE u.habilitado = 1" 
-	    		        	+ " AND u.usuario = ? ";
+	    	cn.Open();
+	    	System.out.println("CONEXION ABIERTA OBTENER USUARIO");
+	    	String query = "    SELECT usuarios.usuario, usuarios.persona_dni, usuarios.tipo_usuario_id "
+	    		        	+ "	FROM usuarios"
+	    		        	+ " INNER JOIN  Personas  ON personas.dni = usuarios.persona_dni"
+	    		        	+ " WHERE usuarios.habilitado = 1" 
+	    		        	+ " AND usuarios.usuario = ? ";
 	    	
 	    	
-	    	 PreparedStatement preparedStatement = cn.prepareStatement(query);
+	    	 preparedStatement = cn.prepareStatement(query);
 		     preparedStatement.setString(1, usuario);
 	    	
-		     ResultSet rs = preparedStatement.executeQuery();
+		     rs = preparedStatement.executeQuery();
 		     System.out.println("QUERY OBTENER CLIENTE DAO: " + preparedStatement);
 
 	      
 	        if (rs.next()) {
-	            u.setUsuario(rs.getString("u.usuario"));
-	            u.setTipoUsuarioId(Integer.parseInt(rs.getString("u.tipo_usuario_id")));
+	            u.setUsuario(rs.getString("usuarios.usuario"));
+	            u.setPersona_dni(rs.getString("usuarios.Persona_dni"));
+	            u.setTipoUsuarioId(Integer.parseInt(rs.getString("usuarios.tipo_usuario_id")));
 
 	            
 	        }
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    } finally {
-	        cn.close();
+	        try {
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	            if (rs != null) {
+	                rs.close();
+	            }
+	            if (cn != null) {
+	                cn.close();
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
 	    }
 	    return u;
 	}

@@ -61,11 +61,11 @@
 	                for (Movimientos movimiento : listaMovimientos) {
 	        %>
 	        <tr>
-	            <td><%= movimiento.getNumeroCuenta() %></td>
+	            <td><%= movimiento.getCuenta_destino()%></td>
 	            <td><%= movimiento.getFecha() %></td>
 	            <td><%= movimiento.getDetalle() %></td>
 	            <td><%= movimiento.getImporte() %></td>
-	            <td><%= movimiento.getTipoMovimiento() %></td>
+	            <td><%= movimiento.getTipo_Movimiento_id() %></td>
 	            <td><input type="button"  value="Cuenta" name="btnIngresarCuenta" class="btnEspecial"  onclick="window.location.href='DetalleCuenta.jsp';"></td>
 	        </tr>
 	        <%
