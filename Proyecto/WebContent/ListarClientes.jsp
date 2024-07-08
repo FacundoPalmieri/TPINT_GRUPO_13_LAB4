@@ -24,7 +24,6 @@
         width: 250px;
         margin-left: 10px;
     }
-    
 </style>
 
 <link rel="stylesheet" type="text/css"
@@ -36,11 +35,32 @@
 <script type="text/javascript" charset="utf8"
 	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 
-
-
 <script type="text/javascript">
 	$(document).ready(function() {
-		$('#table_id').DataTable();
+		$('#table_id').DataTable({
+            language: {
+                lengthMenu: "Mostrar _MENU_ registros",
+                info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                infoEmpty: "Mostrando 0 a 0 de 0 registros",
+                infoFiltered: "(filtrado de _MAX_ registros en total)",
+                infoPostFix: "",
+                loadingRecords: "Cargando...",
+                zeroRecords: "No se encontraron registros coincidentes",
+                emptyTable: "No hay datos disponibles en la tabla",
+                paginate: {
+                    first: "Primero",
+                    previous: "Anterior",
+                    next: "Siguiente",
+                    last: "Último"
+                },
+                aria: {
+                    sortAscending:  ": activar para ordenar columna ascendente",
+                    sortDescending: ": activar para ordenar columna descendente"
+                },
+                lengthMenu: "Cantidad registros _MENU_"
+            },
+            dom: 'ltipr' // Controla los elementos que se muestran (l: longitud del menú, t: tabla, i: información, p: paginación, r: procesamiento)
+        });
 	});
 	
 	document.addEventListener("DOMContentLoaded",function(){
@@ -67,7 +87,7 @@
 			})
 		})
 		
-		  const inputFiltro = document.querySelector('#txtFiltro');
+        const inputFiltro = document.querySelector('#txtFiltro');
         inputFiltro.addEventListener('keyup', function() {
             let filterValue = inputFiltro.value.toLowerCase();
             let table = document.querySelector('#table_id');
@@ -87,7 +107,6 @@
         });
     });
 	
-	
 	function enviarDatosEliminar(dni,estado,usuario,nombre,apellido){
 		let xhr = new XMLHttpRequest();
 		xhr.open("POST","EliminarUsuario.jsp","true");
@@ -106,7 +125,6 @@
 		}
 	}
 	
-	
 	function enviarDatosModificar(dni,usuario){
 		let xhr = new XMLHttpRequest();
 		xhr.open("POST","ModificarUsuario.jsp","true");
@@ -124,9 +142,6 @@
 		}
 	}
 </script>
-
-
-
 </head>
 <body>
     <% if(session.getAttribute("tipoUsuario") != null) { %>
