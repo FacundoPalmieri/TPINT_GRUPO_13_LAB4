@@ -4,7 +4,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
 <style type="text/css">
 	<jsp:include page="css\Style.css"></jsp:include>
 </style>
@@ -20,7 +19,7 @@
 		  	  <h3>ABML Clientes</h3>
 		</div>
 	<div class="logo_encabezado_derecha">
-	    <%= (String) session.getAttribute("nombre") %>
+	    <%= (String) session.getAttribute("usuario") %>
 	    <a href="ServletCerrarSesion" class="logout">
 	        <img src="img/logout.png" alt="Logout" class="logo_encabezado">
 	    </a>
@@ -29,7 +28,7 @@
 	</div>
 
  	<div class="button-container">
-		 <input type="submit" value="Crear Cuenta" name="btnCrearCuenta" onclick="window.location.href='CrearCuenta.jsp';" class="botonera">
+		 <input type="submit" value="Alta de Cuenta" name="btnCrearCuenta" onclick="window.location.href='CrearCuenta.jsp';" class="botonera">
           <input type="submit" value="Eliminar Cuenta" name="btnEliminarCuenta onclick="window.location.href='.jsp';" class="botonera">
   
 	</div>

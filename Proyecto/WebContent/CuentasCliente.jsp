@@ -7,7 +7,6 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
 <style type="text/css">
     .error {
             color: red;
@@ -41,7 +40,7 @@
 	            <th>Número de cuenta</th>
 	            <th>Tipo de cuenta</th>
 	            <th>Saldo</th>
-	            <th>Abrir</th>
+	            <th>Movimientos</th>
 	        </tr>
 	        <%
 	        	ArrayList<Cuenta> listaCuentas = null;
@@ -56,7 +55,7 @@
 	            <td><%= cuenta.getNumeroCuenta() %></td>
 	            <td><%= cuenta.getIdTipoCuenta().getDescripcion()%></td>
 	            <td><%= cuenta.getSaldo() %></td>
- 			<td><a href="ServletMovimientos?cuentaId=<%= cuenta.getNumeroCuenta() %>&saldo=<%= cuenta.getSaldo() %>" class="btnEspecial">Movimientos</a></tr>
+ 			<td><a href="ServletMovimientos?cuentaId=<%= cuenta.getNumeroCuenta() %>&saldo=<%= cuenta.getSaldo() %>" class="btnEspecial">Ver</a></tr>
 	        <%
 	                }
 	            } else {

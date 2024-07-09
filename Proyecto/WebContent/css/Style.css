@@ -515,3 +515,12 @@ input[type="submit"]:hover {
 .form-group-domicilio .group:last-child {
 	margin-right: 0;
     }
+    
+  
+ /* estilo pedir préstamo*/
+ 
+ .btnPrestamo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	}

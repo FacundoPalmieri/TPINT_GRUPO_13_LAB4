@@ -35,11 +35,8 @@
 		</div>
 		<div class="button-container">
 	    	<a href="EditarCliente?Param=1" class="botonera" style="margin: 5px;">Mis Datos</a>
-	        <a href="ClientePrestamo.jsp" class="botonera" style="margin: 5px;">Préstamos</a> 
+	        <a href="ClientePrestamo.jsp" class="botonera" style="margin: 5px;">Alta de Préstamos</a> 
 			<a href="ServletCuentas?Param=1" class="botonera" style="margin: 5px;">Cuentas</a> 	    
-	    </div>
-	    <div class="button-container">
-	    	<input type="button" style="margin-top: 0px !important;"value="Volver" name="btnVolver" onclick="window.location.href='Login.jsp';"> 
 	    </div>
 	</div>
 </body>

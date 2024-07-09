@@ -42,18 +42,18 @@
                 <h3>Solicitar Préstamo</h3>
             </div>
             <div class="logo_encabezado_derecha">
-                <%= (String) session.getAttribute("nombre") %>
+                <%= (String) session.getAttribute("usuario") %>
                 <a href="ServletCerrarSesion" class="logout">
                     <img src="img/logout.png" alt="Logout" class="logo_encabezado">
                 </a>
             </div>
         </div>
         <div style="margin: 0.5%;">
-            <form action="ServletSolicitarPrestamo" method="post">
+            <form action="ServletPrestamo" method="post">
                 <table class="custom-table">
                     <tr>
                         <td>Cliente:</td>
-                        <td><%= (String) session.getAttribute("nombre") %></td>
+                        <td><%= (String) session.getAttribute("usuario") %></td>
                     </tr>
                     <tr>
                         <td>Fecha:</td>
@@ -78,9 +78,12 @@
                     <tr>
                         <td>Cuenta para recibir el préstamo:</td>
                         <td>
+                        
                             <select name="cuentaDestino" required>
                                 <%
+                                System.out.println("dni del cliente: " + session.getAttribute("dni"));
                                     // Aquí se debe cargar la lista de cuentas del cliente desde la sesión o la base de datos
+                                     
                                     List<Cuenta> cuentas = (List<Cuenta>) session.getAttribute("cuentas");
                                     if (cuentas != null) {
                                         for (Cuenta cuenta : cuentas) {
@@ -106,13 +109,11 @@
                         <td><input type="text" id="saldoRestante" name="saldoRestante" readonly></td>
                     </tr>
                 </table>
-                <div class="button-container">
-                    <input type="submit" value="Solicitar Préstamo" class="botonera">
+                <div class="btnPrestamo">
+                    <input type="submit" value="Solicitar Préstamo" style="margin-top: 5px !important; margin-botton: 5px !important; margin-left: -52px;">
+                    <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='InicioCliente.jsp';" style="margin-left: 1%; margin-top: 5px !important; margin-botton: 5px !important;"> 
                 </div>
             </form>
-        </div>
-        <div class="button-container">
-            <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='InicioCliente.jsp';" class="botonera"> 
         </div>
     </div>
 </body>
