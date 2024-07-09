@@ -7,7 +7,7 @@ public class Movimientos {
 	private Cuenta cuenta_origen;
 	private LocalDate fecha;
 	private String detalle;
-	private float importe;
+	private double importe;
 	private Cuenta cuenta_destino;
 	private TipoMovimiento tipo_Movimiento_id;
 	
@@ -35,10 +35,10 @@ public class Movimientos {
 	public void setDetalle(String detalle) {
 		this.detalle = detalle;
 	}
-	public float getImporte() {
+	public double getImporte() {
 		return importe;
 	}
-	public void setImporte(float importe) {
+	public void setImporte(double importe) {
 		this.importe = importe;
 	}
 	public Cuenta getCuenta_destino() {

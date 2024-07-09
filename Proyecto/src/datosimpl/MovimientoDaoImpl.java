@@ -8,12 +8,12 @@ import datos.MovimientoDao;
 public class MovimientoDaoImpl implements MovimientoDao{
 
 	@Override
-	public int CrearMovimiento(int nCuenta, String detalle, float Importe, int tipoMovimiento) {
+	public int CrearMovimiento(int cuentaOrigen,String detalle, double importe, int CuentaDestino, int tipoMovimiento) {
 	int estado = 0;
 			
 			Conexion cn = new Conexion();
 			
-			String query ="INSERT INTO movimientos (numero_cuenta, fecha, detalle, importe, tipo_movimiento_id) VALUES (?,?,?,?, ?)";
+			String query ="INSERT INTO movimientos (cuenta_origen, fecha, detalle, importe, cuenta_destino, tipo_movimiento_id) VALUES (?,?,?,?,?,?)";
 			System.out.println("query crear movimiento: " + query);
 			
 			try {
@@ -21,13 +21,14 @@ public class MovimientoDaoImpl implements MovimientoDao{
 				PreparedStatement preparedStatement = cn.prepareStatement(query);
 				
 				
-			    preparedStatement.setInt(1, nCuenta);
+			    preparedStatement.setInt(1, cuentaOrigen);
 			    
 			    Date fechaActual = Date.valueOf(LocalDate.now());
 			    preparedStatement.setDate(2,fechaActual );
 			    preparedStatement.setString(3, detalle);
-			    preparedStatement.setFloat(4, Importe);
-			    preparedStatement.setInt(5, tipoMovimiento);
+			    preparedStatement.setDouble(4, importe);
+			    preparedStatement.setInt(5, CuentaDestino);
+			    preparedStatement.setInt(6, tipoMovimiento);
 			    
 			    estado = preparedStatement.executeUpdate();
 				

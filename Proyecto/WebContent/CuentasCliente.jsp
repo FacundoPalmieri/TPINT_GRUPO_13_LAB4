@@ -56,8 +56,7 @@
 	            <td><%= cuenta.getNumeroCuenta() %></td>
 	            <td><%= cuenta.getIdTipoCuenta().getDescripcion()%></td>
 	            <td><%= cuenta.getSaldo() %></td>
-	            <td><input type="button"  value="Cuenta" name="btnIngresarCuenta" class="btnEspecial"  onclick="window.location.href='DetalleCuenta.jsp';"></td>
-	        </tr>
+ 			<td><a href="ServletMovimientos?cuentaId=<%= cuenta.getNumeroCuenta() %>&saldo=<%= cuenta.getSaldo() %>" class="btnEspecial">Movimientos</a></tr>
 	        <%
 	                }
 	            } else {

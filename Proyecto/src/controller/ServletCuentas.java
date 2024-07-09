@@ -111,7 +111,8 @@ public class ServletCuentas extends HttpServlet {
 				System.out.println("Estado Crear Cuenta " + estadoCrearCuenta);
 				
 				nCuenta = cuentaNeg.buscarNCuenta(DNI);
-				estadoCrearMovimiento = movimientoNeg.CrearMovimiento(nCuenta, " ", 10000, 1);
+				System.out.println("Numero cuenta" + nCuenta);
+				estadoCrearMovimiento = movimientoNeg.CrearMovimiento(1,"Saldo Inicial",10000.00,nCuenta,1);
 				
 						
 				if(estadoCrearCuenta == 1) {

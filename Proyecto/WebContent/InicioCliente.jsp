@@ -21,26 +21,26 @@
 </head>
 <body>
     <div id="General">
-	<div class="banner">
-	<div class="logo_encabezado_izquierda">
-	    <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
-	    <h3>Bienvenido</h3>
+		<div class="banner">
+			<div class="logo_encabezado_izquierda">
+			    <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
+			    <h3>Bienvenido</h3>
+			</div>
+			<div class="logo_encabezado_derecha">
+			    <%= (String) session.getAttribute("usuario") %>
+			    <a href="ServletCerrarSesion" class="logout">
+			        <img src="img/logout.png" alt="Logout" class="logo_encabezado">
+			    </a>
+			</div>
+		</div>
+		<div class="button-container">
+	    	<a href="EditarCliente?Param=1" class="botonera" style="margin: 5px;">Mis Datos</a>
+	        <a href="ClientePrestamo.jsp" class="botonera" style="margin: 5px;">Préstamos</a> 
+			<a href="ServletCuentas?Param=1" class="botonera" style="margin: 5px;">Cuentas</a> 	    
+	    </div>
+	    <div class="button-container">
+	    	<input type="button" style="margin-top: 0px !important;"value="Volver" name="btnVolver" onclick="window.location.href='Login.jsp';"> 
+	    </div>
 	</div>
-	<div class="logo_encabezado_derecha">
-	    <%= (String) session.getAttribute("usuario") %>
-	    <a href="ServletCerrarSesion" class="logout">
-	        <img src="img/logout.png" alt="Logout" class="logo_encabezado">
-	    </a>
-	</div>
-
-	</div>
-
-           <div class="button-container">
-           <a href="EditarCliente?Param=1" class="botonera">Mis Datos</a>
-		   <a href="ServletPrestamo?Param=1" class="botonera">Prestamos</a> 
-		   <a href="ServletCuentas?Param=1" class="botonera">Cuentas</a> 
-		  <div class="button-container"> <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='Login.jsp';"> </div>
-		    
-    </div>
 </body>
 </html>

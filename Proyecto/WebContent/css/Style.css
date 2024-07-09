@@ -448,19 +448,26 @@ input[type="submit"]:hover {
 	background-color: #f1f1f1;
     }
     
-input[type="button"].btnEspecial {
-    background-color: #78AD89;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-left: 0;
-    box-sizing: border-box;
-    margin-top: 0px;
-    font-size: 90%;
-    padding: 10px 10px;
+.btnEspecial {
+     background-color: #78AD89;
+     color: white;
+     border: none;
+     border-radius: 5px;
+     cursor: pointer;
+     margin-left: 0;
+     box-sizing: border-box;
+     margin-top: 0px;
+     font-size: 90%;
+     padding: 10px 10px;
+     text-align: center;
+     text-decoration: none; /* Remove underline for links */
+     display: inline-block; /* Ensure block styling for links */
   
 }
+
+ input[type="button"].btnEspecial {
+           
+        }
 
 .display td {
     overflow: hidden; 

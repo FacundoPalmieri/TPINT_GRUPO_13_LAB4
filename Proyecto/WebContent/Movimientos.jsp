@@ -38,7 +38,7 @@
         </div>
         
    <div class="cuenta">
-   	<td><%= request.getAttribute("cuenta") %></td>
+   	<td><%= request.getAttribute("cuentaId") %></td>
    	<td><%= request.getAttribute("saldo") %></td>
    </div>
         

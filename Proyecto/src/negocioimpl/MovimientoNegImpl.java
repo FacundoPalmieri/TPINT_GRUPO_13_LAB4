@@ -12,8 +12,8 @@ public class MovimientoNegImpl implements MovimientoNeg{
 	    }
 
 	@Override
-	public int CrearMovimiento(int nCuenta, String detalle, float Importe, int tipoMovimiento) {
-		return movimientoDao.CrearMovimiento(nCuenta, detalle, Importe, tipoMovimiento);
+	public int CrearMovimiento(int CuentaOrigen,String detalle, double importe, int CuentaDestino, int tipoMovimiento) {
+		return movimientoDao.CrearMovimiento(CuentaOrigen, detalle, importe, CuentaDestino,tipoMovimiento);
 	}
 
 }
