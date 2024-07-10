@@ -43,7 +43,7 @@
         <div class="banner">
             <div class="logo_encabezado_izquierda">
                 <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
-                <h3>Mis Préstamos</h3>
+                <h3>Préstamos</h3>
             </div>
             <div class="logo_encabezado_derecha">
                 <%= (String) session.getAttribute("usuario") %>
@@ -55,7 +55,8 @@
        <form action="ServletPrestamo" method="post" >
         <div style="margin: 0.5%;">
         
-        <h2>Préstamos Actuales</h2>
+          <button type="button" class="accordion">Mis Préstamos &#128193;</button>
+             <div class="panel">
             <table id="table_id" class="display">
                 <thead>
                     <tr>
@@ -99,6 +100,7 @@
                     %>
                 </tbody>
             </table>
+             </div>
             <button type="button" class="accordion">Menú de Pagos &#x1F4B0;</button>
                 <div class="panel">
                
@@ -208,6 +210,9 @@
         var errorMensaje = "<%= (request.getAttribute("Mensaje") != null) ? request.getAttribute("Mensaje") : "" %>";
         if (errorMensaje) {
             showPopup(errorMensaje);
+            setTimeout(function() {
+                window.location.href = "ServletPrestamo?Param=1"; // Redirige a la nueva página JSP
+            }, 2000); // 5000 milisegundos
         }
     };
     
