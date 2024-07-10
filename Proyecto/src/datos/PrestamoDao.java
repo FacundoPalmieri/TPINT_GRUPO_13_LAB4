@@ -1,13 +1,14 @@
 package datos;
 
-import java.util.List;
-
-import entidad.Persona;
+import java.util.ArrayList;
 import entidad.Prestamo;
 
 public interface PrestamoDao {
-	boolean guardarPrestamo(Prestamo prestamo, String clienteDni, int estadoPrestamo);
+	public boolean guardarPrestamo(Prestamo prestamo, String clienteDni, int estadoPrestamo); // OK
+	
+	public ArrayList<Prestamo> obtenerPrestamos(); // OK
 
+	/*
     List<Prestamo> obtenerPrestamosPorCliente(int clienteId);
 
     Prestamo obtenerPrestamoPorId(int prestamoId);
@@ -15,5 +16,6 @@ public interface PrestamoDao {
     boolean actualizarPrestamo(Prestamo prestamo);
 
     boolean eliminarPrestamo(int prestamoId);
+    */
 
 }

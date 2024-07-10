@@ -1,6 +1,6 @@
 package negocioimpl;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import datos.PrestamoDao;
 import datosimpl.PrestamoDaoImpl;
@@ -17,11 +17,21 @@ public class PrestamoNegImpl implements PrestamoNeg {
 	
 	@Override
 	public boolean solicitarPrestamo(Prestamo prestamo, String clienteDni, int estadoPrestamo) {
-		// TODO Auto-generated method stub
+
 		return prestamoDao.guardarPrestamo(prestamo, clienteDni, estadoPrestamo);
 		
 	}
+	
+	@Override
+	public ArrayList<Prestamo> obtenerPrestamos() {
+		ArrayList<Prestamo> listaPrestamos= null;
+		listaPrestamos = prestamoDao.obtenerPrestamos();
+		return listaPrestamos;
+		
+		
+	}
 
+	/*
 	@Override
 	public List<Prestamo> obtenerPrestamosPorCliente(int clienteId) {
 		// TODO Auto-generated method stub
@@ -45,6 +55,8 @@ public class PrestamoNegImpl implements PrestamoNeg {
 		// TODO Auto-generated method stub
 		return prestamoDao.eliminarPrestamo(prestamoId);
 	}
+
 	
+	*/
 
 }

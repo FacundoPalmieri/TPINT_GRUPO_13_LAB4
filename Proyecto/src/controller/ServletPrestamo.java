@@ -31,6 +31,8 @@ public class ServletPrestamo extends HttpServlet {
 	    }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		if(request.getParameter("Param")!= null) {
 		ArrayList<Cuenta> listaCuentas = new ArrayList<Cuenta>();
 		
 		HttpSession session = request.getSession();
@@ -43,8 +45,34 @@ public class ServletPrestamo extends HttpServlet {
 		System.out.println("listacuentas"+  listaCuentas);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/ClientePrestamo.jsp");
 		dispatcher.forward(request, response);	
+		
+		}	
+		
+		
+		if(request.getParameter("PrestamoAdmin")!= null) {
+			
+			ArrayList<Prestamo> listaPrestamos = new ArrayList<Prestamo>();
+			
+			listaPrestamos = prestamoNeg.obtenerPrestamos();
+			
+			if(listaPrestamos != null) {
+				request.setAttribute("listaPrestamos", listaPrestamos);	
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminPrestamo.jsp");
+				dispatcher.forward(request, response);	
+				
+			}else {
+				   request.setAttribute("Mensaje","No hay prestamos solicitados ");
+				   RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminPrestamo.jsp");
+		           dispatcher.forward(request, response);
+				
+			}
+		
+		}
 	
 	}
+	
+	
+		
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

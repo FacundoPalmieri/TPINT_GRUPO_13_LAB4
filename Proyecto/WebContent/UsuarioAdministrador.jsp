@@ -31,10 +31,10 @@
 
 	</div>
 
-    <div class="button-container">
-        <input type="submit" value="ABML Clientes" name="btnABMLcliente" onclick="window.location.href='ABMLclientes.jsp';" class="botonera">
-        <input type="submit" value="ABML Cuentas" name="btnABMLcuenta" onclick="window.location.href='ABMLcuentas.jsp';" class="botonera">
-        <input type="submit" value="Prestamos" name="btnAdminPrestamos" onclick="window.location.href='AdminPrestmos.jsp';" class="botonera">
+   <div class="button-container">
+        <input type="button" value="ABML Clientes" name="btnABMLcliente" onclick="window.location.href='ABMLclientes.jsp';" class="botonera">
+        <input type="button" value="ABML Cuentas" name="btnABMLcuenta" onclick="window.location.href='ABMLcuentas.jsp';" class="botonera">
+        <a href="ServletPrestamo? PrestamoAdmin=1" class="botonera boton-link">Prestamos</a>
     </div>
     <div class="button-container"> <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='Login.jsp';"> </div>
     
