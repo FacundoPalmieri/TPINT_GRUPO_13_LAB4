@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.util.List;
 
 import datos.PrestamoDao;
+import entidad.Persona;
 import entidad.Prestamo;
 
 public class PrestamoDaoImpl implements PrestamoDao{
@@ -19,34 +20,43 @@ public class PrestamoDaoImpl implements PrestamoDao{
 
 
 	@Override
-	public boolean guardarPrestamo(Prestamo prestamo) {
+	public boolean guardarPrestamo(Prestamo prestamo, String clienteDni, int estadoPrestamo) {
 		Conexion cn = new Conexion();
-		String query = "INSERT INTO prestamos (cliente_id, fecha, importe_solicitado, importe_a_pagar, importe_cuota, cuotas, estado, cuotas_abonadas, saldo_restante) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		  PreparedStatement preparedStatement = null;
+		String query = "INSERT INTO prestamos (cliente_dni, fecha, importe_solicitado, importe_a_pagar, importe_cuota, cuotas, estado, cuotas_abonadas, saldo_restante) " +
+						"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
    try {
 	   cn.Open();
-	   PreparedStatement ps = cn.prepareStatement(query);
+	   System.out.println("Conexion abierta guardarPrestamo ");
+	   preparedStatement = cn.prepareStatement(query);
        
-       ps.setString(1, prestamo.getClienteDni());
-       ps.setDate(2, java.sql.Date.valueOf(prestamo.getFecha()));
-       ps.setFloat(3, prestamo.getImporteSolicitado());
-       ps.setFloat(4, prestamo.getImporteAPagar());
-       ps.setFloat(5, prestamo.getImporteCuota());
-       ps.setInt(6, prestamo.getCuotas());
-       ps.setInt(7, prestamo.getEstado());
-       ps.setInt(8, prestamo.getCuotasAbonadas());
-       ps.setFloat(9, prestamo.getSaldoRestante());
+	   preparedStatement.setString(1,clienteDni);
+	   preparedStatement.setDate(2, java.sql.Date.valueOf(prestamo.getFecha()));
+	   preparedStatement.setFloat(3, prestamo.getImporteSolicitado());
+       preparedStatement.setFloat(4, prestamo.getImporteAPagar());
+       preparedStatement.setFloat(5, prestamo.getImporteCuota());
+       preparedStatement.setInt(6, prestamo.getCuotas());
+       preparedStatement.setInt(7, estadoPrestamo);
+       preparedStatement.setInt(8, prestamo.getCuotasAbonadas());
+       preparedStatement.setFloat(9, prestamo.getSaldoRestante());
 
-       int filasInsertadas = ps.executeUpdate();
+       int filasInsertadas = preparedStatement.executeUpdate();
        return filasInsertadas > 0;
 
    } catch (Exception e) {
+	   System.out.println("ERROR guardarPrestamo DAO ");
        e.printStackTrace();
        return false;
    } finally {
-       cn.close();
-   }
+	   try {
+	       preparedStatement.close();
+		   cn.close();
+	} catch (Exception e2) {
+		  System.out.println("ERROR CERRAR CONEXION guardarPrestamo DAO ");
 	}
+      
+   }
+ }
 
 	@Override
 	public List<Prestamo> obtenerPrestamosPorCliente(int clienteId) {

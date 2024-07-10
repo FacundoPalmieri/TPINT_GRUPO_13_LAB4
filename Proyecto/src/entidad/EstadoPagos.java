@@ -4,6 +4,9 @@ public class EstadoPagos {
 
 		private int id;
 		private String estado;
+		
+		
+		
 		public int getId() {
 			return id;
 		}

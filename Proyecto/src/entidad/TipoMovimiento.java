@@ -2,18 +2,18 @@ package entidad;
 
 public class TipoMovimiento {
 	private int id;
-	private String decripcion;
+	private String descripcion;
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getDecripcion() {
-		return decripcion;
+	public String getDescripcion() {
+		return descripcion;
 	}
-	public void setDecripcion(String decripcion) {
-		this.decripcion = decripcion;
+	public void setDescripcion(String decripcion) {
+		this.descripcion = decripcion;
 	}
 	
 	

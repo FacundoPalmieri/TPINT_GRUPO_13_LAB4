@@ -55,8 +55,10 @@ public class ServletCuentas extends HttpServlet {
 		    
 		    
 		    request.setAttribute("listaCuentas", listaCuentas);
+		    
     		RequestDispatcher dispatcher = request.getRequestDispatcher("/CuentasCliente.jsp");
-			dispatcher.forward(request, response);	
+    		dispatcher.forward(request, response);
+    
 		   
 		 }
 

@@ -16,9 +16,10 @@ public class PrestamoNegImpl implements PrestamoNeg {
 	}
 	
 	@Override
-	public boolean solicitarPrestamo(Prestamo prestamo) {
+	public boolean solicitarPrestamo(Prestamo prestamo, String clienteDni, int estadoPrestamo) {
 		// TODO Auto-generated method stub
-		return prestamoDao.guardarPrestamo(prestamo);
+		return prestamoDao.guardarPrestamo(prestamo, clienteDni, estadoPrestamo);
+		
 	}
 
 	@Override

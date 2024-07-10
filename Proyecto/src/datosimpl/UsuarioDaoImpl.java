@@ -729,9 +729,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		        if (rs.next()) {
 		            l.setId(rs.getInt("localidades.id"));
 		            l.setNombre(rs.getString("localidades.nombre"));
-		     
-		            
-		        
+    
 		        } 
 
 		    } catch (Exception e) {

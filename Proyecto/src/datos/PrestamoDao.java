@@ -2,10 +2,11 @@ package datos;
 
 import java.util.List;
 
+import entidad.Persona;
 import entidad.Prestamo;
 
 public interface PrestamoDao {
-	boolean guardarPrestamo(Prestamo prestamo);
+	boolean guardarPrestamo(Prestamo prestamo, String clienteDni, int estadoPrestamo);
 
     List<Prestamo> obtenerPrestamosPorCliente(int clienteId);
 

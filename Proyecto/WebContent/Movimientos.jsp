@@ -3,6 +3,7 @@
 <%@page import="java.util.List"%>
 <%@page import="entidad.Cuenta"%>
 <%@page import="entidad.Movimientos"%>
+<%@page import="entidad.TipoMovimiento"%>
 <%@page import="java.util.ArrayList" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -38,8 +39,8 @@
         </div>
         
    <div class="cuenta">
-   	<td><%= request.getAttribute("cuentaId") %></td>
-   	<td><%= request.getAttribute("saldo") %></td>
+   	<td> Número de Cuenta <%= request.getAttribute("cuentaId")  %> - </td>
+   	<td> Saldo $ <%= request.getAttribute("saldo") %></td>
    </div>
         
         
@@ -61,12 +62,12 @@
 	                for (Movimientos movimiento : listaMovimientos) {
 	        %>
 	        <tr>
-	            <td><%= movimiento.getCuenta_destino()%></td>
-	            <td><%= movimiento.getFecha() %></td>
-	            <td><%= movimiento.getDetalle() %></td>
-	            <td><%= movimiento.getImporte() %></td>
-	            <td><%= movimiento.getTipo_Movimiento_id() %></td>
-	            <td><input type="button"  value="Cuenta" name="btnIngresarCuenta" class="btnEspecial"  onclick="window.location.href='DetalleCuenta.jsp';"></td>
+	            <td>  <%= movimiento.getCuenta_destino().getNumeroCuenta() %></td>
+	            <td>  <%= movimiento.getFecha() %></td>
+	            <td>  <%= movimiento.getDetalle() %></td>
+	            <td>$ <%= movimiento.getImporte() %></td>
+	            <td>  <%= movimiento.getTipo_Movimiento_id().getDescripcion() %></td>
+	           
 	        </tr>
 	        <%
 	                }
@@ -81,7 +82,7 @@
 	 </div>
 
         <div class="button-container">
-            <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='InicioCliente.jsp';"> 
+			<input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ServletCuentas?Param=1';">
         </div>
     </div>
 </body>

@@ -6,7 +6,7 @@ import entidad.Prestamo;
 
 public interface PrestamoNeg {
 	
-	public boolean solicitarPrestamo(Prestamo prestamo);
+	public boolean solicitarPrestamo(Prestamo prestamo, String ClienteDni, int estadoPrestamo);
 
     public List<Prestamo> obtenerPrestamosPorCliente(int clienteId);
 

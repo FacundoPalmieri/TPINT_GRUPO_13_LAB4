@@ -13,31 +13,34 @@ import javax.servlet.http.HttpSession;
 import entidad.Cuenta;
 import entidad.Prestamo;
 import negocio.CuentaNeg;
-import negocio.UsuarioNeg;
+import negocio.PrestamoNeg;
 import negocioimpl.CuentaNegImpl;
-import negocioimpl.UsuarioNegImpl;
+import negocioimpl.PrestamoNegImpl;
+
 
 @WebServlet("/ServletPrestamo")
 public class ServletPrestamo extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	CuentaNeg cuentaNeg = new CuentaNegImpl();
-	UsuarioNeg usuarioNeg = new UsuarioNegImpl();
+	private PrestamoNeg prestamoNeg;
+	private CuentaNeg cuentaNeg;
        
-    public ServletPrestamo() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+	 public void init() throws ServletException {
+	        super.init();
+	        prestamoNeg = new PrestamoNegImpl();
+	        cuentaNeg = new CuentaNegImpl();
+	    }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		ArrayList<Cuenta> listaCuentas = new ArrayList<Cuenta>();
 		
 		HttpSession session = request.getSession();
 		String DNI = (String) session.getAttribute("dni");
-		System.out.println("dni del cliente en servlet prestamos: " + session.getAttribute("dni"));
+		System.out.println("dni del cliente en servlet prestamos: " + DNI);
 				   
-		ArrayList<Cuenta> listaCuentas = cuentaNeg.obtenerCuentasPorDNI(DNI);
-		System.out.println("listaCuentas en servlet: " + listaCuentas);
-				    
-		request.setAttribute("cuentas", listaCuentas);
+		listaCuentas = cuentaNeg.obtenerCuentasPorDNI(DNI);
+		    
+		request.setAttribute("listaCuentas", listaCuentas);
+		System.out.println("listacuentas"+  listaCuentas);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/ClientePrestamo.jsp");
 		dispatcher.forward(request, response);	
 	
@@ -45,34 +48,40 @@ public class ServletPrestamo extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Prestamo prestamo = new Prestamo();
+		if(request.getParameter("btnSolicitarPrestamo")!= null) {
+			
+			HttpSession session = request.getSession();
+			String DNI = (String) session.getAttribute("dni");
+			Prestamo prestamo = new Prestamo();
+			boolean estadoPrestamo = false;
+
 		
-		/*HttpSession session = request.getSession();
-	    String Usuario = (String) session.getAttribute("usuario");
-	    Usuario usuario = new Usuario();
-	    usuario = usuarioNeg.obtenerUsuario(Usuario);
-	    
-
-        prestamo.setClienteDni(usuario.getPersona_dni());
-        prestamo.setFecha(LocalDate.now()); // Fecha actual
-        prestamo.setImporteSolicitado(Float.parseFloat(request.getParameter("importe")));
-        prestamo.setCuotas(Integer.parseInt(request.getParameter("cuotas")));
-
-        prestamo.setImporteAPagar(importeTotal);
-        prestamo.setImporteCuota(importeCuota);
-        prestamo.setEstado(1); // Estado inicial del préstamo, quizas debamos meter algunos estados en la base
-
-        // Guardar el préstamo en la base de datos
-        PrestamoNeg prestamoNeg = new PrestamoNegImpl();
-        boolean guardado = prestamoNeg.solicitarPrestamo(prestamo);
-
-        if (guardado) {
-            
-            response.sendRedirect("InicioCliente.jsp");
-        } else {
-            
-            response.sendRedirect("InicioCliente.jsp");
-        }*/
+			prestamo.setFecha(request.getParameter("fecha"));
+			prestamo.setImporteSolicitado(Float.parseFloat(request.getParameter("importeSolicitado")));
+			prestamo.setImporteAPagar(Float.parseFloat(request.getParameter("importeTotal")));
+			prestamo.setImporteCuota(Float.parseFloat(request.getParameter("importeCuotas")));
+			prestamo.setCuotas(Integer.parseInt(request.getParameter("cuotas")));
+			prestamo.setCuotasAbonadas(0);
+			prestamo.setSaldoRestante(Float.parseFloat(request.getParameter("importeTotal")));
+			
+			estadoPrestamo = prestamoNeg.solicitarPrestamo(prestamo, DNI, 1);
+			
+			if(estadoPrestamo == true) {
+				
+			   request.setAttribute("Mensaje","Préstamo solicitado");
+			   RequestDispatcher dispatcher = request.getRequestDispatcher("/ClientePrestamo.jsp");
+	           dispatcher.forward(request, response);
+	
+			}else {
+				   request.setAttribute("Mensaje","Ups! ha ocurrido un error inesperado ");
+				   RequestDispatcher dispatcher = request.getRequestDispatcher("/ClientePrestamo.jsp");
+		           dispatcher.forward(request, response);
+				
+			}	
+			
+		}
+		
+	
     }
 
 }

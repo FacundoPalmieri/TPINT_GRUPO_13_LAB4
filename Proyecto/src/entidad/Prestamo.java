@@ -1,17 +1,18 @@
 package entidad;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class Prestamo {
 
 	private int id;
-	private String clienteDni;
+	private Persona clienteDni;
 	private LocalDate fecha;
 	private float importeSolicitado;
 	private float importeAPagar;
 	private float importeCuota;
 	private int cuotas;
-	private int estado;
+	private EstadoPrestamo estado;
 	private int cuotasAbonadas;
 	private float saldoRestante;
 	
@@ -22,18 +23,20 @@ public class Prestamo {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getClienteDni() {
+	public Persona getClienteDni() {
 		return clienteDni;
 	}
-	public void setClienteDni(String clienteDni) {
+	public void setClienteDni(Persona clienteDni) {
 		this.clienteDni = clienteDni;
 	}
 	public LocalDate getFecha() {
 		return fecha;
 	}
-	public void setFecha(LocalDate fecha) {
-		this.fecha = fecha;
+	public void setFecha(String fecha) {
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+	    this.fecha = LocalDate.parse(fecha, formatter);
 	}
+
 	public float getImporteSolicitado() {
 		return importeSolicitado;
 	}
@@ -58,10 +61,10 @@ public class Prestamo {
 	public void setCuotas(int cuotas) {
 		this.cuotas = cuotas;
 	}
-	public int getEstado() {
+	public EstadoPrestamo getEstado() {
 		return estado;
 	}
-	public void setEstado(int estado) {
+	public void setEstado(EstadoPrestamo estado) {
 		this.estado = estado;
 	}
 	public int getCuotasAbonadas() {
