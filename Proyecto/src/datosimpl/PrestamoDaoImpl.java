@@ -6,9 +6,11 @@ import java.util.ArrayList;
 
 
 import datos.PrestamoDao;
+import entidad.Cuenta;
 import entidad.EstadoPrestamo;
 import entidad.Persona;
 import entidad.Prestamo;
+import entidad.TipoCuenta;
 
 public class PrestamoDaoImpl implements PrestamoDao{
 	private Conexion cn;
@@ -120,13 +122,79 @@ public class PrestamoDaoImpl implements PrestamoDao{
 		return listaPrestamos;		
 	}
 
+	
+	@Override
+	public ArrayList<Prestamo> obtenerPrestamosPorCliente(String DNI) {
+		Conexion cn = new Conexion();
+	    ResultSet rs = null;
+	    
+	    ArrayList<Prestamo> listaPrestamos = new ArrayList<>();
+	    
+	    String query = "SELECT personas.dni, personas.apellido, personas.nombre, personas.email, " +
+	                   "prestamos.fecha, prestamos.importe_solicitado, prestamos.importe_a_pagar, " +
+	                   "prestamos.importe_cuota, prestamos.cuotas, prestamos.cuotas_abonadas, " +
+	                   "prestamos.saldo_restante, estadosprestamos.id, estadosprestamos.descripcion " +
+	                   "FROM prestamos " +
+	                   "INNER JOIN personas ON prestamos.cliente_dni = personas.dni " +
+	                   "INNER JOIN estadosprestamos ON prestamos.estado = estadosprestamos.id " +
+	                   "WHERE personas.dni = ?";
+	    
+	    try {
+	        cn.Open();
+	        System.out.println("Conexion abierta obtenerPrestamosPorCliente" + DNI);
+	        
+	        PreparedStatement preparedStatement = cn.prepareStatement(query);
+	        preparedStatement.setString(1, DNI);
+	        rs = preparedStatement.executeQuery();
+	        
+	        while (rs.next()) {
+	            Prestamo prestamo = new Prestamo();
+	            Persona persona = new Persona();
+	            EstadoPrestamo estadoPrestamo = new EstadoPrestamo();
+	            
+	            persona.setDni(rs.getString("personas.dni"));
+	            persona.setApellido(rs.getString("personas.apellido"));
+	            persona.setNombre(rs.getString("personas.nombre"));
+	            persona.setEmail(rs.getString("personas.email"));
+	            
+	            prestamo.setFecha(rs.getString("fecha"));
+	            prestamo.setImporteSolicitado(rs.getFloat("importe_solicitado"));
+	            prestamo.setImporteAPagar(rs.getFloat("importe_a_pagar"));
+	            prestamo.setImporteCuota(rs.getFloat("importe_cuota"));
+	            prestamo.setCuotas(rs.getInt("cuotas"));
+	            prestamo.setCuotasAbonadas(rs.getInt("cuotas_abonadas"));
+	            prestamo.setSaldoRestante(rs.getFloat("saldo_restante"));
+	            
+	            estadoPrestamo.setId(rs.getInt("estadosprestamos.id"));
+	            estadoPrestamo.setDescripcion(rs.getString("estadosprestamos.descripcion"));
+	            
+	            prestamo.setClienteDni(persona);
+	            prestamo.setEstado(estadoPrestamo);
+	            
+	            listaPrestamos.add(prestamo);
+	        }
+	        
+	    } catch (Exception e) {
+	        System.out.println("ERROR obtenerPrestamosPorCliente DAO");
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (rs != null) {
+	                rs.close();
+	            }
+	            cn.close();
+	        } catch (Exception e2) {
+	            System.out.println("ERROR CERRAR CONEXION obtenerPrestamosPorCliente DAO");
+	            e2.printStackTrace();
+	        }
+	    }
+	    
+	    return listaPrestamos;
+	}
+
+	
 
 	/*
-	@Override
-	public ArrayList<Prestamo> obtenerPrestamosPorCliente(int clienteId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public Prestamo obtenerPrestamoPorId(int prestamoId) {

@@ -34,15 +34,19 @@ public class ServletPrestamo extends HttpServlet {
 		
 		if(request.getParameter("Param")!= null) {
 		ArrayList<Cuenta> listaCuentas = new ArrayList<Cuenta>();
+		ArrayList<Prestamo> listaPrestamosCliente = new ArrayList<Prestamo>();
 		
 		HttpSession session = request.getSession();
 		String DNI = (String) session.getAttribute("dni");
 		System.out.println("dni del cliente en servlet prestamos: " + DNI);
 				   
 		listaCuentas = cuentaNeg.obtenerCuentasPorDNI(DNI);
+		listaPrestamosCliente = prestamoNeg.obtenerPrestamosPorCliente(DNI);
 		    
 		request.setAttribute("listaCuentas", listaCuentas);
+		request.setAttribute("listaPrestamos", listaPrestamosCliente);
 		System.out.println("listacuentas"+  listaCuentas);
+		System.out.println("listaprestamos"+  listaPrestamosCliente);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/ClientePrestamo.jsp");
 		dispatcher.forward(request, response);	
 		

@@ -35,7 +35,7 @@
 		</div>
 		<div class="button-container">
 	    	<a href="EditarCliente?Param=1" class="botonera" style="margin: 5px;">Mis Datos</a>
-	        <a href="ServletPrestamo?Param=1" class="botonera" style="margin: 5px;">Solicitar Préstamo</a> 
+	        <a href="ServletPrestamo?Param=1" class="botonera" style="margin: 5px;">Mis Préstamos</a> 
 			<a href="ServletCuentas?Param=1" class="botonera" style="margin: 5px;">Cuentas</a> 	    
 	    </div>
 	</div>

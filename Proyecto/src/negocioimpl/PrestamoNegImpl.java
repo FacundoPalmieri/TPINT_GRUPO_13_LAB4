@@ -31,12 +31,15 @@ public class PrestamoNegImpl implements PrestamoNeg {
 		
 	}
 
-	/*
 	@Override
-	public List<Prestamo> obtenerPrestamosPorCliente(int clienteId) {
+	public ArrayList<Prestamo> obtenerPrestamosPorCliente(String DNI) {
 		// TODO Auto-generated method stub
-		return prestamoDao.obtenerPrestamosPorCliente(clienteId);
+		return prestamoDao.obtenerPrestamosPorCliente(DNI);
 	}
+
+
+	/*
+	
 
 	@Override
 	public Prestamo obtenerPrestamoPorId(int prestamoId) {

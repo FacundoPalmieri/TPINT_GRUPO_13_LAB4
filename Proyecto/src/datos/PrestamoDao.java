@@ -7,9 +7,10 @@ public interface PrestamoDao {
 	public boolean guardarPrestamo(Prestamo prestamo, String clienteDni, int estadoPrestamo); // OK
 	
 	public ArrayList<Prestamo> obtenerPrestamos(); // OK
+    public ArrayList<Prestamo> obtenerPrestamosPorCliente(String DNI);
 
 	/*
-    List<Prestamo> obtenerPrestamosPorCliente(int clienteId);
+
 
     Prestamo obtenerPrestamoPorId(int prestamoId);
 

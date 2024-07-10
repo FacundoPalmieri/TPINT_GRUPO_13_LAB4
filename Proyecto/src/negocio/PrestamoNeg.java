@@ -8,9 +8,10 @@ public interface PrestamoNeg {
 	public boolean solicitarPrestamo(Prestamo prestamo, String ClienteDni, int estadoPrestamo);
 	
 	public ArrayList<Prestamo> obtenerPrestamos();
+	public ArrayList<Prestamo> obtenerPrestamosPorCliente(String DNI);
 
 	/*
-    public ArrayList<Prestamo> obtenerPrestamosPorCliente(int clienteId);
+   
 
     public Prestamo obtenerPrestamoPorId(int prestamoId);
 

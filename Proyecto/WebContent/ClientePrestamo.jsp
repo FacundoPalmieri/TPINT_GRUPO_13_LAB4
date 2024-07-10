@@ -3,6 +3,7 @@
 <%@ page import="java.util.Date"%> 
 <%@ page import="java.text.SimpleDateFormat"%>   
 <%@ page import="entidad.Cuenta"%>
+<%@ page import="entidad.Prestamo"%>
 <%@ page import="entidad.TipoCuenta"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import ="java.time.LocalDate" %> 
@@ -42,7 +43,7 @@
         <div class="banner">
             <div class="logo_encabezado_izquierda">
                 <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
-                <h3>Solicitar Préstamo</h3>
+                <h3>Mis Préstamos</h3>
             </div>
             <div class="logo_encabezado_derecha">
                 <%= (String) session.getAttribute("usuario") %>
@@ -53,6 +54,59 @@
         </div>
        <form action="ServletPrestamo" method="post" >
         <div style="margin: 0.5%;">
+        
+        <h2>Préstamos Actuales</h2>
+            <table id="table_id" class="display">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Importe Solicitado</th>
+                        <th>Importe a Pagar</th>
+                        <th>Cuotas</th>
+                        <th>Importe por Cuota</th>
+                        <th>Estado</th>
+                        <th>Cuotas Abonadas</th>
+                        <th>Saldo Restante</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%  	
+                      ArrayList<Prestamo> listaPrestamos = null;
+                      listaPrestamos = ( ArrayList<Prestamo> )  request.getAttribute("listaPrestamos"); 
+                        if (listaPrestamos != null) {
+                            for (Prestamo prestamo : listaPrestamos) {
+                            	System.out.println(prestamo);                            
+                    %>
+                    <tr>
+                        <td><%= prestamo.getFecha() %></td>
+                        <td><%= prestamo.getImporteSolicitado() %></td>
+                        <td><%= prestamo.getImporteAPagar() %></td>
+                        <td><%= prestamo.getCuotas() %></td>
+                        <td><%= prestamo.getImporteCuota() %></td>
+                        <td><%= prestamo.getEstado().getDescripcion() %></td>
+                        <td><%= prestamo.getCuotasAbonadas() %></td>
+                        <td><%= prestamo.getSaldoRestante() %></td>                       
+                    </tr>
+                    <% 
+                            }
+                        } else {
+                    %>
+                    <tr>
+                        <td colspan="10">No tiene préstamos actuales</td>
+                    </tr>
+                    <% 
+                        }
+                    %>
+                </tbody>
+            </table>
+            <button type="button" class="accordion">Menú de Pagos &#x1F4B0;</button>
+                <div class="panel">
+               
+                    <p>Aquí va tema pagos, etc.</p>
+                </div>
+        
+        <button type="button" class="accordion">Solicitar Préstamo &#x1F4B3;</button>
+                <div class="panel">
                 <table class="custom-table">
                     <tr>
                         <td>Cliente:</td>
@@ -119,9 +173,15 @@
                     <input type="submit" value="Solicitar Préstamo"  name="btnSolicitarPrestamo" style="margin-top: 5px !important; margin-botton: 5px !important; margin-left: -52px;">
                     <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='InicioCliente.jsp';" style="margin-left: 1%; margin-top: 5px !important; margin-botton: 5px !important;"> 
                 </div>
+                
+                  </div>
+                
+                
         </div>
        </form>
     </div>
+    
+    
     
 
 <div id="popup" class="popup">
@@ -150,6 +210,21 @@
             showPopup(errorMensaje);
         }
     };
+    
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var panel = this.nextElementSibling;
+            if (panel.style.maxHeight) {
+                panel.style.maxHeight = null;
+            } else {
+                panel.style.maxHeight = panel.scrollHeight + "px";
+            } 
+        });
+    }
 </script>
 </body>
 </html>
