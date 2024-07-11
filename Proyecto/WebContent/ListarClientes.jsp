@@ -64,29 +64,38 @@
 	});
 	
 	document.addEventListener("DOMContentLoaded",function(){
-		let botonesEliminar = document.getElementsByName("btnEliminar");
-		let botonesModificar = document.getElementsByName("btnModificar");
-		botonesEliminar.forEach(function(boton){
-			boton.addEventListener("click",function(){
-				let fila= boton.parentNode.parentNode;
+		toggleClientes();
+		let tabla = document.getElementById('table_id');
+		let botones = tabla.querySelectorAll('input[type="button"]');
+		
+		//Se carga el EventListener de los botones de las celdas al cargar el DOM
+		botones.forEach(function(btn){
+			btn.addEventListener("click",function(e){
+				let fila= btn.parentNode.parentNode;
 				let dni = fila.cells[1].textContent;
-				let estado = fila.cells[2].textContent;
 				let nombre = fila.cells[4].textContent;
 				let apellido = fila.cells[5].textContent;
-				let usuario = fila.cells[13].textContent;
-				enviarDatosEliminar(dni,estado,usuario,nombre,apellido);
+				let usuario = fila.cells[6].textContent;
+			
+				if(e.target.value==="Eliminar"){
+					let estado = 1;
+					enviarDatosEliminar(dni,estado,usuario,nombre,apellido);
+				}
+				else if(e.target.value==="Habilitar"){
+					let estado = 0;
+					enviarDatosEliminar(dni,estado,usuario,nombre,apellido);
+				}
+				else if(e.target.value==="Modificar"){
+					enviarDatosModificar(dni,usuario);
+				}
+				else if(e.target.value="Ver Detalles"){
+					enviarDetalles(usuario);
+				}
 			})
 		})
 		
-		botonesModificar.forEach(function(boton){
-			boton.addEventListener("click",function(){
-				let fila= boton.parentNode.parentNode;
-				let dni = fila.cells[1].textContent;
-				let usuario = fila.cells[13].textContent;
-				enviarDatosModificar(dni,usuario);
-			})
-		})
 		
+		//Se carga la funcionalidad del filtro al cargar el DOM
         const inputFiltro = document.querySelector('#txtFiltro');
         inputFiltro.addEventListener('keyup', function() {
             let filterValue = inputFiltro.value.toLowerCase();
@@ -105,42 +114,80 @@
                 rows[i].style.display = match ? '' : 'none';
             }
         });
-    });
-	
-	function enviarDatosEliminar(dni,estado,usuario,nombre,apellido){
-		let xhr = new XMLHttpRequest();
-		xhr.open("POST","EliminarUsuario.jsp","true");
-		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		let params="dniCliente="+encodeURIComponent(dni)+"&estado="+encodeURIComponent(estado)+"&usuario="+encodeURIComponent(usuario)
-					+"&nombre="+encodeURIComponent(nombre)+"&apellido="+encodeURIComponent(apellido);
-		
-		xhr.send(params);
-		xhr.onreadystatechange = function(){
-			if(xhr.readyState===4 && xhr.status===200){
-				window.location.href='EliminarUsuario.jsp?'+params;
-			}
-			else if(xhr.readyState===4){
-				console.log("Error al enviar los datos");
+    })
+    
+    //Esta funcion es llamada desde el boton Eliminar/Habilitar y va al jsp con get EliminaCliente con parametros
+    function enviarDatosEliminar(dni,estado,usuario,nombre,apellido){
+			let xhr = new XMLHttpRequest();
+			xhr.open("POST","EliminarCliente.jsp","true");
+			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			let params="dniCliente1="+encodeURIComponent(dni)+"&estadoCliente1="+encodeURIComponent(estado)+"&usuario1="+encodeURIComponent(usuario)
+						+"&nombre1="+encodeURIComponent(nombre)+"&apellido1="+encodeURIComponent(apellido);
+			xhr.send(params);
+			xhr.onreadystatechange = function(){
+				if(xhr.readyState===4 && xhr.status===200){
+					window.location.href='EliminarCliente.jsp?'+params;
+				}
+				else if(xhr.readyState===4){
+					console.log("Error al enviar los datos");
+				}
 			}
 		}
-	}
 	
+	//Esta funcion es llamada desde el boton Modificar y va al jsp con get ModificarCliente con parametros
 	function enviarDatosModificar(dni,usuario){
 		let xhr = new XMLHttpRequest();
-		xhr.open("POST","ModificarUsuario.jsp","true");
+		xhr.open("POST","ModificarCliente.jsp","true");
 		xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-		let params="dniCliente="+encodeURIComponent(dni)+"&usuario="+encodeURIComponent(usuario)
-		
+		let params="dniCliente1="+encodeURIComponent(dni)+"&usuario1="+encodeURIComponent(usuario)	
 		xhr.send(params);
 		xhr.onreadystatechange = function(){
 			if(xhr.readyState===4 && xhr.status===200){
-				window.location.href='ModificarUsuario.jsp?'+params;
+				window.location.href='ModificarCliente.jsp?'+params;
 			}
 			else if(xhr.readyState===4){
 				console.log("Error al enviar los datos");
 			}
 		}
 	}
+	
+	//Esta funcion es llamada desde el boton Detalles y va al jsp EditarCliente mediante post con el parametro usuario
+	function enviarDetalles(usuario){
+		let form = document.createElement('form');
+	    form.method = 'post';
+	    form.action = 'EditarCliente';
+	    
+	    let input = document.createElement('input');
+	    input.type = 'hidden';
+	    input.name = 'usuario';
+	    input.value = usuario;
+	    
+	    form.appendChild(input);
+	    document.body.appendChild(form);
+	    form.submit();
+	}
+	
+	function toggleClientes() {
+        var checkbox = document.getElementById('toggleHabilitados');
+        var habilitados = document.getElementsByClassName('habilitado');
+        var noHabilitados = document.getElementsByClassName('no-habilitado');
+
+        if (checkbox.checked) {
+            for (var i = 0; i < noHabilitados.length; i++) {
+                noHabilitados[i].style.display = '';
+            }
+            for (var j = 0; j < habilitados.length; j++) {
+                habilitados[j].style.display = '';
+            }
+        } else {
+            for (var i = 0; i < noHabilitados.length; i++) {
+                noHabilitados[i].style.display = 'none';
+            }
+            for (var j = 0; j < habilitados.length; j++) {
+                habilitados[j].style.display = '';
+            }
+        }
+    }
 </script>
 </head>
 <body>
@@ -177,87 +224,57 @@
                         <th>DNI</th>
                         <th>Dirección</th>
                         <th>Email</th>
+                        <th>Nombre</th>
+            			<th>Apellido</th>
                         <th>Usuario</th>
                         <th>Opciones</th>
+                        <th>Contrasenia</th>
+                        <th>Detalles</th>
                     </tr>
                 </thead>
                 <tbody id="clientesTableBody">
                     <%
-                    ArrayList<Persona> listaPersona = (ArrayList<Persona>) request.getAttribute("listaPersonas");
-                    ArrayList<Direccion> listaDireccion = (ArrayList<Direccion>) request.getAttribute("listaDirecciones");
-                    ArrayList<Usuario> listaUsuario = (ArrayList<Usuario>) request.getAttribute("listaUsuarios");
-                    if (listaPersona != null && listaDireccion != null && listaUsuario != null) {
-                        for (int i = 0; i < listaPersona.size(); i++) {
-                            Persona persona = listaPersona.get(i);
-                            Direccion direccion = listaDireccion.get(i);
-                            Usuario usuario = listaUsuario.get(i);
+                    ArrayList<Persona> listaPersona = (ArrayList<Persona>) session.getAttribute("listaPersonas");    
+                    if(listaPersona!=null){
+                    	for (Persona persona : listaPersona){
                     %>
-                    <tr class="<%= usuario.getHabilitado() == 1 ? "habilitado" : "no-habilitado" %>">
+                    <tr class="<%= persona.getUsuario().getHabilitado() == 1 ? "habilitado" : "no-habilitado" %>">
                     	<td><%= persona.getApellido() %>, <%= persona.getNombre() %></td>
                         <td><%= persona.getDni() %></td>
                         <td>
-                            <%= direccion.getCalle() %> <%= direccion.getAltura() %>
-                            <% if (direccion.getPiso() != null && !direccion.getPiso().isEmpty()) { %>
-                                , Piso: <%= direccion.getPiso() %>
+                            <%= persona.getDireccion().getCalle() %> <%= persona.getDireccion().getAltura() %>
+                            <% if (persona.getDireccion().getPiso() != null && !persona.getDireccion().getPiso().isEmpty()) { %>
+                                , Piso: <%= persona.getDireccion().getPiso() %>
                             <% } %>
-                            <% if (direccion.getDepartamento() != null && !direccion.getDepartamento().isEmpty()) { %>
-                                , Depto: <%= direccion.getDepartamento() %>
+                            <% if (persona.getDireccion().getDepartamento() != null && !persona.getDireccion().getDepartamento().isEmpty()) { %>
+                                , Depto: <%= persona.getDireccion().getDepartamento() %>
                             <% } %>
                         </td>
                         <td><%= persona.getEmail() %></td>
-                        <td><%= usuario.getUsuario() %></td>
-                        <td style="display:flex;">
-                            <input type="button" value="<%= usuario.getHabilitado() == 1 ? "Eliminar" : "Habilitar" %>" name="btnEliminar" class="btnEspecial" style="margin: 1px; padding: 8px 8px;">
-                            <% if (usuario.getHabilitado() == 1) { %>
-                                <input type="button" value="Modificar Contraseña" name="btnModificar" class="btnEspecial" style="margin: 1px; padding: 8px 8px;">
-                            <% } %>
-                        </td>
+                        <th><%= persona.getNombre() %></th>
+            			<th><%= persona.getApellido() %></th>
+                        <td><%= persona.getUsuario().getUsuario() %></td>
+                        <td><input type="button" value="<%= persona.getUsuario().getHabilitado()==1 ? "Eliminar" : "Habilitar"%>" name="<%=persona.getUsuario().getHabilitado()==1 ? "btnListarEliminar" : "btnListarHabilitar" %>" class="btnEspecial"></td>
+                        <% if (persona.getUsuario().getHabilitado() == 1) { %>
+                           <td><input type="button" value="Modificar" name="btnListarModificar" class="btnEspecial"></td>
+                         <%}else{%>
+                         	<td><input type="button" value="Opcion Deshabilitada" name="sinFuncion" class="btnEspecial"></td>
+                         <%} %>      
+                           <td><input type="button" value="Ver Detalles" name="btnListarDetalles" class="btnEspecial"></td>
                     </tr>
-                    <%
-                        }
-                    } else {
-                    %>
+                    	<%}%>
+                    <%} else{%>
                     <tr>
                         <td colspan="7">No hay datos disponibles</td>
                     </tr>
-                    <%
-                    }
-                    %>
+                    <%}%>
                 </tbody>
             </table>
         </div>
         <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLclientes.jsp';">
-    <% } else { %>
+    <%} else{%>
         <h1>No tiene permisos para trabajar en esta URL, presione <a href="Login.jsp">aquí</a> para volver al Login</h1>
-    <% } %>
-    
-    <script>
-        function toggleClientes() {
-            var checkbox = document.getElementById('toggleHabilitados');
-            var habilitados = document.getElementsByClassName('habilitado');
-            var noHabilitados = document.getElementsByClassName('no-habilitado');
-
-            if (checkbox.checked) {
-                for (var i = 0; i < noHabilitados.length; i++) {
-                    noHabilitados[i].style.display = '';
-                }
-                for (var j = 0; j < habilitados.length; j++) {
-                    habilitados[j].style.display = '';
-                }
-            } else {
-                for (var i = 0; i < noHabilitados.length; i++) {
-                    noHabilitados[i].style.display = 'none';
-                }
-                for (var j = 0; j < habilitados.length; j++) {
-                    habilitados[j].style.display = '';
-                }
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            toggleClientes();
-        });
-    </script>
+    <%}%>
 </body>
 
 </html>

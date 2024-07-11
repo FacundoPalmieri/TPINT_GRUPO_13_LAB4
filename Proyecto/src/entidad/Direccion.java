@@ -9,6 +9,16 @@ public class Direccion {
 	private String piso;
 	private String departamento;
 	private int localidad_id;
+	private Localidad localidad;
+	
+	
+	public Localidad getLocalidad() {
+		return localidad;
+	}
+	
+	public void setLocalidad(Localidad localidad) {
+		this.localidad = localidad;
+	}
 	
 	public int getId() {
 		return id;

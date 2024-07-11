@@ -71,20 +71,26 @@ public class ServletUsuario extends HttpServlet {
     	// LISTAR CLIENTES
     	if (request.getParameter("btnListarCliente") != null) {
             UsuarioNeg usuarioNeg = new UsuarioNegImpl();
-            ArrayList<Usuario> listaUsuarios = usuarioNeg.listaUsuarios();
-            ArrayList<Persona> listaPersonas = usuarioNeg.listarPersonas();
-            ArrayList<Direccion> listaDirecciones = usuarioNeg.listarDirecciones();
-            
-            request.setAttribute("listaUsuarios", listaUsuarios);
-            request.setAttribute("listaPersonas", listaPersonas);
-            request.setAttribute("listaDirecciones", listaDirecciones);
-            
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarClientes.jsp");
+            //ArrayList<Usuario> listaUsuarios = usuarioNeg.listaUsuarios();
+            //ArrayList<Persona> listaPersonas = usuarioNeg.listarPersonas();
+            //ArrayList<Direccion> listaDirecciones = usuarioNeg.listarDirecciones();
+            ArrayList<Persona> listaPersonas = usuarioNeg.listarPersonasComposicion();
+            //Se aguarda la lista en la session para actualizarla al realizar una modificacion
+            HttpSession session = request.getSession();
+            session.setAttribute("listaPersonas", listaPersonas);
+            //request.setAttribute("listaUsuarios", listaUsuarios);
+            //request.setAttribute("listaDirecciones", listaDirecciones);
+            //request.setAttribute("listaPersonas", listaPersonas);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("ListarClientes.jsp");
             dispatcher.forward(request, response);
         }
 
         if (request.getParameter("btnModificarUsuario") != null) {
             response.sendRedirect("ModificarUsuario.jsp");
         }
+        
+        if (request.getParameter("btnEliminarUsuario") != null) {
+			  response.sendRedirect("EliminarUsuario.jsp");
+  		}
     }
 }

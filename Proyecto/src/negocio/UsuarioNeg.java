@@ -25,10 +25,6 @@ public interface UsuarioNeg {
     public Direccion ObtenerDireccionCliente (int IDdireccion);
 	public Provincia ObtenerProvinciaCliente (int IDprovincia);
 	public Localidad ObtenerLocalidadCliente (int IDlocalidad);
-    
-    /*
-    public ArrayList<Persona> listarPersonasComposicion();
+	public ArrayList<Persona> listarPersonasComposicion();
 	public Persona ObtenerPersonaCompleta(String usuario);
-	
-	*/
 }

@@ -5,7 +5,16 @@ public class Localidad {
 	private int id;
 	private String Nombre;
 	private int idProvincia;
+	private Provincia provincia;
 	
+	
+	public Provincia getProvincia() {
+		return provincia;
+	}
+	
+	public void setProvincia(Provincia provincia) {
+		this.provincia = provincia;
+	}
 	
 	
 	public int getIdProvincia() {

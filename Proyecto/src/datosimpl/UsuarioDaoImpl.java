@@ -2,6 +2,7 @@ package datosimpl;
 import datos.UsuarioDao;
 import entidad.Direccion;
 import entidad.Localidad;
+import entidad.Pais;
 import entidad.Persona;
 import entidad.Provincia;
 import entidad.Usuario;
@@ -291,7 +292,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    			    + " FROM  personas"
 	    			    + " INNER JOIN usuarios ON personas.dni = usuarios.persona_dni"
 	    			    + " WHERE usuarios.usuario = ? "
-	    			    + " AND usuarios.habilitado = 1" ;
+	    			    + " AND tipo_usuario_id=2" ;
 	    			
 	    			
 
@@ -345,7 +346,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        cn.Open();
 	        System.out.println("CONEXION ABIERTA OBTENER USUARIO X DNI");
 	       
-	        String query = "SELECT usuarios.usuario, usuarios.persona_dni, usuarios.Habilitado FROM usuarios WHERE usuarios.habilitado = 1 AND usuarios.persona_dni = ?";
+	        String query = "SELECT usuarios.usuario, usuarios.persona_dni, usuarios.Habilitado FROM usuarios WHERE tipo_usuario_id=2 AND usuarios.persona_dni = ?";
 	        System.out.println("Query: " + query);
 	        preparedStatement = cn.prepareStatement(query);
 	        preparedStatement.setString(1, DNI);
@@ -754,25 +755,25 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		   
 		    return l;
 	}
-}
 
 
 
-/*
+
 	public ArrayList<Persona> listarPersonasComposicion(){
 		ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
-		String query= "SELECT personas.id,personas.dni,personas.nombre,personas.apellido,personas.email "
-		    	+"FROM personas"
-		    	+"INNER JOIN usuarios ON usuarios.persona_dni=personas.dni"
-		    	+"INNER JOIN direcciones ON Personas.Direccion_id=direcciones.id"
-		    	+ "WHERE usuarios.tipo_usuario_id = 2";
+		String query= "SELECT personas.id,personas.dni,personas.nombre,personas.apellido,personas.email,usuarios.id,usuarios.usuario,usuarios.habilitado," 
+				+"direcciones.id,direcciones.Calle,direcciones.numero,direcciones.piso,direcciones.departamento"
+		    	+" FROM personas"
+		    	+" INNER JOIN usuarios ON usuarios.persona_dni=personas.dni"
+		    	+" INNER JOIN direcciones ON Personas.Direccion_id=direcciones.id"
+		    	+" WHERE usuarios.tipo_usuario_id = 2";
 		
 		try {
 			cn = new Conexion();
 		    cn.Open();
-		    System.out.println("CONEXION ABIERTA LISTAR DIRECCIONES");
+		    System.out.println("CONEXION ABIERTA LISTAR PERSONAS");
+		    System.out.println("QUERY" + query);
 		    ResultSet rs = cn.query(query);
-		    
 		    while(rs.next()){
 		    	Persona p = new Persona(); 
 	      	    p.setId(rs.getInt("personas.id"));
@@ -783,7 +784,6 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		    	p.setEmail(rs.getString("personas.email"));
 		    	Usuario u = new Usuario(); 
 		    	u.setId(rs.getInt("usuarios.id"));
-		    	u.setPersona_dni(rs.getString("usuarios.persona_dni"));
 		    	u.setUsuario(rs.getString("usuarios.usuario"));
 		    	u.setHabilitado(rs.getInt("usuarios.habilitado"));
 		    	Direccion d = new Direccion(); 
@@ -809,64 +809,78 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		return listaPersonas;
 	}
 	
-	*/
-	
-	/*
-	
+
 	public Persona ObtenerPersonaCompleta(String usuario){
 		cn = new Conexion();
 		ResultSet rs = null;
 		PreparedStatement preparedStatement = null;
-		Persona p = new Persona(); 
-		
-		String query= "SELECT personas.id,personas.dni,personas.cuil,personas.nombre,personas.apellido,personas.sexo, personas.celular, personas.telefono, personas.direccion_id, personas.nacionalidad, personas.fecha_nacimiento, personas.email "
-				     +"direcciones.id, direcciones.calle, direcciones.numero, direcciones.piso, direcciones.departamento, direcciones.localidad_id "
-				     + "paises.id, paises.nombre"
-				     +"provincias.id, provincias.nombre, provincias.pais_id"
-				     +"localidades.id, localidades.nombre, localidades.provincia_id"
-		    	     +"FROM personas"
-		    	     +"INNER JOIN usuarios ON usuarios.persona_dni=personas.dni"
-		         	 +"INNER JOIN direcciones ON Personas.Direccion_id=direcciones.id"
-		         	 +"INNER JOIN localidades ON localidades.id = direcciones.localidad_id"
-		         	 +"INNER JOIN provincias ON provincias.id = "
-		    	     +"WHERE usuarios.usuario = ?";
+		Persona p = new Persona();
+		String query= "SELECT personas.id,personas.dni,personas.cuil,personas.nombre,personas.apellido,personas.sexo, personas.celular, personas.telefono, personas.direccion_id, personas.nacionalidad, personas.fecha_nacimiento, personas.email, "
+				     +"direcciones.id, direcciones.calle, direcciones.numero, direcciones.piso, direcciones.departamento, direcciones.localidad_id,usuarios.id, usuarios.usuario, usuarios.habilitado, localidades.Nombre,provincias.nombre,paises.nombre "
+		    	     +" FROM personas"
+		    	     +" INNER JOIN usuarios ON usuarios.persona_dni=personas.dni"
+		         	 +" INNER JOIN direcciones ON Personas.Direccion_id=direcciones.id"
+		    	     +" INNER JOIN localidades ON direcciones.Localidad_id=localidades.id"
+		         	 +" INNER JOIN provincias ON localidades.Provincia_id=provincias.id"
+		    	     +" INNER JOIN paises ON provincias.Pais_id=paises.id"
+		    	     +" WHERE usuarios.usuario = ?";
 		
 		try {
 			cn.Open();
-		    System.out.println("CONEXION ABIERTA LISTAR DIRECCIONES");
-		    
+		    System.out.println("CONEXION ABIERTA OBTENER PERSONA COMPLETA");
+		    System.out.println("QUERY" + query);
+		    preparedStatement = cn.prepareStatement(query);
 		    preparedStatement.setString(1, usuario);
       	    rs = preparedStatement.executeQuery();
-		    
 		    while(rs.next()){
-		    
 	      	    p.setId(rs.getInt("personas.id"));
 		    	p.setDni(rs.getString("personas.dni"));
+		    	p.setCuil(rs.getString("personas.cuil"));
 		    	p.setNombre(rs.getString("personas.nombre"));
 		    	p.setApellido(rs.getString("personas.apellido"));
 		    	p.setEmail(rs.getString("personas.email"));
-		    	
+		    	p.setSexo(rs.getString("personas.sexo"));
+		    	Date sqlDate = rs.getDate("personas.fecha_nacimiento");
+	            if (sqlDate != null) {
+	                LocalDate localDate = sqlDate.toLocalDate();
+	                p.setFechaNacimiento(localDate);
+	            }
+	            p.setNacionalidad(rs.getString("personas.nacionalidad"));
 		    	Usuario u = new Usuario(); 
 		    	u.setId(rs.getInt("usuarios.id"));
-		    	u.setPersona_dni(rs.getString("usuarios.persona_dni"));
+		    	//u.setPersona_dni(rs.getString("usuarios.persona_dni"));
 		    	u.setUsuario(rs.getString("usuarios.usuario"));
 		    	u.setHabilitado(rs.getInt("usuarios.habilitado"));
 		    	
+		    	Pais ps = new Pais();
+		    	ps.setNombre(rs.getString("paises.nombre"));
+		    	
+		    	//Se agrega el objeto Pais a Provincia
+		    	Provincia pv = new Provincia();
+		    	pv.setNombre(rs.getString("provincias.nombre"));
+		    	pv.setPais(ps);
+		    	
+		    	//Se agrega el objeto Provincia a Localidad
+		    	Localidad l = new Localidad();
+		    	l.setNombre(rs.getString("localidades.nombre"));
+		    	l.setProvincia(pv);
+		    	
+		    	//Se agrega el objeto Localidad a Direccion
 		    	Direccion d = new Direccion(); 
 	      	    d.setId(rs.getInt("direcciones.id"));
 		    	d.setCalle(rs.getString("direcciones.calle"));
 		    	d.setAltura(rs.getInt("direcciones.numero"));
 		    	d.setPiso(rs.getString("direcciones.piso"));
 		    	d.setDepartamento(rs.getString("direcciones.departamento"));
+		    	d.setLocalidad(l);
 		    	
 		    	//Se agregan los objetos Usuario y Direccion a Persona
 		    	p.setUsuario(u);
 		    	p.setDireccion(d);
-	
 		    }
 		}
 		catch(Exception e){
-			System.out.println("ERROR EN LISTAR PERSONA DAO");
+			System.out.println("ERROR EN OBTENER PERSONA COMPLETA");
 			e.printStackTrace();
 		}
 		finally {
@@ -874,11 +888,4 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		}
 		return p;
 	}
-
-
-*/
-
-
-	
-
-
+}

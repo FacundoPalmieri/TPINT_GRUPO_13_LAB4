@@ -113,20 +113,15 @@ public class UsuarioNegImpl implements UsuarioNeg{
 		return usuarioDao.ObtenerLocalidadCliente(IDlocalidad);
 	}
 
-
-	
-	/*
-	
 	public ArrayList<Persona> listarPersonasComposicion(){
 		return usuarioDao.listarPersonasComposicion();
 	}
 
-
+	
 	@Override
 	public Persona ObtenerPersonaCompleta(String usuario) {
 		return usuarioDao.ObtenerPersonaCompleta(usuario);
-		
-	*/
+	}
 	}
 
 

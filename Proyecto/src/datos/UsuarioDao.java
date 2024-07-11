@@ -39,11 +39,7 @@ public interface UsuarioDao {
 	  
 	  public Localidad ObtenerLocalidadCliente (int IDlocalidad);
 	  
-	 
-	  /*
 	  public ArrayList<Persona> listarPersonasComposicion();
 	  
 	  public Persona ObtenerPersonaCompleta(String usuario);
-	  
-	  */
 }
