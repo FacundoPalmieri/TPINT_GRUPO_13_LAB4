@@ -54,12 +54,14 @@ public class ServletPrestamo extends HttpServlet {
 		
 		
 		if(request.getParameter("PrestamoAdmin")!= null) {
+			System.out.println("entra a PrestamoAdmin");
 			
 			ArrayList<Prestamo> listaPrestamos = new ArrayList<Prestamo>();
 			
 			listaPrestamos = prestamoNeg.obtenerPrestamos();
 			
 			if(listaPrestamos != null) {
+				System.out.println("completa lista prestamos");
 				request.setAttribute("listaPrestamos", listaPrestamos);	
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/AdminPrestamo.jsp");
 				dispatcher.forward(request, response);	

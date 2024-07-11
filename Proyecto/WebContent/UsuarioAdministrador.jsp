@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Administrador</title>
+
 <style type="text/css">
 	<jsp:include page="css\Style.css"></jsp:include>
 </style>
@@ -32,14 +32,11 @@
 	</div>
 
    <div class="button-container">
-        <input type="button" value="ABML Clientes" name="btnABMLcliente" onclick="window.location.href='ABMLclientes.jsp';" class="botonera">
-        <input type="button" value="ABML Cuentas" name="btnABMLcuenta" onclick="window.location.href='ABMLcuentas.jsp';" class="botonera">
-        <a href="ServletPrestamo? PrestamoAdmin=1" class="botonera boton-link">Prestamos</a>
+		<a href="ABMLclientes.jsp" class="botonera boton-link" style="margin: 5px;">ABML Clientes</a>
+ 		<a href="ABMLcuentas.jsp" class="botonera boton-link" style="margin: 5px;">ABML Cuentas</a>        
+        <a href="ServletPrestamo?PrestamoAdmin=1" class="botonera boton-link" style="margin: 5px;">Préstamos</a>
     </div>
-    <div class="button-container"> <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='Login.jsp';"> </div>
     
-
-
 	 <%}else{%>
 	 	<h1>No tiene permisos para trabajar en esta URL, presione <a href="Login.jsp">aquí</a> para volver al Login</h1>
 	 <%}%>

@@ -54,62 +54,9 @@
         </div>
        <form action="ServletPrestamo" method="post" >
         <div style="margin: 0.5%;">
-        
-          <button type="button" class="accordion">Mis Préstamos &#128193;</button>
-             <div class="panel">
-            <table id="table_id" class="display">
-                <thead>
-                    <tr>
-                        <th>Fecha</th>
-                        <th>Importe Solicitado</th>
-                        <th>Importe a Pagar</th>
-                        <th>Cuotas</th>
-                        <th>Importe por Cuota</th>
-                        <th>Estado</th>
-                        <th>Cuotas Abonadas</th>
-                        <th>Saldo Restante</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <%  	
-                      ArrayList<Prestamo> listaPrestamos = null;
-                      listaPrestamos = ( ArrayList<Prestamo> )  request.getAttribute("listaPrestamos"); 
-                        if (listaPrestamos != null) {
-                            for (Prestamo prestamo : listaPrestamos) {
-                            	System.out.println(prestamo);                            
-                    %>
-                    <tr>
-                        <td><%= prestamo.getFecha() %></td>
-                        <td><%= prestamo.getImporteSolicitado() %></td>
-                        <td><%= prestamo.getImporteAPagar() %></td>
-                        <td><%= prestamo.getCuotas() %></td>
-                        <td><%= prestamo.getImporteCuota() %></td>
-                        <td><%= prestamo.getEstado().getDescripcion() %></td>
-                        <td><%= prestamo.getCuotasAbonadas() %></td>
-                        <td><%= prestamo.getSaldoRestante() %></td>                       
-                    </tr>
-                    <% 
-                            }
-                        } else {
-                    %>
-                    <tr>
-                        <td colspan="10">No tiene préstamos actuales</td>
-                    </tr>
-                    <% 
-                        }
-                    %>
-                </tbody>
-            </table>
-             </div>
-            <button type="button" class="accordion">Menú de Pagos &#x1F4B0;</button>
+                <button type="button" class="accordion">Solicitar Préstamo &#x1F4B3;</button>
                 <div class="panel">
-               
-                    <p>Aquí va tema pagos, etc.</p>
-                </div>
-        
-        <button type="button" class="accordion">Solicitar Préstamo &#x1F4B3;</button>
-                <div class="panel">
-                <table class="custom-table">
+                <table class="custom-table" style="margin-top: 1%;">
                     <tr>
                         <td>Cliente:</td>
                         <td><%= (String) session.getAttribute("usuario") %></td>
@@ -172,20 +119,70 @@
                     </tr>
                 </table>
                 <div class="btnPrestamo">
-                    <input type="submit" value="Solicitar Préstamo"  name="btnSolicitarPrestamo" style="margin-top: 5px !important; margin-botton: 5px !important; margin-left: -52px;">
-                    <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='InicioCliente.jsp';" style="margin-left: 1%; margin-top: 5px !important; margin-botton: 5px !important;"> 
+                    <input type="submit" value="Solicitar Préstamo"  name="btnSolicitarPrestamo" style="margin-top: 5px !important; margin-botton: 5px !important;">
                 </div>
                 
                   </div>
-                
-                
+          <button type="button" class="accordion">Abonar préstamo &#x1F4B0;</button>
+                <div class="panel">
+               
+                    <p>Aquí va tema pagos, etc.</p>
+                </div>
         </div>
+                
+          <button type="button" class="accordion">Mis préstamos &#128193;</button>
+             <div class="panel">
+            <table id="table_id" class="display" style="margin-top: 1%;">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Importe Solicitado</th>
+                        <th>Importe a Pagar</th>
+                        <th>Cuotas</th>
+                        <th>Importe por Cuota</th>
+                        <th>Estado</th>
+                        <th>Cuotas Abonadas</th>
+                        <th>Saldo Restante</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%  	
+                      ArrayList<Prestamo> listaPrestamos = null;
+                      listaPrestamos = ( ArrayList<Prestamo> )  request.getAttribute("listaPrestamos"); 
+                        if (listaPrestamos != null) {
+                            for (Prestamo prestamo : listaPrestamos) {
+                            	System.out.println(prestamo);                            
+                    %>
+                    <tr>
+                        <td><%= prestamo.getFecha() %></td>
+                        <td><%= prestamo.getImporteSolicitado() %></td>
+                        <td><%= prestamo.getImporteAPagar() %></td>
+                        <td><%= prestamo.getCuotas() %></td>
+                        <td><%= prestamo.getImporteCuota() %></td>
+                        <td><%= prestamo.getEstado().getDescripcion() %></td>
+                        <td><%= prestamo.getCuotasAbonadas() %></td>
+                        <td><%= prestamo.getSaldoRestante() %></td>                       
+                    </tr>
+                    <% 
+                            }
+                        } else {
+                    %>
+                    <tr>
+                        <td colspan="10">No tiene préstamos actuales</td>
+                    </tr>
+                    <% 
+                        }
+                    %>
+                </tbody>
+            </table>
+             </div> 
        </form>
+      <div style="display: flex; justify-content: end;">
+      	<input type="button" value="Volver" name="btnVolver" onclick="window.location.href='InicioCliente.jsp';" style="margin-left: 1%; margin-top: 5px !important; margin-right: 10px !important;"> 
+      </div>
     </div>
     
     
-    
-
 <div id="popup" class="popup">
     <span class="close-btn" onclick="closePopup()">&times;</span>
     <p id="popupMessage"></p>
