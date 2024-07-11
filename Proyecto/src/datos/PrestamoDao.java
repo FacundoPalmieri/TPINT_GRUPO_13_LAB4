@@ -1,6 +1,8 @@
 package datos;
 
 import java.util.ArrayList;
+
+import entidad.EstadoPrestamo;
 import entidad.Prestamo;
 
 public interface PrestamoDao {
@@ -8,6 +10,8 @@ public interface PrestamoDao {
 	
 	public ArrayList<Prestamo> obtenerPrestamos(); // OK
     public ArrayList<Prestamo> obtenerPrestamosPorCliente(String DNI);
+    public int actualizarEstadoPrestamo(int idPrestamo, int estadoPrestamo);
+    public ArrayList<EstadoPrestamo> obtenerListadeEstado();
 
 	/*
 

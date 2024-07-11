@@ -57,7 +57,7 @@ public class ServletEliminarCliente extends HttpServlet {
 		    
 		    if(usuario.getUsuario()==null) {
 		    	//si el usuario con ese dni no existe, volver al EliminarCliente.jsp
-        		request.setAttribute("encontrado", 0);
+        		 request.setAttribute("encontrado", 0);
         		 request.setAttribute("Mensaje", "Cliente no encontrado");
         		RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarCliente.jsp");
 	            dispatcher.forward(request, response); 
@@ -77,6 +77,12 @@ public class ServletEliminarCliente extends HttpServlet {
 			    dispatcher.forward(request, response); 	    	
 		    }
 		 } 
+		
+		
+		
+		
+		
+		
 		//Si el Servlet es llamado desde los botones de las celdas de ListarClientes
 		else if (request.getParameter("btnEliminar") != null || request.getParameter("btnHabilitar")!=null) {
 	    	System.out.println("Entre en el Else if");
@@ -96,11 +102,14 @@ public class ServletEliminarCliente extends HttpServlet {
 		    if(filas2 == true) {
 		    	resultadoOperacion = request.getParameter("btnHabilitar")!=null ? "2" : "1";
 		    	System.out.println(resultadoOperacion);
+		    	
 		    	UsuarioNeg un = new UsuarioNegImpl();
 		    	ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
 		    	listaPersonas = un.listarPersonasComposicion();
+		    	
 		    	HttpSession session = request.getSession();
 		    	session.setAttribute("listaPersonas", listaPersonas);
+		    	
 		    	String mensaje = resultadoOperacion;
 		    	response.setContentType("text/plain"); 
 		    	response.setCharacterEncoding("UTF-8"); 

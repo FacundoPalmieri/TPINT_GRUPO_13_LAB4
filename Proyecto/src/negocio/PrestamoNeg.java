@@ -1,6 +1,8 @@
 package negocio;
 
 import java.util.ArrayList;
+
+import entidad.EstadoPrestamo;
 import entidad.Prestamo;
 
 public interface PrestamoNeg {
@@ -9,13 +11,14 @@ public interface PrestamoNeg {
 	
 	public ArrayList<Prestamo> obtenerPrestamos();
 	public ArrayList<Prestamo> obtenerPrestamosPorCliente(String DNI);
+    public int actualizarEstadoPrestamo(int idPrestamo, int estadoPrestamo);
+    public ArrayList<EstadoPrestamo> obtenerListadeEstado();
 
 	/*
    
 
     public Prestamo obtenerPrestamoPorId(int prestamoId);
 
-    public boolean actualizarPrestamo(Prestamo prestamo);
 
     public boolean eliminarPrestamo(int prestamoId);
     */

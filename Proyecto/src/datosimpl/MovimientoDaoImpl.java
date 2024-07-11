@@ -2,7 +2,6 @@ package datosimpl;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -10,7 +9,6 @@ import datos.MovimientoDao;
 import entidad.Cuenta;
 import entidad.Movimientos;
 import entidad.TipoMovimiento;
-import entidad.Usuario;
 
 public class MovimientoDaoImpl implements MovimientoDao{
 

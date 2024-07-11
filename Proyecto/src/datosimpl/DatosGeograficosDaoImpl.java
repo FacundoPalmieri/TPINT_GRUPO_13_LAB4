@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import datos.DatosGeograficosDao;
-import entidad.Cuenta;
 import entidad.Localidad;
 import entidad.Pais;
 import entidad.Provincia;
