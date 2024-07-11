@@ -27,8 +27,12 @@
 	</div>
  <form action="EditarCliente" method="post">
     <div id="BusquedaCliente">
-        <input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%= (request.getParameter("dniCliente") != null) ? request.getParameter("dniCliente") : "" %>" required>
+    <% if (request.getParameter("usuario1")!=null && request.getParameter("dniCliente1")!=null){%>
+        <input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%=request.getParameter("dniCliente1")%>" readonly style="background-color: #e9ecef;">
+    <%}else{ %>
+    	<input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%=(request.getParameter("dniCliente") != null) ? request.getParameter("dniCliente") : "" %>" required>
         <input type="submit" value="&#128269;" name="btnBuscar" style="background-color: #78AD89">
+        <%} %>
     </div>
 
  </form>
@@ -37,16 +41,19 @@
         <div id="ResultadoBusqueda">
             <div class="form-group flex-item">
                 <div style="margin-top: 10px;">
-                    <label for="usuario">Usuario:</label>
-                  <input type="text" id="usuario" name="usuario" value="<%= (request.getAttribute("usuario") != null) ? request.getAttribute("usuario") : "" %>" readonly style="background-color: #e9ecef;">
-
+                  <label for="usuario">Usuario:</label>
+                  <% if (request.getParameter("usuario1")!=null){%>
+                  <input type="text" id="usuario" name="usuario" value="<%= request.getParameter("usuario1") %>" readonly style="background-color: #e9ecef;">
+				<%}else{ %>
+					<input type="text" id="usuario" name="usuario" value="<%= (request.getAttribute("usuario") != null) ? request.getAttribute("usuario") : "" %>" readonly style="background-color: #e9ecef;">
+				<%} %>
                 </div>
                 <div class="form-group flex-item" style="margin-top: 10px;">
-                    <label for="contrasena">Contraseña:</label>
+                    <label for="contrasena">Contrasenia:</label>
                      <input type="password" id="contrasena" name="contrasena" required>
                 </div>
 	            <div class="form-group flex-item">
-		            <label for="contrasena">Reingrese Contraseña:</label>
+		            <label for="contrasena">Reingrese Contrasenia:</label>
 		            <input type="password" id="contrasena2" name="contrasena2" required>
 	         </div>
                 <div class="center-container">

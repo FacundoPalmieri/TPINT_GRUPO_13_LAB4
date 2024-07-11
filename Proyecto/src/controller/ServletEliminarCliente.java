@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -8,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import entidad.Persona;
 import entidad.Usuario;
@@ -53,26 +55,64 @@ public class ServletEliminarCliente extends HttpServlet {
 		    usuario = usuarioNeg.obtenerUsuarioPorDNI(DNI);
 		    persona = usuarioNeg.ObtenerCliente(usuario.getUsuario());
 		    
+		    if(usuario.getUsuario()==null) {
+		    	//si el usuario con ese dni no existe, volver al EliminarCliente.jsp
+        		request.setAttribute("encontrado", 0);
+        		 request.setAttribute("Mensaje", "Cliente no encontrado");
+        		RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarCliente.jsp");
+	            dispatcher.forward(request, response); 
+        	}
+		    
 		    if(usuario.getPersona_dni() != null && persona.getNombre() != null && persona.getApellido() != null) {
-		       request.setAttribute("Usuario", usuario.getUsuario());
-			   request.setAttribute("Nombre", persona.getNombre());
-			   request.setAttribute("Apellido", persona.getApellido());
-			   
-			           
-			    RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarCliente.jsp");
-			    dispatcher.forward(request, response); 	    	
+		       request.setAttribute("usuario", usuario.getUsuario());
+			   request.setAttribute("nombre", persona.getNombre());
+			   request.setAttribute("apellido", persona.getApellido());
+			   request.setAttribute("estadoCliente", usuario.getHabilitado());
+			   RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarCliente.jsp");
+			   dispatcher.forward(request, response); 	    	
 		    }else {
 	 	        request.setAttribute("Mensaje", "Cliente no encontrado");
 	 	        System.out.println("INGRESE AL ELSE PORQUE ES NULO ");
 		        RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarCliente.jsp");
 			    dispatcher.forward(request, response); 	    	
-		        
-		    	
 		    }
-		    
-		
 		 } 
-		
+		//Si el Servlet es llamado desde los botones de las celdas de ListarClientes
+		else if (request.getParameter("btnEliminar") != null || request.getParameter("btnHabilitar")!=null) {
+	    	System.out.println("Entre en el Else if");
+	    	Usuario usuarioEditado = new Usuario();
+			usuarioEditado.setPersona_dni(request.getParameter("dniCliente"));
+			//Si el usuario esta deshabilitado, habilitarlo  o al reves
+			if(request.getParameter("btnHabilitar")!=null){
+			   usuarioEditado.setHabilitado(1);
+			}else{
+			    usuarioEditado.setHabilitado(0);
+			}
+			
+			boolean filas2 = usuarioNeg.eliminarUsuario(usuarioEditado);
+		    String resultadoOperacion = "3";
+		    System.out.println(resultadoOperacion);
+		    //Se actualiza el objeto de la session 'listaPersonas' con los datos modificados
+		    if(filas2 == true) {
+		    	resultadoOperacion = request.getParameter("btnHabilitar")!=null ? "2" : "1";
+		    	System.out.println(resultadoOperacion);
+		    	UsuarioNeg un = new UsuarioNegImpl();
+		    	ArrayList<Persona> listaPersonas = new ArrayList<Persona>();
+		    	listaPersonas = un.listarPersonasComposicion();
+		    	HttpSession session = request.getSession();
+		    	session.setAttribute("listaPersonas", listaPersonas);
+		    	String mensaje = resultadoOperacion;
+		    	response.setContentType("text/plain"); 
+		    	response.setCharacterEncoding("UTF-8"); 
+		    	response.getWriter().write(mensaje);
+		      }
+		     else {
+		    	 String mensaje = "Error"; 
+			     response.setContentType("text/plain"); 
+			     response.setCharacterEncoding("UTF-8"); 
+			     response.getWriter().write(mensaje);
+		     }
+	    }
 		
 	    if (request.getParameter("btnConfirmacion") != null) {
 	        Usuario usuarioEditado = new Usuario();
@@ -89,7 +129,7 @@ public class ServletEliminarCliente extends HttpServlet {
 	        RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarCliente.jsp");
 	        dispatcher.forward(request, response);
 	    } else {
-	        response.sendRedirect("EliminarCliente.jsp");
+	        //response.sendRedirect("EliminarCliente.jsp");
 	    }
         
 	}

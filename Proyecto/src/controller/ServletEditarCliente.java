@@ -74,7 +74,18 @@ public class ServletEditarCliente extends HttpServlet {
 
 	
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-   
+    	//Si este if es distinto de null, el servlet fue llamado desde ListarClientes.jsp
+    	if(request.getParameter("usuario")!=null) {
+        	Persona p = new Persona();
+        	String usuario = (String)request.getParameter("usuario");
+        	p = usuarioNeg.ObtenerPersonaCompleta(usuario);
+        	request.setAttribute("persona", p);
+            request.setAttribute("direccion",p.getDireccion());
+            request.setAttribute("provincia",p.getDireccion().getLocalidad().getProvincia());
+            request.setAttribute("localidad",p.getDireccion().getLocalidad());
+        	RequestDispatcher dispatcher = request.getRequestDispatcher("/DatosCliente.jsp");
+            dispatcher.forward(request, response); 
+        }
     	
     	// MODIFICAR CLIENTE.JSP
         if (request.getParameter("btnBuscar") != null) {

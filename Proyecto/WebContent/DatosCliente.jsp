@@ -152,10 +152,12 @@
         </div>
       
     </div>
-
-    <input type="submit" value="Aceptar" name="btnAceptar">
-    <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='InicioCliente.jsp';">
-
+	<%if(session.getAttribute("tipoUsuario")!=null) {%>
+    	<input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ListarClientes.jsp';">
+	<%} else{ %>
+		<input type="submit" value="Aceptar" name="btnAceptar">
+    	<input type="button" value="Volver" name="btnVolver" onclick="window.location.href='InicioCliente.jsp';">
+	<%} %>
 	</form>
 
 </div>
