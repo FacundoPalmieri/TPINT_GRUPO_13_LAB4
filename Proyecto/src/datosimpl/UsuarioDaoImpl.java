@@ -887,4 +887,50 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		}
 		return p;
 	}
+	
+	
+	//Este metodo devuelve todos los usuarios, esten habilitados o inhabilitados
+	public Usuario obtenerUsuarioEstado1o2(String usuario) {
+	    cn = new Conexion();
+	    PreparedStatement preparedStatement = null;
+	    ResultSet rs = null;
+	    Usuario u = new Usuario();
+	    try {
+	    	cn.Open();
+	    	System.out.println("CONEXION ABIERTA OBTENER USUARIO");
+	    	String query = "    SELECT usuarios.usuario, usuarios.persona_dni, usuarios.tipo_usuario_id, usuarios.habilitado "
+	    		        	+ "	FROM usuarios"
+	    		        	+ " INNER JOIN  Personas  ON personas.dni = usuarios.persona_dni"
+	    		        	+ " WHERE usuarios.usuario = ? ";
+	    		        	
+	    	preparedStatement = cn.prepareStatement(query);
+		    preparedStatement.setString(1, usuario);
+		    rs = preparedStatement.executeQuery();
+		    System.out.println("QUERY OBTENER CLIENTE DAO: " + preparedStatement);
+	        
+		    if (rs.next()){
+	            u.setUsuario(rs.getString("usuarios.usuario"));
+	            u.setPersona_dni(rs.getString("usuarios.Persona_dni"));
+	            u.setHabilitado(rs.getInt("usuarios.habilitado"));
+	            u.setTipoUsuarioId(Integer.parseInt(rs.getString("usuarios.tipo_usuario_id"))); 
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	            if (rs != null) {
+	                rs.close();
+	            }
+	            if (cn != null) {
+	                cn.close();
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+	    return u;
+	}
 }

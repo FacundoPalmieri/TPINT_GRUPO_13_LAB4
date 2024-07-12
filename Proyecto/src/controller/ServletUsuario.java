@@ -26,44 +26,50 @@ public class ServletUsuario extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getParameter("btnIngresar") != null) {
+    	if (request.getParameter("btnIngresar") != null) {
             String nombreUsuario = request.getParameter("txtUsuario");
             String contrasenia = request.getParameter("txtContrasenia");
-
-            Usuario u = usuarioNegocio.obtenerUsuario(nombreUsuario);
+            Usuario u = usuarioNegocio.obtenerUsuarioEstado1o2(nombreUsuario);
             Persona p = usuarioNegocio.ObtenerCliente(nombreUsuario);
-
+            String mensaje = "0";
+            
             HttpSession session = request.getSession();
-            int esCliente = 0;
-            esCliente = usuarioNegocio.validarLogin(nombreUsuario, contrasenia);
-
-            if (esCliente == 2) {
-                session.setAttribute("usuario", u.getUsuario());
-                session.setAttribute("tipoUsuario", u.getTipoUsuarioId());
-                session.setAttribute("Nombre", p.getNombre());
-                session.setAttribute("Apellido", p.getApellido());
-                session.setAttribute("dni", p.getDni());
-                session.setAttribute("cuil", p.getCuil());
-                session.setAttribute("Celular", p.getCelular());
-                session.setAttribute("Telefono", p.getTelefono());
-                session.setAttribute("Direccion_id", p.getDireccion_id());
-                session.setAttribute("Nacionalidad", p.getNacionalidad());
-                session.setAttribute("tipoUsuario", 2);
-                request.setAttribute("validacionCliente", true);
-
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/InicioCliente.jsp");
-                dispatcher.forward(request, response);
-            } else if (esCliente == 1) {
-                session.setAttribute("usuario", u.getUsuario());
-                System.out.println("USUARIO EN SESION" + u.getUsuario());
-                session.setAttribute("tipoUsuario", 1);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/UsuarioAdministrador.jsp");
-                dispatcher.forward(request, response);
-            } else {
-                request.setAttribute("validacionCliente", false);
-                RequestDispatcher dispatcher = request.getRequestDispatcher("/Login.jsp");
-                dispatcher.forward(request, response);
+            if(u.getUsuario()!=null && u.getHabilitado()==1) {
+            	int tipoUsuario = usuarioNegocio.validarLogin(nombreUsuario, contrasenia);
+            	System.out.println("TIPO DE CLIENTE: "+tipoUsuario);
+            	if(tipoUsuario == 2) {
+            		mensaje = "2";
+            		session.setAttribute("usuario", u.getUsuario());
+                    System.out.println("USUARIO EN SESION" + u.getUsuario());
+                    session.setAttribute("tipoUsuario", u.getTipoUsuarioId());
+                    session.setAttribute("Nombre", p.getNombre());
+                    session.setAttribute("Apellido", p.getApellido());
+                    session.setAttribute("dni", p.getDni());
+                    session.setAttribute("cuil", p.getCuil());
+                    session.setAttribute("Celular", p.getCelular());
+                    session.setAttribute("Telefono", p.getTelefono());
+                    session.setAttribute("Direccion_id", p.getDireccion_id());
+                    session.setAttribute("Nacionalidad", p.getNacionalidad());
+                    session.setAttribute("tipoUsuario", null);
+                    request.setAttribute("validacionCliente", true);
+            	}
+            	else if(tipoUsuario==1) {
+            		mensaje = "1";
+            		session.setAttribute("usuario", u.getUsuario());
+                    System.out.println("USUARIO EN SESION" + u.getUsuario());
+                    session.setAttribute("tipoUsuario", 1);
+            	}
+            	else {
+            		mensaje="4";
+            	}
             }
+            else if(u.getHabilitado()==0 && u.getUsuario()!=null) {
+            	mensaje = "3";
+            }
+            
+            response.setContentType("text/plain"); 
+	    	response.setCharacterEncoding("UTF-8"); 
+	    	response.getWriter().write(mensaje);
         }
     }
 

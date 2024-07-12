@@ -137,7 +137,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 			let dni = document.getElementsByName("dniCliente")[0].value;
 			let params=boton+"=1"+"&dniCliente="+encodeURIComponent(dni);
-			console.log(params);
 			xhr.onreadystatechange = function(){
 				let formulario = document.getElementById('eliminarUsuarioForm');
 				let elementos = formulario.elements;

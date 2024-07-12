@@ -122,7 +122,12 @@ public class UsuarioNegImpl implements UsuarioNeg{
 	public Persona ObtenerPersonaCompleta(String usuario) {
 		return usuarioDao.ObtenerPersonaCompleta(usuario);
 	}
+	
+	
+	public Usuario obtenerUsuarioEstado1o2(String usuario) {
+		return usuarioDao.obtenerUsuarioEstado1o2(usuario);
 	}
+}
 
 
 	

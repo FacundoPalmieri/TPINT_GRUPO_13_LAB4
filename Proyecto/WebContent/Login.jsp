@@ -33,7 +33,7 @@
         <h2>¡Hola! Te damos la bienvenida</h2>
         <h4>Completá tus datos y empezá a operar.</h4>
 
-        <form method="post" action="ServletUsuario">
+        <form method="post" action="ServletUsuario" id="formUsuario">
             <div>
                 <p style="margin-top: 10%;">
                     <input id="usuario" type="text" placeholder="Usuario" required name="txtUsuario">
@@ -66,15 +66,57 @@
 	        var popup = document.getElementById("popup");
 	        popup.classList.remove("active");
 	    }
+	    
+	    
+	    function enviarDatos(usuario,contrasenia){
+	    	let xhr = new XMLHttpRequest();
+			xhr.open("POST","ServletUsuario","true");
+			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+			let params="btnIngresar=1&txtUsuario="+encodeURIComponent(usuario)+"&txtContrasenia="+encodeURIComponent(contrasenia);
+			xhr.onreadystatechange=function(){
+				if(xhr.readyState===4 && xhr.status===200){
+					if(xhr.responseText=="2"){
+						showPopup("Bienvenido Cliente, aguarde unos segundos");
+						setTimeout(function(){
+							window.location.href='InicioCliente.jsp';
+						},2000)
+					}
+					else if(xhr.responseText=="1"){
+						window.location.href='UsuarioAdministrador.jsp';
+					}
+					else if(xhr.responseText=="3"){
+						showPopup("El usuario se encuentra inhabilitado, comuniquese con el banco");
+					}
+					else if(xhr.responseText=="4"){
+						showPopup("Usuario o contrasenia incorrectos");
+					}
+					else{
+						showPopup("El usuario no existe");
+					}
+				}
+				else if(xhr.readyState===4){
+					console.log("Error al enviar los datos");
+				}
+			}
+			xhr.send(params);
+		}
 
 	    document.addEventListener('DOMContentLoaded', function() {
+	        let formulario = document.getElementById('formUsuario');
+	        formulario.addEventListener("submit",function(e){
+	        	e.preventDefault();
+	        	let usuario = document.getElementById("usuario").value;
+	        	let contrasenia = document.getElementById("contrasenia").value;
+	        	enviarDatos(usuario,contrasenia);
+	        })
+	        
 	        <%
-	        	Boolean validacion = (Boolean) request.getAttribute("validacionCliente");
-	            if (validacion != null && !validacion) {
+	        	//Boolean validacion = (Boolean) request.getAttribute("validacionCliente");
+	            //if (validacion != null && !validacion) //{
 	        %>
-	            showPopup("Usuario o Contraseña Incorrecta");
+	            //showPopup("Usuario o Contraseña Incorrecta");
 	        <%
-	            }
+	            //}
 	        %>
 	    });
 	</script>
