@@ -128,23 +128,30 @@
 		    <div class="form-group-cuota">
 		        <label for="prestamo" style="margin-top: 3%">Selecciona un préstamo:</label>
 		        <select name="prestamo" id="prestamo" onchange="updateCuotasPendientes()">
-		            <option value="">Seleccione un préstamo</option>
-		            <%  
-		                ArrayList<Prestamo> listaPrestamos = (ArrayList<Prestamo>) request.getAttribute("listaPrestamos"); 
-		                if (listaPrestamos != null) {
-		                    for (Prestamo prestamo : listaPrestamos) {
-		                        if (prestamo.getEstado().getId() == 3) {  // Filtrar solo préstamos aprobados
-		            %>
-		            <option value="<%= prestamo.getId() %>" data-cuotas="<%= prestamo.getCuotas() %>" data-cuotas-abonadas="<%= prestamo.getCuotasAbonadas() %>">Fecha: <%= prestamo.getFecha() %>, Importe Solicitado: <%= prestamo.getImporteSolicitado() %></option>
-		            <% 
-		                        }
-		                    }
-		                } else {
-		            %>
-		            <option value="">No tiene préstamos actuales</option>
-		            <% 
-		                }
-		            %>
+				    <option value="">Seleccione un préstamo</option>
+				    <%  
+				        ArrayList<Prestamo> listaPrestamos = (ArrayList<Prestamo>) request.getAttribute("listaPrestamos"); 
+				        if (listaPrestamos != null) {
+				            for (Prestamo prestamo : listaPrestamos) {
+				                if (prestamo.getEstado().getId() == 3) {  // Filtrar solo préstamos aprobados
+				    %>
+				    <option value="<%= prestamo.getId() %>" 
+				            data-cuotas="<%= prestamo.getCuotas() %>" 
+				            data-cuotas-abonadas="<%= prestamo.getCuotasAbonadas() %>" 
+				            data-importe-cuota="<%= prestamo.getImporteCuota() %>">
+				        Fecha: <%= prestamo.getFecha() %>, Importe Solicitado: <%= prestamo.getImporteSolicitado() %>
+				    </option>
+				    <% 
+				                }
+				            }
+				        } else {
+				    %>
+				    <option value="">No tiene préstamos actuales</option>
+				    <% 
+				        }
+				    %>
+				</select>
+
 		        </select> 
 		    </div>
 		
@@ -280,7 +287,6 @@
         var prestamoSelect = document.getElementById("prestamo");
         var selectedOption = prestamoSelect.options[prestamoSelect.selectedIndex];
 
-        // Si la opción seleccionada es la opción por defecto, limpiar el select de cuotas y salir
         if (selectedOption.value === "") {
             document.getElementById("cuota").innerHTML = "<option value=''>Seleccione un préstamo primero</option>";
             return;
@@ -288,6 +294,7 @@
 
         var cuotas = parseInt(selectedOption.getAttribute("data-cuotas"));
         var cuotasAbonadas = parseInt(selectedOption.getAttribute("data-cuotas-abonadas"));
+        var importeCuota = selectedOption.getAttribute("data-importe-cuota");
 
         var cuotasPendientes = cuotas - cuotasAbonadas;
 
@@ -297,12 +304,10 @@
         for (var i = 1; i <= cuotasPendientes; i++) {
             var option = document.createElement("option");
             option.value = i;
-            option.text = "Cuota " + (cuotasAbonadas + i);
+            option.text = "Cuota " + (cuotasAbonadas + i) + " - Importe: $" + importeCuota;
             cuotaSelect.appendChild(option);
         }
     }
-
-   
 
 
 </script>
