@@ -180,7 +180,9 @@
 		            <option value="">Seleccione un préstamo primero</option>
 		        </select>
 		    </div>
-		    <input type="submit" value="Pagar" style="margin-top: 5px !important; margin-botton: 5px !important; width: inherit;">              
+		    <div class="button-container">
+				<input type="submit" value="Pagar" style="margin-top: 5px !important; margin-bottom: 5px !important;"> 
+			</div>        
 		</div>
 		
 

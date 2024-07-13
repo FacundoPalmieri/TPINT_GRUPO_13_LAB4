@@ -1,12 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ page import="entidad.Cuenta"%>
+<%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<%@ page import="entidad.Usuario" %>
-<%@ page import="entidad.Persona" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Eliminar Usuario</title>
 <style type="text/css">
     <jsp:include page="css\Style.css"></jsp:include>
 </style>
@@ -16,7 +15,7 @@
     <div class="banner">
         <div class="logo_encabezado_izquierda">
             <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
-            <h3>Eliminar Usuario</h3>
+            <h3>Transferir</h3>
         </div>
         <div class="logo_encabezado_derecha">
             <%= (String) session.getAttribute("usuario") %>
@@ -26,64 +25,51 @@
         </div>
     </div>
     
-    <form id="eliminarUsuarioForm" action="ServletEliminarCliente" method="post">
-    <% if (request.getParameter("usuario1")!=null && request.getParameter("nombre1")!=null && request.getParameter("apellido1")!=null){%>
-        <div id="BusquedaCliente">
-            <input type="text" id="dniCliente" name="dniCliente" value="<%= (request.getParameter("dniCliente1") != null) ? request.getParameter("dniCliente1") : "" %>" readonly>
+    <form id="ServletCuentas" action="ServletCuentas method="post">
+    
+    <div id="BusquedaCBU" class="form">
+        <input type="text" id=cbuCliente name="cbuCliente" placeholder="Ingrese CBU" value="<%= (request.getParameter("cbuCliente") != null) ? request.getParameter("cbuCliente") : "" %>" required>
+        <input type="submit" value="Buscar" name="btnBuscarCBU" style="background-color: #78AD89">
+    </div>
+        
+        <div id="ResultadoBusquedaCBU">
+            <div class="form-group">
+                <div class="form-item" style="margin-top: 10px;">
+	                <label for="monto">Monto $</label>
+	                <input type="text" id="monto" name="monto" required>
+	            </div>
+	            <div class="form-item" style="margin-top: 10px;">
+	                <label for="cuentaOrigen">Cuenta origen:</label>
+				    <select name="cuentaOrigen" id="cuenta" class="styled-select">
+				    <%  
+						ArrayList<Cuenta> listaCuentas = null;
+		                listaCuentas = (ArrayList<Cuenta>) request.getAttribute("listaCuentas");
+				        	if (listaCuentas != null) {
+				            	for (Cuenta cuenta : listaCuentas) {
+				    %>
+				    <option value="<%= cuenta.getNumeroCuenta() %>">Cuenta: <%= cuenta.getIdTipoCuenta().getDescripcion() %> - <%= cuenta.getCbu() %>, Saldo: $<%= cuenta.getSaldo() %></option>
+				    <% 
+				    }
+				    } else {
+				    %>
+					    <option value="">No tiene cuentas disponibles</option>
+				    <% 
+				    }
+				    %>
+				    </select>
+			    </div>
+			    <div class="form-item" style="margin-top: 10px;">
+			    	<label for="cuentaDestino">Destino</label>
+			    	<input type="text" id="cbuCliente" name="cbuCliente" value="<%= request.getParameter("cbuCliente") %>" readonly style="background-color: #e9ecef;"> 
+                </div>
+                
+                <div class="center-container">
+                	<input type="submit" name="btnTransferir" value="Transferir"><br>
+                    <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='InicioCliente.jsp';">
+                </div>
+            </div>
         </div>
         
-        <div id="ResultadoBusqueda">
-            <div class="form-group">
-                <div class="form-item">
-                    <label for="usuario">Usuario:</label>
-                    <input type="text" id="usuario" name="usuario" value="<%=request.getParameter("usuario1") %>" readonly>
-                </div>
-                <div class="form-item">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" value="<%= request.getParameter("nombre1") %>" readonly>
-                </div>
-                <div class="form-item">
-                    <label for="apellido">Apellido:</label>
-                    <input type="text" id="apellido" name="apellido" value="<%= request.getParameter("apellido1")  %>" readonly>
-                </div>
-                <div class="center-container">
-                <%if(request.getParameter("estadoCliente1")!=null){%>
-            		<input type="button" value="<%= Integer.parseInt(request.getParameter("estadoCliente1").toString())==1 ? "Eliminar" : "Habilitar" %>" name="<%= Integer.parseInt(request.getParameter("estadoCliente1").toString())==1 ? "btnEliminar" : "btnHabilitar" %>" style="background-color: #dc3545; margin-right: 2%;">
-            	<%}%>
-                    <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ListarClientes.jsp';">
-                </div>
-            </div>
-        </div>
-        <%}else{%> 
-    <div id="BusquedaCliente">
-        <input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%= (request.getParameter("dniCliente") != null) ? request.getParameter("dniCliente") : "" %>" required>
-        <input type="submit" value="Buscar" name="btnBuscarEliminar" style="background-color: #78AD89">
-    </div>
-    <div id="ResultadoBusqueda">
-        <div class="form-group">
-            <div class="form-item">
-                <label for="usuario">Usuario:</label>
-                <input type="text" id="usuario" name="usuario" value="<%=(request.getAttribute("usuario") != null) ? request.getAttribute("usuario") : "" %>" readonly>
-            </div>
-            <div class="form-item">
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" value="<%= (request.getAttribute("nombre") != null) ? request.getAttribute("nombre") : "" %>" readonly>
-            </div>
-            <div class="form-item">
-                <label for="apellido">Apellido:</label>
-                <input type="text" id="apellido" name="apellido" value="<%= (request.getAttribute("apellido") != null) ? request.getAttribute("apellido") : "" %>" readonly>
-            </div>
-            <div class="center-container">
-            	<%if(request.getAttribute("estadoCliente")!=null && request.getAttribute("usuario")!=null){%>
-            		<input type="button" value="<%= Integer.parseInt(request.getAttribute("estadoCliente").toString())==1 ? "Eliminar" : "Habilitar" %>" name="<%= Integer.parseInt(request.getAttribute("estadoCliente").toString())==1 ? "btnEliminar" : "btnHabilitar" %>" style="background-color: #dc3545; margin-right: 2%;">
-            	<%} else if(request.getAttribute("encontrado")!=null){%>
-            		<p> Ingrese usuario valido </p>
-            	<%} %>	
-                <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLclientes.jsp';">
-            </div>
-        </div>
-    </div>
-    <%} %> 
     </form>
 
     <!-- Popup para confirmación de eliminación -->

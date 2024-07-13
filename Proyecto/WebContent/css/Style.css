@@ -392,11 +392,35 @@ input[type="submit"]:hover {
     margin-left: 550px;
 }
 
+#BusquedaCBU {
+    background-color: white;
+    width: 300px; /* Ajustado para dar más espacio al botón */
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: black;
+    font-family: system-ui;
+    margin-top: 20px;
+    margin-left: 550px;
+}
+
 #BusquedaCliente input[type="submit"] {
     margin-top: -5px; /* Ajusta este valor según sea necesario */
 }
 
+#BusquedaCBU input[type="submit"] {
+    margin-top: -5px; /* Ajusta este valor según sea necesario */
+}
+
 #ResultadoBusqueda {
+    background-color: white;
+    width: calc(100% - 450px); /* Calcula el ancho del contenedor excluyendo el espacio del contenedor BusquedaCliente y un margen adicional */
+    margin-top: 20px;
+    margin-left: 100px;
+    float: right; /* Hace que el contenedor flote a la derecha */
+}
+
+#ResultadoBusquedaCBU {
     background-color: white;
     width: calc(100% - 450px); /* Calcula el ancho del contenedor excluyendo el espacio del contenedor BusquedaCliente y un margen adicional */
     margin-top: 20px;
@@ -409,7 +433,13 @@ input[type="submit"]:hover {
     width: 450px; /* Define el ancho deseado para los campos de entrada */
 }
 
+#ResultadoBusquedaCBU input[type="text"]{
+    width: 450px; /* Define el ancho deseado para los campos de entrada */
+}
 
+.styled-select {
+    width: 450px;
+}
 
 .center-container {
     display: flex;
@@ -534,11 +564,7 @@ input[type="submit"]:hover {
     gap: 1rem;
 }
 
-.form-group {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
+
  /* estilo pedir pr�stamo*/
  
  .btnPrestamo{
