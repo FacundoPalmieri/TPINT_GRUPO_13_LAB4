@@ -18,7 +18,7 @@
         var selectedOption = select.options[select.selectedIndex].text;
 
         var mensaje = '¿Estás seguro de cambiar el estado del préstamo a "' + selectedOption + '"?';
-        showPopup('popupMensaje', mensaje, idPrestamo, dniCliente, importeSolicitado, nuevoEstado);
+        showConfirmPopup(mensaje, idPrestamo, dniCliente, importeSolicitado, nuevoEstado);
     }
 
     function confirmarCambio(idPrestamo, dniCliente, importeSolicitado, nuevoEstado) {
@@ -34,22 +34,42 @@
         window.location.href = url;
     }
 
-    function showPopup(popupId, message, idPrestamo, dniCliente, importeSolicitado, nuevoEstado) {
-        var popup = document.getElementById(popupId);
-        if (message) {
-            document.getElementById('popupMessage').innerText = message;
-        }
+    function showConfirmPopup(message, idPrestamo, dniCliente, importeSolicitado, nuevoEstado) {
+        var popup = document.getElementById('popupConfirm');
+        document.getElementById('popupConfirmMessage').innerText = message;
         var aceptarButton = document.getElementById('AceptarPrestamo');
         aceptarButton.setAttribute('onclick', 'confirmarCambio(' + idPrestamo + ', "' + dniCliente + '", "' + importeSolicitado + '", ' + nuevoEstado + ')');
+        popup.classList.add("active"); // Solo activar cuando se muestra el popup
+    }
+
+
+    function closeConfirmPopup() {
+        var popup = document.getElementById('popupConfirm');
+        popup.classList.remove("active");
+    }
+    
+    function showResultPopup(message) {
+        var popup = document.getElementById("popupResult");
+        var popupMessage = document.getElementById("popupResultMessage");
+        popupMessage.innerText = message;
         popup.classList.add("active");
     }
 
-    function closePopup(popupId) {
-        var popup = document.getElementById(popupId);
+    function closeResultPopup() {
+        var popup = document.getElementById("popupResult");
         popup.classList.remove("active");
     }
 
-
+    document.addEventListener('DOMContentLoaded', function() {
+        var mensaje = '<%= request.getAttribute("Mensaje") %>';
+        if (mensaje != null && mensaje !== "") {
+            showResultPopup(mensaje);
+        }
+        
+        closeConfirmPopup();
+        closeResultPopup();
+        
+    });
     </script>
 </head>
 <body>
@@ -83,9 +103,9 @@
                 </tr>
             </thead>
             <tbody>
-                <%  	
+                <%  
                     ArrayList<Prestamo> listaPrestamos = (ArrayList<Prestamo>) request.getAttribute("listaPrestamos");
-                   ArrayList<EstadoPrestamo> listaEstadosPrestamo = (ArrayList<EstadoPrestamo>) request.getAttribute("listaEstadosPrestamo");
+                    ArrayList<EstadoPrestamo> listaEstadosPrestamo = (ArrayList<EstadoPrestamo>) request.getAttribute("listaEstadosPrestamo");
                     if (listaPrestamos != null) {
                         for (Prestamo prestamo : listaPrestamos) { 
                             %>
@@ -97,13 +117,13 @@
                                 <td><%= prestamo.getCuotas() %></td>
                                 <td><%= prestamo.getImporteCuota() %></td>
                                 <td>
- 								 <select id="estadoPrestamo_<%= prestamo.getId() %>" onchange="mostrarMensajeCambio('<%= prestamo.getId() %>', '<%= prestamo.getClienteDni().getDni() %>','<%= prestamo.getImporteSolicitado() %>', this.value)">            
- 								    <% for (EstadoPrestamo estado : listaEstadosPrestamo) { %>
-                                            <option value="<%= estado.getId() %>" <%= prestamo.getEstado().getId() == estado.getId() ? "selected" : "" %>>
-                                                <%= estado.getDescripcion() %>
-                                            </option>
-                                        <% } %>
-                                    </select>
+                                <select id="estadoPrestamo_<%= prestamo.getId() %>" data-estado-actual="<%= prestamo.getEstado().getId() %>" onchange="mostrarMensajeCambio('<%= prestamo.getId() %>', '<%= prestamo.getClienteDni().getDni() %>','<%= prestamo.getImporteSolicitado() %>', this.value)">
+                                    <% for (EstadoPrestamo estado : listaEstadosPrestamo) { %>
+                                        <option value="<%= estado.getId() %>" <%= prestamo.getEstado().getId() == estado.getId() ? "selected" : "" %>>
+                                            <%= estado.getDescripcion() %>
+                                        </option>
+                                    <% } %>
+                                </select>
                                 </td>
                             </tr>
                         <% 
@@ -119,14 +139,19 @@
             </tbody>
         </table>
     </div>
-    <div id="popupMensaje" class="popup">
-        <div class="popup-content">
-            <span id="popupMessage"></span>
-            <div class="popup-buttons">
-                <button onclick="closePopup('popupMensaje')">Cancelar</button>
-                <button id="AceptarPrestamo" name="AceptarPrestamo">Aceptar</button>
-            </div>
-        </div>
+	<div id="popupConfirm" class="popup">
+	    <div class="popup-content">
+	        <span id="popupConfirmMessage"></span>
+	        <div class="popup-buttons">
+	            <button id="AceptarPrestamo" name="AceptarPrestamo">Aceptar</button>
+	            <button onclick="closeConfirmPopup()">Cancelar</button>
+	        </div>
+	    </div>
+	</div>
+
+    <div id="popupResult" class="popup">
+        <span class="close-btn" onclick="closeResultPopup()">&times;</span>
+        <p id="popupResultMessage"></p>
     </div>
     <div class="button-container">
         <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='UsuarioAdministrador.jsp';">
@@ -138,8 +163,19 @@
 <% } %>
 
 <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", function() {
+        var selectElements = document.querySelectorAll("select[id^='estadoPrestamo_']");
+        selectElements.forEach(function(selectElement) {
+            var estadoActual = parseInt(selectElement.getAttribute("data-estado-actual"));
+            if (estadoActual === 3 || estadoActual === 4 || estadoActual === 5) {
+                // Aprobado, Rechazado, Abonado no pueden cambiar, deshabilita el select
+                selectElement.setAttribute("disabled", "true");
+            }
+        });
+    });
+
     function submitForm() {
-        closePopup('popupMensaje');
+        closeConfirmPopup();
         document.forms[0].submit(); // Envía el formulario actual
     }
 
@@ -147,9 +183,8 @@
         // Obtenemos el mensaje de error desde el servidor
         var errorMensaje = "<%= (request.getAttribute("Mensaje") != null) ? request.getAttribute("Mensaje") : "" %>";
         if (errorMensaje) {
-            showPopup(errorMensaje);
-           
-        }|
+            showResultPopup(errorMensaje);
+        }
     };
 </script>
 

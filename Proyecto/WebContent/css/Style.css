@@ -516,7 +516,29 @@ input[type="submit"]:hover {
 	margin-right: 0;
     }
     
-  
+.tabla{
+	border: 1px solid #ccc;
+}
+
+.pagar_cuota{
+    width: 50%;
+    border-collapse: collapse;
+    margin: 0 auto;
+
+
+}
+
+.panel.pagar_cuota {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
  /* estilo pedir préstamo*/
  
  .btnPrestamo{

@@ -58,24 +58,24 @@
                 <div class="panel">
                 <table class="custom-table" style="margin-top: 1%;">
                     <tr>
-                        <td>Cliente:</td>
-                        <td><%= (String) session.getAttribute("usuario") %></td>
+                        <td class="tabla">Cliente:</td>
+                        <td class="tabla"><%= (String) session.getAttribute("usuario") %></td>
                     </tr>
                     <tr>
                     <%
 						LocalDate currentDate = LocalDate.now();
 					    String formattedDate = currentDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 					%>
-                        <td>Fecha:</td>
-                        <td><input type="date" id="fecha" name="fecha" value="<%= formattedDate %>" readonly></td>
+                        <td class="tabla">Fecha:</td>
+                        <td class="tabla"><input type="date" id="fecha" name="fecha" value="<%= formattedDate %>" readonly></td>
                     </tr>
                     <tr>
-                        <td>Importe:</td>
-                        <td><input type="text" id="importeSolicitado" name="importeSolicitado" oninput="calcularImporteTotal()"></td>
+                        <td class="tabla">Importe:</td>
+                        <td class="tabla"><input type="text" id="importeSolicitado" name="importeSolicitado" oninput="calcularImporteTotal()"></td>
                     </tr>
                   <tr>
-					  <td>Cuotas:</td>
-					    <td>
+					  <td class="tabla">Cuotas:</td>
+					    <td class="tabla">
 					        <select id="cuotas" name="cuotas" onchange="calcularImporteTotal()">
 					            <option value="6">6 cuotas</option>
 					            <option value="12">12 cuotas</option>
@@ -86,16 +86,16 @@
 					    </td>
 					</tr>
                     <tr>
-                        <td>Importe Total:</td>
-                        <td><input type="text" id="importeTotal" name="importeTotal" readonly></td>
+                        <td class="tabla">Importe Total:</td>
+                        <td class="tabla"><input type="text" id="importeTotal" name="importeTotal" readonly></td>
                     </tr>
                     <tr>
-                        <td>Importe por Cuota:</td>
-                        <td><input type="text" id="importeCuota" name="importeCuotas" readonly></td>
+                        <td class="tabla">Importe por Cuota:</td>
+                        <td class="tabla"><input type="text" id="importeCuota" name="importeCuotas" readonly></td>
                     </tr>
                     <tr>
-                        <td>Cuenta para recibir el préstamo:</td>
-                        <td>
+                        <td class="tabla">Cuenta para recibir el préstamo:</td>
+                        <td class="tabla">
                             <select name="cuentaDestino" required>
                                 <% 
                                     ArrayList<Cuenta> listaCuentas = null;
@@ -123,13 +123,60 @@
                 </div>
                 
                   </div>
-          <button type="button" class="accordion">Abonar préstamo &#x1F4B0;</button>
-                <div class="panel">
-               
-                    <p>Aquí va tema pagos, etc.</p>
-                </div>
-        </div>
-                
+       <button type="button" class="accordion">Abonar préstamo &#x1F4B0;</button>
+		<div class="panel pagar_cuota">
+		    <div class="form-group-cuota">
+		        <label for="prestamo" style="margin-top: 3%">Selecciona un préstamo:</label>
+		        <select name="prestamo" id="prestamo" onchange="updateCuotasPendientes()">
+		            <option value="">Seleccione un préstamo</option>
+		            <%  
+		                ArrayList<Prestamo> listaPrestamos = (ArrayList<Prestamo>) request.getAttribute("listaPrestamos"); 
+		                if (listaPrestamos != null) {
+		                    for (Prestamo prestamo : listaPrestamos) {
+		                        if (prestamo.getEstado().getId() == 3) {  // Filtrar solo préstamos aprobados
+		            %>
+		            <option value="<%= prestamo.getId() %>" data-cuotas="<%= prestamo.getCuotas() %>" data-cuotas-abonadas="<%= prestamo.getCuotasAbonadas() %>">Fecha: <%= prestamo.getFecha() %>, Importe Solicitado: <%= prestamo.getImporteSolicitado() %></option>
+		            <% 
+		                        }
+		                    }
+		                } else {
+		            %>
+		            <option value="">No tiene préstamos actuales</option>
+		            <% 
+		                }
+		            %>
+		        </select> 
+		    </div>
+		
+		    <div class="form-group-cuota">
+		        <label for="cuenta">Selecciona una cuenta:</label>
+		        <select name="cuenta" id="cuenta">
+		            <%  
+		                if (listaCuentas != null) {
+		                    for (Cuenta cuenta : listaCuentas) {
+		            %>
+		            <option value="<%= cuenta.getNumeroCuenta() %>">Cuenta: <%= cuenta.getIdTipoCuenta().getDescripcion() %> - <%= cuenta.getCbu() %>, Saldo: $<%= cuenta.getSaldo() %></option>
+		            <% 
+		                    }
+		                } else {
+		            %>
+		            <option value="">No tiene cuentas disponibles</option>
+		            <% 
+		                }
+		            %>
+		        </select>
+		    </div>
+		    
+		    <div class="form-group-cuota">
+		        <label for="cuota">Selecciona una cuota pendiente:</label>
+		        <select name="cuota" id="cuota">
+		            <option value="">Seleccione un préstamo primero</option>
+		        </select>
+		    </div>
+		    <input type="submit" value="Pagar" style="margin-top: 5px !important; margin-botton: 5px !important; width: inherit;">              
+		</div>
+		
+
           <button type="button" class="accordion">Mis préstamos &#128193;</button>
              <div class="panel">
             <table id="table_id" class="display" style="margin-top: 1%;">
@@ -147,7 +194,7 @@
                 </thead>
                 <tbody>
                     <%  	
-                      ArrayList<Prestamo> listaPrestamos = null;
+                
                       listaPrestamos = ( ArrayList<Prestamo> )  request.getAttribute("listaPrestamos"); 
                         if (listaPrestamos != null) {
                             for (Prestamo prestamo : listaPrestamos) {
@@ -227,6 +274,37 @@
             } 
         });
     }
+  
+
+    function updateCuotasPendientes() {
+        var prestamoSelect = document.getElementById("prestamo");
+        var selectedOption = prestamoSelect.options[prestamoSelect.selectedIndex];
+
+        // Si la opción seleccionada es la opción por defecto, limpiar el select de cuotas y salir
+        if (selectedOption.value === "") {
+            document.getElementById("cuota").innerHTML = "<option value=''>Seleccione un préstamo primero</option>";
+            return;
+        }
+
+        var cuotas = parseInt(selectedOption.getAttribute("data-cuotas"));
+        var cuotasAbonadas = parseInt(selectedOption.getAttribute("data-cuotas-abonadas"));
+
+        var cuotasPendientes = cuotas - cuotasAbonadas;
+
+        var cuotaSelect = document.getElementById("cuota");
+        cuotaSelect.innerHTML = ""; // Limpiar el contenido anterior
+
+        for (var i = 1; i <= cuotasPendientes; i++) {
+            var option = document.createElement("option");
+            option.value = i;
+            option.text = "Cuota " + (cuotasAbonadas + i);
+            cuotaSelect.appendChild(option);
+        }
+    }
+
+   
+
+
 </script>
 </body>
 </html>

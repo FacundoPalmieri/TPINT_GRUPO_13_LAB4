@@ -147,7 +147,7 @@ public class CuentaDaoImpl implements CuentaDao {
 	@Override
 	public ArrayList<Cuenta> obtenerCuentasPorDNI(String DNI) {
 		  ArrayList<Cuenta> cuentas = new ArrayList<>();
-		    String query = "select cuentas.numero_cuenta, cuentas.tipo_cuenta_id, cuentas.saldo, tipocuenta.id, tipocuenta.descripcion "
+		    String query = "select cuentas.numero_cuenta, cuentas.cliente_dni, cuentas.tipo_cuenta_id, cuentas.cbu, cuentas.saldo, tipocuenta.id, tipocuenta.descripcion "
 		    			  +"FROM cuentas "
 		    			  +"INNER JOIN tipocuenta ON cuentas.tipo_cuenta_id = tipocuenta.id "
 		    			  +"WHERE cliente_dni = ?";
@@ -165,6 +165,8 @@ public class CuentaDaoImpl implements CuentaDao {
 		            TipoCuenta tipoCuenta = new TipoCuenta();
 		            
 		            cuenta.setNumeroCuenta(rs.getInt("cuentas.numero_cuenta"));            
+		            cuenta.setClienteDni(rs.getInt("cuentas.cliente_dni"));
+		            cuenta.setCbu(rs.getString("cuentas.cbu"));
 		            tipoCuenta.setId(rs.getInt("tipocuenta.id"));
 		            tipoCuenta.setDescripcion(rs.getString("tipocuenta.Descripcion"));
 		            
