@@ -1,7 +1,10 @@
 package excepcion;
 
-import java.io.IOException;
+public class DniInexistente extends Exception {
 
-public class DniInexistente extends IOException {
+	@Override
+	public String getMessage() {
+		return "El dni no existe";
+	}
 	
 }

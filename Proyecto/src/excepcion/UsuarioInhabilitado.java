@@ -1,7 +1,10 @@
 package excepcion;
 
-import java.io.IOException;
+public class UsuarioInhabilitado extends Exception {
 
-public class UsuarioInhabilitado extends IOException {
-
+	@Override
+	public String getMessage() {
+		return "El usuario se encuentra inhabilitado";
+	}
+	
 }
