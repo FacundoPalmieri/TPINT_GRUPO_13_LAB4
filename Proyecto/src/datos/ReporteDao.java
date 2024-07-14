@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import entidad.Movimientos;
 import entidad.Prestamo;
-import excepcion.DniInvalido;
 import excepcion.UsuarioInhabilitado;
 
 public interface ReporteDao {

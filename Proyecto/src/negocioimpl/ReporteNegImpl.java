@@ -15,7 +15,7 @@ public class ReporteNegImpl implements ReporteNeg{
 	
 	@Override
 	public boolean validarFormatoDNI(String dni) throws DniInvalido {
-		if(dni.length()>8) {
+		if(dni.length()>20) {
 			throw new DniInvalido();
 		}
 		
