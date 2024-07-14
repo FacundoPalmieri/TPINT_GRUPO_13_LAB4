@@ -107,12 +107,22 @@ public class ServletPrestamo extends HttpServlet {
 			
 			//GENERO MOVIMIENTO
 			int EstadoMovimiento = -1;
+			int EstadoSaldoCuenta = 0;
+			float saldo = 0;
+			Cuenta cuenta = new Cuenta();
 			
 			if(estadoPrestamo == 3) {
 				String Dni = request.getParameter("dniCliente");
 				int nCuenta = cuentaNeg.buscarNCuenta(Dni);
 				float importeSolicitado = Float.parseFloat(request.getParameter("importeSolicitado"));	
+				
+				// Genero movimiento
 				EstadoMovimiento = movimientoNeg.CrearMovimiento(1, "Alta prestamo", importeSolicitado, nCuenta, 2);
+				
+				// Actualizo saldo
+				cuenta = cuentaNeg.obtenerSaldo(nCuenta);
+				saldo = cuenta.getSaldo() + importeSolicitado;
+				EstadoSaldoCuenta = cuentaNeg.modificarSaldo(nCuenta, saldo);
 			}
 			
 			// SE LISTA PRESTAMOS ACTUALIZADOS
@@ -124,7 +134,7 @@ public class ServletPrestamo extends HttpServlet {
 			listaEstadosPrestamo = prestamoNeg.obtenerListadeEstado();
 			
 			
-				if(listaPrestamos != null || listaEstadosPrestamo != null || EstadoMovimiento != 0) {
+				if(listaPrestamos != null || listaEstadosPrestamo != null || EstadoMovimiento != 0 || EstadoSaldoCuenta !=0) {
 					System.out.println("completa lista prestamos");
 					
 					request.setAttribute("listaPrestamos", listaPrestamos);	

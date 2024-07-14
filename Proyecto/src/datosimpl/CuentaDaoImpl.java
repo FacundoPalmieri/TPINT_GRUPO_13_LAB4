@@ -104,7 +104,7 @@ public class CuentaDaoImpl implements CuentaDao {
 	}
 
 	@Override
-	public int buscarNCuenta(String DNI) {
+	public int ultimaCuentaCreada(String DNI) {
 		
 		int nCuenta=0;
 		
@@ -186,7 +186,98 @@ public class CuentaDaoImpl implements CuentaDao {
 		    return cuentas;
 		}
 
+	@Override
+	public int modificarSaldo(int nCuenta, float monto) {
+		Conexion cn = new Conexion();
+        PreparedStatement ps = null;
+        
+        int estado = 0;
+        
+        String query ="UPDATE cuentas SET saldo = ? "
+        			+ "WHERE numero_cuenta = ?  ";
+        
+        
+        try {
+        	cn.Open();
+        	System.out.println("CONEXION ABIERTA modificarSaldo");
+        	
+        	ps = cn.prepareStatement(query);
+        	ps.setFloat(1, monto);
+        	ps.setInt(2, nCuenta);
+        	
+        	System.out.println(query + " " + nCuenta + " " + monto);
+        	
+        	estado = ps.executeUpdate();
+        	
+			
+		} catch (Exception e) {
+			System.out.println("ERROR  modificarSaldo DAO");
+			e.printStackTrace();
+		}
+        finally {
+        	try {
+				cn.close();
+				ps.close();
+				
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR CONEXION modificarSaldo DAO");
+				e2.printStackTrace();
+			}
+	
+        }
+        
+        return estado;
 	}
+
+	@Override
+	public Cuenta obtenerSaldo(int nCuenta) {
+		Conexion cn = new Conexion ();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Cuenta cuenta = new Cuenta();
+		
+	
+		
+		String query = "Select saldo, numero_cuenta, cliente_dni "
+				     + "FROM cuentas "
+				     + "WHERE numero_cuenta = ?";
+		
+		try {
+			cn.Open();
+			System.out.println("CONEXION ABIERTA obtenerSaldo");
+			
+			ps = cn.prepareStatement(query);
+			ps.setInt(1,  nCuenta);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				
+				 cuenta.setSaldo(rs.getFloat("saldo"));
+				 cuenta.setNumeroCuenta(rs.getInt("numero_cuenta"));
+				 cuenta.setClienteDni(rs.getInt("cliente_dni"));			 		
+			}
+		
+		} catch (Exception e) {
+			System.out.println("ERROR en obtenerSaldo DAO");
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				cn.close();
+				rs.close();
+				ps.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR AL CERRAR CONEXION obtenerSaldo");
+				e2.printStackTrace();
+			}
+		
+		}
+		return cuenta;
+		
+	}
+
+}
 	
 
 

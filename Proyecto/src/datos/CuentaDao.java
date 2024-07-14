@@ -9,9 +9,14 @@ public interface CuentaDao {
 	
 	public int CrearCuenta (String DNI, int TipoCuenta);
 
-	public int buscarNCuenta(String DNI);
+	public int ultimaCuentaCreada(String DNI);
 
 	public ArrayList<Cuenta> obtenerCuentasPorDNI(String DNI);
+	
+	public int modificarSaldo(int nCuenta, float monto);
+	
+	public Cuenta obtenerSaldo(int nCuenta);
+	
 
 
 }

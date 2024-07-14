@@ -7,6 +7,7 @@ public class Prestamo {
 
 	private int id;
 	private Persona clienteDni;
+	private Cuenta cuentaDestino;
 	private LocalDate fecha;
 	private float importeSolicitado;
 	private float importeAPagar;
@@ -78,6 +79,12 @@ public class Prestamo {
 	}
 	public void setSaldoRestante(float saldoRestante) {
 		this.saldoRestante = saldoRestante;
+	}
+	public Cuenta getCuentaDestino() {
+		return cuentaDestino;
+	}
+	public void setCuentaDestino(Cuenta cuentaDestino) {
+		this.cuentaDestino = cuentaDestino;
 	}
 	
 	

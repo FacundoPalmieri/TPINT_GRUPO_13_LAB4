@@ -1,7 +1,6 @@
-/controller/
 /datos/
 /datosimpl/
-/entidad/
-/excepcion/
 /negocio/
 /negocioimpl/
+/controller/
+/entidad/

@@ -27,13 +27,23 @@ public class CuentaNegImpl implements CuentaNeg {
 
 
 	public int buscarNCuenta(String DNI) {
-		return cuentaDao.buscarNCuenta(DNI);
+		return cuentaDao.ultimaCuentaCreada(DNI);
 	};
 
 	@Override
 	public ArrayList<Cuenta> obtenerCuentasPorDNI(String DNI) {
 	
 		return cuentaDao.obtenerCuentasPorDNI(DNI);
+	}
+
+	@Override
+	public int modificarSaldo(int nCuenta, float monto) {
+		return cuentaDao.modificarSaldo(nCuenta, monto);
+	}
+
+	@Override
+	public Cuenta obtenerSaldo(int nCuenta) {
+		return cuentaDao.obtenerSaldo(nCuenta);
 	}
 	
 }

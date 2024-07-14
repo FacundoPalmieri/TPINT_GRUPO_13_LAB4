@@ -75,17 +75,19 @@
 			let params="btnIngresar=1&txtUsuario="+encodeURIComponent(usuario)+"&txtContrasenia="+encodeURIComponent(contrasenia);
 			xhr.onreadystatechange=function(){
 				if(xhr.readyState===4 && xhr.status===200){
+					
 					if(xhr.responseText=="2"){
-						showPopup("Bienvenido Cliente, aguarde unos segundos");
+					<%--	showPopup("Bienvenido Cliente, aguarde unos segundos");
 						setTimeout(function(){
-							window.location.href='InicioCliente.jsp';
-						},2000)
+							
+						},2000) --%>
+						window.location.href='InicioCliente.jsp';
 					}
 					else if(xhr.responseText=="1"){
 						window.location.href='UsuarioAdministrador.jsp';
 					}
 					else if(xhr.responseText=="3"){
-						showPopup("El usuario se encuentra inhabilitado, comuniquese con el banco");
+						showPopup("El usuario se encuentra bloqueado, comuniquese con el banco");
 					}
 					else if(xhr.responseText=="4"){
 						showPopup("Usuario o contrasenia incorrectos");
