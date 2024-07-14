@@ -5,14 +5,13 @@ import java.util.ArrayList;
 import datos.ReporteDao;
 import entidad.Movimientos;
 import entidad.Prestamo;
-import excepcion.DniInexistente;
 import excepcion.UsuarioInhabilitado;
 
 public class ReporteDaoImpl implements ReporteDao {
 	private Conexion cn;
 	
 	
-	public boolean busquedaDNI(String dni) throws DniInexistente {
+	public boolean busquedaDNI(String dni) {
 		cn = new Conexion();
 		String query = "";
 		

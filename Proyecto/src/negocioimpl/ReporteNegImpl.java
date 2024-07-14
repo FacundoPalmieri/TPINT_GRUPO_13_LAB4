@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import datosimpl.ReporteDaoImpl;
 import entidad.Movimientos;
 import entidad.Prestamo;
-import excepcion.DniInexistente;
+import excepcion.DniInvalido;
 import excepcion.UsuarioInhabilitado;
 import negocio.ReporteNeg;
 
@@ -13,14 +13,25 @@ public class ReporteNegImpl implements ReporteNeg{
 	private ReporteDaoImpl reporteDao;
 	
 	
-	public boolean busquedaDNI(String dni) throws DniInexistente {
-		boolean resultado = false;
+	@Override
+	public boolean validarFormatoDNI(String dni) throws DniInvalido {
+		if(dni.length()>8) {
+			throw new DniInvalido();
+		}
+		
 		try {
-			resultado = reporteDao.busquedaDNI(dni);
+			Integer.parseInt(dni);
+			return true;
 		}
 		catch(Exception e) {
-			e.getMessage();
+			throw new DniInvalido();
 		}
+	}
+	
+	
+	public boolean busquedaDNI(String dni) {
+		boolean resultado = false;
+		resultado = reporteDao.busquedaDNI(dni);
 		return resultado;
 	}
 
@@ -45,5 +56,6 @@ public class ReporteNegImpl implements ReporteNeg{
 	public ArrayList<Movimientos> movimientos(){
 		return new ArrayList<Movimientos> ();
 	}
+
 
 }
