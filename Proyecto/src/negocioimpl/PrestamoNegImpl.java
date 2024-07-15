@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import datos.PrestamoDao;
 import datosimpl.PrestamoDaoImpl;
 import entidad.EstadoPrestamo;
+import entidad.PagosPrestamos;
 import entidad.Prestamo;
 import negocio.PrestamoNeg;
 
@@ -17,9 +18,9 @@ public class PrestamoNegImpl implements PrestamoNeg {
 	}
 	
 	@Override
-	public boolean solicitarPrestamo(Prestamo prestamo, String clienteDni, int estadoPrestamo) {
+	public boolean guardarPrestamo(Prestamo prestamo, String clienteDni, int estadoPrestamo, int nCuenta) {
 
-		return prestamoDao.guardarPrestamo(prestamo, clienteDni, estadoPrestamo);
+		return prestamoDao.guardarPrestamo(prestamo, clienteDni, estadoPrestamo, nCuenta);
 		
 	}
 	
@@ -50,24 +51,11 @@ public class PrestamoNegImpl implements PrestamoNeg {
 		return listaEstadoPrestamos;
 	}
 
-
-	/*
-	
-
 	@Override
-	public Prestamo obtenerPrestamoPorId(int prestamoId) {
-		// TODO Auto-generated method stub
-		return prestamoDao.obtenerPrestamoPorId(prestamoId);
+	public int registrarCuotas(PagosPrestamos pagosPrestamo) {
+		return prestamoDao.registrarCuotas(pagosPrestamo);
 	}
 
 
-	@Override
-	public boolean eliminarPrestamo(int prestamoId) {
-		// TODO Auto-generated method stub
-		return prestamoDao.eliminarPrestamo(prestamoId);
-	}
-
-	
-	*/
 
 }

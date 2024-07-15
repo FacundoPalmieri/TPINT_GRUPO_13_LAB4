@@ -68,9 +68,7 @@ public class MovimientoDaoImpl implements MovimientoDao{
 		ResultSet rs = null;
 		
 		ArrayList<Movimientos> listaMovimientos = new ArrayList<Movimientos>();
-		Movimientos m = new Movimientos();
-		Cuenta c = new Cuenta();
-		TipoMovimiento tm = new TipoMovimiento();
+	
 
 		
 		String query ="SELECT movimientos.cuenta_destino,movimientos.fecha, movimientos.detalle,movimientos.importe, tipomovimiento.id, tipomovimiento.descripcion "
@@ -88,6 +86,10 @@ public class MovimientoDaoImpl implements MovimientoDao{
 			rs = preparedStatement.executeQuery();
 			
 		    while(rs.next()){
+		    	Movimientos m = new Movimientos();
+				Cuenta c = new Cuenta();
+				TipoMovimiento tm = new TipoMovimiento();
+				
 				c.setNumeroCuenta(rs.getInt("movimientos.cuenta_destino"));
 				
 			    Date sqlDate = rs.getDate("movimientos.fecha");

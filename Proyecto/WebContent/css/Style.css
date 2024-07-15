@@ -585,4 +585,8 @@ input[type="submit"]:hover {
 	z-index: 9999;
     }
     
+    .invisible {
+        display: none;
+    }
+    
     

@@ -4,9 +4,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
+import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
 
 import datos.PrestamoDao;
+import entidad.Cuenta;
 import entidad.EstadoPrestamo;
+import entidad.PagosPrestamos;
 import entidad.Persona;
 import entidad.Prestamo;
 
@@ -24,25 +27,26 @@ public class PrestamoDaoImpl implements PrestamoDao{
 
 
 	@Override
-	public boolean guardarPrestamo(Prestamo prestamo, String clienteDni, int estadoPrestamo) {
+	public boolean guardarPrestamo(Prestamo prestamo, String clienteDni, int estadoPrestamo, int nCuenta) {
 		  Conexion cn = new Conexion();
 		  PreparedStatement preparedStatement = null;
-		  String query = "INSERT INTO prestamos (cliente_dni, fecha, importe_solicitado, importe_a_pagar, importe_cuota, cuotas, estado, cuotas_abonadas, saldo_restante) " +
-						"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		  String query = "INSERT INTO prestamos (cliente_dni,cuenta_destino,fecha, importe_solicitado, importe_a_pagar, importe_cuota, cuotas, estado, cuotas_abonadas, saldo_restante) " +
+						"VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
    try {
 	   cn.Open();
 	   System.out.println("Conexion abierta guardarPrestamo ");
 	   preparedStatement = cn.prepareStatement(query);
        
 	   preparedStatement.setString(1,clienteDni);
-	   preparedStatement.setDate(2, java.sql.Date.valueOf(prestamo.getFecha()));
-	   preparedStatement.setFloat(3, prestamo.getImporteSolicitado());
-       preparedStatement.setFloat(4, prestamo.getImporteAPagar());
-       preparedStatement.setFloat(5, prestamo.getImporteCuota());
-       preparedStatement.setInt(6, prestamo.getCuotas());
-       preparedStatement.setInt(7, estadoPrestamo);
-       preparedStatement.setInt(8, prestamo.getCuotasAbonadas());
-       preparedStatement.setFloat(9, prestamo.getSaldoRestante());
+	   preparedStatement.setInt(2,nCuenta);
+	   preparedStatement.setDate(3, java.sql.Date.valueOf(prestamo.getFecha()));
+	   preparedStatement.setFloat(4, prestamo.getImporteSolicitado());
+       preparedStatement.setFloat(5, prestamo.getImporteAPagar());
+       preparedStatement.setFloat(6, prestamo.getImporteCuota());
+       preparedStatement.setInt(7, prestamo.getCuotas());
+       preparedStatement.setInt(8, estadoPrestamo);
+       preparedStatement.setInt(9, prestamo.getCuotasAbonadas());
+       preparedStatement.setFloat(10, prestamo.getSaldoRestante());
 
        int filasInsertadas = preparedStatement.executeUpdate();
        return filasInsertadas > 0;
@@ -71,10 +75,11 @@ public class PrestamoDaoImpl implements PrestamoDao{
 		ArrayList<Prestamo> listaPrestamos = new ArrayList<Prestamo>();
 
 		
-		String query = "select personas.dni, personas.apellido,personas.nombre, personas.email,prestamos.id, prestamos.fecha, prestamos.importe_solicitado, prestamos.importe_a_pagar, prestamos.importe_cuota, prestamos.cuotas, prestamos.cuotas_abonadas, prestamos.saldo_restante, estadosprestamos.id, estadosprestamos.descripcion "
+		String query = "select personas.dni, personas.apellido,personas.nombre, personas.email,prestamos.id, prestamos.fecha, prestamos.importe_solicitado, prestamos.importe_a_pagar, prestamos.importe_cuota, prestamos.cuotas, prestamos.cuotas_abonadas, prestamos.saldo_restante, estadosprestamos.id, estadosprestamos.descripcion, cuentas.numero_cuenta,cuentas.cbu, cuentas.saldo "
 				     + "FROM prestamos "
 				     + "INNER JOIN personas ON prestamos.cliente_dni = personas.dni "
-				     + "INNER JOIN estadosprestamos ON prestamos.estado = estadosprestamos.id";			   
+				     + "INNER JOIN estadosprestamos ON prestamos.estado = estadosprestamos.id "
+				     + "INNER JOIN cuentas ON cuentas.numero_cuenta = prestamos.cuenta_destino";			   
 		
 		try {
 			cn.Open();
@@ -85,6 +90,7 @@ public class PrestamoDaoImpl implements PrestamoDao{
 			 while(rs.next()) {
 				 Prestamo prestamo = new Prestamo();
 		         Persona persona = new Persona();
+		         Cuenta cuenta = new Cuenta();
 		         EstadoPrestamo estadoPrestamo = new EstadoPrestamo();
 				 persona.setDni(rs.getString("personas.dni"));
 				 persona.setApellido(rs.getString("personas.apellido"));
@@ -100,10 +106,15 @@ public class PrestamoDaoImpl implements PrestamoDao{
 				 prestamo.setSaldoRestante(rs.getFloat("prestamos.saldo_restante"));
 				 estadoPrestamo.setId(rs.getInt("estadosprestamos.id"));
 				 estadoPrestamo.setDescripcion(rs.getString("estadosprestamos.descripcion"));
+				 cuenta.setNumeroCuenta(rs.getInt("cuentas.numero_cuenta"));
+				 cuenta.setCbu(rs.getString("cuentas.cbu"));
+				 cuenta.setSaldo(rs.getFloat("cuentas.saldo"));
+				 
+				 
 				 
 				 prestamo.setClienteDni(persona);
 				 prestamo.setEstado(estadoPrestamo);
-				 
+				 prestamo.setCuentaDestino(cuenta);
 				 listaPrestamos.add(prestamo);
 				 
 			 }		
@@ -132,12 +143,14 @@ public class PrestamoDaoImpl implements PrestamoDao{
 	    ArrayList<Prestamo> listaPrestamos = new ArrayList<>();
 	    
 	    String query = "SELECT personas.dni, personas.apellido, personas.nombre, personas.email, " +
-	                   "prestamos.fecha, prestamos.importe_solicitado, prestamos.importe_a_pagar, " +
+	                   "prestamos.id, prestamos.fecha, prestamos.importe_solicitado, prestamos.importe_a_pagar, " +
 	                   "prestamos.importe_cuota, prestamos.cuotas, prestamos.cuotas_abonadas, " +
-	                   "prestamos.saldo_restante, estadosprestamos.id, estadosprestamos.descripcion " +
+	                   "prestamos.saldo_restante, estadosprestamos.id, estadosprestamos.descripcion, "+ 
+	                   "cuentas.numero_cuenta, cuentas.cbu, cuentas.saldo " +
 	                   "FROM prestamos " +
 	                   "INNER JOIN personas ON prestamos.cliente_dni = personas.dni " +
 	                   "INNER JOIN estadosprestamos ON prestamos.estado = estadosprestamos.id " +
+	                   "INNER JOIN cuentas ON cuentas.numero_cuenta = prestamos.cuenta_destino " +
 	                   "WHERE personas.dni = ?";
 	    
 	    try {
@@ -151,6 +164,7 @@ public class PrestamoDaoImpl implements PrestamoDao{
 	        while (rs.next()) {
 	            Prestamo prestamo = new Prestamo();
 	            Persona persona = new Persona();
+	            Cuenta cuenta = new Cuenta();
 	            EstadoPrestamo estadoPrestamo = new EstadoPrestamo();
 	            
 	            persona.setDni(rs.getString("personas.dni"));
@@ -158,6 +172,7 @@ public class PrestamoDaoImpl implements PrestamoDao{
 	            persona.setNombre(rs.getString("personas.nombre"));
 	            persona.setEmail(rs.getString("personas.email"));
 	            
+	            prestamo.setId(rs.getInt("prestamos.id"));
 	            prestamo.setFecha(rs.getString("fecha"));
 	            prestamo.setImporteSolicitado(rs.getFloat("importe_solicitado"));
 	            prestamo.setImporteAPagar(rs.getFloat("importe_a_pagar"));
@@ -166,11 +181,16 @@ public class PrestamoDaoImpl implements PrestamoDao{
 	            prestamo.setCuotasAbonadas(rs.getInt("cuotas_abonadas"));
 	            prestamo.setSaldoRestante(rs.getFloat("saldo_restante"));
 	            
+	            cuenta.setNumeroCuenta(rs.getInt("cuentas.numero_cuenta"));
+	            cuenta.setCbu(rs.getString("cuentas.cbu"));
+	            cuenta.setSaldo(rs.getFloat("cuentas.saldo"));
+	            
 	            estadoPrestamo.setId(rs.getInt("estadosprestamos.id"));
 	            estadoPrestamo.setDescripcion(rs.getString("estadosprestamos.descripcion"));
 	            
 	            prestamo.setClienteDni(persona);
 	            prestamo.setEstado(estadoPrestamo);
+	            prestamo.setCuentaDestino(cuenta);
 	            
 	            listaPrestamos.add(prestamo);
 	        }
@@ -288,27 +308,59 @@ public class PrestamoDaoImpl implements PrestamoDao{
 	    
 	    return listaEstados;
 	}
+
+	@Override
+	public int registrarCuotas(PagosPrestamos pagosPrestamo) {
+		Conexion cn = new Conexion();
+		PreparedStatement ps = null;
+		int estado = 0;
+		
+		String query = "INSERT INTO pagosprestamo (prestamo_id, fecha_pago, importe_pago, cuota) "
+				      + "VALUES (?, ?, ?, ? )";
+		
+		try {
+			cn.Open();
+			System.err.println("CONEXION ABIERTA registrarCuotas");
+			for(int x = 0; x < pagosPrestamo.getCuota(); x ++) {
+				
+			
+			ps = cn.prepareStatement(query);
+			ps.setInt(1, pagosPrestamo.getIdPrestamo());
+			ps.setDate(2, java.sql.Date.valueOf(pagosPrestamo.getFechaPago()));
+			ps.setFloat(3, pagosPrestamo.getImportePago());
+			ps.setInt(4,x+1);
+
+			
+			estado = ps.executeUpdate();
+			
+			}
+			
+		} catch (Exception e) {
+			System.out.println("ERROR EN registrarCuotas ");
+			e.printStackTrace();
+		}
+		finally {
+			try {
+			cn.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR COMEXION registrarCuotas");
+				e2.printStackTrace();
+			}
+			
+			try {
+			ps.close();	
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR PS registrarCuotas ");
+				e2.printStackTrace();
+			}
+	
+		}
+		
+		return estado;
+			
+		
+	}
 	   
 
-	/*
-
-	@Override
-	public Prestamo obtenerPrestamoPorId(int prestamoId) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean actualizarPrestamo(Prestamo prestamo) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean eliminarPrestamo(int prestamoId) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-	*/
 
 }
