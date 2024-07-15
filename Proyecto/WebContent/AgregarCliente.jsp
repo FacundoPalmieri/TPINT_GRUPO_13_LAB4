@@ -8,6 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <style type="text/css">
     .error {
@@ -306,6 +307,31 @@
             xhr.send();
         });
     });
+    
+    
+    // VALIDAR QUE LA PERSONA SEA MAYOR DE 18 AÑOS 
+   
+        function validarFechaNacimiento() {
+            const fechaNacimientoInput = document.getElementById('fechaNacimiento');
+            const fechaNacimiento = new Date(fechaNacimientoInput.value);
+            const fechaActual = new Date();
+            fechaActual.setFullYear(fechaActual.getFullYear() - 18);
+
+            if (fechaNacimiento > fechaActual) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Fecha no válida',
+                    text: 'Debe ser mayor de 18 años.',
+                }).then(() => {
+                    fechaNacimientoInput.value = '';
+                });
+            }
+        }
+
+        window.onload = function() {
+            const fechaNacimientoInput = document.getElementById('fechaNacimiento');
+            fechaNacimientoInput.addEventListener('change', validarFechaNacimiento);
+        };
     
 
 </script>

@@ -95,6 +95,8 @@
                 <tr>
                     <th>Fecha</th>
                     <th>Cliente</th>
+                    <th>DNI</th>
+                    <th>Cuenta destino</th>
                     <th>Importe Solicitado</th>
                     <th>Importe a Pagar</th>
                     <th>Cuotas</th>
@@ -111,7 +113,9 @@
                             %>
                             <tr>
                                 <td><%= prestamo.getFecha() %></td>
+                                <td><%= prestamo.getClienteDni().getApellido()%>,<%= prestamo.getClienteDni().getNombre() %></td>
                                 <td><%= prestamo.getClienteDni().getDni() %></td>
+                                <td><%= prestamo.getCuentaDestino() %></td>
                                 <td><%= prestamo.getImporteSolicitado() %></td>
                                 <td><%= prestamo.getImporteAPagar() %></td>
                                 <td><%= prestamo.getCuotas() %></td>
@@ -159,7 +163,9 @@
 </div>
 
 <% } else { %>
-    <h1>No tiene permisos para trabajar en esta URL, presione <a href="Login.jsp">aquí</a> para volver al Login</h1>
+    <div class="fullscreen-gif">
+    	<img src="img/No tiene permiso.gif" id="gift-ingreso-prohibido">
+    </div>
 <% } %>
 
 <script type="text/javascript">

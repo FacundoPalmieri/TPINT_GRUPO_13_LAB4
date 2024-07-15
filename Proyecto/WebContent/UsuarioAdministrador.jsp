@@ -38,7 +38,9 @@
     </div>
     
 	 <%}else{%>
-	 	<h1>No tiene permisos para trabajar en esta URL, presione <a href="Login.jsp">aquí</a> para volver al Login</h1>
+		   <div class="fullscreen-gif">
+		    	<img src="img/No tiene permiso.gif" id="gift-ingreso-prohibido">
+		   </div>
 	 <%}%>
 	 
 	</div>

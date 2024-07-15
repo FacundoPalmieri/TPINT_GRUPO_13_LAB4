@@ -59,7 +59,7 @@
                 <table class="custom-table" style="margin-top: 1%;">
                     <tr>
                         <td class="tabla">Cliente:</td>
-                        <td class="tabla"><%= (String) session.getAttribute("usuario") %></td>
+                        <td class="tabla"><%= (String) session.getAttribute("Apellido") %>, <%= (String) session.getAttribute("Nombre") %></td>
                     </tr>
                     <tr>
                     <%
@@ -105,7 +105,7 @@
                                         	System.out.println(cuenta); 	
                                 %>
                                 	 
-              						  <option value="<%= cuenta.getNumeroCuenta() %>"><%= cuenta.getNumeroCuenta() %></option>
+              						  <option value="<%= cuenta.getNumeroCuenta() %>"><%= cuenta.getIdTipoCuenta().getDescripcion() %> - Nro. Cuenta <%= cuenta.getNumeroCuenta() %></option>
                                 <%
                                         }
                                     } else {
