@@ -521,7 +521,7 @@ input[type="submit"]:hover {
 /* estilo tabla prestamo*/
 
 .custom-table {
-    /* Estilos específicos para tu tabla personalizada */
+    /* Estilos especï¿½ficos para tu tabla personalizada */
     width: 50%;
     border-collapse: collapse;
     margin: 0 auto;
@@ -565,7 +565,7 @@ input[type="submit"]:hover {
 }
 
 
- /* estilo pedir préstamo*/
+ /* estilo pedir prï¿½stamo*/
  
  .btnPrestamo{
     display: flex;
@@ -584,4 +584,5 @@ input[type="submit"]:hover {
 	background-size: cover;
 	z-index: 9999;
     }
+    
     

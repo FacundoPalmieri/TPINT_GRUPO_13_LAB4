@@ -8,69 +8,75 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Actualizar Estado de Préstamos</title>
+    <title>Actualizar Estado de Prï¿½stamos</title>
     <style type="text/css">
         <%@ include file="css/Style.css" %>
     </style>
-    <script type="text/javascript">
-    function mostrarMensajeCambio(idPrestamo, dniCliente, importeSolicitado, nuevoEstado) {
-        var select = document.getElementById('estadoPrestamo_' + idPrestamo);
-        var selectedOption = select.options[select.selectedIndex].text;
+<script type="text/javascript">
+function mostrarMensajeCambio(idPrestamo, dniCliente, importeSolicitado, numeroCuenta, importeCuota, cuotas, nuevoEstado) {
+    var select = document.getElementById('estadoPrestamo_' + idPrestamo);
+    var selectedOption = select.options[select.selectedIndex].text;
 
-        var mensaje = '¿Estás seguro de cambiar el estado del préstamo a "' + selectedOption + '"?';
-        showConfirmPopup(mensaje, idPrestamo, dniCliente, importeSolicitado, nuevoEstado);
-    }
+    var mensaje = 'ï¿½Estï¿½s seguro de cambiar el estado del prï¿½stamo a "' + selectedOption + '"?';
+    showConfirmPopup(mensaje, idPrestamo, dniCliente, importeSolicitado, numeroCuenta, importeCuota, cuotas, nuevoEstado);
+}
 
-    function confirmarCambio(idPrestamo, dniCliente, importeSolicitado, nuevoEstado) {
-        // Aquí puedes realizar validaciones adicionales antes de confirmar el cambio si es necesario
-        actualizarEstado(idPrestamo, dniCliente, importeSolicitado, nuevoEstado);
-    }
+function confirmarCambio(idPrestamo, dniCliente, importeSolicitado, numeroCuenta, importeCuota, cuotas, nuevoEstado) {
+    // Aquï¿½ puedes realizar validaciones adicionales antes de confirmar el cambio si es necesario
+    actualizarEstado(idPrestamo, dniCliente, importeSolicitado, numeroCuenta, importeCuota, cuotas, nuevoEstado);
+}
 
-    function actualizarEstado(idPrestamo, dniCliente, importeSolicitado, nuevoEstado) {
-        // Aquí puedes realizar la actualización del estado del préstamo en el servidor
-        var url = "ServletPrestamo?idPrestamo=" + idPrestamo + "&estadoPrestamo=" + nuevoEstado + "&dniCliente=" + dniCliente + "&importeSolicitado=" + importeSolicitado;
+function actualizarEstado(idPrestamo, dniCliente, importeSolicitado, numeroCuenta, importeCuota, cuotas, nuevoEstado) {
+    // Aquï¿½ puedes realizar la actualizaciï¿½n del estado del prï¿½stamo en el servidor
+    var url = "ServletPrestamo?idPrestamo=" + idPrestamo + 
+              "&estadoPrestamo=" + nuevoEstado + 
+              "&dniCliente=" + dniCliente + 
+              "&importeSolicitado=" + importeSolicitado + 
+              "&numeroCuenta=" + numeroCuenta +
+              "&importeCuota=" + importeCuota +
+              "&cuotas=" + cuotas;
 
-        // Redirigir al servlet para actualizar el estado
-        window.location.href = url;
-    }
+    // Redirigir al servlet para actualizar el estado
+    window.location.href = url;
+}
 
-    function showConfirmPopup(message, idPrestamo, dniCliente, importeSolicitado, nuevoEstado) {
-        var popup = document.getElementById('popupConfirm');
-        document.getElementById('popupConfirmMessage').innerText = message;
-        var aceptarButton = document.getElementById('AceptarPrestamo');
-        aceptarButton.setAttribute('onclick', 'confirmarCambio(' + idPrestamo + ', "' + dniCliente + '", "' + importeSolicitado + '", ' + nuevoEstado + ')');
-        popup.classList.add("active"); // Solo activar cuando se muestra el popup
-    }
+function showConfirmPopup(message, idPrestamo, dniCliente, importeSolicitado, numeroCuenta, importeCuota, cuotas, nuevoEstado) {
+    var popup = document.getElementById('popupConfirm');
+    document.getElementById('popupConfirmMessage').innerText = message;
+    var aceptarButton = document.getElementById('AceptarPrestamo');
+    aceptarButton.setAttribute('onclick', 'confirmarCambio(' + idPrestamo + ', "' + dniCliente + '", "' + importeSolicitado + '", "' + numeroCuenta + '", "' + importeCuota + '", "' + cuotas + '", "' + nuevoEstado + '")');
+    popup.classList.add("active"); // Solo activar cuando se muestra el popup
+}
 
+function closeConfirmPopup() {
+    var popup = document.getElementById('popupConfirm');
+    popup.classList.remove("active");
+}
 
-    function closeConfirmPopup() {
-        var popup = document.getElementById('popupConfirm');
-        popup.classList.remove("active");
+function showResultPopup(message) {
+    var popup = document.getElementById("popupResult");
+    var popupMessage = document.getElementById("popupResultMessage");
+    popupMessage.innerText = message;
+    popup.classList.add("active");
+}
+
+function closeResultPopup() {
+    var popup = document.getElementById("popupResult");
+    popup.classList.remove("active");
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    var mensaje = '<%= request.getAttribute("Mensaje") %>';
+    if (mensaje != null && mensaje !== "") {
+        showResultPopup(mensaje);
     }
     
-    function showResultPopup(message) {
-        var popup = document.getElementById("popupResult");
-        var popupMessage = document.getElementById("popupResultMessage");
-        popupMessage.innerText = message;
-        popup.classList.add("active");
-    }
+    closeConfirmPopup();
+    closeResultPopup();
+});
 
-    function closeResultPopup() {
-        var popup = document.getElementById("popupResult");
-        popup.classList.remove("active");
-    }
+</script>
 
-    document.addEventListener('DOMContentLoaded', function() {
-        var mensaje = '<%= request.getAttribute("Mensaje") %>';
-        if (mensaje != null && mensaje !== "") {
-            showResultPopup(mensaje);
-        }
-        
-        closeConfirmPopup();
-        closeResultPopup();
-        
-    });
-    </script>
 </head>
 <body>
 <% if(session.getAttribute("tipoUsuario") != null){ %>
@@ -79,7 +85,7 @@
     <div class="banner">
         <div class="logo_encabezado_izquierda">
             <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
-            <h3>Préstamos</h3>
+            <h3>Prï¿½stamos</h3>
         </div>
         <div class="logo_encabezado_derecha">
             <%= (String) session.getAttribute("usuario") %>
@@ -89,7 +95,7 @@
         </div>
     </div>
     <div>
-        <h3 style="display:flex; justify-content: center;">Préstamos solicitados</h3>
+        <h3 style="display:flex; justify-content: center;">Prï¿½stamos solicitados</h3>
         <table id="table_id" class="display">
             <thead>
                 <tr>
@@ -112,6 +118,7 @@
                         for (Prestamo prestamo : listaPrestamos) { 
                             %>
                             <tr>
+
                                 <td><%= prestamo.getFecha() %></td>
                                 <td><%= prestamo.getClienteDni().getApellido()%>,<%= prestamo.getClienteDni().getNombre() %></td>
                                 <td><%= prestamo.getClienteDni().getDni() %></td>
@@ -120,8 +127,9 @@
                                 <td><%= prestamo.getImporteAPagar() %></td>
                                 <td><%= prestamo.getCuotas() %></td>
                                 <td><%= prestamo.getImporteCuota() %></td>
-                                <td>
-                                <select id="estadoPrestamo_<%= prestamo.getId() %>" data-estado-actual="<%= prestamo.getEstado().getId() %>" onchange="mostrarMensajeCambio('<%= prestamo.getId() %>', '<%= prestamo.getClienteDni().getDni() %>','<%= prestamo.getImporteSolicitado() %>', this.value)">
+                                <th class="invisible">ID Prï¿½stamo</th> <!-- Columna invisible -->
+                                <td>                     
+								<select id="estadoPrestamo_<%= prestamo.getId() %>" data-estado-actual="<%= prestamo.getEstado().getId() %>" onchange="mostrarMensajeCambio('<%= prestamo.getId() %>', '<%= prestamo.getClienteDni().getDni() %>', '<%= prestamo.getImporteSolicitado() %>', '<%= prestamo.getCuentaDestino().getNumeroCuenta() %>', '<%= prestamo.getImporteCuota() %>', '<%= prestamo.getCuotas() %>', this.value)">
                                     <% for (EstadoPrestamo estado : listaEstadosPrestamo) { %>
                                         <option value="<%= estado.getId() %>" <%= prestamo.getEstado().getId() == estado.getId() ? "selected" : "" %>>
                                             <%= estado.getDescripcion() %>
@@ -129,13 +137,14 @@
                                     <% } %>
                                 </select>
                                 </td>
+                                <td class="invisible"><%= prestamo.getId() %></td> <!-- ID del prï¿½stamo en columna invisible -->
                             </tr>
                         <% 
                         }
                     } else {
                 %>
                 <tr>
-                    <td colspan="7">No tiene préstamos actuales</td>
+                    <td colspan="7">No tiene prï¿½stamos actuales</td>
                 </tr>
                 <% 
                     }
@@ -182,7 +191,7 @@
 
     function submitForm() {
         closeConfirmPopup();
-        document.forms[0].submit(); // Envía el formulario actual
+        document.forms[0].submit(); // Envï¿½a el formulario actual
     }
 
     window.onload = function() {

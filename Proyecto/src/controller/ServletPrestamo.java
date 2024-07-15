@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import entidad.Cuenta;
 import entidad.EstadoPrestamo;
+import entidad.PagosPrestamos;
 import entidad.Prestamo;
 import negocio.CuentaNeg;
 import negocio.MovimientoNeg;
@@ -49,6 +51,9 @@ public class ServletPrestamo extends HttpServlet {
 				   
 		listaCuentas = cuentaNeg.obtenerCuentasPorDNI(DNI);
 		listaPrestamosCliente = prestamoNeg.obtenerPrestamosPorCliente(DNI);
+		
+		//Obtener próxima cuota pendiente y su importe
+		
 		    
 		request.setAttribute("listaCuentas", listaCuentas);
 		request.setAttribute("listaPrestamos", listaPrestamosCliente);
@@ -95,6 +100,7 @@ public class ServletPrestamo extends HttpServlet {
 
 	     int idPrestamo =  Integer.parseInt(request.getParameter("idPrestamo"));
 		 int estadoPrestamo = Integer.parseInt(request.getParameter("estadoPrestamo"));
+		
 		 
 	
 		
@@ -104,16 +110,16 @@ public class ServletPrestamo extends HttpServlet {
 		//Si la actualización en la base es correcta genero movimiento y cargo la lista actualizada
 		if(estadoActualizacion == 1) {
 			
-			
-			//GENERO MOVIMIENTO
-			int EstadoMovimiento = -1;
+			// ACTUALIZO SALDO Y GENERO MOVIMIENTO 
+			int EstadoMovimiento = 0;
 			int EstadoSaldoCuenta = 0;
+			int EstadoCuotas = 0;
 			float saldo = 0;
 			Cuenta cuenta = new Cuenta();
 			
 			if(estadoPrestamo == 3) {
-				String Dni = request.getParameter("dniCliente");
-				int nCuenta = cuentaNeg.buscarNCuenta(Dni);
+			
+				int nCuenta = Integer.parseInt(request.getParameter("numeroCuenta"));
 				float importeSolicitado = Float.parseFloat(request.getParameter("importeSolicitado"));	
 				
 				// Genero movimiento
@@ -123,6 +129,32 @@ public class ServletPrestamo extends HttpServlet {
 				cuenta = cuentaNeg.obtenerSaldo(nCuenta);
 				saldo = cuenta.getSaldo() + importeSolicitado;
 				EstadoSaldoCuenta = cuentaNeg.modificarSaldo(nCuenta, saldo);
+				
+				//Actualizo cuotas
+				
+				PagosPrestamos pagosPrestamos = new PagosPrestamos();
+				
+			
+				pagosPrestamos.setIdPrestamo(idPrestamo);
+				System.out.println("ID PRESTAMO " + idPrestamo);
+		
+				
+				// Obtener la fecha de hoy
+				LocalDate fechaPago = LocalDate.now();
+
+				// Establecer la fecha de pago en el objeto pagosPrestamos
+				pagosPrestamos.setFechaPago(fechaPago);
+				
+				float ImporteCuota = Float.parseFloat(request.getParameter("importeCuota"));
+				pagosPrestamos.setImportePago(ImporteCuota);
+				
+				int Cuotas = Integer.parseInt(request.getParameter("cuotas"));
+				pagosPrestamos.setCuota(Cuotas);
+				
+				pagosPrestamos.setEstado(1);
+				
+				EstadoCuotas = prestamoNeg.registrarCuotas(pagosPrestamos);
+		
 			}
 			
 			// SE LISTA PRESTAMOS ACTUALIZADOS
@@ -134,7 +166,7 @@ public class ServletPrestamo extends HttpServlet {
 			listaEstadosPrestamo = prestamoNeg.obtenerListadeEstado();
 			
 			
-				if(listaPrestamos != null || listaEstadosPrestamo != null || EstadoMovimiento != 0 || EstadoSaldoCuenta !=0) {
+				if(listaPrestamos != null || listaEstadosPrestamo != null || EstadoMovimiento != 0 || EstadoSaldoCuenta !=0 || EstadoCuotas !=0) {
 					System.out.println("completa lista prestamos");
 					
 					request.setAttribute("listaPrestamos", listaPrestamos);	
@@ -161,11 +193,14 @@ public class ServletPrestamo extends HttpServlet {
 
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		// SOLICITAR PRESTAMO CLIENTE
 		if(request.getParameter("btnSolicitarPrestamo")!= null) {
 			
 			HttpSession session = request.getSession();
 			String DNI = (String) session.getAttribute("dni");
 			Prestamo prestamo = new Prestamo();
+			int cuenta = 0;
 			boolean estadoPrestamo = false;
 
 		
@@ -177,7 +212,10 @@ public class ServletPrestamo extends HttpServlet {
 			prestamo.setCuotasAbonadas(0);
 			prestamo.setSaldoRestante(Float.parseFloat(request.getParameter("importeTotal")));
 			
-			estadoPrestamo = prestamoNeg.solicitarPrestamo(prestamo, DNI, 1);
+			cuenta =Integer.parseInt(request.getParameter("cuentaDestino"));
+			
+			
+			estadoPrestamo = prestamoNeg.guardarPrestamo(prestamo, DNI, 1, cuenta);
 			
 			if(estadoPrestamo == true) {
 				
@@ -191,8 +229,40 @@ public class ServletPrestamo extends HttpServlet {
 		           dispatcher.forward(request, response);
 				
 			}	
-			
+		
 		}
+		
+		
+		
+		// Abonar Prestamo
+		if(request.getParameter("btnPagar")!= null) {
+			
+		    //Verificar que el saldo de la cuenta sea mayor a la cuota del prestamo
+			
+				 String prestamoId = request.getParameter("prestamo");
+				 System.out.println("PRESTAMO ID " + prestamoId);
+				 
+				 String cuentaId = request.getParameter("cuenta");
+				 System.out.println("CUENTA id " + cuentaId);
+				 
+				 String cuota = request.getParameter("cuota");
+				 System.out.println("CUOTA " + cuota);
+				 
+				 String cuentaYSaldo = request.getParameter("cuenta");
+
+			        // Separar el valor capturado en número de cuenta y saldo
+			        String[] partes = cuentaYSaldo.split("-");
+			        String numeroCuentaSeleccionada = partes[0];
+			        System.out.println("CUENTA id " + numeroCuentaSeleccionada);
+			        String saldoSeleccionado = partes[1];
+			        System.out.println("SALDO" + saldoSeleccionado);
+				
+				
+				
+				
+				
+				
+			}
 	
     }
 

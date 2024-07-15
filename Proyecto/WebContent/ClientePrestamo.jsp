@@ -96,7 +96,7 @@
                     <tr>
                         <td class="tabla">Cuenta para recibir el préstamo:</td>
                         <td class="tabla">
-                            <select name="cuentaDestino" required>
+                            <select id="cuenta" name="cuentaDestino" required>
                                 <% 
                                     ArrayList<Cuenta> listaCuentas = null;
                                     listaCuentas = (ArrayList<Cuenta>) request.getAttribute("listaCuentas");
@@ -121,8 +121,11 @@
                 <div class="btnPrestamo">
                     <input type="submit" value="Solicitar Préstamo"  name="btnSolicitarPrestamo" style="margin-top: 5px !important; margin-botton: 5px !important;">
                 </div>
-                
-                  </div>
+       
+                 </div>
+        </form>     
+        
+      <form action="ServletPrestamo" method="post" >   
        <button type="button" class="accordion">Abonar préstamo &#x1F4B0;</button>
 		<div class="panel pagar_cuota">
 		    <div class="form-group-cuota">
@@ -139,7 +142,7 @@
 				            data-cuotas="<%= prestamo.getCuotas() %>" 
 				            data-cuotas-abonadas="<%= prestamo.getCuotasAbonadas() %>" 
 				            data-importe-cuota="<%= prestamo.getImporteCuota() %>">
-				        Fecha: <%= prestamo.getFecha() %>, Importe Solicitado: <%= prestamo.getImporteSolicitado() %>
+				     	    Fecha: <%= prestamo.getFecha() %>, Importe Solicitado: <%= prestamo.getImporteSolicitado() %>
 				    </option>
 				    <% 
 				                }
@@ -152,7 +155,7 @@
 				    %>
 				</select>
 
-		        </select> 
+		  
 		    </div>
 		
 		    <div class="form-group-cuota">
@@ -162,7 +165,9 @@
 		                if (listaCuentas != null) {
 		                    for (Cuenta cuenta : listaCuentas) {
 		            %>
-		            <option value="<%= cuenta.getNumeroCuenta() %>">Cuenta: <%= cuenta.getIdTipoCuenta().getDescripcion() %> - <%= cuenta.getCbu() %>, Saldo: $<%= cuenta.getSaldo() %></option>
+						<option value="<%= cuenta.getNumeroCuenta() %>- <%= cuenta.getSaldo() %>">
+	 					   Cuenta: <%= cuenta.getIdTipoCuenta().getDescripcion() %> - <%= cuenta.getCbu() %>, Saldo: $<%= cuenta.getSaldo() %>
+						</option>
 		            <% 
 		                    }
 		                } else {
@@ -181,10 +186,13 @@
 		        </select>
 		    </div>
 		    <div class="button-container">
-				<input type="submit" value="Pagar" style="margin-top: 5px !important; margin-bottom: 5px !important;"> 
+				<input type="submit" name="btnPagar" id="btnPagar" value="Pagar" style="margin-top: 5px !important; margin-bottom: 5px !important;">
 			</div>        
 		</div>
-		
+	   </form>
+	   
+      <form id ="formPagoPrestamo" action="ServletPrestamo" method="post" >
+	   
 
           <button type="button" class="accordion">Mis préstamos &#128193;</button>
              <div class="panel">
@@ -303,13 +311,19 @@
         var cuotaSelect = document.getElementById("cuota");
         cuotaSelect.innerHTML = ""; // Limpiar el contenido anterior
 
-        for (var i = 1; i <= cuotasPendientes; i++) {
+        if (cuotasPendientes > 0) {
             var option = document.createElement("option");
-            option.value = i;
-            option.text = "Cuota " + (cuotasAbonadas + i) + " - Importe: $" + importeCuota;
+            option.value = cuotasAbonadas + 1;
+            option.text = "Cuota " + (cuotasAbonadas + 1) + " - Importe: $" + importeCuota;
+            cuotaSelect.appendChild(option);
+        } else {
+            var option = document.createElement("option");
+            option.value = "";
+            option.text = "No hay cuotas pendientes";
             cuotaSelect.appendChild(option);
         }
     }
+
 
 
 </script>
