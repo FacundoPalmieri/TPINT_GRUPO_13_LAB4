@@ -360,6 +360,95 @@ public class PrestamoDaoImpl implements PrestamoDao{
 			
 		
 	}
+
+	@Override
+	public int actualizarCuota(int idPrestamo, int cuota, int estado) {
+		Conexion cn = new Conexion();
+		PreparedStatement ps = null;
+		int estadoUpdate = 0;
+		
+		String query = "UPDATE pagosprestamo SET estado = ? "
+				     + "WHERE prestamo_id = ? AND cuota = ?";
+		
+		try {
+			cn.Open();
+			System.out.println("CONEXION ABIERTA actualizarCuota ");
+			
+			ps = cn.prepareStatement(query);
+			ps.setInt(1,estado);
+			ps.setInt(2,idPrestamo);
+			ps.setInt(3,cuota);
+			
+			estadoUpdate = ps.executeUpdate();
+			
+			return estadoUpdate;
+			 			
+		} catch (Exception e) {
+			System.out.println("ERROR actualizarCuota ");
+			e.printStackTrace();
+		}finally {
+			try {
+				cn.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR CONEXION actualizarCuota ");
+				e2.printStackTrace();
+			}
+			try {
+				ps.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR PS actualizarCuota ");
+				e2.printStackTrace();
+			}
+			
+			
+		}
+		
+		return estadoUpdate;
+	}
+
+	@Override
+	public int actualizarCuotaPrestamo(int id, int cuota) {
+		Conexion cn = new Conexion();
+		PreparedStatement ps = null;
+		int estado = 0;
+		
+		String query = "UPDATE prestamos SET cuotas_abonadas = ? "
+			         + "WHERE id = ?";
+		
+		try {
+			cn.Open();
+			System.out.println("CONEXION ABIERTA actualizarCuotaPrestamo ");
+			
+			ps = cn.prepareStatement(query);
+			ps.setInt(1,cuota);
+			ps.setInt(2, id);
+			
+			estado = ps.executeUpdate();
+			
+			
+		} catch (Exception e) {
+		   System.out.println("ERROR actualizarCuotaPrestamo ");
+		   e.printStackTrace();
+		}finally {
+			try {
+				cn.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR CONEXION actualizarCuotaPrestamo ");
+				e2.printStackTrace();		
+			}
+			try {
+				ps.close();
+				
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR PS actualizarCuotaPrestamo ");
+				e2.printStackTrace();		
+			}
+			
+		}
+		
+		return estado;
+		
+	}
 	   
 
 

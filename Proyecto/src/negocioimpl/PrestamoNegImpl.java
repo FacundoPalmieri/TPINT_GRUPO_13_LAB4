@@ -56,6 +56,16 @@ public class PrestamoNegImpl implements PrestamoNeg {
 		return prestamoDao.registrarCuotas(pagosPrestamo);
 	}
 
+	@Override
+	public int actualizarCuota(int idPrestamo, int cuota, int estado) {
+		return prestamoDao.actualizarCuota(idPrestamo, cuota, estado);
+	}
+
+	@Override
+	public int actualizarCuotaPrestamo(int id, int cuota) {
+		return prestamoDao.actualizarCuotaPrestamo(id, cuota);
+	}
+
 
 
 }

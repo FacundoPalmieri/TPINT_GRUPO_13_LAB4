@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Actualizar Estado de Pr�stamos</title>
+    <title>Actualizar Estado de Préstamos</title>
     <style type="text/css">
         <%@ include file="css/Style.css" %>
     </style>
@@ -17,7 +17,7 @@ function mostrarMensajeCambio(idPrestamo, dniCliente, importeSolicitado, numeroC
     var select = document.getElementById('estadoPrestamo_' + idPrestamo);
     var selectedOption = select.options[select.selectedIndex].text;
 
-    var mensaje = '�Est�s seguro de cambiar el estado del pr�stamo a "' + selectedOption + '"?';
+    var mensaje = 'Esta seguro de cambiar el estado del prestamo a "' + selectedOption + '"?';
     showConfirmPopup(mensaje, idPrestamo, dniCliente, importeSolicitado, numeroCuenta, importeCuota, cuotas, nuevoEstado);
 }
 
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="banner">
         <div class="logo_encabezado_izquierda">
             <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
-            <h3>Pr�stamos</h3>
+            <h3>Prestamos</h3>
         </div>
         <div class="logo_encabezado_derecha">
             <%= (String) session.getAttribute("usuario") %>
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </div>
     <div>
-        <h3 style="display:flex; justify-content: center;">Pr�stamos solicitados</h3>
+        <h3 style="display:flex; justify-content: center;">Prestamos solicitados</h3>
         <table id="table_id" class="display">
             <thead>
                 <tr>
@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <td><%= prestamo.getFecha() %></td>
                                 <td><%= prestamo.getClienteDni().getApellido()%>,<%= prestamo.getClienteDni().getNombre() %></td>
                                 <td><%= prestamo.getClienteDni().getDni() %></td>
-                                <td><%= prestamo.getCuentaDestino() %></td>
+                                <td><%= prestamo.getCuentaDestino().getNumeroCuenta() %></td>
                                 <td><%= prestamo.getImporteSolicitado() %></td>
                                 <td><%= prestamo.getImporteAPagar() %></td>
                                 <td><%= prestamo.getCuotas() %></td>

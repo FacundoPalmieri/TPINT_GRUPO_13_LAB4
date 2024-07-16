@@ -114,7 +114,7 @@ public class ServletPrestamo extends HttpServlet {
 			int EstadoMovimiento = 0;
 			int EstadoSaldoCuenta = 0;
 			int EstadoCuotas = 0;
-			float saldo = 0;
+	
 			Cuenta cuenta = new Cuenta();
 			
 			if(estadoPrestamo == 3) {
@@ -127,8 +127,8 @@ public class ServletPrestamo extends HttpServlet {
 				
 				// Actualizo saldo
 				cuenta = cuentaNeg.obtenerSaldo(nCuenta);
-				saldo = cuenta.getSaldo() + importeSolicitado;
-				EstadoSaldoCuenta = cuentaNeg.modificarSaldo(nCuenta, saldo);
+			
+				EstadoSaldoCuenta = cuentaNeg.modificarSaldo(nCuenta, importeSolicitado);
 				
 				//Actualizo cuotas
 				
@@ -166,7 +166,7 @@ public class ServletPrestamo extends HttpServlet {
 			listaEstadosPrestamo = prestamoNeg.obtenerListadeEstado();
 			
 			
-				if(listaPrestamos != null || listaEstadosPrestamo != null || EstadoMovimiento != 0 || EstadoSaldoCuenta !=0 || EstadoCuotas !=0) {
+				if(listaPrestamos != null && listaEstadosPrestamo != null && EstadoMovimiento != 0 && EstadoSaldoCuenta !=0 && EstadoCuotas !=0) {
 					System.out.println("completa lista prestamos");
 					
 					request.setAttribute("listaPrestamos", listaPrestamos);	
@@ -244,30 +244,68 @@ public class ServletPrestamo extends HttpServlet {
 		     String[] partes = cuentaYSaldo.split("-");
 		     
 		     int nCuenta = Integer.parseInt(partes[0]);
-		     System.out.println("CUENTA id " + nCuenta);
+		     System.out.println("CUENTA id: " + nCuenta);
 		     
 		     float saldo = Float.parseFloat(partes[1]);
-		     System.out.println("SALDO" + saldo);
+		     System.out.println("SALDO CUENTA: " + saldo);
 		     
+		     // Separar el valor capturado en ID prestamo e ImporteCuota
+			 String prestamoIdEimporteCuota = request.getParameter("prestamo");
+			 
+			 String[] partes2 = prestamoIdEimporteCuota.split("-");
+			 
+			 int idPrestamo = Integer.parseInt(partes2[0]);
+			 System.out.println("PRESTAMO ID: " + idPrestamo);
+
+			 
+			 float importeCuota = Float.parseFloat(partes2[1]);
+			 System.out.println("IMPORTE CUOTA: " + importeCuota);
 		     
-		     float cuota = Float.parseFloat( request.getParameter("cuota"));
-			 System.out.println("CUOTA " + cuota);
+			 
+			 // Capturo número de la cuota 
+		     int cuota = Integer.parseInt( request.getParameter("cuota"));
+			 System.out.println("NUMERO CUOTA: " + cuota);
+			
 		     
-		     if(saldo > cuota) {
-		     int estadoModificarSaldo = 0;
-		     estadoModificarSaldo= cuentaNeg.modificarSaldo(nCuenta, (cuota * -1));
-		    	 
-		    	 
-		    	 
+		     if(saldo > importeCuota) {     
+			     int estadoModificarSaldo = 0;
+			     int estadoMovimiento = 0;
+			     int estadoActualizarCuota = 0;
+			     int estadoActualizarPrestamo = 0;
+			     
+			     String DetalleMovimiento = "Pago prestamo - cuota " + cuota;
+			     
+			     estadoModificarSaldo= cuentaNeg.modificarSaldo(nCuenta, (importeCuota * -1));
+			     estadoMovimiento = movimientoNeg.CrearMovimiento(nCuenta, DetalleMovimiento, importeCuota, 1, 3);
+			     estadoActualizarCuota = prestamoNeg.actualizarCuota(idPrestamo, cuota, 2);
+			     estadoActualizarPrestamo = prestamoNeg.actualizarCuotaPrestamo(idPrestamo, cuota );
+			     
+			     if(estadoModificarSaldo != 0 && estadoMovimiento != 0 && estadoActualizarCuota != 0 && estadoActualizarPrestamo!= 0 ) {
+			    	 
+			    	   request.setAttribute("Mensaje","El pago ha sido realizado con éxito");
+					   RequestDispatcher dispatcher = request.getRequestDispatcher("/ClientePrestamo.jsp");
+			           dispatcher.forward(request, response);
+			    	 
+			    	 
+			     }else {
+			    	 
+				  	   request.setAttribute("Mensaje","No se ha podido realizar el pago");
+					   RequestDispatcher dispatcher = request.getRequestDispatcher("/ClientePrestamo.jsp");
+			           dispatcher.forward(request, response);
+				    	 
+			     }
+		     	    	 
+		     }else {
+		    	 	request.setAttribute("Mensaje","Saldo insuficiente en cuenta");
+				   RequestDispatcher dispatcher = request.getRequestDispatcher("/ClientePrestamo.jsp");
+		           dispatcher.forward(request, response);
 		     }
 		    	 
 		    	 
 		     
 			
 			
-				 String prestamoId = request.getParameter("prestamo");
-				 System.out.println("PRESTAMO ID " + prestamoId);
-			
+	
 				
 			    
 				

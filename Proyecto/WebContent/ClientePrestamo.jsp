@@ -138,7 +138,7 @@
 				            for (Prestamo prestamo : listaPrestamos) {
 				                if (prestamo.getEstado().getId() == 3) {  // Filtrar solo préstamos aprobados
 				    %>
-				    <option value="<%= prestamo.getId() %>" 
+				    <option value="<%= prestamo.getId() %>-<%= prestamo.getImporteCuota() %>" 
 				            data-cuotas="<%= prestamo.getCuotas() %>" 
 				            data-cuotas-abonadas="<%= prestamo.getCuotasAbonadas() %>" 
 				            data-importe-cuota="<%= prestamo.getImporteCuota() %>">
