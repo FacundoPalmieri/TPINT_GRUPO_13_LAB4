@@ -276,7 +276,7 @@ public class ServletPrestamo extends HttpServlet {
 			     String DetalleMovimiento = "Pago prestamo - cuota " + cuota;
 			     
 			     estadoModificarSaldo= cuentaNeg.modificarSaldo(nCuenta, (importeCuota * -1));
-			     estadoMovimiento = movimientoNeg.CrearMovimiento(nCuenta, DetalleMovimiento, importeCuota, 1, 3);
+			     estadoMovimiento = movimientoNeg.CrearMovimiento(nCuenta, DetalleMovimiento, (importeCuota * -1), 1, 3);
 			     estadoActualizarCuota = prestamoNeg.actualizarCuota(idPrestamo, cuota, 2);
 			     estadoActualizarPrestamo = prestamoNeg.actualizarCuotaPrestamo(idPrestamo, cuota );
 			     

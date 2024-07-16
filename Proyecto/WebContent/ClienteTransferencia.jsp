@@ -25,7 +25,7 @@
         </div>
     </div>
     
-    <form id="ServletCuentas" action="ServletCuentas method="post">
+    <form id="ServletCuentas" action="ServletCuentas method=" post">
     
     <div id="BusquedaCBU" class="form">
         <input type="text" id=cbuCliente name="cbuCliente" placeholder="Ingrese CBU" value="<%= (request.getParameter("cbuCliente") != null) ? request.getParameter("cbuCliente") : "" %>" required>

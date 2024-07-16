@@ -34,10 +34,11 @@
 			</div>
 		</div>
 		<div class="button-container">
-	    	<a href="EditarCliente?Param=1" class="botonera" style="margin: 5px;">Mis Datos</a>
-	    	<a href="ClienteTransferencia.jsp" class="botonera" style="margin: 5px;">Transferir</a>
+		    <a href="ServletCuentas?Param=1" class="botonera" style="margin: 5px;">Cuentas</a> 	    
+	    	<a href="ClienteTransferencia.jsp" class="botonera" style="margin: 5px;">Transferencias</a>
 	        <a href="ServletPrestamo?Param=1" class="botonera" style="margin: 5px;">Préstamos</a> 
-			<a href="ServletCuentas?Param=1" class="botonera" style="margin: 5px;">Cuentas</a> 	    
+	        <a href="EditarCliente?Param=1" class="botonera" style="margin: 5px;">Mis Datos</a>
+			
 	    </div>
 	</div>
 </body>
