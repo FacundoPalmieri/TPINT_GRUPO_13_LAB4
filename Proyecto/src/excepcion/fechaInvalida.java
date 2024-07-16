@@ -1,6 +1,6 @@
 package excepcion;
 
-public class fechaInvalida extends Exception{
+public class FechaInvalida extends Exception {
 
 	@Override
 	public String getMessage() {

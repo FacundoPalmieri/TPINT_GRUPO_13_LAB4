@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import datos.ReporteDao;
 import entidad.Movimientos;
 import entidad.Prestamo;
-import excepcion.UsuarioInhabilitado;
 
 public class ReporteDaoImpl implements ReporteDao {
 	private Conexion cn;
@@ -29,7 +28,7 @@ public class ReporteDaoImpl implements ReporteDao {
 	}
 	
 	
-	public boolean busquedaUsuario(String nombreUsuario) throws UsuarioInhabilitado{
+	public boolean busquedaUsuario(String nombreUsuario) {
 		cn = new Conexion();
 		String query = "";
 		

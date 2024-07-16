@@ -5,28 +5,10 @@ import java.util.ArrayList;
 import datosimpl.ReporteDaoImpl;
 import entidad.Movimientos;
 import entidad.Prestamo;
-import excepcion.DniInvalido;
-import excepcion.UsuarioInhabilitado;
 import negocio.ReporteNeg;
 
 public class ReporteNegImpl implements ReporteNeg{
 	private ReporteDaoImpl reporteDao;
-	
-	
-	@Override
-	public boolean validarFormatoDNI(String dni) throws DniInvalido {
-		if(dni.length()>20) {
-			throw new DniInvalido();
-		}
-		
-		try {
-			Integer.parseInt(dni);
-			return true;
-		}
-		catch(Exception e) {
-			throw new DniInvalido();
-		}
-	}
 	
 	
 	public boolean busquedaDNI(String dni) {
@@ -36,14 +18,9 @@ public class ReporteNegImpl implements ReporteNeg{
 	}
 
 	
-	public boolean busquedaUsuario(String nombreUsuario) throws UsuarioInhabilitado {
+	public boolean busquedaUsuario(String nombreUsuario) {
 		boolean resultado = false;
-		try {
-			resultado = reporteDao.busquedaUsuario(nombreUsuario);
-		}
-		catch(Exception e) {
-			e.getMessage();
-		}
+		resultado = reporteDao.busquedaUsuario(nombreUsuario);
 		return resultado;
 	} 
 	
@@ -56,6 +33,5 @@ public class ReporteNegImpl implements ReporteNeg{
 	public ArrayList<Movimientos> movimientos(){
 		return new ArrayList<Movimientos> ();
 	}
-
 
 }
