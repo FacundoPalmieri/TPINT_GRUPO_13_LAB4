@@ -234,29 +234,47 @@ public class ServletPrestamo extends HttpServlet {
 		
 		
 		
-		// Abonar Prestamo
+		// ABONAR PRESTAMO
 		if(request.getParameter("btnPagar")!= null) {
 			
-		    //Verificar que el saldo de la cuenta sea mayor a la cuota del prestamo
+		  //Verificar que el saldo de la cuenta sea mayor a la cuota del prestamo
+			 String cuentaYSaldo = request.getParameter("cuenta");
+
+			 // Separar el valor capturado en número de cuenta y saldo
+		     String[] partes = cuentaYSaldo.split("-");
+		     
+		     int nCuenta = Integer.parseInt(partes[0]);
+		     System.out.println("CUENTA id " + nCuenta);
+		     
+		     float saldo = Float.parseFloat(partes[1]);
+		     System.out.println("SALDO" + saldo);
+		     
+		     
+		     float cuota = Float.parseFloat( request.getParameter("cuota"));
+			 System.out.println("CUOTA " + cuota);
+		     
+		     if(saldo > cuota) {
+		     int estadoModificarSaldo = 0;
+		     estadoModificarSaldo= cuentaNeg.modificarSaldo(nCuenta, (cuota * -1));
+		    	 
+		    	 
+		    	 
+		     }
+		    	 
+		    	 
+		     
+			
 			
 				 String prestamoId = request.getParameter("prestamo");
 				 System.out.println("PRESTAMO ID " + prestamoId);
-				 
-				 String cuentaId = request.getParameter("cuenta");
-				 System.out.println("CUENTA id " + cuentaId);
-				 
-				 String cuota = request.getParameter("cuota");
-				 System.out.println("CUOTA " + cuota);
-				 
-				 String cuentaYSaldo = request.getParameter("cuenta");
-
-			        // Separar el valor capturado en número de cuenta y saldo
-			        String[] partes = cuentaYSaldo.split("-");
-			        String numeroCuentaSeleccionada = partes[0];
-			        System.out.println("CUENTA id " + numeroCuentaSeleccionada);
-			        String saldoSeleccionado = partes[1];
-			        System.out.println("SALDO" + saldoSeleccionado);
+			
 				
+			    
+				
+				 
+				
+				 
+				 
 				
 				
 				

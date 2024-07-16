@@ -193,7 +193,7 @@ public class CuentaDaoImpl implements CuentaDao {
         
         int estado = 0;
         
-        String query ="UPDATE cuentas SET saldo = ? "
+        String query ="UPDATE cuentas SET saldo = saldo + ? "
         			+ "WHERE numero_cuenta = ?  ";
         
         
