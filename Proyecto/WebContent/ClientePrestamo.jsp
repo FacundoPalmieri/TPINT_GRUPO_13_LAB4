@@ -130,8 +130,8 @@
 		<div class="panel pagar_cuota">
 		    <div class="form-group-cuota">
 		        <label for="prestamo" style="margin-top: 3%">Selecciona un préstamo:</label>
-		        <select name="prestamo" id="prestamo" onchange="updateCuotasPendientes()">
-				    <option value="">Seleccione un préstamo</option>
+		        <select name="prestamo" id="prestamo" required onchange="updateCuotasPendientes()">
+				    <option value="" >Seleccione un préstamo</option>
 				    <%  
 				        ArrayList<Prestamo> listaPrestamos = (ArrayList<Prestamo>) request.getAttribute("listaPrestamos"); 
 				        if (listaPrestamos != null) {
@@ -142,7 +142,7 @@
 				            data-cuotas="<%= prestamo.getCuotas() %>" 
 				            data-cuotas-abonadas="<%= prestamo.getCuotasAbonadas() %>" 
 				            data-importe-cuota="<%= prestamo.getImporteCuota() %>">
-				     	    Fecha: <%= prestamo.getFecha() %>, Importe Solicitado: <%= prestamo.getImporteSolicitado() %>
+				     	    Fecha: <%= prestamo.getFecha() %>, Importe Solicitado: <%= prestamo.getImporteSolicitado() %> 
 				    </option>
 				    <% 
 				                }
@@ -160,12 +160,12 @@
 		
 		    <div class="form-group-cuota">
 		        <label for="cuenta">Selecciona una cuenta:</label>
-		        <select name="cuenta" id="cuenta">
+		        <select name="cuenta" id="cuenta" required>
 		            <%  
 		                if (listaCuentas != null) {
 		                    for (Cuenta cuenta : listaCuentas) {
 		            %>
-						<option value="<%= cuenta.getNumeroCuenta() %>- <%= cuenta.getSaldo() %>">
+						<option value="<%= cuenta.getNumeroCuenta() %>- <%= cuenta.getSaldo() %>" >
 	 					   Cuenta: <%= cuenta.getIdTipoCuenta().getDescripcion() %> - <%= cuenta.getCbu() %>, Saldo: $<%= cuenta.getSaldo() %>
 						</option>
 		            <% 
@@ -181,7 +181,7 @@
 		    
 		    <div class="form-group-cuota">
 		        <label for="cuota">Selecciona una cuota pendiente:</label>
-		        <select name="cuota" id="cuota">
+		        <select name="cuota" id="cuota" required>
 		            <option value="">Seleccione un préstamo primero</option>
 		        </select>
 		    </div>
