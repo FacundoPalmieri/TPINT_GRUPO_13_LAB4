@@ -58,11 +58,11 @@ public class ReporteDaoImpl implements ReporteDao {
 	public ArrayList<Prestamo> prestamos(String dni, ArrayList<Integer> estado, LocalDate fecha1, LocalDate fecha2){
 			Conexion cn = new Conexion();
 		    ResultSet rs = null;
-		    //PreparedStatement preparedStatement = null;
 		    ArrayList<Prestamo> listaPrestamos = new ArrayList<>();
-		    String query="SELECT p.*,ep.descripcion FROM prestamos p "
+		    String query="SELECT p.*,ep.descripcion,ep.id 'idEstado' FROM prestamos p "
 		    		+"INNER JOIN EstadosPrestamos ep ON p.estado = ep.id " 
-		    		+"WHERE (p.fecha>=2024-06-12 AND p.fecha<=2025-06-12) AND p.cliente_dni='"+dni+"'";
+		    		+"WHERE (p.fecha>='"+fecha1+"' AND p.fecha<='"+fecha2+"') AND "
+		    		+"p.cliente_dni='"+dni+"'";
 		    
 		    if(estado!=null) {
 		    	System.out.println("ESTADO NO ES NULL");
@@ -83,24 +83,18 @@ public class ReporteDaoImpl implements ReporteDao {
 		        cn.Open();
 		        System.out.println("Conexion abierta obtenerPrestamos" + dni);
 		        rs = cn.query(query);
-		        //preparedStatement = (PreparedStatement) cn.prepareStatement(query);
-		        //preparedStatement.setString(1,dni);
-		        //preparedStatement.setString(2,Integer.toString(estado));
-		        //System.out.println("QUERY OBTENER PRESTAMOS: " + preparedStatement);
-		        //rs = preparedStatement.executeQuery();
-		        
 		        while (rs.next()) {
 		            Prestamo prestamo = new Prestamo();
 		            //Persona persona = new Persona();
 		            //Cuenta cuenta = new Cuenta();
-		            //EstadoPrestamo estadoPrestamo = new EstadoPrestamo();
+		            EstadoPrestamo estadoPrestamo = new EstadoPrestamo();
 		            
 		            //persona.setDni(rs.getString("personas.dni"));
 		            //persona.setApellido(rs.getString("personas.apellido"));
 		            //persona.setNombre(rs.getString("personas.nombre"));
 		            //persona.setEmail(rs.getString("personas.email"));
 		            
-		            prestamo.setId(rs.getInt("prestamos.id"));
+		            prestamo.setId(rs.getInt("id"));
 		            prestamo.setFecha(rs.getString("fecha"));
 		            prestamo.setImporteSolicitado(rs.getFloat("importe_solicitado"));
 		            prestamo.setImporteAPagar(rs.getFloat("importe_a_pagar"));
@@ -113,11 +107,11 @@ public class ReporteDaoImpl implements ReporteDao {
 		            //cuenta.setCbu(rs.getString("cuentas.cbu"));
 		            //cuenta.setSaldo(rs.getFloat("cuentas.saldo"));
 		            
-		            //estadoPrestamo.setId(rs.getInt("estadosprestamos.id"));
-		            //estadoPrestamo.setDescripcion(rs.getString("estadosprestamos.descripcion"));
+		            estadoPrestamo.setId(rs.getInt("idEstado"));
+		            estadoPrestamo.setDescripcion(rs.getString("descripcion"));
 		            
 		            //prestamo.setClienteDni(persona);
-		            //prestamo.setEstado(estadoPrestamo);
+		            prestamo.setEstado(estadoPrestamo);
 		            //prestamo.setCuentaDestino(cuenta);
 		            
 		            listaPrestamos.add(prestamo);

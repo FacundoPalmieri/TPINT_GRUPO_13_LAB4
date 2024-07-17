@@ -100,6 +100,15 @@ public class ServletReportes extends HttpServlet {
 			System.out.println("reporte");
 			ArrayList<Prestamo> listaPrestamos = new ArrayList<Prestamo>();
 			ArrayList<Integer> estados = null;
+			
+			String[] checkBox = request.getParameterValues("opciones");
+			if(checkBox!=null) {
+				estados = new ArrayList<Integer>();
+				for (String opcion : checkBox) {
+					estados.add(Integer.parseInt(opcion));
+				}
+			}
+			
 			listaPrestamos = reporteNeg.prestamos(DNI,estados,fecha1,fecha2);
 			
 			if(listaPrestamos != null) {
