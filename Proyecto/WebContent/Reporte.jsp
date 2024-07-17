@@ -52,29 +52,22 @@
             <tbody>
                 <%  
                     ArrayList<Prestamo> listaPrestamos = (ArrayList<Prestamo>) request.getAttribute("listaPrestamos");
-                    ArrayList<EstadoPrestamo> listaEstadosPrestamo = (ArrayList<EstadoPrestamo>) request.getAttribute("listaEstadosPrestamo");
+                    //ArrayList<EstadoPrestamo> listaEstadosPrestamo = (ArrayList<EstadoPrestamo>) request.getAttribute("listaEstadosPrestamo");
                     if (listaPrestamos != null) {
                         for (Prestamo prestamo : listaPrestamos) { 
                             %>
                             <tr>
 
                                 <td><%= prestamo.getFecha() %></td>
-                                <td><%= prestamo.getClienteDni().getApellido()%>,<%= prestamo.getClienteDni().getNombre() %></td>
-                                <td><%= prestamo.getClienteDni().getDni() %></td>
-                                <td><%= prestamo.getCuentaDestino().getNumeroCuenta() %></td>
+                                <td><%= //prestamo.getClienteDni().getApellido()%>,<%= //prestamo.getClienteDni().getNombre() %></td>
+                                <td><%= prestamo.getClienteDni() %></td>
+                                <td><%= //prestamo.getCuentaDestino().getNumeroCuenta() %></td>
                                 <td><%= prestamo.getImporteSolicitado() %></td>
                                 <td><%= prestamo.getImporteAPagar() %></td>
                                 <td><%= prestamo.getCuotas() %></td>
                                 <td><%= prestamo.getImporteCuota() %></td>
                                 <th class="invisible">ID Pr�stamo</th> <!-- Columna invisible -->
                                 <td>                     
-								<select id="estadoPrestamo_<%= prestamo.getId() %>" data-estado-actual="<%= prestamo.getEstado().getId() %>" onchange="mostrarMensajeCambio('<%= prestamo.getId() %>', '<%= prestamo.getClienteDni().getDni() %>', '<%= prestamo.getImporteSolicitado() %>', '<%= prestamo.getCuentaDestino().getNumeroCuenta() %>', '<%= prestamo.getImporteCuota() %>', '<%= prestamo.getCuotas() %>', this.value)">
-                                    <% for (EstadoPrestamo estado : listaEstadosPrestamo) { %>
-                                        <option value="<%= estado.getId() %>" <%= prestamo.getEstado().getId() == estado.getId() ? "selected" : "" %>>
-                                            <%= estado.getDescripcion() %>
-                                        </option>
-                                    <% } %>
-                                </select>
                                 </td>
                                 <td class="invisible"><%= prestamo.getId() %></td> <!-- ID del pr�stamo en columna invisible -->
                             </tr>
@@ -123,7 +116,7 @@
 
     window.onload = function() {
         // Obtenemos el mensaje de error desde el servidor
-        var errorMensaje = "<%= (request.getAttribute("Mensaje") != null) ? request.getAttribute("Mensaje") : "" %>";
+        var errorMensaje = <%= //(request.getAttribute("Mensaje") != null) ? request.getAttribute("Mensaje") : "" %>;
         if (errorMensaje) {
             showResultPopup(errorMensaje);
         }
