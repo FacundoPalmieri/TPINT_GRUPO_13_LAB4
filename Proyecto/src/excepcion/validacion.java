@@ -2,7 +2,7 @@ package excepcion;
 
 import java.time.LocalDate;
 
-public class validacion {
+public class Validacion {
 	
 	public static void validarFormatoDNI(String dni) throws DniInvalido {
 		try {
@@ -18,12 +18,12 @@ public class validacion {
 	}
 	
 	
-	public static void verificarFechas(LocalDate fecha1, LocalDate fecha2) throws fechaInvalida {
+	public static void verificarFechas(LocalDate fecha1, LocalDate fecha2) throws FechaInvalida {
 		if(!fecha1.isBefore(fecha2)) {
-			throw new fechaInvalida();
+			throw new FechaInvalida();
 		}
 		if(!fecha2.isBefore(LocalDate.now())) {
-			throw new fechaInvalida();
+			throw new FechaInvalida();
 		}
 	}
 }

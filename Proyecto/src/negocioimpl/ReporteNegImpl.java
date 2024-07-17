@@ -1,14 +1,20 @@
 package negocioimpl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
+import datos.ReporteDao;
 import datosimpl.ReporteDaoImpl;
 import entidad.Movimientos;
 import entidad.Prestamo;
 import negocio.ReporteNeg;
 
 public class ReporteNegImpl implements ReporteNeg{
-	private ReporteDaoImpl reporteDao;
+	private ReporteDao reporteDao;
+	
+	public ReporteNegImpl() {
+		reporteDao= new ReporteDaoImpl();
+	}
 	
 	
 	public boolean busquedaDNI(String dni) {
@@ -25,8 +31,10 @@ public class ReporteNegImpl implements ReporteNeg{
 	} 
 	
 	
-	public ArrayList<Prestamo> prestamos(String dni, int estado){
-		return reporteDao.prestamos(dni,estado);
+	public ArrayList<Prestamo> prestamos(String dni, ArrayList<Integer> estado, LocalDate fecha1, LocalDate fecha2){
+		ArrayList<Prestamo> prestamos = null;
+		prestamos = reporteDao.prestamos(dni,estado,fecha1,fecha2);
+		return prestamos;
 	}
 	
 	
