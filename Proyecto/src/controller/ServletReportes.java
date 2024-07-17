@@ -74,19 +74,19 @@ public class ServletReportes extends HttpServlet {
 		//Se valida que el dni sea numero y no mayor a 20 caracteres
 		//Se valida que la fecha2 no sea mayor a fecha1 y que las fechas no excedan al dia de hoy
 		try {
-			Validacion.validarFormatoDNI(DNI);	
+			validacion.validarFormatoDNI(DNI);	
 			YearMonth mesAnio = YearMonth.parse(ma, DateTimeFormatter.ofPattern("yyyy-MM"));
 			fecha1 = mesAnio.atDay(1);
 			YearMonth mesAnio2 = YearMonth.parse(ma2, DateTimeFormatter.ofPattern("yyyy-MM"));
 			fecha2 = mesAnio2.atDay(1);
 			System.out.println("DESDE: "+fecha1+" HASTA: "+fecha2);
-			Validacion.verificarFechas(fecha1, fecha2);
+			validacion.verificarFechas(fecha1, fecha2);
 		}
 		catch(DniInvalido dniI) {
 			System.out.println("Error: "+dniI.getMessage());
 			return;
 		}
-		catch(FechaInvalida fi) {
+		catch(fechaInvalida fi) {
 			System.out.println("Error: "+fi.getMessage());
 			return;
 		}

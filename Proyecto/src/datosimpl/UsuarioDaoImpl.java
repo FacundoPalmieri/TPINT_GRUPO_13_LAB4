@@ -933,4 +933,61 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    }
 	    return u;
 	}
+
+
+
+	@Override
+	public Persona obtenerClientePorDNI(int dni) {
+		Conexion cn = new Conexion ();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		Persona persona = new Persona();
+		
+		String query = "SELECT nombre, apellido "
+				     + "FROM personas "
+				     + "WHERE dni = ? ";
+		
+		try {
+			cn.Open();
+			System.out.println("CONEXION ABIRTA obtenerClientePorDNI");
+			
+			ps = cn.prepareStatement(query);
+			ps.setInt(1, dni);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				persona.setNombre(rs.getString("nombre"));
+				persona.setApellido(rs.getString("apellido"));	
+			}
+			
+			
+		} catch (Exception e) {
+			System.out.println("ERROR obtenerClientePorDNI");
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				cn.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR CONEXION obtenerClientePorDNI");
+				e2.printStackTrace();
+			}
+			try {
+				ps.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR ps obtenerClientePorDNI");
+				e2.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR rs obtenerClientePorDNI");
+				e2.printStackTrace();
+			}
+			
+		}
+		
+		return persona;
+	}
 }

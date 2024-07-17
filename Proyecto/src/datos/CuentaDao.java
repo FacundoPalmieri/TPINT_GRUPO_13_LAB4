@@ -17,6 +17,10 @@ public interface CuentaDao {
 	
 	public Cuenta obtenerSaldo(int nCuenta);
 	
+	public Cuenta obtenerCuentaporCBU(String cbu);
+	
+	public int setearEstadoCuenta(String dni, int estado);
+	
 
 
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import datos.UsuarioDao;
 import datosimpl.UsuarioDaoImpl;
+import entidad.Cuenta;
 import entidad.Direccion;
 import entidad.Localidad;
 import entidad.Persona;
@@ -127,6 +128,15 @@ public class UsuarioNegImpl implements UsuarioNeg{
 	public Usuario obtenerUsuarioEstado1o2(String usuario) {
 		return usuarioDao.obtenerUsuarioEstado1o2(usuario);
 	}
+
+
+	@Override
+	public Persona obtenerClientePorDNI(int dni) {
+		return usuarioDao.obtenerClientePorDNI(dni);
+	}
+
+
+	
 }
 
 

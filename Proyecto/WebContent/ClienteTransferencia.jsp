@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="entidad.Cuenta"%>
+<%@page import="entidad.Persona"%>
 <%@ page import="java.util.ArrayList" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -25,6 +26,18 @@
         </div>
     </div>
     
+    
+	<%
+	   Persona persona = new Persona();
+	   Cuenta cuenta = new Cuenta();
+
+	  
+	   persona = (Persona)request.getAttribute("persona");
+	   cuenta  = (Cuenta)request.getAttribute("cuenta");
+
+	%>
+    
+    
     <form id="ServletTransferencia" action="ServletTransferencia" method="get">	
 	    <div id="BusquedaCBU" class="form">
 	        <input type="text" id=cbuCliente name="cbuCliente" placeholder="Ingrese CBU" value="<%= (request.getParameter("cbuCliente") != null) ? request.getParameter("cbuCliente") : "" %>" required>
@@ -34,15 +47,15 @@
 	    <div class="form-group">
 	    	<div class="form-item" style="margin-top: 10px;">
 	        	<label for="ClienteDestino">Apellido y Nombre: </label>
-	            <input type="text" id="ClienteDestino" name="ClienteDestino">
+	            <input type="text" id="ClienteDestino" name="ClienteDestino"  value="<%= (persona != null && persona.getNombre() != null ? persona.getNombre() : "") + " " + (persona != null && persona.getApellido() != null ? persona.getApellido() : "") %>">
 	        </div>
 	        <div class="form-item" style="margin-top: 10px;">
 	        	<label for="DNIDestino">DNI: </label>
-	            <input type="text" id="DNIDestino" name="DNIDestino">
+	            <input type="text" id="DNIDestino" name="DNIDestino"  value="<%= (cuenta != null && cuenta.getClienteDni() != 0 ? cuenta.getClienteDni() : "") %>">
 	        </div>
 	        <div class="form-item" style="margin-top: 10px;">
-	        	<label for="nCuentaDestino">Nï¿½mero de cuenta: </label>
-	            <input type="text" id="nCuentaDestino" name="nCuentaDestino">
+	        	<label for="nCuentaDestino">Número de cuenta: </label>
+	            <input type="text" id="nCuentaDestino" name="nCuentaDestino"  value ="<%= (cuenta != null && cuenta.getNumeroCuenta() != 0 ? cuenta.getNumeroCuenta() : "") %>">
 	        </div>
 	    </div>
 	</div>
@@ -56,14 +69,14 @@
 	            </div>
 	            <div class="form-item" style="margin-top: 10px;">
 	                <label for="cuentaOrigen">Cuenta origen:</label>
-				    <select name="cuentaOrigen" id="cuenta" class="styled-select">
+				    <select name="cuentaOrigen" id="cuentaOrigen" class="styled-select">
 				    <%  
 						ArrayList<Cuenta> listaCuentas = null;
 		                listaCuentas = (ArrayList<Cuenta>) request.getAttribute("listaCuentas");
 				        	if (listaCuentas != null) {
-				            	for (Cuenta cuenta : listaCuentas) {
+				            	for (Cuenta cuentaOrigen : listaCuentas) {
 				    %>
-				    <option value="<%= cuenta.getNumeroCuenta() %>">Cuenta: <%= cuenta.getIdTipoCuenta().getDescripcion() %> - <%= cuenta.getCbu() %>, Saldo: $<%= cuenta.getSaldo() %></option>
+				    <option value="<%= cuentaOrigen.getNumeroCuenta()%>-<%=cuentaOrigen.getSaldo()%>">Cuenta: <%= cuentaOrigen.getIdTipoCuenta().getDescripcion() %> - <%= cuentaOrigen.getCbu() %>, Saldo: $<%= cuentaOrigen.getSaldo() %></option>
 				    <% 
 				    }
 				    } else {
@@ -87,7 +100,7 @@
     <!-- Popup para confirmaciï¿½n la transferencia -->
     <div id="popupTransferir" class="popup">
         <span class="close-btn" onclick="closePopup('popupTransferir')">&times;</span>
-        <p>ï¿½Estï¿½s seguro de que deseas realizar la transferencia?</p>
+        <p> ¿Estas seguro de que deseas realizar la transferencia?</p>
         <div class="popup-buttons">
             <button type="button" name="btnConfirmacion" value="true" onclick="confirmarTransferirFinal()">Si</button>
             <button type="button" onclick="closePopup('popupTransferir')">No</button>

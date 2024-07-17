@@ -2,6 +2,7 @@ package negocio;
 
 import java.util.ArrayList;
 
+import entidad.Cuenta;
 import entidad.Direccion;
 import entidad.Localidad;
 import entidad.Persona;
@@ -28,4 +29,6 @@ public interface UsuarioNeg {
 	public ArrayList<Persona> listarPersonasComposicion();
 	public Persona ObtenerPersonaCompleta(String usuario);
 	public Usuario obtenerUsuarioEstado1o2(String usuario);
+	public Persona obtenerClientePorDNI (int dni);
+
 }

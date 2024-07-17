@@ -13,7 +13,9 @@ import javax.servlet.http.HttpSession;
 
 import entidad.Persona;
 import entidad.Usuario;
+import negocio.CuentaNeg;
 import negocio.UsuarioNeg;
+import negocioimpl.CuentaNegImpl;
 import negocioimpl.UsuarioNegImpl;
 
 /**
@@ -23,26 +25,21 @@ import negocioimpl.UsuarioNegImpl;
 public class ServletEliminarCliente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	UsuarioNeg usuarioNeg = new UsuarioNegImpl();
+	CuentaNeg cuentaNeg = new CuentaNegImpl();
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
+  
     public ServletEliminarCliente() {
         super();
-        // TODO Auto-generated constructor stub
+      
     }
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         
@@ -81,11 +78,9 @@ public class ServletEliminarCliente extends HttpServlet {
 		
 		
 		
-		
-		
 		//Si el Servlet es llamado desde los botones de las celdas de ListarClientes
-		else if (request.getParameter("btnEliminar") != null || request.getParameter("btnHabilitar")!=null) {
-	    	System.out.println("Entre en el Else if");
+		  else if (request.getParameter("btnEliminar") != null || request.getParameter("btnHabilitar")!=null) {
+
 	    	Usuario usuarioEditado = new Usuario();
 			usuarioEditado.setPersona_dni(request.getParameter("dniCliente"));
 			//Si el usuario esta deshabilitado, habilitarlo  o al reves
@@ -96,6 +91,12 @@ public class ServletEliminarCliente extends HttpServlet {
 			}
 			
 			boolean filas2 = usuarioNeg.eliminarUsuario(usuarioEditado);
+			
+			//SETEO EL ESTADO DE  TODAS LAS CUENTAS DEL CLIENTE
+	        int estado = 0;   
+	        estado = cuentaNeg.setearEstadoCuenta(usuarioEditado.getPersona_dni(), usuarioEditado.getHabilitado());
+
+			
 		    String resultadoOperacion = "3";
 		    System.out.println(resultadoOperacion);
 		    //Se actualiza el objeto de la session 'listaPersonas' con los datos modificados
@@ -123,23 +124,35 @@ public class ServletEliminarCliente extends HttpServlet {
 		     }
 	    }
 		
+		
+		
+		
+		
+		
+		
 	    if (request.getParameter("btnConfirmacion") != null) {
+	    	
+	    	// SETEO EL ESTADO del CLIENTE
 	        Usuario usuarioEditado = new Usuario();
 	        usuarioEditado.setPersona_dni(request.getParameter("dniCliente"));
 	        usuarioEditado.setHabilitado(0);
-
 	        boolean filas = usuarioNeg.eliminarUsuario(usuarioEditado);
+	       
+	        
+	        
+	        //SETEO EL ESTADO DE  TODAS LAS CUENTAS DEL CLIENTE
+	        int estado = 0;   
+	        estado = cuentaNeg.setearEstadoCuenta(usuarioEditado.getPersona_dni(), usuarioEditado.getHabilitado());
+	        
 
-	        if(filas) {
+	        if(filas != false && estado != 0) {
 	            request.setAttribute("filas", true);
 	        } else {
 	            request.setAttribute("filas", false);
 	        }
 	        RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarCliente.jsp");
 	        dispatcher.forward(request, response);
-	    } else {
-	        //response.sendRedirect("EliminarCliente.jsp");
-	    }
+	    } 
         
 	}
 

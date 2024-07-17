@@ -1,9 +1,9 @@
 package excepcion;
 
-public class FechaInvalida extends Exception {
+public class fechaInvalida extends Exception {
 
 	
-	public FechaInvalida() {
+	public fechaInvalida() {
 		
 	}
 	

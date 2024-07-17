@@ -11,6 +11,10 @@ public class Cuenta {
 	private String cbu;
 	private float saldo;
 	private int habilitado;
+	
+	
+	
+	
 	public int getNumeroCuenta() {
 		return numeroCuenta;
 	}

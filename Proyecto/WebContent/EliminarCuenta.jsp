@@ -3,10 +3,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page import="entidad.Usuario" %>
 <%@ page import="entidad.Persona" %>
+<%@ page import="entidad.Cuenta" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Eliminar Usuario</title>
+<title>Eliminar Cuenta</title>
 <style type="text/css">
     <jsp:include page="css\Style.css"></jsp:include>
 </style>
@@ -16,7 +17,7 @@
     <div class="banner">
         <div class="logo_encabezado_izquierda">
             <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
-            <h3>Eliminar Usuario</h3>
+            <h3>Eliminar Cuenta</h3>
         </div>
         <div class="logo_encabezado_derecha">
             <%= (String) session.getAttribute("usuario") %>
@@ -146,17 +147,17 @@ document.addEventListener('DOMContentLoaded', function() {
 				if(xhr.readyState===4 && xhr.status===200){
 					if(xhr.responseText=="2"){
 						console.log("Usuario Habilitado")
-						showPopup('popupTransaccion', "Usuario Habilitado");
+						showPopup('popupTransaccion', "Usuario Habilitado, se redireccionara a el listado");
 						setTimeout(function(){
-							window.location.href='EliminarCliente.jsp';
-						},2000)
+							window.location.href='ListarClientes.jsp';
+						},3000)
 					}
 					else if(xhr.responseText=="1"){
 						console.log("Usuario Eliminado")
-						showPopup('popupTransaccion', "Usuario Eliminado");
+						showPopup('popupTransaccion', "Usuario Eliminado, se redireccionara a el listado");
 						setTimeout(function(){
-							window.location.href='EliminarCliente.jsp';
-						},2000)
+							window.location.href='ListarClientes.jsp';
+						},3000)
 
 					}
 					else{

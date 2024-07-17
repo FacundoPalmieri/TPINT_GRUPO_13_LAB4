@@ -277,6 +277,111 @@ public class CuentaDaoImpl implements CuentaDao {
 		
 	}
 
+	@Override
+	public Cuenta obtenerCuentaporCBU(String cbu) {
+		Conexion cn = new Conexion ();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		Cuenta cuenta = new Cuenta();
+		
+		String query = "SELECT numero_cuenta, cliente_dni "
+			         + "FROM cuentas "
+			         + "WHERE cbu = ? AND habilitado = 1";
+		
+		try {
+			cn.Open();
+			System.out.println("CONEXION ABIERTA obtenerCuentaporCBU");
+			
+			ps = cn.prepareStatement(query);
+			ps.setString(1,cbu);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				cuenta.setNumeroCuenta(rs.getInt("numero_cuenta"));
+				cuenta.setClienteDni(rs.getInt("cliente_dni"));
+	
+			}
+			
+			
+		} catch (Exception e) {
+			System.out.println("ERROR EN obtenerCuentaporCBU");
+			e.printStackTrace();
+		}finally {
+			try {
+				cn.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR CONEXION obtenerCuentaporCBU");
+				e2.printStackTrace();
+			}
+			try {
+				ps.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR PS obtenerCuentaporCBU");
+				e2.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR RS obtenerCuentaporCBU");
+				e2.printStackTrace();
+			}
+			
+			
+		}
+		
+	
+		return cuenta;
+	}
+
+	@Override
+	public int setearEstadoCuenta(String dni, int estado) {
+		Conexion cn = new Conexion ();
+		PreparedStatement ps = null;
+		int estadoUpdate = 0;
+		
+		String query = "UPDATE cuentas SET habilitado = ? "
+				     + "WHERE cliente_dni = ? ";
+		
+		try {
+			cn.Open();
+			System.out.println("CONEXION ABIERTA setearEstadoCuenta");
+			
+			ps = cn.prepareStatement(query);
+			ps.setInt(1, estado);
+			ps.setString(2, dni);
+			
+			estadoUpdate = ps.executeUpdate();
+			
+			
+		} catch (Exception e) {
+			System.out.println("ERROR setearEstadoCuenta");
+			e.printStackTrace();
+
+		}
+		finally {
+			try {
+				cn.close();
+				
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR CN setearEstadoCuenta");
+				e2.printStackTrace();
+			}
+			try {
+				
+				ps.close();
+				
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR PS setearEstadoCuenta");
+				e2.printStackTrace();
+			}
+	
+		}
+		
+		return estadoUpdate;
+	}
+
 }
 	
 

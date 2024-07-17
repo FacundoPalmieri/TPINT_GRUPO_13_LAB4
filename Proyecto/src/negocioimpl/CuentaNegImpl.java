@@ -45,6 +45,16 @@ public class CuentaNegImpl implements CuentaNeg {
 	public Cuenta obtenerSaldo(int nCuenta) {
 		return cuentaDao.obtenerSaldo(nCuenta);
 	}
+
+	@Override
+	public Cuenta obtenerCuentaporCBU(String cbu) {
+		return cuentaDao.obtenerCuentaporCBU(cbu);
+	}
+
+	@Override
+	public int setearEstadoCuenta(String dni, int estado) {
+		return cuentaDao.setearEstadoCuenta(dni, estado);
+	}
 	
 }
 
