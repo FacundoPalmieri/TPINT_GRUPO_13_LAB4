@@ -26,7 +26,7 @@ public class ReporteNegImpl implements ReporteNeg{
 	
 	
 	public ArrayList<Prestamo> prestamos(String dni, int estado){
-		return new ArrayList<Prestamo>();
+		return reporteDao.prestamos(dni,estado);
 	}
 	
 	
