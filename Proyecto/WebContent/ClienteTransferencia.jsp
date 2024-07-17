@@ -25,13 +25,29 @@
         </div>
     </div>
     
-    <form id="ServletCuentas" action="ServletCuentas method="post">
-    
-    <div id="BusquedaCBU" class="form">
-        <input type="text" id=cbuCliente name="cbuCliente" placeholder="Ingrese CBU" value="<%= (request.getParameter("cbuCliente") != null) ? request.getParameter("cbuCliente") : "" %>" required>
-        <input type="submit" value="Buscar" name="btnBuscarCBU" style="background-color: #78AD89">
-    </div>
-        
+    <form id="ServletTransferencia" action="ServletTransferencia" method="get">	
+	    <div id="BusquedaCBU" class="form">
+	        <input type="text" id=cbuCliente name="cbuCliente" placeholder="Ingrese CBU" value="<%= (request.getParameter("cbuCliente") != null) ? request.getParameter("cbuCliente") : "" %>" required>
+	        <input type="submit" value="Buscar" name="btnBuscarCBU" style="background-color: #78AD89">
+	    </div>
+	    <div id="DestinoTransferencia">
+	    <div class="form-group">
+	    	<div class="form-item" style="margin-top: 10px;">
+	        	<label for="ClienteDestino">Apellido y Nombre: </label>
+	            <input type="text" id="ClienteDestino" name="ClienteDestino">
+	        </div>
+	        <div class="form-item" style="margin-top: 10px;">
+	        	<label for="DNIDestino">DNI: </label>
+	            <input type="text" id="DNIDestino" name="DNIDestino">
+	        </div>
+	        <div class="form-item" style="margin-top: 10px;">
+	        	<label for="nCuentaDestino">Nï¿½mero de cuenta: </label>
+	            <input type="text" id="nCuentaDestino" name="nCuentaDestino">
+	        </div>
+	    </div>
+	</div>
+    </form>
+	<form id="ServletTransferencia" action="ServletTransferencia" method="post">
         <div id="ResultadoBusquedaCBU">
             <div class="form-group">
                 <div class="form-item" style="margin-top: 10px;">
@@ -58,13 +74,9 @@
 				    %>
 				    </select>
 			    </div>
-			    <div class="form-item" style="margin-top: 10px;">
-			    	<label for="cuentaDestino">Destino</label>
-			    	<input type="text" id="cbuCliente" name="cbuCliente" value="<%= request.getParameter("cbuCliente") %>" readonly style="background-color: #e9ecef;"> 
-                </div>
                 
                 <div class="center-container">
-                	<input type="submit" name="btnTransferir" value="Transferir"><br>
+                	<input type="submit" name="btnTransferir" value="Transferir" style="margin-right: 5px; margin-left: 0px !important;">
                     <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='InicioCliente.jsp';">
                 </div>
             </div>
@@ -72,89 +84,42 @@
         
     </form>
 
-    <!-- Popup para confirmación de eliminación -->
-    <div id="popupEliminar" class="popup">
-        <span class="close-btn" onclick="closePopup('popupEliminar')">&times;</span>
-        <p>¿Estás seguro de que deseas eliminar el usuario?</p>
+    <!-- Popup para confirmaciï¿½n la transferencia -->
+    <div id="popupTransferir" class="popup">
+        <span class="close-btn" onclick="closePopup('popupTransferir')">&times;</span>
+        <p>ï¿½Estï¿½s seguro de que deseas realizar la transferencia?</p>
         <div class="popup-buttons">
-            <button type="button" name="btnConfirmacion" value="true" onclick="confirmarEliminacionFinal()">Si</button>
-            <button type="button" onclick="closePopup('popupEliminar')">No</button>
+            <button type="button" name="btnConfirmacion" value="true" onclick="confirmarTransferirFinal()">Si</button>
+            <button type="button" onclick="closePopup('popupTransferir')">No</button>
         </div>
     </div>
     
-    <!-- Popup para confirmación de habilitacion -->
-    <div id="popupHabilitar" class="popup">
-        <span class="close-btn" onclick="closePopup('popupHabilitar')">&times;</span>
-        <p>¿Estás seguro de que deseas habilitar el usuario?</p>
-        <div class="popup-buttons">
-            <button type="button" name="btnConfirmacion" value="true" onclick="confirmarHabilitacionFinal()">Si</button>
-            <button type="button" onclick="closePopup('popupHabilitar')">No</button>
-        </div>
-    </div>
 
-    <!-- Popup para confirmación de transacción -->
-    <div id="popupTransaccion" class="popup">
-        <p id="popupMessageTransaccion"></p>
+    <!-- Popup confirmaciï¿½n de transacciï¿½n -->
+    <div id="popupTransaccionConfirmada" class="popup">
+        <p id="popupMessageTransaccionConfirmada"></p>
     </div>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-	   let botones = document.querySelectorAll('#eliminarUsuarioForm input[type="button"]');
+	   let botones = document.querySelectorAll('#ServletTransferencia input[type="button"]');
 	   
 	   botones.forEach(function(btn){
 		   btn.addEventListener("click",function(e){
-			   if(e.target.value==="Eliminar"){
-				 showPopup('popupEliminar');
-			   }
-			   else if(e.target.value==="Habilitar"){
-				   showPopup('popupHabilitar');
+			   if(e.target.value==="Transferir"){
+				 showPopup('popupTransferir');
 			   }
 		   })
 	   })
 	 });
 	 
 	 
-		function confirmar(boton){
-			//Si confirma la decision, se envia una solicitud asincrona al Servlet
-			//segun la respuesta del servlet se muestra el mensaje y en caso de ser Ok
-			//se reenvia a el jsp ListasClientes para ver los datos actualizados
-			let xhr = new XMLHttpRequest();
-			xhr.open("POST","ServletEliminarCliente","true");
-			xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-			let dni = document.getElementsByName("dniCliente")[0].value;
-			let params=boton+"=1"+"&dniCliente="+encodeURIComponent(dni);
-			xhr.onreadystatechange = function(){
-				let formulario = document.getElementById('eliminarUsuarioForm');
-				let elementos = formulario.elements;
-				for(let i=0; i<elementos.length; i++) {
-			        elementos[i].disabled = true;
-			    }
-				if(xhr.readyState===4 && xhr.status===200){
-					if(xhr.responseText=="2"){
-						console.log("Usuario Habilitado")
-						showPopup('popupTransaccion', "Usuario Habilitado, se redireccionara a el listado");
-						setTimeout(function(){
-							window.location.href='ListarClientes.jsp';
-						},3000)
-					}
-					else if(xhr.responseText=="1"){
-						console.log("Usuario Eliminado")
-						showPopup('popupTransaccion', "Usuario Eliminado, se redireccionara a el listado");
-						setTimeout(function(){
-							window.location.href='ListarClientes.jsp';
-						},3000)
-
-					}
-					else{
-						console.log("Error, no se pudo completar la operacion")
-						showPopup('popupTransaccion', "Error, no se pudo completar la operacion");
-					}
-				}
-				else if(xhr.readyState===4){
-					console.log("Error al enviar los datos");
-				}
-			}
-			xhr.send(params);
+	function confirmarTransaccion(boton){
+	//Si confirma la decision, se envia una solicitud asincrona al Servlet
+	//segun la respuesta del servlet se muestra el mensaje y en caso de ser Ok
+	//se reenvia a el jsp ClienteTransferencia para ver los datos actualizados
+		var Mensaje = "<%= (request.getAttribute("Mensaje") != null) ? request.getAttribute("Mensaje") : "" %>";
+			
 	}
 	 
 		
@@ -176,15 +141,12 @@ document.addEventListener('DOMContentLoaded', function() {
  }
 
 	
-	function confirmarEliminacionFinal() {
-		closePopup("popupEliminar");
-		confirmar("btnEliminar"); 
+	function confirmarTransferirFinal() {
+		closePopup("popupTransaccionConfirmada");
+		confirmar("btnTransferir"); 
  }
 	
-	function confirmarHabilitacionFinal(){
-		closePopup("popupHabilitar");
-		confirmar("btnHabilitar");
-	}
+
 </script>
 </body>
 </html>

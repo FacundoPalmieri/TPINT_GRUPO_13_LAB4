@@ -412,7 +412,7 @@ input[type="submit"]:hover {
     margin-top: -5px; /* Ajusta este valor según sea necesario */
 }
 
-#ResultadoBusqueda {
+#ResultadoBusqueda, #DestinoTransferencia {
     background-color: white;
     width: calc(100% - 450px); /* Calcula el ancho del contenedor excluyendo el espacio del contenedor BusquedaCliente y un margen adicional */
     margin-top: 20px;
@@ -434,6 +434,10 @@ input[type="submit"]:hover {
 }
 
 #ResultadoBusquedaCBU input[type="text"]{
+    width: 450px; /* Define el ancho deseado para los campos de entrada */
+}
+
+#DestinoTransferencia input[type="text"]{
     width: 450px; /* Define el ancho deseado para los campos de entrada */
 }
 

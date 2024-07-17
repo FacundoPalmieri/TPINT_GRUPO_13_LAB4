@@ -1,5 +1,6 @@
 package negocio;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import entidad.Movimientos;
@@ -11,7 +12,7 @@ public interface ReporteNeg {
 	
 	public boolean busquedaUsuario(String nombreUsuario);
 	
-	public ArrayList<Prestamo> prestamos(String dni, int estado);
+	public ArrayList<Prestamo> prestamos(String dni, ArrayList<Integer> estado,LocalDate fecha1, LocalDate fecha2);
 	
 	public ArrayList<Movimientos> movimientos();
 }

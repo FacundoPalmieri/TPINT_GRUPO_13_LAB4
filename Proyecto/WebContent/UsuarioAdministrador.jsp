@@ -62,7 +62,7 @@
                     <input type="month" id="fecha2" name="fecha2" required>
                 </div>
                 <div class="submit-container">
-                    <input type="submit" value="Generar Reporte">
+                    <input type="submit" value="Generar Reporte" name="btnReporte" >
                 </div>
             </form>
         </div>
