@@ -46,4 +46,6 @@ public interface UsuarioDao {
 	  public Usuario obtenerUsuarioEstado1o2(String usuario);
 	  
 	  public Persona obtenerClientePorDNI (int dni);
+	  
+	  public Persona GuardarPersonaCompleta(String usuario);
 }

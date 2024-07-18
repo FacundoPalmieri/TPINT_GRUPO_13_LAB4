@@ -991,4 +991,12 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		
 		return persona;
 	}
+
+
+
+	@Override
+	public Persona GuardarPersonaCompleta(String usuario) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

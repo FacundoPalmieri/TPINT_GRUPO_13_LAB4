@@ -58,31 +58,31 @@
      <div class="flex-container">
         <div class="form-group flex-item" style= "margin-top: 10px;">
             <label for="dni">DNI:</label>
-               <input type="text" id="dni" name="dni" value="<%= persona.getDni() %>"   readonly required>
+               <input type="text" id="dni" name="dni" value="<%= persona.getDni() %>"  required>
         </div>
            <div class="form-group flex-item" style= "margin-top: 10px;">
             <label for="cuil">CUIL:</label>
-            <input type="text" id="cuil" name="cuil" value="<%= persona.getCuil() %>"  readonly  required>
+            <input type="text" id="cuil" name="cuil" value="<%= persona.getCuil() %>"  required>
         </div>
         <div class="form-group flex-item">
             <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" value="<%= persona.getNombre() %>"  readonly  required>
+            <input type="text" id="nombre" name="nombre" value="<%= persona.getNombre() %>"  required>
         </div>
        <div class="form-group flex-item">
             <label for="apellido">Apellido:</label>
-            <input type="text" id="apellido" name="apellido" value="<%= persona.getApellido() %>"  readonly  required>
+            <input type="text" id="apellido" name="apellido" value="<%= persona.getApellido() %>"  required>
         </div>
        <div class="form-group flex-item">
             <label for="sexo">Sexo:</label>
-            <input type="text" id="sexo" name="sexo" value="<%= persona.getSexo() %>"  readonly required>
+            <input type="text" id="sexo" name="sexo" value="<%= persona.getSexo() %>" required>
         </div>
         <div class="form-group flex-item">
             <label for="fechaNacimiento">Fecha de Nacimiento:</label>
-            <input type="date" id="fechaNacimiento" name="fechaNacimiento" value="<%= persona.getFechaNacimiento() %>"  readonly required>
+            <input type="date" id="fechaNacimiento" name="fechaNacimiento" value="<%= persona.getFechaNacimiento() %>" required>
         </div>
         <div class="form-group flex-item">
             <label for="nacionalidad">Nacionalidad:</label>
-            <input type="text" id="nacionalidad" name="nacionalidad" value="<%= persona.getNacionalidad() %>"   readonly required>
+            <input type="text" id="nacionalidad" name="nacionalidad" value="<%= persona.getNacionalidad() %>"  required>
         </div>
         </div>
     </div>
@@ -91,33 +91,33 @@
     <div class="flex-container">
         <div class="form-group flex-item" style="margin-top: 10px;">
             <label for="pais">País:</label>
-         	 <input type="text" id="pais" name="pais" value="Argentina"   readonly required>        
+         	 <input type="text" id="pais" name="pais" value="Argentina"  required>        
         </div>
         <div class="form-group flex-item" style="margin-top: 10px;">
             <label for="provincia">Provincia:</label>
-            <input type="text" id="provincia" name="provincia" value="<%= provincia.getNombre() %>"   readonly required>   
+            <input type="text" id="provincia" name="provincia" value="<%= provincia.getNombre() %>"   required>   
 
         </div>
         <div class="form-group flex-item" style="margin-top: 10px;">
             <label for="localidad">Localidad:</label>
-			 <input type="text" id="localidad" name="localidad" value="<%= localidad.getNombre() %>"   readonly required>   
+			 <input type="text" id="localidad" name="localidad" value="<%= localidad.getNombre() %>"  required>   
         </div>
         <div class="form-group-domicilio">
             <div class="group">
                 <label for="calle">Calle:</label>
-                 <input type="text" id="calle" name="calle" value="<%= direccion.getCalle() %>"   readonly required>   
+                 <input type="text" id="calle" name="calle" value="<%= direccion.getCalle() %>"   required>   
             </div>
             <div class="group">
                 <label for="numero">Número:</label>
-                    <input type="text" id="numero" name="numero" value="<%= direccion.getAltura() %>"   readonly required>   
+                    <input type="text" id="numero" name="numero" value="<%= direccion.getAltura() %>"   required>   
             </div>
             <div class="group">
                 <label for="piso">Piso:</label>
-                 <input type="text" id="piso" name="piso" value="<%= direccion.getPiso() %>"   readonly required>   
+                 <input type="text" id="piso" name="piso" value="<%= direccion.getPiso() %>"   required>   
             </div>
             <div class="group">
                 <label for="depto">Depto:</label>
-                 <input type="text" id="depto" name="depto" value="<%= direccion.getDepartamento() %>"   readonly required>  
+                 <input type="text" id="depto" name="depto" value="<%= direccion.getDepartamento() %>"   required>  
             </div>
         </div>
     </div>
@@ -130,15 +130,15 @@
       <div class="flex-container">
          <div class="form-group flex-item" style= "margin-top: 10px;">
            <label for="Celular">Celular:</label>
-            <input type="text" id="celular" name="celular" value="<%= persona.getCelular() %>"  readonly required>
+            <input type="text" id="celular" name="celular" value="<%= persona.getCelular() %>"  required>
         </div>
        <div class="form-group flex-item" style= "margin-top: 10px;">
             <label for="telefonos">Telófono:</label>
-            <input type="text" id="telefonos" name="telefonos" value="<%= persona.getTelefono() %>"  readonly required>
+            <input type="text" id="telefonos" name="telefonos" value="<%= persona.getTelefono() %>"  required>
         </div>
         <div class="form-group  flex-item">
          <label for="correoElectronico">Correo Electrónico:</label>
-            <input type="email" id="correoElectronico" name="correoElectronico" value="<%=persona.getEmail() %>"  readonly required>
+            <input type="email" id="correoElectronico" name="correoElectronico" value="<%=persona.getEmail() %>"  required>
         </div>
       </div>
     </div>
@@ -154,6 +154,7 @@
     </div>
 	<%if(session.getAttribute("tipoUsuario")!=null) {%>
     	<input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ListarClientes.jsp';">
+    	<input type="button" value="EditarPersona" name="btnEditarPersona" onclick="window.location.href='ListarClientes.jsp';">
 	<%} else{ %>
 		<input type="submit" value="Aceptar" name="btnAceptar">
     	<input type="button" value="Volver" name="btnVolver" onclick="window.location.href='InicioCliente.jsp';">
