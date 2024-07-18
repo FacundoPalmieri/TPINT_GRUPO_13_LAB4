@@ -52,8 +52,13 @@ public class CuentaNegImpl implements CuentaNeg {
 	}
 
 	@Override
-	public int setearEstadoCuenta(String dni, int estado, int nCuenta) {
-		return cuentaDao.setearEstadoCuenta(dni, estado, nCuenta);
+	public int setearEstadoCuenta(String dni, int estado) {
+		return cuentaDao.setearEstadoCuenta(dni, estado);
+	}
+
+	@Override
+	public int setearEstadoPorCuenta(String dni, int estado, int nCuenta) {
+		return cuentaDao.setearEstadoPorCuenta(dni, estado, nCuenta);
 	}
 	
 }

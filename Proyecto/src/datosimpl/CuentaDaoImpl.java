@@ -150,7 +150,7 @@ public class CuentaDaoImpl implements CuentaDao {
 		    String query = "select cuentas.numero_cuenta, cuentas.cliente_dni, cuentas.tipo_cuenta_id, cuentas.cbu, cuentas.saldo, tipocuenta.id, tipocuenta.descripcion "
 		    			  +"FROM cuentas "
 		    			  +"INNER JOIN tipocuenta ON cuentas.tipo_cuenta_id = tipocuenta.id "
-		    			  +"WHERE cliente_dni = ?";
+		    			  +"WHERE cuentas.cliente_dni = ? AND cuentas.habilitado = 1 ";
 
 		    try {
 		        cn = new Conexion();
@@ -336,7 +336,55 @@ public class CuentaDaoImpl implements CuentaDao {
 	}
 
 	@Override
-	public int setearEstadoCuenta(String dni, int estado, int nCuenta) {
+	public int setearEstadoCuenta(String dni, int estado) {
+		Conexion cn = new Conexion ();
+		PreparedStatement ps = null;
+		int estadoUpdate = 0;
+		
+		String query = "UPDATE cuentas SET habilitado = ? "
+				     + "WHERE cliente_dni = ? ";
+		
+		try {
+			cn.Open();
+			System.out.println("CONEXION ABIERTA setearEstadoCuenta");
+			
+			ps = cn.prepareStatement(query);
+			ps.setInt(1, estado);
+			ps.setString(2, dni);
+			
+			
+			estadoUpdate = ps.executeUpdate();
+			
+			
+		} catch (Exception e) {
+			System.out.println("ERROR setearEstadoCuenta");
+			e.printStackTrace();
+
+		}
+		finally {
+			try {
+				cn.close();
+				
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR CN setearEstadoCuenta");
+				e2.printStackTrace();
+			}
+			try {
+				
+				ps.close();
+				
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR PS setearEstadoCuenta");
+				e2.printStackTrace();
+			}
+	
+		}
+		
+		return estadoUpdate;
+	}
+
+	@Override
+	public int setearEstadoPorCuenta(String dni, int estado, int nCuenta) {
 		Conexion cn = new Conexion ();
 		PreparedStatement ps = null;
 		int estadoUpdate = 0;
@@ -352,6 +400,7 @@ public class CuentaDaoImpl implements CuentaDao {
 			ps.setInt(1, estado);
 			ps.setString(2, dni);
 			ps.setInt(3, nCuenta);
+			
 			
 			estadoUpdate = ps.executeUpdate();
 			

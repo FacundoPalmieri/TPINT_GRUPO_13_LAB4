@@ -19,8 +19,10 @@ public interface CuentaDao {
 	
 	public Cuenta obtenerCuentaporCBU(String cbu);
 	
-	public int setearEstadoCuenta(String dni, int estado, int nCuenta);
+	public int setearEstadoCuenta(String dni, int estado);
 	
+	
+	public int setearEstadoPorCuenta(String dni, int estado, int nCuenta);
 
 
 }
