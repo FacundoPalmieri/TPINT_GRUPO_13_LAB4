@@ -19,11 +19,13 @@ public class validacion {
 	
 	
 	public static void verificarFechas(LocalDate fecha1, LocalDate fecha2) throws fechaInvalida {
-		if(!fecha1.isBefore(fecha2)) {
-			throw new fechaInvalida();
-		}
-		if(!fecha2.isBefore(LocalDate.now())) {
-			throw new fechaInvalida();
-		}
+		 LocalDate hoy = LocalDate.now();
+	        
+	        if (fecha1.isAfter(hoy) || fecha2.isAfter(hoy)) {
+	            throw new fechaInvalida();
+	        }
+	        if (fecha1.isAfter(fecha2)) {
+	            throw new fechaInvalida();
+	        }
 	}
 }
