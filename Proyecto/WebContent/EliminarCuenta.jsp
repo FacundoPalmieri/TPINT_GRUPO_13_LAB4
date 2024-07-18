@@ -50,10 +50,10 @@
 	        </div>
 	        <div class="form-item" style="margin-top: 10px;">
 	        	<label for="DNI">DNI: </label>
-	            <input type="text" id="DNI" name="DNI"  value="">
+	            <input type="text" id="DNI" name="DNI"  value="<%= (persona != null && persona.getDni() != null ? persona.getDni() : "") %>">
 	        </div>
-	        <div class="form-item" style="margin-top: 10px;">
-	        	<label for="cuentaOrigen">Cuenta origen:</label>
+	        <div class="form-item" style="margin-top: 10px; ">
+	        	<label for="cuentaOrigen">Cuenta a eliminar:</label>
 				<select name="cuentaOrigen" id="cuentaOrigen" class="styled-select">
 				<%  
 					ArrayList<Cuenta> listaCuentas = null;
@@ -74,7 +74,7 @@
 			</div>
                 
             <div class="center-container">
-            	<input type="submit" name="btnEliminarCuenta" value="Transferir" style="margin-right: 5px; margin-left: 0px !important;">
+            	<input type="submit" name="btnEliminarCuenta" value="Eliminar" style="margin-right: 2%; margin-left: 0px !important; background-color: #dc3545">
                 <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLcuentas.jsp';">
             </div>
     	</div>

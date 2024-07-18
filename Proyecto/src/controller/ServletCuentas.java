@@ -79,8 +79,9 @@ public class ServletCuentas extends HttpServlet {
 			  int dniInt = Integer.parseInt(dni);
 			  persona = usuarioNeg.obtenerClientePorDNI(dniInt); 
 			  
-			  request.setAttribute("listaCunetas", listaCuentas);
+			  request.setAttribute("listaCuentas", listaCuentas);
 			  request.setAttribute("persona", persona);
+			 
 			  RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarCuenta.jsp");
 	          dispatcher.forward(request, response); 
 			    

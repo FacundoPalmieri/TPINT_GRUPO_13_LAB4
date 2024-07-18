@@ -123,21 +123,21 @@
             </select>
         </div>
         <div class="form-group flex-item" style="margin-top: 10px;">
-            <label for="localidad">Localidad:</label>
-             <select name="localidad" id="localidad">
-        <option value="">Selecciona una localidad</option>
-        <% 
-        ArrayList<Localidad> listaLocalidades = null;
-        listaLocalidades = (ArrayList<Localidad>) request.getAttribute("localidades");
-        if (listaLocalidades != null) {
-            for (Localidad localidad : listaLocalidades) {
-        %>
-        <option value="<%= localidad.getId() %>"><%= localidad.getNombre() %></option>
-        <% 
-            }
-        }
-        %>
-    </select>
+            <label for="localidad" >Localidad:</label>
+            <select name="localidad" id="localidad" required>
+	        <option value="" >Selecciona una localidad</option>
+	        <% 
+	        ArrayList<Localidad> listaLocalidades = null;
+	        listaLocalidades = (ArrayList<Localidad>) request.getAttribute("localidades");
+	        if (listaLocalidades != null) {
+	            for (Localidad localidad : listaLocalidades) {
+	        %>
+	        <option value="<%= localidad.getId() %>"><%= localidad.getNombre() %></option>
+	        <% 
+	            }
+	        }
+	        %>
+	    </select>
         </div>
         <div class="form-group-domicilio">
             <div class="group">

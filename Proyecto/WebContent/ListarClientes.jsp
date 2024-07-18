@@ -228,7 +228,7 @@
             			<th>Apellido</th>
                         <th>Usuario</th>
                         <th>Opciones</th>
-                        <th>Contrasenia</th>
+                        <th>Contraseña</th>
                         <th>Detalles</th>
                     </tr>
                 </thead>
@@ -254,15 +254,27 @@
                         <th><%= persona.getNombre() %></th>
             			<th><%= persona.getApellido() %></th>
                         <td><%= persona.getUsuario().getUsuario() %></td>
-                        <td><input type="button" value="<%= persona.getUsuario().getHabilitado()==1 ? "Eliminar" : "Habilitar"%>" name="<%=persona.getUsuario().getHabilitado()==1 ? "btnListarEliminar" : "btnListarHabilitar" %>" class="btnEspecial"></td>
-                        <% if (persona.getUsuario().getHabilitado() == 1) { %>
-                           <td><input type="button" value="Modificar" name="btnListarModificar" class="btnEspecial"></td>
-                         <%}else{%>
-                         	<td><input type="button" value="Opcion Deshabilitada" name="sinFuncion" class="btnEspecial"></td>
-                         <%} %>      
-                           <td><input type="button" value="Ver Detalles" name="btnListarDetalles" class="btnEspecial"></td>
-                    </tr>
-                    	<%}%>
+                        <td>
+					    <input type="button" 
+					           value="<%= persona.getUsuario().getHabilitado() == 1 ? "Eliminar" : "Habilitar" %>" 
+					           name="<%= persona.getUsuario().getHabilitado() == 1 ? "btnListarEliminar" : "btnListarHabilitar" %>" 
+					           class="btnEspecial <%= persona.getUsuario().getHabilitado() == 1 ? "" : "btnHabilitar" %>">
+						</td>
+						<% if (persona.getUsuario().getHabilitado() == 1) { %>
+						   <td>
+						       <input type="button" value="Modificar" name="btnListarModificar" class="btnEspecial">
+						   </td>
+						<% } else { %>
+						   <td>
+						       <input type="button" value="Inactivo" name="sinFuncion" class="btnEspecial">
+						   </td>
+						<% } %>      
+						<td>
+						    <input type="button" value="Ver Detalle" name="btnListarDetalles" class="btnEspecial">
+						</td>
+	
+	                    </tr>
+	                    	<%}%>
                     <%} else{%>
                     <tr>
                         <td colspan="7">No hay datos disponibles</td>
@@ -271,7 +283,9 @@
                 </tbody>
             </table>
         </div>
-        <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLclientes.jsp';">
+        <div style="display:flex; justify-content: end; margin: 2%;" >
+        	<input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLclientes.jsp';">
+        </div>
     <%} else{%>
         <h1>No tiene permisos para trabajar en esta URL, presione <a href="Login.jsp">aquí</a> para volver al Login</h1>
     <%}%>

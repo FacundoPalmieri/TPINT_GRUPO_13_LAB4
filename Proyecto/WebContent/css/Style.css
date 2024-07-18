@@ -303,6 +303,7 @@ input[type="submit"]:hover {
     display: inline-block!important;
     text-align: center!important; 
     border-radius: 5px!important;
+    margin: 5px;"
 }
 
 
@@ -593,4 +594,6 @@ input[type="submit"]:hover {
         display: none;
     }
     
-    
+.btnHabilitar{
+	background-color: #4CAF50 !important;
+}   

@@ -944,7 +944,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		
 		Persona persona = new Persona();
 		
-		String query = "SELECT nombre, apellido "
+		String query = "SELECT nombre, apellido, dni "
 				     + "FROM personas "
 				     + "WHERE dni = ? ";
 		
@@ -958,7 +958,8 @@ public class UsuarioDaoImpl implements UsuarioDao{
 			
 			if(rs.next()) {
 				persona.setNombre(rs.getString("nombre"));
-				persona.setApellido(rs.getString("apellido"));	
+				persona.setApellido(rs.getString("apellido"));
+				persona.setDni(rs.getString("dni"));
 			}
 			
 			
