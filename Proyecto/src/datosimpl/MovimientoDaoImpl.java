@@ -74,7 +74,7 @@ public class MovimientoDaoImpl implements MovimientoDao{
 		String query ="SELECT movimientos.cuenta_destino,movimientos.fecha, movimientos.detalle,movimientos.importe, tipomovimiento.id, tipomovimiento.descripcion "
 				     + "FROM Movimientos "
 				     + "INNER JOIN tipomovimiento ON tipomovimiento.id = movimientos.tipo_movimiento_id "
-				     + "WHERE cuenta_destino = ? ";
+				     + "WHERE cuenta_destino = ? OR cuenta_origen = ?";
 		
 		try {
 			cn.Open();
@@ -82,6 +82,8 @@ public class MovimientoDaoImpl implements MovimientoDao{
 			
 			preparedStatement = cn.prepareStatement(query);
 			preparedStatement.setInt(1, CuentaDestino);
+			preparedStatement.setInt(2, CuentaDestino);
+			
 			
 			rs = preparedStatement.executeQuery();
 			

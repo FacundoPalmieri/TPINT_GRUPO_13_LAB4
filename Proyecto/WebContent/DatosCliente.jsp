@@ -53,7 +53,7 @@
  %>
 
 	<form action="EditarCliente" method="get">
-    <button type="button" class="accordion">Información Personal &#x1F4DD;</button>
+    <button type="button" class="accordion">Informacion Personal &#x1F4DD;</button>
     <div class="panel">
      <div class="flex-container">
         <div class="form-group flex-item" style= "margin-top: 10px;">
@@ -125,7 +125,7 @@
     
     
     
-    <button type="button" class="accordion">Información de Contacto &#x1F4F1;</button>
+    <button type="button" class="accordion">Informacion de Contacto &#x1F4F1;</button>
     <div class="panel">
       <div class="flex-container">
          <div class="form-group flex-item" style= "margin-top: 10px;">

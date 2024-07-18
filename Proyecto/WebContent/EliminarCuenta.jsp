@@ -83,8 +83,8 @@
 	<span class="close-btn" onclick="closePopup()">&times;</span>
 	<p id="popupMessage"></p>
 	 <% 
-	  String confirmacion = request.getParameter("confirmacion");
-	 if (confirmacion == null || confirmacion.isEmpty()) {
+	 String mensaje = (String) request.getAttribute("Mensaje");
+	 if (mensaje == null || mensaje.isEmpty()) {
      %>
 		 <button onclick="enviarFormulario()">Sí</button>
 	     <button onclick="closePopup()">No</button>
@@ -99,7 +99,7 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     <% 
-        String mensaje = (String) request.getAttribute("Mensaje");
+        String mensaje2 = (String) request.getAttribute("Mensaje");
   		  if (mensaje != null) { 
     %>
   	

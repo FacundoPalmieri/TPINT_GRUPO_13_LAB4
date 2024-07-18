@@ -114,8 +114,6 @@ public class ServletPrestamo extends HttpServlet {
 			int EstadoMovimiento = 0;
 			int EstadoSaldoCuenta = 0;
 			int EstadoCuotas = 0;
-	
-			Cuenta cuenta = new Cuenta();
 			
 			if(estadoPrestamo == 3) {
 			
@@ -124,9 +122,6 @@ public class ServletPrestamo extends HttpServlet {
 				
 				// Genero movimiento
 				EstadoMovimiento = movimientoNeg.CrearMovimiento(1, "Alta prestamo", importeSolicitado, nCuenta, 2);
-				
-				// Actualizo saldo
-				cuenta = cuentaNeg.obtenerSaldo(nCuenta);
 			
 				EstadoSaldoCuenta = cuentaNeg.modificarSaldo(nCuenta, importeSolicitado);
 				

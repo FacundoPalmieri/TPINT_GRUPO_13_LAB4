@@ -110,10 +110,10 @@ public class ServletTransferencia extends HttpServlet {
 				 estadoModificarSaldoOrigen = cuentaNeg.modificarSaldo(nCuenta, (monto *-1));
 				 estadoModificarSaldoDestino = cuentaNeg.modificarSaldo(nCuentaDestino, monto);
 				 estadoMovimientoOrigen = movimientoNeg.CrearMovimiento(nCuentaDestino, detalleOrigen, (monto*-1), nCuenta, 4);
-				 estadoMovimientoOrigen = movimientoNeg.CrearMovimiento(nCuenta, detalleDestino, monto, nCuentaDestino, 4);
+				 estadoMovimientoDestino = movimientoNeg.CrearMovimiento(nCuenta, detalleDestino, monto, nCuentaDestino, 4);
 				 
 				 
-				 if(estadoModificarSaldoOrigen != 0 && estadoMovimientoOrigen != 0 && estadoMovimientoOrigen!= 0 && estadoModificarSaldoDestino != 0 ) {
+				 if(estadoModificarSaldoOrigen != 0 && estadoMovimientoOrigen != 0 && estadoMovimientoDestino != 0 && estadoModificarSaldoDestino != 0 ) {
 					   request.setAttribute("Mensaje","Transferencia realizada ");
 					   RequestDispatcher dispatcher = request.getRequestDispatcher("/ClienteTransferencia.jsp");
 			           dispatcher.forward(request, response); 
