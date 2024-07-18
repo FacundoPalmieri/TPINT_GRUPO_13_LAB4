@@ -70,7 +70,7 @@ public class ServletCuentas extends HttpServlet {
 		  Persona persona = new Persona();
 		  ArrayList <Cuenta> listaCuentas = new   ArrayList <Cuenta>();
 		  
-		  dni = request.getParameter("dni");
+		  dni = request.getParameter("DNICliente");
 		  listaCuentas = cuentaNeg.obtenerCuentasPorDNI(dni);
 		  
 		  
