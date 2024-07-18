@@ -19,11 +19,16 @@ public class ReporteDaoImpl implements ReporteDao {
 	
 	public boolean busquedaDNI(String dni) {
 		cn = new Conexion();
-		String query = "";
-		
+		boolean resultado = false;
+		String query = "select dni from personas where dni='"+dni+"'";
+		ResultSet rs = null;
 		System.out.println("QUERY OBTENER DNI: " + query);
 		try {
 			cn.Open();
+			rs = cn.query(query);
+			if(rs.next()) {
+				resultado = true;
+			}
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -31,7 +36,7 @@ public class ReporteDaoImpl implements ReporteDao {
 		finally {
 			cn.close();
 		}
-		return false;
+		return resultado;
 	}
 	
 	
@@ -132,7 +137,7 @@ public class ReporteDaoImpl implements ReporteDao {
 		            e2.printStackTrace();
 		        }
 		    }
-		    
+		    System.out.println("CANTIDAD DE PRESTAMOS EN ARRAYLIST: "+listaPrestamos.size());
 		    return listaPrestamos;
 		
 

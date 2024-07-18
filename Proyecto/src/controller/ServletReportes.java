@@ -73,6 +73,12 @@ public class ServletReportes extends HttpServlet {
 			//Se valida que la fecha2 no sea mayor a fecha1 y que las fechas no excedan al dia de hoy
 			try {
 				validacion.validarFormatoDNI(DNI);	
+				if(!reporteNeg.busquedaDNI(DNI)) {
+					request.setAttribute("dniInexistente","El dni no existe");
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/InicioReporte.jsp");
+					dispatcher.forward(request, response);	
+					return;
+				}
 				fecha1 = LocalDate.parse(ma, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 				fecha2 = LocalDate.parse(ma2, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 				System.out.println("DESDE: "+fecha1+" HASTA: "+fecha2);
@@ -81,7 +87,7 @@ public class ServletReportes extends HttpServlet {
 			catch(DniInvalido dniI) {
 				System.out.println("Error: "+dniI.getMessage());
 				request.setAttribute("errorDni",dniI.getMessage());
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/UsuarioAdministrador.jsp");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/InicioReporte.jsp");
 				dispatcher.forward(request, response);	
 				return;
 			}
@@ -89,7 +95,7 @@ public class ServletReportes extends HttpServlet {
 				System.out.println("Error: "+fi.getMessage());
 				System.out.println("Error: "+fi.getMessage());
 				request.setAttribute("errorFecha",fi.getMessage());
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/UsuarioAdministrador.jsp");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/InicioReporte.jsp");
 				dispatcher.forward(request, response);	
 				return;
 			}
@@ -109,6 +115,12 @@ public class ServletReportes extends HttpServlet {
 			}
 			
 			listaPrestamos = reporteNeg.prestamos(DNI,estados,fecha1,fecha2);
+			
+			if(listaPrestamos.size()==0) {
+				request.setAttribute("sinPrestamos","El cliente no tiene prestamos en esas fechas y/o en el estado seleccionado");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/InicioReporte.jsp");
+				dispatcher.forward(request, response);	
+			}
 			
 			if(listaPrestamos != null) {
 				System.out.println("reporte prestamos");

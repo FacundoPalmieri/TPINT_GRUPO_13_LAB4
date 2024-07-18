@@ -95,6 +95,12 @@
                 <% if(request.getAttribute("errorDni")!=null){ %>
                 	<p><%= request.getAttribute("errorDni") %></p>
                <%} %>
+                <% if(request.getAttribute("dniInexistente")!=null){ %>
+                    <p><%= request.getAttribute("dniInexistente") %></p>
+                <%} %>
+                <% if(request.getAttribute("sinPrestamos")!=null){ %>
+                    <p><%= request.getAttribute("sinPrestamos") %></p>
+                <%} %>
             </div>
             <div class="form-group">
                 <label>Estado Préstamos:</label><br>
