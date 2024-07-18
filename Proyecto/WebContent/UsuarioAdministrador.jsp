@@ -111,6 +111,9 @@
             <div class="form-group">
                 <label for="dniCliente">DNI:</label>
                 <input type="text" id="dniCliente" name="dniCliente" required>
+                <% if(request.getAttribute("errorDni")!=null){ %>
+                	<p><%= request.getAttribute("errorDni") %></p>
+               <%} %>
             </div>
             <div class="form-group">
                 <label>Estado Préstamos:</label><br>
@@ -127,11 +130,14 @@
             </div>
             <div class="form-group">
                 <label for="fecha1">Desde:</label>
-                <input type="month" id="fecha1" name="fecha1" required>
+                <input type="date" id="fecha1" name="fecha1" required>
             </div>
             <div class="form-group">
                 <label for="fecha2">Hasta:</label>
-                <input type="month" id="fecha2" name="fecha2" required>
+                <input type="date" id="fecha2" name="fecha2" required>
+                <% if(request.getAttribute("errorFecha")!=null){ %>
+                	<p><%= request.getAttribute("errorFecha") %></p>
+               <%} %>
             </div>
             <div class="submit-container">
                 <input type="submit" value="Generar Reporte" name="btnReporte">

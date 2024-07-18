@@ -54,10 +54,6 @@ public class ServletReportes extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-	
-	/*		ArrayList<Cuenta> listaCuentas = new ArrayList<Cuenta>();
-			ArrayList<Prestamo> listaPrestamosCliente = new ArrayList<Prestamo>();
-	*/			
 	}
 
 	/**
@@ -65,39 +61,42 @@ public class ServletReportes extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//HttpSession session = request.getSession();
-		String DNI = (String) request.getParameter("dniCliente");
-		String ma = (String)request.getParameter("fecha1");
-		String ma2 = (String)request.getParameter("fecha2");
-		LocalDate fecha1;
-		LocalDate fecha2;
-		//Se valida que el dni sea numero y no mayor a 20 caracteres
-		//Se valida que la fecha2 no sea mayor a fecha1 y que las fechas no excedan al dia de hoy
-		try {
-			validacion.validarFormatoDNI(DNI);	
-			YearMonth mesAnio = YearMonth.parse(ma, DateTimeFormatter.ofPattern("yyyy-MM"));
-			fecha1 = mesAnio.atDay(1);
-			YearMonth mesAnio2 = YearMonth.parse(ma2, DateTimeFormatter.ofPattern("yyyy-MM"));
-			fecha2 = mesAnio2.atDay(1);
-			System.out.println("DESDE: "+fecha1+" HASTA: "+fecha2);
-			validacion.verificarFechas(fecha1, fecha2);
-		}
-		catch(DniInvalido dniI) {
-			System.out.println("Error: "+dniI.getMessage());
-			return;
-		}
-		catch(fechaInvalida fi) {
-			System.out.println("Error: "+fi.getMessage());
-			return;
-		}
-		catch(Exception e) {
-			System.out.println("Error: "+e.getMessage());
-			return;
-		}
-		
-		//REPORTE
 		if(request.getParameter("btnReporte")!=null) {
 			System.out.println("reporte");
+			String DNI = (String) request.getParameter("dniCliente");
+			String ma = (String)request.getParameter("fecha1");
+			String ma2 = (String)request.getParameter("fecha2");
+			LocalDate fecha1;
+			LocalDate fecha2;
+			
+			//Se valida que el dni sea numero y no mayor a 20 caracteres
+			//Se valida que la fecha2 no sea mayor a fecha1 y que las fechas no excedan al dia de hoy
+			try {
+				validacion.validarFormatoDNI(DNI);	
+				fecha1 = LocalDate.parse(ma, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				fecha2 = LocalDate.parse(ma2, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+				System.out.println("DESDE: "+fecha1+" HASTA: "+fecha2);
+				validacion.verificarFechas(fecha1, fecha2);
+			}
+			catch(DniInvalido dniI) {
+				System.out.println("Error: "+dniI.getMessage());
+				request.setAttribute("errorDni",dniI.getMessage());
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/UsuarioAdministrador.jsp");
+				dispatcher.forward(request, response);	
+				return;
+			}
+			catch(fechaInvalida fi) {
+				System.out.println("Error: "+fi.getMessage());
+				System.out.println("Error: "+fi.getMessage());
+				request.setAttribute("errorFecha",fi.getMessage());
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/UsuarioAdministrador.jsp");
+				dispatcher.forward(request, response);	
+				return;
+			}
+			catch(Exception e) {
+				System.out.println("Error: "+e.getMessage());
+				return;
+			}
 			ArrayList<Prestamo> listaPrestamos = new ArrayList<Prestamo>();
 			ArrayList<Integer> estados = null;
 			
@@ -123,11 +122,8 @@ public class ServletReportes extends HttpServlet {
 				   request.setAttribute("Mensaje","No hay prestamos solicitados ");
 				   RequestDispatcher dispatcher = request.getRequestDispatcher("/Reporte.jsp");
 		           dispatcher.forward(request, response);
-				
 			}
-		
 		}		
-		//doGet(request, response);
 	}
 
 }

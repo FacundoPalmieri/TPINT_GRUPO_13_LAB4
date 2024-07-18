@@ -59,7 +59,8 @@ public class ReporteDaoImpl implements ReporteDao {
 			Conexion cn = new Conexion();
 		    ResultSet rs = null;
 		    ArrayList<Prestamo> listaPrestamos = new ArrayList<>();
-		    String query="SELECT p.*,ep.descripcion,ep.id 'idEstado' FROM prestamos p "
+		    String query="SELECT p.*,ep.descripcion,ep.id 'idEstado',pe.dni,pe.nombre,pe.apellido FROM prestamos p "
+		    		+"INNER JOIN personas pe ON p.cliente_dni=pe.dni "
 		    		+"INNER JOIN EstadosPrestamos ep ON p.estado = ep.id " 
 		    		+"WHERE (p.fecha>='"+fecha1+"' AND p.fecha<='"+fecha2+"') AND "
 		    		+"p.cliente_dni='"+dni+"'";
@@ -85,13 +86,13 @@ public class ReporteDaoImpl implements ReporteDao {
 		        rs = cn.query(query);
 		        while (rs.next()) {
 		            Prestamo prestamo = new Prestamo();
-		            //Persona persona = new Persona();
+		            Persona persona = new Persona();
 		            //Cuenta cuenta = new Cuenta();
 		            EstadoPrestamo estadoPrestamo = new EstadoPrestamo();
 		            
-		            //persona.setDni(rs.getString("personas.dni"));
-		            //persona.setApellido(rs.getString("personas.apellido"));
-		            //persona.setNombre(rs.getString("personas.nombre"));
+		            persona.setDni(rs.getString("pe.dni"));
+		            persona.setApellido(rs.getString("pe.apellido"));
+		            persona.setNombre(rs.getString("pe.nombre"));
 		            //persona.setEmail(rs.getString("personas.email"));
 		            
 		            prestamo.setId(rs.getInt("id"));
@@ -110,7 +111,7 @@ public class ReporteDaoImpl implements ReporteDao {
 		            estadoPrestamo.setId(rs.getInt("idEstado"));
 		            estadoPrestamo.setDescripcion(rs.getString("descripcion"));
 		            
-		            //prestamo.setClienteDni(persona);
+		            prestamo.setClienteDni(persona);
 		            prestamo.setEstado(estadoPrestamo);
 		            //prestamo.setCuentaDestino(cuenta);
 		            

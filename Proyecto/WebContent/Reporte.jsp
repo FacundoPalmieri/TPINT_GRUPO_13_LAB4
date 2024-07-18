@@ -35,11 +35,11 @@
                     <th>Fecha</th>
                     <th>Cliente</th>
                     <th>DNI</th>
-                    <th>Cuenta destino</th>
                     <th>Importe Solicitado</th>
                     <th>Importe a Pagar</th>
                     <th>Cuotas</th>
                     <th>Importe por Cuota</th>
+                    <th>Estado Prestamo</th>
                 </tr>
             </thead>
             <tbody>
@@ -51,12 +51,12 @@
                             <tr>
                                 <td><%= prestamo.getFecha() %></td>
                                 <td><%= prestamo.getClienteDni().getApellido() %>, <%= prestamo.getClienteDni().getNombre() %></td>
-                                <td><%= prestamo.getClienteDni() %></td>
-                                <td><%= prestamo.getCuentaDestino().getNumeroCuenta() %></td>
+                                <td><%= prestamo.getClienteDni().getDni() %></td>
                                 <td><%= prestamo.getImporteSolicitado() %></td>
                                 <td><%= prestamo.getImporteAPagar() %></td>
                                 <td><%= prestamo.getCuotas() %></td>
                                 <td><%= prestamo.getImporteCuota() %></td>
+                                <td><%= prestamo.getEstado().getDescripcion() %> </td>
                                 <td class="invisible"><%= prestamo.getId() %></td>
                             </tr>
                 <% 
