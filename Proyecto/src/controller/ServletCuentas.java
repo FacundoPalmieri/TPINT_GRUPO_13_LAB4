@@ -63,8 +63,6 @@ public class ServletCuentas extends HttpServlet {
 		 }
 		 
 		 
-		 
-		 
 		 if(request.getParameter("btnBuscarCuentas")!= null) {
 		  String dni = null;
 		  Persona persona = new Persona();
@@ -87,12 +85,11 @@ public class ServletCuentas extends HttpServlet {
 			    
 			  
 		  }
-		  
-		  
-		  
-			 
 			 
 	   }
+		 
+		 
+
 
 	}
 
@@ -170,27 +167,44 @@ public class ServletCuentas extends HttpServlet {
 		}
 		
 		
-		if(request.getParameter("btnEliminarCuenta")!= null){
+		 
+		
+		
+		
+		
+		if(request.getParameter("btnEliminarCuentas")!= null){
 		  String cuentaYdni = request.getParameter("cuenta");
 		  String[] partes = cuentaYdni.split("-");
+		  System.out.println("cuentaYdni " + cuentaYdni);
 		  
 		  int nCuenta = Integer.parseInt(partes[0]);
 		  String dni = partes[1];
 		  
 		  if(nCuenta != 0 && dni != null) {
 			int estado = 0;
-			estado = cuentaNeg.setearEstadoCuenta(dni, 0);
+			Cuenta cuenta = cuentaNeg.obtenerSaldo(nCuenta);
+			
+				if(cuenta.getSaldo()!= 0) {
+				
+			
+				estado = cuentaNeg.setearEstadoCuenta(dni, 0);
 			 
-			 if(estado != 0) {
-				   request.setAttribute("Mensaje", "La cuenta ha sido eliminada");
+			 	if(estado != 0) {
+				    request.setAttribute("Mensaje", "La cuenta ha sido eliminada");
 				    RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarCuenta.jsp");
 				    dispatcher.forward(request, response);
 				 
-			 }else {
+			 	}else {
 				    request.setAttribute("Mensaje", "No se ha podido eliminar la cuenta");
 				    RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarCuenta.jsp");
 				    dispatcher.forward(request, response);
-			 }
+				 }
+			 
+			}else {
+				request.setAttribute("Mensaje", "No se puede eliminar una cuenta con saldo");
+			    RequestDispatcher dispatcher = request.getRequestDispatcher("/EliminarCuenta.jsp");
+			    dispatcher.forward(request, response);
+			}
 			  
 			  
 		  }else {

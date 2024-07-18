@@ -29,11 +29,7 @@
     
 	<%
 	   Persona persona = new Persona();
-	   Cuenta cuenta = new Cuenta();
-
-	  
 	   persona = (Persona)request.getAttribute("persona");
-	   cuenta  = (Cuenta)request.getAttribute("cuenta");
 
 	%>
     
@@ -48,20 +44,20 @@
 	        	<label for="Cliente">Apellido y Nombre: </label>
 	            <input type="text" id="Cliente" name="Cliente"  value="<%= (persona != null && persona.getNombre() != null ? persona.getNombre() : "") + " " + (persona != null && persona.getApellido() != null ? persona.getApellido() : "") %>">
 	        </div>
-	        <div class="form-item" style="margin-top: 10px;">
-	        	<label for="DNI">DNI: </label>
-	            <input type="text" id="DNI" name="DNI"  value="<%= (persona != null && persona.getDni() != null ? persona.getDni() : "") %>">
-	        </div>
-	        <div class="form-item" style="margin-top: 10px; ">
-	        	<label for="cuentaOrigen">Cuenta a eliminar:</label>
-				<select name="cuentaOrigen" id="cuentaOrigen" class="styled-select">
+	     
+	 </form>
+	 
+	    <form id="ServletCuentas" action="ServletCuentas" method="post">	
+	        <div class="form-item" style="margin-top: 40px; ">
+	        	<label for="cuenta">Cuenta a eliminar:</label>
+				<select name="cuenta" id="cuenta" class="styled-select">
 				<%  
 					ArrayList<Cuenta> listaCuentas = null;
 		            listaCuentas = (ArrayList<Cuenta>) request.getAttribute("listaCuentas");
 				    	if (listaCuentas != null) {
-				        	for (Cuenta cuentaOrigen : listaCuentas) {
+				        	for (Cuenta cuenta : listaCuentas) {
 				%>
-				<option value="<%= cuentaOrigen.getNumeroCuenta()%>-<%=cuentaOrigen.getSaldo()%>">Cuenta: <%= cuentaOrigen.getIdTipoCuenta().getDescripcion() %> - <%= cuentaOrigen.getCbu() %>, Saldo: $<%= cuentaOrigen.getSaldo() %></option>
+				<option value="<%= cuenta.getNumeroCuenta()%>-<%=cuenta.getClienteDni() %>">Cuenta: <%= cuenta.getIdTipoCuenta().getDescripcion() %> - <%= cuenta.getCbu() %>, Saldo: $<%= cuenta.getSaldo() %></option>
 				<% 
 				}
 				} else {
@@ -74,11 +70,52 @@
 			</div>
                 
             <div class="center-container">
-            	<input type="submit" name="btnEliminarCuenta" value="Eliminar" style="margin-right: 2%; margin-left: 0px !important; background-color: #dc3545">
+            	<input type="submit" name="btnEliminarCuentas" value="Eliminar" style="margin-right: 2%; margin-left: 0px !important; background-color: #dc3545">
                 <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLcuentas.jsp';">
             </div>
-    	</div>
     </form>
+    
+    
+    <div id="popup" class="popup">
+	<span class="close-btn" onclick="closePopup()">&times;</span>
+	<p id="popupMessage"></p>
+	</div>
+    
+<script>
 
+document.addEventListener('DOMContentLoaded', function() {
+    <% 
+        String mensaje = (String) request.getAttribute("Mensaje");
+  		  if (mensaje != null) { 
+    %>
+  	
+     	showPopup("<%= mensaje%>");
+     <% 
+          } 
+     %>
+  });
+
+
+
+
+//funcionalidad pop up
+
+function showPopup(message) {
+    var popup = document.getElementById("popup");
+    var popupMessage = document.getElementById("popupMessage");
+    popupMessage.innerText = message;
+    popup.classList.add("active");
+}
+
+function closePopup() {
+    var popup = document.getElementById("popup");
+    popup.classList.remove("active");
+}
+
+
+
+
+
+</script>
 </body>
 </html>

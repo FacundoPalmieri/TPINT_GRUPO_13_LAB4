@@ -97,68 +97,47 @@
         
     </form>
 
-    <!-- Popup para confirmaciï¿½n la transferencia -->
-    <div id="popupTransferir" class="popup">
-        <span class="close-btn" onclick="closePopup('popupTransferir')">&times;</span>
-        <p> ¿Estas seguro de que deseas realizar la transferencia?</p>
-        <div class="popup-buttons">
-            <button type="button" name="btnConfirmacion" value="true" onclick="confirmarTransferirFinal()">Si</button>
-            <button type="button" onclick="closePopup('popupTransferir')">No</button>
-        </div>
-    </div>
+
+ 
+    <div id="popup" class="popup">
+	<span class="close-btn" onclick="closePopup()">&times;</span>
+	<p id="popupMessage"></p>
+	</div>
     
-
-    <!-- Popup confirmaciï¿½n de transacciï¿½n -->
-    <div id="popupTransaccionConfirmada" class="popup">
-        <p id="popupMessageTransaccionConfirmada"></p>
-    </div>
-
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-	   let botones = document.querySelectorAll('#ServletTransferencia input[type="button"]');
-	   
-	   botones.forEach(function(btn){
-		   btn.addEventListener("click",function(e){
-			   if(e.target.value==="Transferir"){
-				 showPopup('popupTransferir');
-			   }
-		   })
-	   })
-	 });
-	 
-	 
-	function confirmarTransaccion(boton){
-	//Si confirma la decision, se envia una solicitud asincrona al Servlet
-	//segun la respuesta del servlet se muestra el mensaje y en caso de ser Ok
-	//se reenvia a el jsp ClienteTransferencia para ver los datos actualizados
-		var Mensaje = "<%= (request.getAttribute("Mensaje") != null) ? request.getAttribute("Mensaje") : "" %>";
-			
-	}
-	 
-		
-	function showPopup(popupId, message) {
-	    if (message === undefined) {
-	        message = '';
-	    }
-	    let popup = document.getElementById(popupId);
-	    console.log(popup)
-	    if (message) {
-	        document.getElementById('popupMessageTransaccion').innerText = message;
-	    }
-	    popup.classList.add("active");
-	}
-	
-	function closePopup(popupId) {
-     let popup = document.getElementById(popupId);
-     popup.classList.remove("active");
- }
 
-	
-	function confirmarTransferirFinal() {
-		closePopup("popupTransaccionConfirmada");
-		confirmar("btnTransferir"); 
- }
-	
+document.addEventListener('DOMContentLoaded', function() {
+    <% 
+        String mensaje = (String) request.getAttribute("Mensaje");
+  		  if (mensaje != null) { 
+    %>
+  	
+     	showPopup("<%= mensaje%>");
+     <% 
+          } 
+     %>
+  });
+
+
+
+
+//funcionalidad pop up
+
+function showPopup(message) {
+    var popup = document.getElementById("popup");
+    var popupMessage = document.getElementById("popupMessage");
+    popupMessage.innerText = message;
+    popup.classList.add("active");
+}
+
+function closePopup() {
+    var popup = document.getElementById("popup");
+    popup.classList.remove("active");
+}
+
+
+
+
 
 </script>
 </body>
