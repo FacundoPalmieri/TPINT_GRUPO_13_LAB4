@@ -336,13 +336,13 @@ public class CuentaDaoImpl implements CuentaDao {
 	}
 
 	@Override
-	public int setearEstadoCuenta(String dni, int estado) {
+	public int setearEstadoCuenta(String dni, int estado, int nCuenta) {
 		Conexion cn = new Conexion ();
 		PreparedStatement ps = null;
 		int estadoUpdate = 0;
 		
 		String query = "UPDATE cuentas SET habilitado = ? "
-				     + "WHERE cliente_dni = ? ";
+				     + "WHERE cliente_dni = ? AND numero_cuenta = ? ";
 		
 		try {
 			cn.Open();
@@ -351,6 +351,7 @@ public class CuentaDaoImpl implements CuentaDao {
 			ps = cn.prepareStatement(query);
 			ps.setInt(1, estado);
 			ps.setString(2, dni);
+			ps.setInt(3, nCuenta);
 			
 			estadoUpdate = ps.executeUpdate();
 			

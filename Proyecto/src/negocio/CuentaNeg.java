@@ -21,7 +21,7 @@ public interface CuentaNeg {
 	
 	public Cuenta obtenerCuentaporCBU(String cbu);
 	
-	public int setearEstadoCuenta(String dni, int estado);
+	public int setearEstadoCuenta(String dni, int estado, int nCuenta);
 
 
 }

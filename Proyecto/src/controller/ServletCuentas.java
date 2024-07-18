@@ -187,7 +187,7 @@ public class ServletCuentas extends HttpServlet {
 				if(cuenta.getSaldo()!= 0) {
 				
 			
-				estado = cuentaNeg.setearEstadoCuenta(dni, 0);
+				estado = cuentaNeg.setearEstadoCuenta(dni, 0, nCuenta );
 			 
 			 	if(estado != 0) {
 				    request.setAttribute("Mensaje", "La cuenta ha sido eliminada");
