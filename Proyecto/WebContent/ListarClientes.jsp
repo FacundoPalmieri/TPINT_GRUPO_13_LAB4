@@ -26,17 +26,15 @@
     }
 </style>
 
-<link rel="stylesheet" type="text/css"
-	href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
-	
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-	
-<script type="text/javascript" charset="utf8"
-	src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+<meta charset="UTF-8">
+    <title>Clientes Activos</title>
+    <link rel="stylesheet" type="text/css" href="path_to_your_css_file.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
 
 <script type="text/javascript">
-	$(document).ready(function() {
+    $(document).ready(function() {
 		$('#table_id').DataTable({
             language: {
                 lengthMenu: "Mostrar _MENU_ registros",
@@ -62,6 +60,7 @@
             dom: 'ltipr' // Controla los elementos que se muestran (l: longitud del menú, t: tabla, i: información, p: paginación, r: procesamiento)
         });
 	});
+	
 	
 	document.addEventListener("DOMContentLoaded",function(){
 		toggleClientes();
