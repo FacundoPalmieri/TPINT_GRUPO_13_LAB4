@@ -16,8 +16,8 @@ import java.sql.PreparedStatement;
 public class Conexion {
 	private static final String host = "jdbc:mysql://localhost:3306/";
     private static final String user = "root";
-    //private static final String pass = "ROOT";
-    private static final String pass = "root";
+    private static final String pass = "ROOT";
+    //private static final String pass = "root";
     
     private String dbName = "bdbanco";
 
