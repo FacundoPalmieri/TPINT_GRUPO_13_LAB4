@@ -89,7 +89,7 @@
 			    </div>
                 
                 <div class="center-container">
-                	<input type="submit" name="btnTransferir" value="Transferir" style="margin-right: 5px; margin-left: 0px !important;">
+                 	<input type="submit" name="btnTransferir" value="Transferir" style="margin-right: 5px; margin-left: 0px !important;">
                     <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='InicioCliente.jsp';">
                 </div>
             </div>
