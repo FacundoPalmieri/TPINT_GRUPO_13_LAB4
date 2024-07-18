@@ -102,14 +102,18 @@ public class ServletTransferencia extends HttpServlet {
 			 if(monto <= saldo) {
 				 int estadoModificarSaldoOrigen = 0;
 				 int estadoModificarSaldoDestino = 0;
-				 int estadoMovimiento = 0;
-				 String detalle = "Transferencia realizada a cuenta N° " + nCuentaDestino;
+				 int estadoMovimientoOrigen = 0;
+				 int estadoMovimientoDestino = 0;
+				 String detalleOrigen = "Transferencia realizada de cuenta N° " + nCuenta;
+				 String detalleDestino = "Transferencia recibida a cuenta N° " + nCuentaDestino;
 				 
 				 estadoModificarSaldoOrigen = cuentaNeg.modificarSaldo(nCuenta, (monto *-1));
 				 estadoModificarSaldoDestino = cuentaNeg.modificarSaldo(nCuentaDestino, monto);
-				 estadoMovimiento = movimientoNeg.CrearMovimiento(nCuenta, detalle, monto, nCuentaDestino, 4);
+				 estadoMovimientoOrigen = movimientoNeg.CrearMovimiento(nCuentaDestino, detalleOrigen, (monto*-1), nCuenta, 4);
+				 estadoMovimientoOrigen = movimientoNeg.CrearMovimiento(nCuenta, detalleDestino, monto, nCuentaDestino, 4);
 				 
-				 if(estadoModificarSaldoOrigen != 0 && estadoMovimiento != 0 && estadoModificarSaldoDestino != 0 ) {
+				 
+				 if(estadoModificarSaldoOrigen != 0 && estadoMovimientoOrigen != 0 && estadoMovimientoOrigen!= 0 && estadoModificarSaldoDestino != 0 ) {
 					   request.setAttribute("Mensaje","Transferencia realizada ");
 					   RequestDispatcher dispatcher = request.getRequestDispatcher("/ClienteTransferencia.jsp");
 			           dispatcher.forward(request, response); 
