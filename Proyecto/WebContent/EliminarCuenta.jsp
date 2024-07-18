@@ -47,7 +47,7 @@
 	     
 	 </form>
 	 
-	    <form id="ServletCuentas" action="ServletCuentas" method="post">	
+	  <form id="formEliminarCuenta" action="ServletCuentas" method="post">	
 	        <div class="form-item" style="margin-top: 40px; ">
 	        	<label for="cuenta">Cuenta a eliminar:</label>
 				<select name="cuenta" id="cuenta" class="styled-select">
@@ -70,15 +70,29 @@
 			</div>
                 
             <div class="center-container">
-            	<input type="submit" name="btnEliminarCuentas" value="Eliminar" style="margin-right: 2%; margin-left: 0px !important; background-color: #dc3545">
+            	<input type="button" name="btnEliminarCuentas" value="Eliminar"  onclick="confirmarEliminacion()"  style="margin-right: 2%; margin-left: 0px !important; background-color: #dc3545">
                 <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLcuentas.jsp';">
             </div>
-    </form>
+            
+            <input type="hidden" id="confirmacion" name="confirmacion" value= null>
+            
+  
     
     
     <div id="popup" class="popup">
 	<span class="close-btn" onclick="closePopup()">&times;</span>
 	<p id="popupMessage"></p>
+	 <% 
+	  String confirmacion = request.getParameter("confirmacion");
+	 if (confirmacion == null || confirmacion.isEmpty()) {
+     %>
+		 <button onclick="enviarFormulario()">Sí</button>
+	     <button onclick="closePopup()">No</button>
+	 <% 
+	    }
+	 %>
+	
+	 
 	</div>
     
 <script>
@@ -98,6 +112,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
+function confirmarEliminacion() {
+	 showPopup("¿Estás seguro de que deseas eliminar esta cuenta?");
+}
+
+
+
+
+
 //funcionalidad pop up
 
 function showPopup(message) {
@@ -110,9 +132,19 @@ function showPopup(message) {
 function closePopup() {
     var popup = document.getElementById("popup");
     popup.classList.remove("active");
+    
 }
 
+function enviarFormulario() {
+	document.getElementById("confirmacion").value = "confirmado";
+	  // Especificar método POST y acción del formulario
+    var form = document.getElementById("formEliminarCuenta");
+    form.method = "post";
+    form.action = "ServletCuentas";
 
+    // Enviar el formulario
+    form.submit();
+}
 
 
 

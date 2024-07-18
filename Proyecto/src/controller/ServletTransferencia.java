@@ -81,7 +81,7 @@ public class ServletTransferencia extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		if(request.getParameter("btnTransferir")!= null) {
+		if(request.getParameter("confirmacionTransferencia")!= null) {
 		
 		//Obtengo los valores de cuenta Origen 
 		String cuentaYsaldo = request.getParameter("cuentaOrigen");

@@ -172,7 +172,7 @@ public class ServletCuentas extends HttpServlet {
 		
 		
 		
-		if(request.getParameter("btnEliminarCuentas")!= null){
+		if(request.getParameter("confirmacion")!= null){
 		  String cuentaYdni = request.getParameter("cuenta");
 		  String[] partes = cuentaYdni.split("-");
 		  System.out.println("cuentaYdni " + cuentaYdni);

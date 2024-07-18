@@ -60,7 +60,7 @@
 	    </div>
 	</div>
     </form>
-	<form id="ServletTransferencia" action="ServletTransferencia" method="post">
+	<form id="formTransferencia" action="ServletTransferencia" method="post">
         <div id="ResultadoBusquedaCBU">
             <div class="form-group">
                 <div class="form-item" style="margin-top: 10px;">
@@ -89,37 +89,40 @@
 			    </div>
                 
                 <div class="center-container">
-                 	<input type="submit" name="btnTransferir" value="Transferir" style="margin-right: 5px; margin-left: 0px !important;">
+                 	<input type="button" name="btnTransferir" value="Transferir" onclick="confirmarEliminacion()"  style="margin-right: 5px; margin-left: 0px !important;">
                     <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='InicioCliente.jsp';">
                 </div>
+                
+                 <!-- COLUMNA OCULTA PARA MANEJAR EL SI/NO DE LOS MENSAJES -->
+                   <input type="hidden" id="confirmacion" name="confirmacionTransferencia" value= null>
             </div>
         </div>
         
-    </form>
+ 
 
 
  
+ <!-- POPUP CON MENSAJES -->
+ 
+      
     <div id="popup" class="popup">
-	<span class="close-btn" onclick="closePopup()">&times;</span>
-	<p id="popupMessage"></p>
+		<span class="close-btn" onclick="closePopup()">&times;</span>
+		<p id="popupMessage"></p>
+		 <% 
+		 String mensaje = (String) request.getAttribute("Mensaje");
+		 if (mensaje == null || mensaje.isEmpty()) {
+	     %>
+			 <button onclick="enviarFormulario()">Sí</button>
+		     <button onclick="closePopup()">No</button>
+		 <% 
+		    }
+		 %>
+		
+	 
 	</div>
-    
+  
+  </form>  
 <script>
-
-document.addEventListener('DOMContentLoaded', function() {
-    <% 
-        String mensaje = (String) request.getAttribute("Mensaje");
-  		  if (mensaje != null) { 
-    %>
-  	
-     	showPopup("<%= mensaje%>");
-     <% 
-          } 
-     %>
-  });
-
-
-
 
 //funcionalidad pop up
 
@@ -133,10 +136,39 @@ function showPopup(message) {
 function closePopup() {
     var popup = document.getElementById("popup");
     popup.classList.remove("active");
+    
 }
 
 
 
+function confirmarEliminacion() {
+	 showPopup("¿Estás seguro de que deseas realizar la transferencia?");
+}
+
+function enviarFormulario() {
+	document.getElementById("confirmacion").value = "confirmado";
+	  // Especificar método POST y acción del formulario
+    var form = document.getElementById("formTransferencia");
+    form.method = "post";
+    form.action = "ServletTransferencia";
+
+    // Enviar el formulario
+    form.submit();
+}
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    <% 
+        String mensaje2 = (String) request.getAttribute("Mensaje");
+  		  if (mensaje != null) { 
+    %>
+  	
+     	showPopup("<%= mensaje%>");
+     <% 
+          } 
+     %>
+  });
 
 
 </script>
