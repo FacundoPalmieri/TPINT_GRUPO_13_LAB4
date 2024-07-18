@@ -98,7 +98,7 @@
     }
 
     window.onload = function() {
-        var errorMensaje = "<%= (request.getAttribute('Mensaje') != null) ? request.getAttribute('Mensaje') : '' %>";
+        var errorMensaje = '<%= (request.getAttribute("Mensaje") != null) ? request.getAttribute("Mensaje") : "" %>';
         if (errorMensaje) {
             showResultPopup(errorMensaje);
         }
