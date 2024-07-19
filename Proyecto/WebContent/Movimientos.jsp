@@ -38,10 +38,21 @@
             </div>
         </div>
         
-   <div class="cuenta">
-   	<td> Número de Cuenta <%= request.getAttribute("cuentaId")  %> - </td>
-   	<td> Saldo $ <%= request.getAttribute("saldo") %></td>
-   </div>
+<div class="cuenta">
+    <div class="cuenta-item">
+        <span class="label">Número de Cuenta:</span>
+        <span class="value"><%= request.getAttribute("cuentaId") %></span>
+    </div>
+    <div class="cuenta-item">
+        <span class="label">CBU:</span>
+        <span class="value"><%= request.getAttribute("cbu") %></span>
+    </div>
+    <div class="cuenta-item">
+        <span class="label">Saldo:</span>
+        <span class="value">$ <%= request.getAttribute("saldo") %></span>
+    </div>
+</div>
+
         
         
 

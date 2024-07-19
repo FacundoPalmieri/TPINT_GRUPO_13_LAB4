@@ -48,6 +48,7 @@ public class ServletMovimientos extends HttpServlet {
 				request.setAttribute("listaMovimientos",listaMovimientos);
 				request.setAttribute("cuentaId",request.getParameter("cuentaId"));
 				request.setAttribute("saldo",request.getParameter("saldo"));
+				request.setAttribute("cbu",request.getParameter("cbu"));
 			    RequestDispatcher dispatcher = request.getRequestDispatcher("/Movimientos.jsp");
 			    dispatcher.forward(request, response);	
 				 
