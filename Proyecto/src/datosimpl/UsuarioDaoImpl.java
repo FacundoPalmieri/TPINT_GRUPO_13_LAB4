@@ -995,8 +995,77 @@ public class UsuarioDaoImpl implements UsuarioDao{
 
 
 	@Override
-	public Persona GuardarPersonaCompleta(String usuario) {
-		// TODO Auto-generated method stub
-		return null;
+	public Persona GuardarPersonaCompleta(String dni) {
+		Conexion cn = new Conexion();
+	    ResultSet rs = null;
+	    PreparedStatement preparedStatement = null;
+	    Persona p = new Persona();
+	    String query = "SELECT personas.id, personas.dni, personas.cuil, personas.nombre, personas.apellido, personas.sexo, "
+	                 + "personas.celular, personas.telefono, personas.direccion_id, personas.nacionalidad, personas.fecha_nacimiento, personas.email, "
+	                 + "direcciones.id AS direccion_id, direcciones.calle, direcciones.numero, direcciones.piso, direcciones.departamento, direcciones.localidad_id, "
+	                 + "localidades.nombre AS localidad_nombre, provincias.nombre AS provincia_nombre, paises.nombre AS pais_nombre "
+	                 + "FROM personas "
+	                 + "INNER JOIN direcciones ON personas.direccion_id = direcciones.id "
+	                 + "INNER JOIN localidades ON direcciones.localidad_id = localidades.id "
+	                 + "INNER JOIN provincias ON localidades.provincia_id = provincias.id "
+	                 + "INNER JOIN paises ON provincias.pais_id = paises.id "
+	                 + "WHERE personas.dni = ?";
+
+	    try {
+	        cn.Open();
+	        System.out.println("CONEXION ABIERTA OBTENER PERSONA COMPLETA POR DNI");
+	        System.out.println("QUERY: " + query);
+	        preparedStatement = cn.prepareStatement(query);
+	        preparedStatement.setString(1, dni);
+	        rs = preparedStatement.executeQuery();
+	        if (rs.next()) {
+	            p.setId(rs.getInt("personas.id"));
+	            p.setDni(rs.getString("personas.dni"));
+	            p.setCuil(rs.getString("personas.cuil"));
+	            p.setNombre(rs.getString("personas.nombre"));
+	            p.setApellido(rs.getString("personas.apellido"));
+	            p.setCelular(rs.getString("personas.celular"));
+	            p.setTelefono(rs.getString("personas.telefono"));
+	            p.setEmail(rs.getString("personas.email"));
+	            p.setSexo(rs.getString("personas.sexo"));
+	            Date sqlDate = rs.getDate("personas.fecha_nacimiento");
+	            if (sqlDate != null) {
+	                LocalDate localDate = sqlDate.toLocalDate();
+	                p.setFechaNacimiento(localDate);
+	            }
+	            p.setNacionalidad(rs.getString("personas.nacionalidad"));
+
+	            // Configuración de Direccion
+	            Direccion d = new Direccion();
+	            d.setId(rs.getInt("direccion_id"));
+	            d.setCalle(rs.getString("direcciones.calle"));
+	            d.setAltura(rs.getInt("direcciones.numero"));
+	            d.setPiso(rs.getString("direcciones.piso"));
+	            d.setDepartamento(rs.getString("direcciones.departamento"));
+
+	            // Configuración de Localidad
+	            Localidad l = new Localidad();
+	            l.setNombre(rs.getString("localidad_nombre"));
+
+	            // Configuración de Provincia
+	            Provincia pv = new Provincia();
+	            pv.setNombre(rs.getString("provincia_nombre"));
+
+	            // Configuración de Pais
+	            Pais ps = new Pais();
+	            ps.setNombre(rs.getString("pais_nombre"));
+
+	            // Enlazar objetos
+	            l.setProvincia(pv);
+	            d.setLocalidad(l);
+	            p.setDireccion(d);
+	        }
+	    } catch (Exception e) {
+	        System.out.println("ERROR EN OBTENER PERSONA COMPLETA POR DNI");
+	        e.printStackTrace();
+	    } finally {
+	        cn.close();
+	    }
+	    return p;
 	}
 }
