@@ -118,8 +118,8 @@ public class ServletTransferencia extends HttpServlet {
 				 
 				 estadoModificarSaldoOrigen = cuentaNeg.modificarSaldo(nCuenta, (monto *-1));
 				 estadoModificarSaldoDestino = cuentaNeg.modificarSaldo(nCuentaDestino, monto);
-				 estadoMovimientoOrigen = movimientoNeg.CrearMovimiento(nCuentaDestino, detalleOrigen, (monto*-1), 4);
-				 estadoMovimientoDestino = movimientoNeg.CrearMovimiento(nCuenta, detalleDestino, monto, 4);
+				 estadoMovimientoOrigen = movimientoNeg.CrearMovimiento(nCuenta, detalleOrigen, (monto*-1), 4);
+				 estadoMovimientoDestino = movimientoNeg.CrearMovimiento(nCuentaDestino, detalleDestino, monto, 4);
 				 
 				 
 				 if(estadoModificarSaldoOrigen != 0 && estadoMovimientoOrigen != 0 && estadoMovimientoDestino != 0 && estadoModificarSaldoDestino != 0 ) {
