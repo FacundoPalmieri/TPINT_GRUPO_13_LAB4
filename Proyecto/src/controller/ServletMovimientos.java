@@ -31,11 +31,16 @@ public class ServletMovimientos extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		 if (request.getParameter("cuentaId") != null) {
-
+			 
+			 // GENERO LISTA 
 			 ArrayList<Movimientos> listaMovimientos = new ArrayList<Movimientos>();
-					 
+			
+			 
+			 // OBTENGO ID DE LA CUENTA DEL JSP
 			 int cuentaId = Integer.parseInt(request.getParameter("cuentaId"));
 			 System.out.println("CUENTA ID: " + cuentaId);
+			 
+			 // OBTENGO MOVIMIENTO POR CLIENTE POR CUENTA ID 
 			 listaMovimientos = movimientoNeg.ObtenerMovimientosPorCliente(cuentaId);
 			 
 			 if( listaMovimientos != null) {

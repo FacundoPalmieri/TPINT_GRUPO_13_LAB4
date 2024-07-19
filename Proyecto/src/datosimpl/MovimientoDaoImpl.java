@@ -13,7 +13,7 @@ import entidad.TipoMovimiento;
 public class MovimientoDaoImpl implements MovimientoDao{
 
 	@Override
-	public int CrearMovimiento(int cuentaOrigen,String detalle, double importe, int CuentaDestino, int tipoMovimiento) {
+	public int CrearMovimiento(int cuentaOrigen,String detalle, double importe,  int tipoMovimiento) {
 	int estado = 0;
 			
 			Conexion cn = new Conexion();
@@ -33,7 +33,6 @@ public class MovimientoDaoImpl implements MovimientoDao{
 			    preparedStatement.setDate(2,fechaActual );
 			    preparedStatement.setString(3, detalle);
 			    preparedStatement.setDouble(4, importe);
-			    preparedStatement.setInt(5, CuentaDestino);
 			    preparedStatement.setInt(6, tipoMovimiento);
 			    
 			    estado = preparedStatement.executeUpdate();
@@ -62,7 +61,7 @@ public class MovimientoDaoImpl implements MovimientoDao{
 		}
 
 	@Override
-	public ArrayList<Movimientos> ObtenerMovimientosPorCliente(int CuentaDestino) {
+	public ArrayList<Movimientos> ObtenerMovimientosPorCliente(int nCuenta) {
 		Conexion cn = new Conexion();
 		PreparedStatement preparedStatement = null;
 		ResultSet rs = null;
@@ -71,18 +70,18 @@ public class MovimientoDaoImpl implements MovimientoDao{
 	
 
 		
-		String query ="SELECT movimientos.cuenta_destino,movimientos.fecha, movimientos.detalle,movimientos.importe, tipomovimiento.id, tipomovimiento.descripcion "
+		String query ="SELECT movimientos.numero_cuenta,movimientos.fecha, movimientos.detalle,movimientos.importe, tipomovimiento.id, tipomovimiento.descripcion "
 				     + "FROM Movimientos "
 				     + "INNER JOIN tipomovimiento ON tipomovimiento.id = movimientos.tipo_movimiento_id "
-				     + "WHERE cuenta_destino = ? OR cuenta_origen = ?";
+				     + "WHERE  movimientos.numero_cuenta = ? " ;
 		
 		try {
 			cn.Open();
 			System.out.println("CONEXION ABIERTA ObtenerMovimientosPorCliente ");
 			
 			preparedStatement = cn.prepareStatement(query);
-			preparedStatement.setInt(1, CuentaDestino);
-			preparedStatement.setInt(2, CuentaDestino);
+			preparedStatement.setInt(1, nCuenta);
+		
 			
 			
 			rs = preparedStatement.executeQuery();

@@ -42,19 +42,20 @@ public class ServletPrestamo extends HttpServlet {
 		//Lista cuentas y prestamos en vista CLIENTE
 		
 		if(request.getParameter("Param")!= null) {
+			
+		// GENERO LISTAS
 		ArrayList<Cuenta> listaCuentas = new ArrayList<Cuenta>();
 		ArrayList<Prestamo> listaPrestamosCliente = new ArrayList<Prestamo>();
 		
+		// OBTENGO VALOR DE DNI DE LA SESION
 		HttpSession session = request.getSession();
 		String DNI = (String) session.getAttribute("dni");
 		System.out.println("dni del cliente en servlet prestamos: " + DNI);
-				   
+		
+		// OBTENGO LISTA Y PRESTAMOS POR DNI
 		listaCuentas = cuentaNeg.obtenerCuentasPorDNI(DNI);
 		listaPrestamosCliente = prestamoNeg.obtenerPrestamosPorCliente(DNI);
-		
-		//Obtener próxima cuota pendiente y su importe
-		
-		    
+  
 		request.setAttribute("listaCuentas", listaCuentas);
 		request.setAttribute("listaPrestamos", listaPrestamosCliente);
 		System.out.println("listacuentas"+  listaCuentas);
@@ -69,14 +70,15 @@ public class ServletPrestamo extends HttpServlet {
 		if(request.getParameter("PrestamoAdmin")!= null) {
 			System.out.println("entra a PrestamoAdmin");
 			
+			// GENERO LISTAS
 			ArrayList<Prestamo> listaPrestamos = new ArrayList<Prestamo>();
 			ArrayList<EstadoPrestamo> listaEstadosPrestamo= new ArrayList<EstadoPrestamo>();
 			
-			
+			// OBTENGO LISTAR DE PRESTAMOS Y POSIBLES ESTADOS
 			listaPrestamos = prestamoNeg.obtenerPrestamos();
 			listaEstadosPrestamo = prestamoNeg.obtenerListadeEstado();
 			
-			
+			// SI NO SON NULOS LOS MUESTRO EN EL JSP
 			if(listaPrestamos != null && listaEstadosPrestamo != null) {
 				System.out.println("completa lista prestamos");
 				
@@ -95,41 +97,39 @@ public class ServletPrestamo extends HttpServlet {
 		}
 		
 		
+		
 		//ACTUALIZACIÓN ESTADO PRESTAMO ADMIN
 		if(request.getParameter("idPrestamo")!= null) {
-
+		 
+		// OBTENGO ID PRESTAMO Y ESTADO DEL JSP
 	     int idPrestamo =  Integer.parseInt(request.getParameter("idPrestamo"));
 		 int estadoPrestamo = Integer.parseInt(request.getParameter("estadoPrestamo"));
 		
-		 
-	
-		
+		 // ACTUALIZO EL ESTADO 
 		 int estadoActualizacion = prestamoNeg.actualizarEstadoPrestamo(idPrestamo, estadoPrestamo);
 		
 		
 		//Si la actualización en la base es correcta genero movimiento y cargo la lista actualizada
 		if(estadoActualizacion == 1) {
 			
-			// ACTUALIZO SALDO Y GENERO MOVIMIENTO 
+			 
 			int EstadoMovimiento = 0;
 			int EstadoSaldoCuenta = 0;
 			int EstadoCuotas = 0;
 			
+			// SI EL PRESTAMO ES APROBADO
 			if(estadoPrestamo == 3) {
-			
+				
+				// OBTENGO NCUENTA E IMPORTE DEL JSP
 				int nCuenta = Integer.parseInt(request.getParameter("numeroCuenta"));
 				float importeSolicitado = Float.parseFloat(request.getParameter("importeSolicitado"));	
 				
-				// Genero movimiento
-				EstadoMovimiento = movimientoNeg.CrearMovimiento(1, "Alta prestamo", importeSolicitado, nCuenta, 2);
-			
+				// GENERO MOVIMIENTO Y MODIFICO SALDO
+				EstadoMovimiento = movimientoNeg.CrearMovimiento(nCuenta, "Alta prestamo", importeSolicitado, 2);	
 				EstadoSaldoCuenta = cuentaNeg.modificarSaldo(nCuenta, importeSolicitado);
 				
-				//Actualizo cuotas
-				
-				PagosPrestamos pagosPrestamos = new PagosPrestamos();
-				
-			
+				//REGISTRO TODAS LAS CUOTAS EN LA TABLA 
+				PagosPrestamos pagosPrestamos = new PagosPrestamos();	
 				pagosPrestamos.setIdPrestamo(idPrestamo);
 				System.out.println("ID PRESTAMO " + idPrestamo);
 		
@@ -192,13 +192,15 @@ public class ServletPrestamo extends HttpServlet {
 		// SOLICITAR PRESTAMO CLIENTE
 		if(request.getParameter("btnSolicitarPrestamo")!= null) {
 			
+			// OBTENGO EL DNI DE LA SESSION
 			HttpSession session = request.getSession();
 			String DNI = (String) session.getAttribute("dni");
-			Prestamo prestamo = new Prestamo();
 			int cuenta = 0;
 			boolean estadoPrestamo = false;
-
-		
+			
+			
+			//OBTENGO EL RESTO DE LOS VALORES DEL JSP Y GUARDO PRESTAMO
+			Prestamo prestamo = new Prestamo();
 			prestamo.setFecha(request.getParameter("fecha"));
 			prestamo.setImporteSolicitado(Float.parseFloat(request.getParameter("importeSolicitado")));
 			prestamo.setImporteAPagar(Float.parseFloat(request.getParameter("importeTotal")));
@@ -232,10 +234,9 @@ public class ServletPrestamo extends HttpServlet {
 		// ABONAR PRESTAMO
 		if(request.getParameter("btnPagar")!= null) {
 			
-		  //Verificar que el saldo de la cuenta sea mayor a la cuota del prestamo
+		   // OBTENGO CUENTA Y SALDO DEL JSP Y LO SEPARO
 			 String cuentaYSaldo = request.getParameter("cuenta");
 
-			 // Separar el valor capturado en número de cuenta y saldo
 		     String[] partes = cuentaYSaldo.split("-");
 		     
 		     int nCuenta = Integer.parseInt(partes[0]);
@@ -244,7 +245,7 @@ public class ServletPrestamo extends HttpServlet {
 		     float saldo = Float.parseFloat(partes[1]);
 		     System.out.println("SALDO CUENTA: " + saldo);
 		     
-		     // Separar el valor capturado en ID prestamo e ImporteCuota
+		     // OBTENGO PRESTAMO E IMPORTE CUOTA  JSP Y LO SEPARO
 			 String prestamoIdEimporteCuota = request.getParameter("prestamo");
 			 
 			 String[] partes2 = prestamoIdEimporteCuota.split("-");
@@ -257,12 +258,12 @@ public class ServletPrestamo extends HttpServlet {
 			 System.out.println("IMPORTE CUOTA: " + importeCuota);
 		     
 			 
-			 // Capturo número de la cuota 
+			 // CAPTURO NUMERO DE CU0TA
 		     int cuota = Integer.parseInt( request.getParameter("cuota"));
 			 System.out.println("NUMERO CUOTA: " + cuota);
 			
 		     
-		     if(saldo > importeCuota) {     
+		     if(saldo >= importeCuota) {     
 			     int estadoModificarSaldo = 0;
 			     int estadoMovimiento = 0;
 			     int estadoActualizarCuota = 0;
@@ -271,7 +272,7 @@ public class ServletPrestamo extends HttpServlet {
 			     String DetalleMovimiento = "Pago prestamo - cuota " + cuota;
 			     
 			     estadoModificarSaldo= cuentaNeg.modificarSaldo(nCuenta, (importeCuota * -1));
-			     estadoMovimiento = movimientoNeg.CrearMovimiento(nCuenta, DetalleMovimiento, (importeCuota * -1), 1, 3);
+			     estadoMovimiento = movimientoNeg.CrearMovimiento(nCuenta, DetalleMovimiento, (importeCuota * -1), 3);
 			     estadoActualizarCuota = prestamoNeg.actualizarCuota(idPrestamo, cuota, 2);
 			     estadoActualizarPrestamo = prestamoNeg.actualizarCuotaPrestamo(idPrestamo, cuota );
 			     

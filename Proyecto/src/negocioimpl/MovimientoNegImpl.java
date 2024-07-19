@@ -15,14 +15,14 @@ public class MovimientoNegImpl implements MovimientoNeg{
 	    }
 
 	@Override
-	public int CrearMovimiento(int CuentaOrigen,String detalle, double importe, int CuentaDestino, int tipoMovimiento) {
-		return movimientoDao.CrearMovimiento(CuentaOrigen, detalle, importe, CuentaDestino,tipoMovimiento);
+	public int CrearMovimiento(int CuentaOrigen,String detalle, double importe, int tipoMovimiento) {
+		return movimientoDao.CrearMovimiento(CuentaOrigen, detalle, importe, tipoMovimiento);
 	}
 
 	@Override
-	public ArrayList<Movimientos> ObtenerMovimientosPorCliente(int CuentaDestino) {
+	public ArrayList<Movimientos> ObtenerMovimientosPorCliente(int nCuenta) {
 		ArrayList<Movimientos> listaMovimientos = new ArrayList<Movimientos>();
-		listaMovimientos = movimientoDao.ObtenerMovimientosPorCliente(CuentaDestino);
+		listaMovimientos = movimientoDao.ObtenerMovimientosPorCliente(nCuenta);
 		System.out.println("MOVIMIENTO DAO");
 		return listaMovimientos;
 	}

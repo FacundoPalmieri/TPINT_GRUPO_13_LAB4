@@ -42,19 +42,27 @@ public class ServletTransferencia extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(request.getParameter("btnBuscarCBU")!= null) {
+			
+			// GENERO VARIABLES
 			Cuenta cuenta = new Cuenta();
 			Persona persona = new Persona();
 			String dniClienteOrigen = null;
 			ArrayList <Cuenta> listaCuentas = new ArrayList <Cuenta>();
-	
+			
+			// OBTENGO CBU DEL JSP 
 			String cbu = request.getParameter("cbuCliente");
+			
+			// OBTENGO CUENTA POR CEBU
 			cuenta = cuentaNeg.obtenerCuentaporCBU(cbu);		
+			
+			// OBTENGO CLIENTE POR DNI CUENTA
 			persona = usuarioNeg.obtenerClientePorDNI(cuenta.getClienteDni());
 			
 			System.out.println("DNI CUENTA " + cuenta.getClienteDni());
 			System.out.println("DNI PERSONA " + persona.getDni());
 		
 			if(cuenta.getClienteDni() != 0 && persona.getNombre() != null) {
+				
 				//Obtengo el DNI del cliente que quiere hacer la transferencia por session
 				HttpSession session = request.getSession();
 				dniClienteOrigen = (String) session.getAttribute("dni");
@@ -95,7 +103,8 @@ public class ServletTransferencia extends HttpServlet {
 		 Cuenta cuenta = (Cuenta) session.getAttribute("cuenta");
 		 int nCuentaDestino = 0;
 		
-		nCuentaDestino = cuenta.getNumeroCuenta();
+		 // Asigno el string al int para comparar
+	    nCuentaDestino = cuenta.getNumeroCuenta();
 		
 		if(nCuenta != nCuentaDestino) {
 			float monto = (Float.parseFloat(request.getParameter("monto")));
@@ -109,8 +118,8 @@ public class ServletTransferencia extends HttpServlet {
 				 
 				 estadoModificarSaldoOrigen = cuentaNeg.modificarSaldo(nCuenta, (monto *-1));
 				 estadoModificarSaldoDestino = cuentaNeg.modificarSaldo(nCuentaDestino, monto);
-				 estadoMovimientoOrigen = movimientoNeg.CrearMovimiento(nCuentaDestino, detalleOrigen, (monto*-1), nCuenta, 4);
-				 estadoMovimientoDestino = movimientoNeg.CrearMovimiento(nCuenta, detalleDestino, monto, nCuentaDestino, 4);
+				 estadoMovimientoOrigen = movimientoNeg.CrearMovimiento(nCuentaDestino, detalleOrigen, (monto*-1), 4);
+				 estadoMovimientoDestino = movimientoNeg.CrearMovimiento(nCuenta, detalleDestino, monto, 4);
 				 
 				 
 				 if(estadoModificarSaldoOrigen != 0 && estadoMovimientoOrigen != 0 && estadoMovimientoDestino != 0 && estadoModificarSaldoDestino != 0 ) {
