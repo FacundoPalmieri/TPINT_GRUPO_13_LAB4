@@ -109,33 +109,51 @@ public class ServletTransferencia extends HttpServlet {
 		if(nCuenta != nCuentaDestino) {
 			float monto = (Float.parseFloat(request.getParameter("monto")));
 			 if(monto <= saldo) {
-				 int estadoModificarSaldoOrigen = 0;
-				 int estadoModificarSaldoDestino = 0;
-				 int estadoMovimientoOrigen = 0;
-				 int estadoMovimientoDestino = 0;
-				 String detalleOrigen = "Transferencia realizada a cuenta N° " + nCuenta;
-				 String detalleDestino = "Transferencia recibida de cuenta N° " + nCuentaDestino;
 				 
-				 estadoModificarSaldoOrigen = cuentaNeg.modificarSaldo(nCuenta, (monto *-1));
-				 estadoModificarSaldoDestino = cuentaNeg.modificarSaldo(nCuentaDestino, monto);
-				 estadoMovimientoOrigen = movimientoNeg.CrearMovimiento(nCuenta, detalleOrigen, (monto*-1), 4);
-				 estadoMovimientoDestino = movimientoNeg.CrearMovimiento(nCuentaDestino, detalleDestino, monto, 4);
-				 
-				 
-				 if(estadoModificarSaldoOrigen != 0 && estadoMovimientoOrigen != 0 && estadoMovimientoDestino != 0 && estadoModificarSaldoDestino != 0 ) {
-					   request.setAttribute("Mensaje","Transferencia realizada ");
-					   RequestDispatcher dispatcher = request.getRequestDispatcher("/ClienteTransferencia.jsp");
-			           dispatcher.forward(request, response); 
+			   if(monto > 0) {
+				   
+				     int estadoModificarSaldoOrigen = 0;
+					 int estadoModificarSaldoDestino = 0;
+					 int estadoMovimientoOrigen = 0;
+					 int estadoMovimientoDestino = 0;
+					 String detalleOrigen = "Transferencia realizada a cuenta N° " + nCuenta;
+					 String detalleDestino = "Transferencia recibida de cuenta N° " + nCuentaDestino;
 					 
-				 }
-				 else {
-					 request.setAttribute("Mensaje","No se ha podido realizar la transferencia ");
-					   RequestDispatcher dispatcher = request.getRequestDispatcher("/ClienteTransferencia.jsp");
-			           dispatcher.forward(request, response); 
+					 estadoModificarSaldoOrigen = cuentaNeg.modificarSaldo(nCuenta, (monto *-1));
+					 estadoModificarSaldoDestino = cuentaNeg.modificarSaldo(nCuentaDestino, monto);
+					 estadoMovimientoOrigen = movimientoNeg.CrearMovimiento(nCuenta, detalleOrigen, (monto*-1), 4);
+					 estadoMovimientoDestino = movimientoNeg.CrearMovimiento(nCuentaDestino, detalleDestino, monto, 4);
 					 
-				 }
-				 
+					 
+					 if(estadoModificarSaldoOrigen != 0 && estadoMovimientoOrigen != 0 && estadoMovimientoDestino != 0 && estadoModificarSaldoDestino != 0 ) {
+						   request.setAttribute("Mensaje","Transferencia realizada ");
+						   RequestDispatcher dispatcher = request.getRequestDispatcher("/ClienteTransferencia.jsp");
+				           dispatcher.forward(request, response); 
+						 
+					 }else {
+						   request.setAttribute("Mensaje","Ups! ha ocurrido un error inesperado, comuniquese con soporte técnico. ");
+						   RequestDispatcher dispatcher = request.getRequestDispatcher("/ClienteTransferencia.jsp");
+				           dispatcher.forward(request, response);
+					 }
+					 
+
+				   
+			   }else {
+				   request.setAttribute("Mensaje","El monto debe ser positivo");
+				   RequestDispatcher dispatcher = request.getRequestDispatcher("/ClienteTransferencia.jsp");
+		           dispatcher.forward(request, response);		 
 			 }
+				
+				 	
+		}else {
+			   request.setAttribute("Mensaje","No tiene suficiente saldo en cuenta");
+			   RequestDispatcher dispatcher = request.getRequestDispatcher("/ClienteTransferencia.jsp");
+	           dispatcher.forward(request, response); 
+			   
+		   }
+		
+	
+			
 			
 			
 		}else {
@@ -145,12 +163,8 @@ public class ServletTransferencia extends HttpServlet {
 			
 		}
 		
-	
-			
-			
-			
-		}
-		
+	  }
 	}
-
 }
+
+
