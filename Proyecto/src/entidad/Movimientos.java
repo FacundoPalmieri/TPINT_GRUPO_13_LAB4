@@ -8,7 +8,7 @@ public class Movimientos {
 	private LocalDate fecha;
 	private String detalle;
 	private double importe;
-	private Cuenta cuenta_destino;
+
 	private TipoMovimiento tipo_Movimiento_id;
 	
 	public int getId() {
@@ -41,12 +41,7 @@ public class Movimientos {
 	public void setImporte(double importe) {
 		this.importe = importe;
 	}
-	public Cuenta getCuenta_destino() {
-		return cuenta_destino;
-	}
-	public void setCuenta_destino(Cuenta cuenta_destino) {
-		this.cuenta_destino = cuenta_destino;
-	}
+
 	public TipoMovimiento getTipo_Movimiento_id() {
 		return tipo_Movimiento_id;
 	}

@@ -19,7 +19,7 @@ public class MovimientoDaoImpl implements MovimientoDao{
 			Conexion cn = new Conexion();
 			PreparedStatement preparedStatement = null;
 			
-			String query ="INSERT INTO movimientos (cuenta_origen, fecha, detalle, importe, cuenta_destino, tipo_movimiento_id) VALUES (?,?,?,?,?,?)";
+			String query ="INSERT INTO movimientos (numero_cuenta, fecha, detalle, importe, tipo_movimiento_id) VALUES (?,?,?,?,?)";
 			System.out.println("query crear movimiento: " + query);
 			
 			try {
@@ -33,7 +33,7 @@ public class MovimientoDaoImpl implements MovimientoDao{
 			    preparedStatement.setDate(2,fechaActual );
 			    preparedStatement.setString(3, detalle);
 			    preparedStatement.setDouble(4, importe);
-			    preparedStatement.setInt(6, tipoMovimiento);
+			    preparedStatement.setInt(5, tipoMovimiento);
 			    
 			    estado = preparedStatement.executeUpdate();
 				
@@ -87,11 +87,9 @@ public class MovimientoDaoImpl implements MovimientoDao{
 			rs = preparedStatement.executeQuery();
 			
 		    while(rs.next()){
-		    	Movimientos m = new Movimientos();
-				Cuenta c = new Cuenta();
+		    	Movimientos m = new Movimientos();	
 				TipoMovimiento tm = new TipoMovimiento();
-				
-				c.setNumeroCuenta(rs.getInt("movimientos.cuenta_destino"));
+		
 				
 			    Date sqlDate = rs.getDate("movimientos.fecha");
 		            if (sqlDate != null) {
@@ -105,8 +103,6 @@ public class MovimientoDaoImpl implements MovimientoDao{
 		        tm.setDescripcion(rs.getString("descripcion"));
 		        
 		        //Asigno a movimiento los objetos cuenta y TipoMovimiento
-		        
-		        m.setCuenta_destino(c);
 		        m.setTipo_Movimiento_id(tm);
 		        
 		        //Agrego movimiento a lista

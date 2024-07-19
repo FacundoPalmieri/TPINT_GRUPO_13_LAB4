@@ -49,7 +49,6 @@
 		<h5>Detalle movimientos</h5>
 	   <table id="table_id" class="display">
 	        <tr>
-	            <th>Número de cuenta</th>
 	            <th>Fecha</th>
 	            <th>Detalle</th>
 	            <th>Importe</th>
@@ -62,7 +61,6 @@
 	                for (Movimientos movimiento : listaMovimientos) {
 	        %>
 	        <tr>
-	            <td>  <%= movimiento.getCuenta_destino().getNumeroCuenta() %></td>
 	            <td>  <%= movimiento.getFecha() %></td>
 	            <td>  <%= movimiento.getDetalle() %></td>
 	            <td>$ <%= movimiento.getImporte() %></td>
