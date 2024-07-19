@@ -113,8 +113,8 @@ public class ServletTransferencia extends HttpServlet {
 				 int estadoModificarSaldoDestino = 0;
 				 int estadoMovimientoOrigen = 0;
 				 int estadoMovimientoDestino = 0;
-				 String detalleOrigen = "Transferencia realizada de cuenta N° " + nCuenta;
-				 String detalleDestino = "Transferencia recibida a cuenta N° " + nCuentaDestino;
+				 String detalleOrigen = "Transferencia realizada a cuenta N° " + nCuenta;
+				 String detalleDestino = "Transferencia recibida de cuenta N° " + nCuentaDestino;
 				 
 				 estadoModificarSaldoOrigen = cuentaNeg.modificarSaldo(nCuenta, (monto *-1));
 				 estadoModificarSaldoDestino = cuentaNeg.modificarSaldo(nCuentaDestino, monto);
