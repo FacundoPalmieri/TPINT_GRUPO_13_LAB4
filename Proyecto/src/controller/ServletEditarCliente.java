@@ -92,22 +92,19 @@ public class ServletEditarCliente extends HttpServlet {
         	
         	String DNI = new String();
         	Persona persona = new Persona();
-        	Direccion direccion = new Direccion();
-        	Provincia provincia = new Provincia();
-        	Localidad localidad = new Localidad();
-        	Usuario usuario = new Usuario();
+
         	
         	DNI = (request.getParameter("dniCliente"));
         	persona = usuarioNeg.GuardarPersonaCompleta(DNI);
         	
         	if (persona != null) {
         	
-        	request.setAttribute("usuario", usuario.getUsuario());
+        	request.setAttribute("usuario", persona.getUsuario());
             request.setAttribute("persona", persona);
-            request.setAttribute("direccion", direccion);
-            request.setAttribute("localidad", localidad);
-            request.setAttribute("provincia", provincia);
-            request.setAttribute("usuario", usuario);
+            request.setAttribute("direccion", persona.getDireccion());
+            request.setAttribute("provincia", persona.getDireccion().getLocalidad().getProvincia() );
+            request.setAttribute("localidad", persona.getDireccion().getLocalidad() );
+  
             
             // Redirige al JSP de edición
             RequestDispatcher dispatcher = request.getRequestDispatcher("/ModificarCliente.jsp");
