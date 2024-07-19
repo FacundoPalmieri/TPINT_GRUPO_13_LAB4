@@ -138,7 +138,7 @@ public class UsuarioNegImpl implements UsuarioNeg{
 
 	@Override
 	public Persona GuardarPersonaCompleta(String dni) {
-		return usuarioDao.ObtenerPersonaCompleta(dni);
+		return usuarioDao.GuardarPersonaCompleta(dni);
 	}
 
 

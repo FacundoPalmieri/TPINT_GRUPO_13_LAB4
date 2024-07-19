@@ -91,15 +91,33 @@ public class ServletEditarCliente extends HttpServlet {
         if (request.getParameter("btnBuscar") != null) {
         	
         	String DNI = new String();
+        	Persona persona = new Persona();
+        	Direccion direccion = new Direccion();
+        	Provincia provincia = new Provincia();
+        	Localidad localidad = new Localidad();
         	Usuario usuario = new Usuario();
         	
         	DNI = (request.getParameter("dniCliente"));
-        	usuario = usuarioNeg.obtenerUsuarioPorDNI(DNI);
+        	persona = usuarioNeg.GuardarPersonaCompleta(DNI);
+        	
+        	if (persona != null) {
+        	
         	request.setAttribute("usuario", usuario.getUsuario());
-         
-
+            request.setAttribute("persona", persona);
+            request.setAttribute("direccion", direccion);
+            request.setAttribute("localidad", localidad);
+            request.setAttribute("provincia", provincia);
+            request.setAttribute("usuario", usuario);
+            
+            // Redirige al JSP de edición
             RequestDispatcher dispatcher = request.getRequestDispatcher("/ModificarCliente.jsp");
-            dispatcher.forward(request, response); 
+            dispatcher.forward(request, response);
+        	}else {
+                request.setAttribute("error", "No se encontró ningún cliente con ese DNI.");
+                RequestDispatcher dispatcher = request.getRequestDispatcher("/ModificarCliente.jsp");
+                dispatcher.forward(request, response);
+            }
+        	
             
         } 
         
@@ -130,5 +148,3 @@ public class ServletEditarCliente extends HttpServlet {
     }
 }
 	
-
-

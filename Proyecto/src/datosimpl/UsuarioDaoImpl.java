@@ -997,75 +997,86 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	@Override
 	public Persona GuardarPersonaCompleta(String dni) {
 		Conexion cn = new Conexion();
-	    ResultSet rs = null;
 	    PreparedStatement preparedStatement = null;
-	    Persona p = new Persona();
-	    String query = "SELECT personas.id, personas.dni, personas.cuil, personas.nombre, personas.apellido, personas.sexo, "
-	                 + "personas.celular, personas.telefono, personas.direccion_id, personas.nacionalidad, personas.fecha_nacimiento, personas.email, "
-	                 + "direcciones.id AS direccion_id, direcciones.calle, direcciones.numero, direcciones.piso, direcciones.departamento, direcciones.localidad_id, "
-	                 + "localidades.nombre AS localidad_nombre, provincias.nombre AS provincia_nombre, paises.nombre AS pais_nombre "
-	                 + "FROM personas "
-	                 + "INNER JOIN direcciones ON personas.direccion_id = direcciones.id "
-	                 + "INNER JOIN localidades ON direcciones.localidad_id = localidades.id "
-	                 + "INNER JOIN provincias ON localidades.provincia_id = provincias.id "
-	                 + "INNER JOIN paises ON provincias.pais_id = paises.id "
-	                 + "WHERE personas.dni = ?";
-
+	    ResultSet rs = null;
+	    Persona p = null;
+	    
 	    try {
 	        cn.Open();
-	        System.out.println("CONEXION ABIERTA OBTENER PERSONA COMPLETA POR DNI");
-	        System.out.println("QUERY: " + query);
-	        preparedStatement = cn.prepareStatement(query);
+	        System.out.println("EDITAR CLIENTE COMPLETO");
+
+	        // Primero, obtenemos la información de la persona basándonos en el DNI
+	        String querySelect = "SELECT personas.id, personas.dni, personas.nombre, personas.apellido, personas.sexo, personas.email, personas.fecha_nacimiento, personas.nacionalidad, "
+	                + "direcciones.id AS direccion_id, direcciones.calle, direcciones.numero, direcciones.piso, direcciones.departamento, localidades.id AS localidad_id, localidades.nombre AS localidad_nombre, "
+	                + "provincias.id AS provincia_id, provincias.nombre AS provincia_nombre, paises.id AS pais_id, paises.nombre AS pais_nombre "
+	                + "FROM personas "
+	                + "INNER JOIN direcciones ON personas.direccion_id = direcciones.id "
+	                + "INNER JOIN localidades ON direcciones.localidad_id = localidades.id "
+	                + "INNER JOIN provincias ON localidades.provincia_id = provincias.id "
+	                + "INNER JOIN paises ON provincias.pais_id = paises.id "
+	                + "WHERE personas.dni = ?";
+
+	        preparedStatement = cn.prepareStatement(querySelect);
 	        preparedStatement.setString(1, dni);
 	        rs = preparedStatement.executeQuery();
-	        if (rs.next()) {
-	            p.setId(rs.getInt("personas.id"));
-	            p.setDni(rs.getString("personas.dni"));
-	            p.setCuil(rs.getString("personas.cuil"));
-	            p.setNombre(rs.getString("personas.nombre"));
-	            p.setApellido(rs.getString("personas.apellido"));
-	            p.setCelular(rs.getString("personas.celular"));
-	            p.setTelefono(rs.getString("personas.telefono"));
-	            p.setEmail(rs.getString("personas.email"));
-	            p.setSexo(rs.getString("personas.sexo"));
-	            Date sqlDate = rs.getDate("personas.fecha_nacimiento");
-	            if (sqlDate != null) {
-	                LocalDate localDate = sqlDate.toLocalDate();
-	                p.setFechaNacimiento(localDate);
-	            }
-	            p.setNacionalidad(rs.getString("personas.nacionalidad"));
 
-	            // Configuración de Direccion
+	        if (rs.next()) {
+	            // Crear la instancia de Persona
+	            p = new Persona();
+	            p.setId(rs.getInt("id"));
+	            p.setDni(rs.getString("dni"));
+	            p.setNombre(rs.getString("nombre"));
+	            p.setApellido(rs.getString("apellido"));
+	            p.setSexo(rs.getString("sexo"));
+	            p.setEmail(rs.getString("email"));
+	            Date sqlDate = rs.getDate("fecha_nacimiento");
+	            if (sqlDate != null) {
+	                p.setFechaNacimiento(sqlDate.toLocalDate());
+	            }
+	            p.setNacionalidad(rs.getString("nacionalidad"));
+
+	            // Crear la instancia de Direccion
 	            Direccion d = new Direccion();
 	            d.setId(rs.getInt("direccion_id"));
-	            d.setCalle(rs.getString("direcciones.calle"));
-	            d.setAltura(rs.getInt("direcciones.numero"));
-	            d.setPiso(rs.getString("direcciones.piso"));
-	            d.setDepartamento(rs.getString("direcciones.departamento"));
+	            d.setCalle(rs.getString("calle"));
+	            d.setAltura(rs.getInt("numero"));
+	            d.setPiso(rs.getString("piso"));
+	            d.setDepartamento(rs.getString("departamento"));
 
-	            // Configuración de Localidad
+	            // Crear la instancia de Localidad
 	            Localidad l = new Localidad();
+	            l.setId(rs.getInt("localidad_id"));
 	            l.setNombre(rs.getString("localidad_nombre"));
 
-	            // Configuración de Provincia
+	            // Crear la instancia de Provincia
 	            Provincia pv = new Provincia();
+	            pv.setId(rs.getInt("provincia_id"));
 	            pv.setNombre(rs.getString("provincia_nombre"));
 
-	            // Configuración de Pais
+	            // Crear la instancia de Pais
 	            Pais ps = new Pais();
+	            ps.setId(rs.getInt("pais_id"));
 	            ps.setNombre(rs.getString("pais_nombre"));
 
-	            // Enlazar objetos
+	            // Establecer relaciones
 	            l.setProvincia(pv);
 	            d.setLocalidad(l);
 	            p.setDireccion(d);
 	        }
 	    } catch (Exception e) {
-	        System.out.println("ERROR EN OBTENER PERSONA COMPLETA POR DNI");
+	        System.out.println("ERROR AL OBTENER PERSONA COMPLETA");
 	        e.printStackTrace();
 	    } finally {
-	        cn.close();
+	        // Cerrar recursos
+	        try {
+	            if (rs != null) rs.close();
+	            if (preparedStatement != null) preparedStatement.close();
+	            cn.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
 	    }
+
 	    return p;
 	}
 }

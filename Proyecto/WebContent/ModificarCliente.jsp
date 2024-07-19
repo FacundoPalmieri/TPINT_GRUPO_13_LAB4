@@ -61,7 +61,7 @@
         <input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%=request.getParameter("dniCliente1")%>" readonly style="background-color: #e9ecef;">
     <%}else{ %>
     	<input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%=(request.getParameter("dniCliente") != null) ? request.getParameter("dniCliente") : "" %>" required>
-        <input type="submit" value="&#128269;" name="btnBuscar" style="background-color: #78AD89">
+        <input type="submit" value="Buscar" name="btnBuscar" style="background-color: #78AD89">
         <%} %>
     </div>
 
@@ -74,31 +74,31 @@
             <div class="flex-container">
                 <div class="form-group flex-item" style="margin-top: 10px;">
                     <label for="dni">DNI:</label>
-                    <input type="text" id="dni" name="dni" value="" required>
+                    <input type="text" id="dni" name="dni" value="<%= persona != null ? persona.getDni() : "" %>" required>
                 </div>
                 <div class="form-group flex-item" style="margin-top: 10px;">
                     <label for="cuil">CUIL:</label>
-                    <input type="text" id="cuil" name="cuil" value="" required>
+                    <input type="text" id="cuil" name="cuil" value="<%= persona != null ? persona.getCuil() : "" %>" required>
                 </div>
                 <div class="form-group flex-item">
                     <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" value="" required>
+                    <input type="text" id="nombre" name="nombre" value="<%= persona != null ? persona.getNombre() : "" %>" required>
                 </div>
                 <div class="form-group flex-item">
                     <label for="apellido">Apellido:</label>
-                    <input type="text" id="apellido" name="apellido" value="" required>
+                    <input type="text" id="apellido" name="apellido" value="<%= persona != null ? persona.getApellido() : "" %>" required>
                 </div>
                 <div class="form-group flex-item">
                     <label for="sexo">Sexo:</label>
-                    <input type="text" id="sexo" name="sexo" value="" required>
+                    <input type="text" id="sexo" name="sexo" value="<%= persona != null ? persona.getSexo() : "" %>"required>
                 </div>
                 <div class="form-group flex-item">
                     <label for="fechaNacimiento">Fecha de Nacimiento:</label>
-                    <input type="date" id="fechaNacimiento" name="fechaNacimiento" value="" required>
+                    <input type="date" id="fechaNacimiento" name="fechaNacimiento" value="<%= persona != null ? persona.getFechaNacimiento() : "" %>" required>
                 </div>
                 <div class="form-group flex-item">
                     <label for="nacionalidad">Nacionalidad:</label>
-                    <input type="text" id="nacionalidad" name="nacionalidad" value="" required>
+                    <input type="text" id="nacionalidad" name="nacionalidad" value="<%= persona != null ? persona.getNacionalidad() : "" %>" required>
                 </div>
             </div>
         </div>
@@ -112,28 +112,28 @@
                 </div>
                 <div class="form-group flex-item" style="margin-top: 10px;">
                     <label for="provincia">Provincia:</label>
-                    <input type="text" id="provincia" name="provincia" value="" required>
+                    <input type="text" id="provincia" name="provincia" value="<%= provincia != null ? provincia.getNombre() : "" %>" required>
                 </div>
                 <div class="form-group flex-item" style="margin-top: 10px;">
                     <label for="localidad">Localidad:</label>
-                    <input type="text" id="localidad" name="localidad" value="" required>
+                    <input type="text" id="localidad" name="localidad" value="<%= localidad != null ? localidad.getNombre() : "" %>" required>
                 </div>
                 <div class="form-group-domicilio">
                     <div class="group">
                         <label for="calle">Calle:</label>
-                        <input type="text" id="calle" name="calle" value="" required>
+                        <input type="text" id="calle" name="calle" value="<%= direccion != null ? direccion.getCalle() : "" %>"  required>
                     </div>
                     <div class="group">
                         <label for="numero">Número:</label>
-                        <input type="text" id="numero" name="numero" value="" required>
+                        <input type="text" id="numero" name="numero" value="<%= direccion != null ? direccion.getAltura() : "" %>"   required>
                     </div>
                     <div class="group">
                         <label for="piso">Piso:</label>
-                        <input type="text" id="piso" name="piso" value="" required>
+                        <input type="text" id="piso" name="piso" value="<%= direccion != null ? direccion.getPiso() : "" %>"   required>
                     </div>
                     <div class="group">
                         <label for="depto">Depto:</label>
-                        <input type="text" id="depto" name="depto" value="" required>
+                        <input type="text" id="depto" name="depto" value="<%= direccion != null ? direccion.getDepartamento() : "" %>"  required>
                     </div>
                 </div>
             </div>
@@ -144,15 +144,15 @@
             <div class="flex-container">
                 <div class="form-group flex-item" style="margin-top: 10px;">
                     <label for="celular">Celular:</label>
-                    <input type="text" id="celular" name="celular" value="" required>
+                    <input type="text" id="celular" name="celular" value="<%= persona != null ? persona.getCelular() : "" %>" required>
                 </div>
                 <div class="form-group flex-item" style="margin-top: 10px;">
                     <label for="telefonos">Teléfono:</label>
-                    <input type="text" id="telefonos" name="telefonos" value="" required>
+                    <input type="text" id="telefonos" name="telefonos" value="<%= persona != null ? persona.getTelefono(): "" %>" required>
                 </div>
                 <div class="form-group flex-item">
                     <label for="correoElectronico">Correo Electrónico:</label>
-                    <input type="email" id="correoElectronico" name="correoElectronico" value="" required>
+                    <input type="email" id="correoElectronico" name="correoElectronico" value="<%= persona != null ? persona.getEmail() : "" %>" required>
                 </div>
             </div>
         </div>
@@ -161,11 +161,11 @@
         <div class="panel">
             <div class="form-group" style="margin-top:10px;">
                 <label for="usuario">Usuario:</label>
-                <input type="text" id="usuario" name="usuario" value="" readonly style="background-color: #e9ecef;">
+                <input type="text" id="usuario" name="usuario" value="<%= usuario != null ? usuario.getUsuario() : "" %>" readonly style="background-color: #e9ecef;">
             </div>
             <div class="form-group" style="margin-top:10px;">
                 <label for="pass">Contraseña:</label>
-                <input type="text" id="pass" name="pass" value="" >
+                <input type="text" id="pass" name="pass" value="<%= usuario != null ? usuario.getPass() : "" %>" >
             </div>
         </div>
 
