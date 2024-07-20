@@ -59,6 +59,7 @@
     <div id="BusquedaCliente">
     <% if (request.getParameter("usuario1")!=null && request.getParameter("dniCliente1")!=null){%>
         <input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%=request.getParameter("dniCliente1")%>" readonly style="background-color: #e9ecef;">
+        <input type="submit" value="Buscar" name="btnBuscar" style="background-color: #78AD89">
     <%}else{ %>
     	<input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%=(request.getParameter("dniCliente") != null) ? request.getParameter("dniCliente") : "" %>" required>
         <input type="submit" value="Buscar" name="btnBuscar" style="background-color: #78AD89">

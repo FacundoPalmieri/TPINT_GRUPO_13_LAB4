@@ -1040,26 +1040,22 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	            
 	            //Usuario
 	            Usuario u = new Usuario(); 
-		    	u.setId(rs.getInt("id"));
 		    	u.setUsuario(rs.getString("usuarios.usuario"));
 		    	u.setPass(rs.getString("usuarios.pass"));
 
 	            
 	            // Crear la instancia de Pais
 	            Pais ps = new Pais();
-	            ps.setId(rs.getInt("id"));
 	            ps.setNombre(rs.getString("nombre"));
 	            
 	            // Crear la instancia de Provincia
 	            Provincia pv = new Provincia();
-	            pv.setId(rs.getInt("id"));
-	            pv.setNombre(rs.getString("nombre"));
+	            pv.setNombre(rs.getString("provincias.nombre"));
 	            pv.setPais(ps);
 	            
 	            // Crear la instancia de Localidad
 	            Localidad l = new Localidad();
-	            l.setId(rs.getInt("id"));
-	            l.setNombre(rs.getString("nombre"));
+	            l.setNombre(rs.getString("localidades.Nombre"));
 	            l.setProvincia(pv);
 	            
 	            // Crear la instancia de Direccion
@@ -1121,11 +1117,10 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        preparedStatement.close();
 
 	        // Actualizar la información en la tabla 'usuarios'
-	        String queryUpdateUsuario = "UPDATE usuarios SET usuario = ?, habilitado = ? WHERE persona_dni = ?";
+	        String queryUpdateUsuario = "UPDATE usuarios SET pass = ?  WHERE persona_dni = ?";
 	        preparedStatement = cn.prepareStatement(queryUpdateUsuario);
-	        preparedStatement.setString(1, persona.getUsuario().getUsuario());
-	        preparedStatement.setInt(2, persona.getUsuario().getHabilitado());
-	        preparedStatement.setString(3, persona.getDni());
+	        preparedStatement.setString(1, persona.getUsuario().getPass());
+	        preparedStatement.setString(2, persona.getDni());
 	        preparedStatement.executeUpdate();
 	        preparedStatement.close();
 
@@ -1136,7 +1131,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        preparedStatement.setInt(2, persona.getDireccion().getAltura());
 	        preparedStatement.setString(3, persona.getDireccion().getPiso());
 	        preparedStatement.setString(4, persona.getDireccion().getDepartamento());
-	        preparedStatement.setInt(5, persona.getDireccion().getLocalidad().getId());
+	        preparedStatement.setInt(5, persona.getDireccion().getLocalidad_id());
 	        preparedStatement.setInt(6, persona.getDireccion().getId());
 	        preparedStatement.executeUpdate();
 	        preparedStatement.close();

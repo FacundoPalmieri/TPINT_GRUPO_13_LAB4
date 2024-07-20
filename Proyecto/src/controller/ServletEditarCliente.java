@@ -138,6 +138,7 @@ public class ServletEditarCliente extends HttpServlet {
 
             Usuario usuario = new Usuario();
             usuario.setUsuario(request.getParameter("usuario"));
+            usuario.setPass(request.getParameter("pass"));
             persona.setUsuario(usuario);
             
             Pais pais = new Pais();
