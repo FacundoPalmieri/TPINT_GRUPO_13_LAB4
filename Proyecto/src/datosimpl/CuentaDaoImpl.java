@@ -432,6 +432,44 @@ public class CuentaDaoImpl implements CuentaDao {
 		return estadoUpdate;
 	}
 
+	@Override
+	public ArrayList<Cuenta> listarTodasLAsCuentas() {
+		 ArrayList<Cuenta> cuentas = new ArrayList<>();
+		    String query ="SELECT c.numero_cuenta, c.cliente_dni, c.fecha_creacion, c.tipo_cuenta_id, c.cbu, c.saldo, c.habilitado "
+                    + "FROM Cuentas c";
+		    try {
+		        cn = new Conexion();
+		        cn.Open();
+		        System.out.println("CONEXIÓN ABIERTA - OBTENER CUENTAS POR DNI");
+		        PreparedStatement preparedStatement = cn.prepareStatement(query);
+		        ResultSet rs = preparedStatement.executeQuery();
+
+		        while (rs.next()) {
+		        	Cuenta cuenta = new Cuenta();
+		            TipoCuenta tipoCuenta = new TipoCuenta();
+		            
+		            cuenta.setNumeroCuenta(rs.getInt("numero_cuenta"));
+	                cuenta.setClienteDni(rs.getInt("cliente_dni"));
+	                cuenta.setFechaCreacion(rs.getDate("fecha_creacion").toLocalDate());
+	                tipoCuenta.setId(rs.getInt("tipo_cuenta_id"));
+	                cuenta.setIdTipoCuenta(tipoCuenta);
+	                cuenta.setCbu(rs.getString("cbu"));
+	                cuenta.setSaldo(rs.getFloat("saldo"));
+	                cuenta.setHabilitado(rs.getInt("habilitado"));
+
+	                cuentas.add(cuenta);
+		           
+		        }
+
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    } finally {
+		        cn.close();
+		    }
+		    
+		    return cuentas;
+	}
+
 }
 	
 

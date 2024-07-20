@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@page import="entidad.Cuenta"%>
+<%@page import="java.util.ArrayList" %>
+<%@page import="java.util.List"%>
+<%@page import="entidad.Persona"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -8,6 +13,10 @@
 <style>
 	<jsp:include page="css\Style.css"></jsp:include>
 </style>
+ <link rel="stylesheet" type="text/css" href="path_to_your_css_file.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
 <title>Listado de Cuentas</title>
 </head>
 <body>
@@ -24,9 +33,48 @@
     </div>
 </div>
 
+ <div>
+        <table id="tablaCuentas" class="display">
+            <thead>
+                <tr>
+                    <th>Número de Cuenta</th>
+                    <th>DNI del Cliente</th>
+                    <th>Fecha de Creación</th>
+                    <th>Tipo de Cuenta</th>
+                    <th>CBU</th>
+                    <th>Saldo</th>
+                    <th>Habilitado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <%
 
-
-
+                ArrayList<Cuenta> cuentas = (ArrayList<Cuenta>) request.getAttribute("listaCuentas");  
+                if (cuentas != null) {
+                    for (Cuenta cuenta : cuentas) {
+                %>
+                <tr>
+                    <td><%= cuenta.getNumeroCuenta() %></td>
+                    <td><%= cuenta.getClienteDni() %></td>
+                    <td><%= cuenta.getFechaCreacion() %></td>
+                    <td><%= cuenta.getIdTipoCuenta().getDescripcion() %></td>
+                    <td><%= cuenta.getCbu() %></td>
+                    <td><%= cuenta.getSaldo() %></td>
+                    <td><%= cuenta.getHabilitado() == 1 ? "Sí" : "No" %></td>
+                </tr>
+                <%
+                    }
+                } else {
+                %>
+                <tr>
+    				<td colspan="7">No se encontraron cuentas.</td>
+				</tr>
+				<%
+				    }
+				%>
+            </tbody>
+        </table>
+    </div>
 
 
 <div id="popup" class="popup">
