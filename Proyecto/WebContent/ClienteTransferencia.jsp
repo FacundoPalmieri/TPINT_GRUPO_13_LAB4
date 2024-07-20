@@ -89,7 +89,7 @@
 			    </div>
                 
                 <div class="center-container">
-                 	<input type="button" name="btnTransferir" value="Transferir" onclick="confirmarEliminacion()"  style="margin-right: 5px; margin-left: 0px !important;">
+					<input type="button" name="btnTransferir" value="Transferir" onclick="confirmarEliminacion()" style="margin-right: 5px; margin-left: 0px !important; background-color:  #5E9C6D;"> 
                     <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='InicioCliente.jsp';">
                 </div>
                 
@@ -112,8 +112,8 @@
 		 String mensaje = (String) request.getAttribute("Mensaje");
 		 if (mensaje == null || mensaje.isEmpty()) {
 	     %>
-			 <button onclick="enviarFormulario()">Sí</button>
-		     <button onclick="closePopup()">No</button>
+	      <button type="button" onclick="enviarFormulario(true)">Sí</button>
+          <button type="button" onclick="enviarFormulario(false)">No</button>
 		 <% 
 		    }
 		 %>
@@ -145,15 +145,20 @@ function confirmarEliminacion() {
 	 showPopup("¿Estás seguro de que deseas realizar la transferencia?");
 }
 
-function enviarFormulario() {
-	document.getElementById("confirmacion").value = "confirmado";
-	  // Especificar método POST y acción del formulario
-    var form = document.getElementById("formTransferencia");
-    form.method = "post";
-    form.action = "ServletTransferencia";
+function enviarFormulario(confirmado) {
+	  if (confirmado == true) {
+	     document.getElementById("confirmacion").value = "confirmado";
+	     
+	 	 // Especificar método POST y acción del formulario
+	    var form = document.getElementById("formTransferencia");
+	    form.method = "post";
+	    form.action = "ServletTransferencia";
 
-    // Enviar el formulario
-    form.submit();
+   		 // Enviar el formulario
+   		  form.submit();
+ 	   }else {
+        	  closePopup();
+	 		 }
 }
 
 
@@ -161,10 +166,10 @@ function enviarFormulario() {
 document.addEventListener('DOMContentLoaded', function() {
     <% 
         String mensaje2 = (String) request.getAttribute("Mensaje");
-  		  if (mensaje != null) { 
+  		  if (mensaje2 != null) { 
     %>
   	
-     	showPopup("<%= mensaje%>");
+     	showPopup("<%= mensaje2%>");
      <% 
           } 
      %>

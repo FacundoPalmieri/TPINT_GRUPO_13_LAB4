@@ -78,32 +78,32 @@
             
   
     
-    
-    <div id="popup" class="popup">
+   
+   <div id="popup" class="popup">
 	<span class="close-btn" onclick="closePopup()">&times;</span>
 	<p id="popupMessage"></p>
 	 <% 
 	 String mensaje = (String) request.getAttribute("Mensaje");
 	 if (mensaje == null || mensaje.isEmpty()) {
      %>
-		 <button onclick="enviarFormulario()">Sí</button>
-	     <button onclick="closePopup()">No</button>
+		  <button type="button" onclick="enviarFormulario(true)">Sí</button>
+          <button type="button" onclick="enviarFormulario(false)">No</button>
 	 <% 
 	    }
 	 %>
-	
-	 
 	</div>
+	
+ </form>
     
 <script>
 
 document.addEventListener('DOMContentLoaded', function() {
     <% 
         String mensaje2 = (String) request.getAttribute("Mensaje");
-  		  if (mensaje != null) { 
+  		  if (mensaje2 != null) { 
     %>
   	
-     	showPopup("<%= mensaje%>");
+     	showPopup("<%= mensaje2%>");
      <% 
           } 
      %>
@@ -115,9 +115,6 @@ document.addEventListener('DOMContentLoaded', function() {
 function confirmarEliminacion() {
 	 showPopup("¿Estás seguro de que deseas eliminar esta cuenta?");
 }
-
-
-
 
 
 //funcionalidad pop up
@@ -135,19 +132,21 @@ function closePopup() {
     
 }
 
-function enviarFormulario() {
-	document.getElementById("confirmacion").value = "confirmado";
-	  // Especificar método POST y acción del formulario
-    var form = document.getElementById("formEliminarCuenta");
-    form.method = "post";
-    form.action = "ServletCuentas";
-
-    // Enviar el formulario
-    form.submit();
+function enviarFormulario(confirmado) {
+    if (confirmado == true) {
+    	
+        document.getElementById("confirmacion").value = "confirmado";
+        
+        // Especificar método POST y acción del formulario
+        var form = document.getElementById("formEliminarCuenta");
+        form.method = "post";
+        form.action = "ServletCuentas";
+        // Enviar el formulario
+        form.submit();
+    } else {
+           closePopup();
+    }
 }
-
-
-
 </script>
 </body>
 </html>
