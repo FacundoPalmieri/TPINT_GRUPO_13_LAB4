@@ -2,6 +2,7 @@ package datos;
 import java.util.ArrayList;
 
 import entidad.Cuenta;
+import entidad.Usuario;
 
 public interface CuentaDao {
 	
@@ -24,5 +25,5 @@ public interface CuentaDao {
 	
 	public int setearEstadoPorCuenta(String dni, int estado, int nCuenta);
 
-
+	public ArrayList<Cuenta> listarTodasLAsCuentas();
 }

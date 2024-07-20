@@ -60,6 +60,13 @@ public class CuentaNegImpl implements CuentaNeg {
 	public int setearEstadoPorCuenta(String dni, int estado, int nCuenta) {
 		return cuentaDao.setearEstadoPorCuenta(dni, estado, nCuenta);
 	}
+
+	@Override
+	public ArrayList<Cuenta> listarTodasLAsCuentas() {
+		ArrayList<Cuenta> lista = null;
+		lista = cuentaDao.listarTodasLAsCuentas();
+		return lista;
+	}
 	
 }
 
