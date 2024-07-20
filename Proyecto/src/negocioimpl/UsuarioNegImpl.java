@@ -142,6 +142,12 @@ public class UsuarioNegImpl implements UsuarioNeg{
 	}
 
 
+	@Override
+	public boolean actualizarPersonaCompleta(Persona persona) {
+		return usuarioDao.actualizarPersonaCompleta(persona);
+	}
+
+
 	
 }
 

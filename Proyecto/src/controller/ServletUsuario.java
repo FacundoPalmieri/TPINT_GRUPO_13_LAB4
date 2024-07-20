@@ -50,7 +50,7 @@ public class ServletUsuario extends HttpServlet {
                     session.setAttribute("Telefono", p.getTelefono());
                     session.setAttribute("Direccion_id", p.getDireccion_id());
                     session.setAttribute("Nacionalidad", p.getNacionalidad());
-                    session.setAttribute("tipoUsuario", null);
+                    //session.setAttribute("tipoUsuario", null);
                     request.setAttribute("validacionCliente", true);
             	}
             	else if(tipoUsuario==1) {

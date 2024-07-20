@@ -68,7 +68,7 @@
  </form>
  
  <div style="display: flex; justify-content: center; align-items: center; margin: 0 auto;">
-    <form action="EditarCliente" method="get" style="max-width: 800px; width: 100%;">
+    <form action="EditarCliente" method="post" style="max-width: 800px; width: 100%;">
         <button type="button" class="accordion">Información Personal &#x1F4DD;</button>
         <div class="panel">
             <div class="flex-container">
@@ -113,10 +113,13 @@
                 <div class="form-group flex-item" style="margin-top: 10px;">
                     <label for="provincia">Provincia:</label>
                     <input type="text" id="provincia" name="provincia" value="<%= provincia != null ? provincia.getNombre() : "" %>" required>
+                    <input type="hidden" id="provincia_id" name="provincia_id" value="<%= provincia != null ? provincia.getId() : "" %>">
                 </div>
                 <div class="form-group flex-item" style="margin-top: 10px;">
                     <label for="localidad">Localidad:</label>
                     <input type="text" id="localidad" name="localidad" value="<%= localidad != null ? localidad.getNombre() : "" %>" required>
+                  	 <input type="hidden" id="localidad_id" name="localidad_id" value="<%= localidad != null ? localidad.getId() : "" %>">
+				</div>
                 </div>
                 <div class="form-group-domicilio">
                     <div class="group">
@@ -137,7 +140,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+
 
         <button type="button" class="accordion">Información de Contacto &#x1F4F1;</button>
         <div class="panel">
@@ -170,7 +173,7 @@
         </div>
 
         <div class="center-container" style="display: flex; justify-content: center; margin-top: 10px;">
-            <input type="submit" value="Aceptar" name="btnAceptar">
+            <input type="submit" value="Actualizar" name="btnActualizar">
             <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLclientes.jsp';" style="margin-left: 10px;">
         </div>
     </form>

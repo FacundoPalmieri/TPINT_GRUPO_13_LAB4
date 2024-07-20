@@ -1007,7 +1007,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 
 	        // Primero, obtenemos la información de la persona basándonos en el DNI
 	        String querySelect = "SELECT personas.id,personas.dni,personas.cuil,personas.nombre,personas.apellido,personas.sexo, personas.celular, personas.telefono, personas.direccion_id, personas.nacionalidad, personas.fecha_nacimiento, personas.email, "
-				     +"direcciones.id, direcciones.calle, direcciones.numero, direcciones.piso, direcciones.departamento, direcciones.localidad_id,usuarios.id, usuarios.usuario, usuarios.habilitado, localidades.Nombre,provincias.nombre,paises.nombre "
+				     +"direcciones.id, direcciones.calle, direcciones.numero, direcciones.piso, direcciones.departamento, direcciones.localidad_id,usuarios.id, usuarios.usuario, usuarios.pass, localidades.Nombre,provincias.nombre,paises.nombre "
 		    	     +" FROM personas"
 		    	     +" INNER JOIN usuarios ON usuarios.persona_dni=personas.dni"
 		         	 +" INNER JOIN direcciones ON Personas.Direccion_id=direcciones.id"
@@ -1042,7 +1042,8 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	            Usuario u = new Usuario(); 
 		    	u.setId(rs.getInt("id"));
 		    	u.setUsuario(rs.getString("usuarios.usuario"));
-		    	u.setHabilitado(rs.getInt("habilitado"));
+		    	u.setPass(rs.getString("usuarios.pass"));
+
 	            
 	            // Crear la instancia de Pais
 	            Pais ps = new Pais();
@@ -1089,5 +1090,71 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    }
 
 	    return p;
+	}
+
+
+
+	@Override
+	public boolean actualizarPersonaCompleta(Persona persona) {
+		Conexion cn = new Conexion();
+	    PreparedStatement preparedStatement = null;
+	    boolean actualizado = false;
+
+	    try {
+	        cn.Open();
+	        System.out.println("ACTUALIZAR CLIENTE COMPLETO");
+
+	        // Actualizar la información en la tabla 'personas'
+	        String queryUpdatePersona = "UPDATE personas SET cuil = ?, nombre = ?, apellido = ?, sexo = ?, celular = ?, telefono = ?, nacionalidad = ?, fecha_nacimiento = ?, email = ? WHERE dni = ?";
+	        preparedStatement = cn.prepareStatement(queryUpdatePersona);
+	        preparedStatement.setString(1, persona.getCuil());
+	        preparedStatement.setString(2, persona.getNombre());
+	        preparedStatement.setString(3, persona.getApellido());
+	        preparedStatement.setString(4, persona.getSexo());
+	        preparedStatement.setString(5, persona.getCelular());
+	        preparedStatement.setString(6, persona.getTelefono());
+	        preparedStatement.setString(7, persona.getNacionalidad());
+	        preparedStatement.setDate(8, java.sql.Date.valueOf(persona.getFechaNacimiento()));
+	        preparedStatement.setString(9, persona.getEmail());
+	        preparedStatement.setString(10, persona.getDni());
+	        preparedStatement.executeUpdate();
+	        preparedStatement.close();
+
+	        // Actualizar la información en la tabla 'usuarios'
+	        String queryUpdateUsuario = "UPDATE usuarios SET usuario = ?, habilitado = ? WHERE persona_dni = ?";
+	        preparedStatement = cn.prepareStatement(queryUpdateUsuario);
+	        preparedStatement.setString(1, persona.getUsuario().getUsuario());
+	        preparedStatement.setInt(2, persona.getUsuario().getHabilitado());
+	        preparedStatement.setString(3, persona.getDni());
+	        preparedStatement.executeUpdate();
+	        preparedStatement.close();
+
+	        // Actualizar la información en la tabla 'direcciones'
+	        String queryUpdateDireccion = "UPDATE direcciones SET calle = ?, numero = ?, piso = ?, departamento = ?, localidad_id = ? WHERE id = ?";
+	        preparedStatement = cn.prepareStatement(queryUpdateDireccion);
+	        preparedStatement.setString(1, persona.getDireccion().getCalle());
+	        preparedStatement.setInt(2, persona.getDireccion().getAltura());
+	        preparedStatement.setString(3, persona.getDireccion().getPiso());
+	        preparedStatement.setString(4, persona.getDireccion().getDepartamento());
+	        preparedStatement.setInt(5, persona.getDireccion().getLocalidad().getId());
+	        preparedStatement.setInt(6, persona.getDireccion().getId());
+	        preparedStatement.executeUpdate();
+	        preparedStatement.close();
+
+	        actualizado = true;
+	    } catch (Exception e) {
+	        System.out.println("ERROR AL ACTUALIZAR PERSONA COMPLETA");
+	        e.printStackTrace();
+	    } finally {
+	        // Cerrar recursos
+	        try {
+	            if (preparedStatement != null) preparedStatement.close();
+	            cn.close();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	    }
+
+	    return actualizado;
 	}
 }

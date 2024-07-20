@@ -152,11 +152,10 @@
         </div>
       
     </div>
-	<%if(session.getAttribute("tipoUsuario")!=null) {%>
+	<%Integer tipoUsuario = (Integer) session.getAttribute("tipoUsuario");
+	if (tipoUsuario != null && tipoUsuario == 1) {%>
     	<input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ListarClientes.jsp';">
-    	<input type="button" value="EditarPersona" name="btnEditarPersona" onclick="window.location.href='ListarClientes.jsp';">
-	<%} else{ %>
-		<input type="submit" value="Aceptar" name="btnAceptar">
+	<%} else if (tipoUsuario != null && tipoUsuario == 2) { %>
     	<input type="button" value="Volver" name="btnVolver" onclick="window.location.href='InicioCliente.jsp';">
 	<%} %>
 	</form>

@@ -1,6 +1,7 @@
 package controller;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,6 +16,7 @@ import entidad.Persona;
 import entidad.Provincia;
 import entidad.Direccion;
 import entidad.Localidad;
+import entidad.Pais;
 import negocio.UsuarioNeg;
 import negocioimpl.UsuarioNegImpl;
 
@@ -37,9 +39,9 @@ public class ServletEditarCliente extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//VISUALIZAR DATOS SIENDO CLIENTE
-		
-        HttpSession session = request.getSession(false); 
-        if (session != null) {
+        HttpSession session = request.getSession(false);
+        Integer tipoUsuario = (Integer) session.getAttribute("tipoUsuario");
+    	if (tipoUsuario != null && tipoUsuario == 2) {
         	String nombreUsuario = (String)  session.getAttribute("usuario");
         	int IdDireccion = (int) session.getAttribute("Direccion_id");
             if (nombreUsuario != null) {
@@ -69,7 +71,6 @@ public class ServletEditarCliente extends HttpServlet {
                 } 
             }
         }              
-        
 	}
 
 	
@@ -100,6 +101,7 @@ public class ServletEditarCliente extends HttpServlet {
         	if (persona != null) {
         	
         	request.setAttribute("usuario", persona.getUsuario());
+        	request.setAttribute("pass", persona.getUsuario().getPass());
             request.setAttribute("persona", persona);
             request.setAttribute("direccion", persona.getDireccion());
             request.setAttribute("provincia", persona.getDireccion().getLocalidad().getProvincia() );
@@ -120,28 +122,54 @@ public class ServletEditarCliente extends HttpServlet {
         
         if (request.getParameter("btnActualizar") != null) {
             	
-               //Validación de contraseña
-    			String Contrasenia1 = request.getParameter("contrasena");
-    			String Contrasenia2 = request.getParameter("contrasena2");
-    			System.out.println("PASS1 : "+ Contrasenia1);
-    			System.out.println("PASS2 : "+ Contrasenia2);
-    			
-    			if (Contrasenia1.equals(Contrasenia2)) {
-            	
-    				Usuario usuarioEditado = new Usuario();
-                
-	                usuarioEditado.setUsuario(request.getParameter("usuario"));
-	                usuarioEditado.setPass(request.getParameter("contrasena"));
-	                
-	                boolean filas = usuarioNeg.editarContrasena(usuarioEditado);
-	                
-	        	     if(filas == true) {
-	        	    	 request.setAttribute("filas", filas);
-		            	 RequestDispatcher dispatcher = request.getRequestDispatcher("/ModificarCliente.jsp");
-		                 dispatcher.forward(request, response);    
-	        	     }        
-    		   }		
-         } 
+        	String dni = request.getParameter("dni");
+            
+            Persona persona = new Persona();
+            persona.setDni(dni);
+            persona.setCuil(request.getParameter("cuil"));
+            persona.setNombre(request.getParameter("nombre"));
+            persona.setApellido(request.getParameter("apellido"));
+            persona.setSexo(request.getParameter("sexo"));
+            persona.setCelular(request.getParameter("celular"));
+            persona.setTelefono(request.getParameter("telefonos"));
+            persona.setNacionalidad(request.getParameter("nacionalidad"));
+            persona.setFechaNacimiento(LocalDate.parse(request.getParameter("fechaNacimiento")));
+            persona.setEmail(request.getParameter("correoElectronico"));
+
+            Usuario usuario = new Usuario();
+            usuario.setUsuario(request.getParameter("usuario"));
+            persona.setUsuario(usuario);
+            
+            Pais pais = new Pais();
+            pais.setNombre(request.getParameter("pais"));
+            
+            Provincia provincia = new Provincia();
+            provincia.setId(Integer.parseInt(request.getParameter("provincia_id")));
+            provincia.setNombre(request.getParameter("provincia"));
+            
+            Localidad localidad = new Localidad();
+            localidad.setId(Integer.parseInt(request.getParameter("localidad_id")));
+            localidad.setNombre(request.getParameter("localidad"));
+
+            Direccion direccion = new Direccion();
+            direccion.setCalle(request.getParameter("calle"));
+            direccion.setAltura(Integer.parseInt(request.getParameter("numero")));
+            direccion.setPiso(request.getParameter("piso"));
+            direccion.setDepartamento(request.getParameter("departamento"));
+            direccion.setLocalidad_id(Integer.parseInt(request.getParameter("localidad_id")));
+            persona.setDireccion(direccion);
+
+            boolean actualizado = usuarioNeg.actualizarPersonaCompleta(persona);
+
+            if (actualizado) {
+                request.setAttribute("mensaje", "Cliente actualizado correctamente.");
+            } else {
+                request.setAttribute("error", "Error al actualizar el cliente.");
+            }
+
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/ModificarCliente.jsp");
+            dispatcher.forward(request, response);
+        }
     }
 }
 	
