@@ -31,7 +31,8 @@
 		 <input type="submit" value="Alta de Cuenta" name="btnCrearCuenta" onclick="window.location.href='CrearCuenta.jsp';" class="botonera">
          <input type="submit" value="Eliminar Cuenta" name="btnEliminarCuenta" onclick="window.location.href='EliminarCuenta.jsp';" class="botonera">
          <input type="submit" value="Modificar Cuenta" name="btnEliminarCuenta" onclick="window.location.href='ModificarCuenta.jsp';" class="botonera">
-         <input type="submit" value="Listar Cuentas" name="btnEliminarCuenta" onclick="window.location.href='ListarCuentas.jsp';" class="botonera">
+         <a href="ServletListarCuentas" class="botonera">Listar Cuentas</a>
+         
   
 	</div>
 		 <div style = "display: flex; justify-content: center;" >

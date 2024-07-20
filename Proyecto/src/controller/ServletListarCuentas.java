@@ -44,9 +44,17 @@ public class ServletListarCuentas extends HttpServlet {
         ArrayList<Cuenta> listaCuentas = new ArrayList<Cuenta>();
     	listaCuentas = cuentaNeg.listarTodasLAsCuentas();
     	request.setAttribute("listaCuentas", listaCuentas);
-    	System.out.println("listacuentas"+  listaCuentas);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarCuentas.jsp");
-        dispatcher.forward(request, response);
+
+    	if(listaCuentas != null) {
+        	request.setAttribute("listaCuentas", listaCuentas);
+            RequestDispatcher dispatcher = request.getRequestDispatcher("/ListarCuentas.jsp");
+            dispatcher.forward(request, response);
+            
+        	}
+        	 else {
+    			 System.out.println("LISTA CUENTAS NULA");
+    		 }
+
 	}
 
 	/**

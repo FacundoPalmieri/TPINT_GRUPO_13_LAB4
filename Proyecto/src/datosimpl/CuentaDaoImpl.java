@@ -435,8 +435,13 @@ public class CuentaDaoImpl implements CuentaDao {
 	@Override
 	public ArrayList<Cuenta> listarTodasLAsCuentas() {
 		 ArrayList<Cuenta> cuentas = new ArrayList<>();
-		    String query ="SELECT c.numero_cuenta, c.cliente_dni, c.fecha_creacion, c.tipo_cuenta_id, c.cbu, c.saldo, c.habilitado "
-                    + "FROM Cuentas c";
+		    String query ="SELECT c.numero_cuenta, c.cliente_dni, c.fecha_creacion, c.tipo_cuenta_id, c.cbu, c.saldo, c.habilitado, " +
+                    "tc.descripcion AS tipo_cuenta_descripcion, " +
+                    "p.nombre AS nombre_cliente, p.apellido AS apellido_cliente " +
+                    "FROM Cuentas c " +
+                    "JOIN TipoCuenta tc ON c.tipo_cuenta_id = tc.id " +
+                    "JOIN Personas p ON c.cliente_dni = p.dni";
+
 		    try {
 		        cn = new Conexion();
 		        cn.Open();
@@ -449,9 +454,12 @@ public class CuentaDaoImpl implements CuentaDao {
 		            TipoCuenta tipoCuenta = new TipoCuenta();
 		            
 		            cuenta.setNumeroCuenta(rs.getInt("numero_cuenta"));
+		            String clienteDniStr = rs.getString("cliente_dni");
+		            int clienteDni = Integer.parseInt(clienteDniStr);		            
 	                cuenta.setClienteDni(rs.getInt("cliente_dni"));
 	                cuenta.setFechaCreacion(rs.getDate("fecha_creacion").toLocalDate());
 	                tipoCuenta.setId(rs.getInt("tipo_cuenta_id"));
+	                tipoCuenta.setDescripcion(rs.getString("tipo_cuenta_descripcion"));
 	                cuenta.setIdTipoCuenta(tipoCuenta);
 	                cuenta.setCbu(rs.getString("cbu"));
 	                cuenta.setSaldo(rs.getFloat("saldo"));

@@ -306,6 +306,10 @@ input[type="submit"]:hover {
     margin: 5px;"
 }
 
+a.botonera {
+	
+margin-top: auto!important;
+}
 
 /* Estilos del popup */
 .popup {

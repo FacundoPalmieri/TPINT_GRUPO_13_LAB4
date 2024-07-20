@@ -17,6 +17,37 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    
+     <script type="text/javascript">
+    $(document).ready(function() {
+		$('#tablaCuentas').DataTable({
+            language: {
+                lengthMenu: "Mostrar _MENU_ registros",
+                info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                infoEmpty: "Mostrando 0 a 0 de 0 registros",
+                infoFiltered: "(filtrado de _MAX_ registros en total)",
+                infoPostFix: "",
+                loadingRecords: "Cargando...",
+                zeroRecords: "No se encontraron registros coincidentes",
+                emptyTable: "No hay datos disponibles en la tabla",
+                paginate: {
+                    first: "Primero",
+                    previous: "Anterior",
+                    next: "Siguiente",
+                    last: " ltimo"
+                },
+                aria: {
+                    sortAscending:  ": activar para ordenar columna ascendente",
+                    sortDescending: ": activar para ordenar columna descendente"
+                },
+                lengthMenu: "Cantidad registros _MENU_"
+            },
+            dom: 'ltipr' // Controla los elementos que se muestran (l: longitud del men , t: tabla, i: informaci n, p: paginaci n, r: procesamiento)
+        });
+	});
+    
+    </script>
+    
 <title>Listado de Cuentas</title>
 </head>
 <body>
@@ -49,9 +80,10 @@
             <tbody>
                 <%
 
-                ArrayList<Cuenta> cuentas = (ArrayList<Cuenta>) request.getAttribute("listaCuentas");  
-                if (cuentas != null) {
-                    for (Cuenta cuenta : cuentas) {
+                ArrayList<Cuenta> listaCuentas = null;
+                listaCuentas = (ArrayList<Cuenta>) request.getAttribute("listaCuentas");  
+                if (listaCuentas != null) {
+                    for (Cuenta cuenta : listaCuentas) {
                 %>
                 <tr>
                     <td><%= cuenta.getNumeroCuenta() %></td>
@@ -75,7 +107,9 @@
             </tbody>
         </table>
     </div>
-
+<div style="display:flex; justify-content: end; margin: 2%;" >
+        	<input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLcuentas.jsp';">
+        </div>
 
 <div id="popup" class="popup">
     <span class="close-btn" onclick="closePopup()">&times;</span>
