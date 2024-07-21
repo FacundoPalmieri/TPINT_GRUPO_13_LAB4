@@ -345,7 +345,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        cn.Open();
 	        System.out.println("CONEXION ABIERTA OBTENER USUARIO X DNI");
 	       
-	        String query = "SELECT usuarios.usuario, usuarios.persona_dni, usuarios.Habilitado FROM usuarios WHERE tipo_usuario_id=2 AND usuarios.persona_dni = ?";
+	        String query = "SELECT usuarios.usuario, usuarios.persona_dni, usuarios.Habilitado FROM usuarios WHERE tipo_usuario_id=2 AND usuarios.persona_dni = ? ";
 	        System.out.println("Query: " + query);
 	        preparedStatement = cn.prepareStatement(query);
 	        preparedStatement.setString(1, DNI);

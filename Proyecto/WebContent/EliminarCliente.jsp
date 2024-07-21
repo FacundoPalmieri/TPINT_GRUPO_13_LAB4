@@ -74,13 +74,17 @@
                 <input type="text" id="apellido" name="apellido" value="<%= (request.getAttribute("apellido") != null) ? request.getAttribute("apellido") : "" %>" readonly>
             </div>
             <div class="center-container">
-            	<%if(request.getAttribute("estadoCliente")!=null && request.getAttribute("usuario")!=null){%>
-            		<input type="button" value="<%= Integer.parseInt(request.getAttribute("estadoCliente").toString())==1 ? "Eliminar" : "Habilitar" %>" name="<%= Integer.parseInt(request.getAttribute("estadoCliente").toString())==1 ? "btnEliminar" : "btnHabilitar" %>" style="background-color: #dc3545; margin-right: 2%;">
-            	<%} else if(request.getAttribute("encontrado")!=null){%>
-            		<p> Ingrese usuario valido </p>
-            	<%} %>	
-                <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLclientes.jsp';">
-            </div>
+    <% if(request.getAttribute("estadoCliente") != null && request.getAttribute("usuario") != null) { %>
+        <input type="button" value="<%= Integer.parseInt(request.getAttribute("estadoCliente").toString()) == 1 ? "Eliminar" : "Habilitar" %>" name="<%= Integer.parseInt(request.getAttribute("estadoCliente").toString()) == 1 ? "btnEliminar" : "btnHabilitar" %>" style="background-color: #dc3545; margin-right: 2%;">
+    <% } else if(request.getAttribute("encontrado") != null) { %>
+        <div id="popupMensaje" class="popup active">
+            <span class="close-btn" onclick="closePopup('popupMensaje')">&times;</span>
+            <p>Cliente no encontrado/p>
+        </div>
+    <% } %>    
+    <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLclientes.jsp';">
+</div>
+
         </div>
     </div>
     <%} %> 

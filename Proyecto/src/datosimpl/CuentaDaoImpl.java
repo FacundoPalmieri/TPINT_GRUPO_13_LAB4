@@ -30,7 +30,7 @@ public class CuentaDaoImpl implements CuentaDao {
 		int cantidadCuentas = 0;
 		Conexion cn = new Conexion();
 		
-		String query = "SELECT COUNT(*) AS Cantidadcuentas FROM CUENTAS where cliente_dni = ?";
+		String query = "SELECT COUNT(*) AS Cantidadcuentas FROM CUENTAS where cliente_dni = ? AND habilitado = 1";
 		try {
 			cn.Open();
 			 PreparedStatement preparedStatement = cn.prepareStatement(query);
