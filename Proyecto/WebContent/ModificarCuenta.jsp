@@ -23,7 +23,12 @@
     </div>
 </div>
 
-
+   <form action="BuscarCuentas" method="post">
+        <div id="BusquedaCliente">
+            <input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" required>
+            <input type="submit" value="Buscar Cuentas" name="btnBuscar" style="background-color: #78AD89">
+        </div>
+    </form>
 
 
 
