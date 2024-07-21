@@ -636,4 +636,20 @@ margin-top: auto!important;
     margin-left: 5px; /* Ajusta el margen izquierdo para separarlo del label */
 }
 
+.table-container {
+        margin: auto; /* Ajusta el margen superior/inferior a 20px y centra horizontalmente */
+        width: 97%; /* Ajusta el ancho de la tabla al 90% del contenedor */
+    }
+  .toggle-container {
+            display: flex;
+            align-items: center;
+        }
 
+        .toggle-container label {
+            order: 1;
+            margin-right: 10px; /* Espacio entre el label y el checkbox */
+        }
+
+        .toggle-container input[type="checkbox"] {
+            order: 2;
+        }

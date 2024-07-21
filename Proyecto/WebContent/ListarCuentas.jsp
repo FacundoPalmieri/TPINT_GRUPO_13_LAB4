@@ -44,8 +44,31 @@
             },
             dom: 'ltipr' // Controla los elementos que se muestran (l: longitud del men , t: tabla, i: informaci n, p: paginaci n, r: procesamiento)
         });
+		toggleCuentas();
 	});
     
+    function toggleCuentas() {
+        var checkbox = document.getElementById('toggleHabilitados');
+        var habilitadas = document.getElementsByClassName('habilitada');
+        var noHabilitadas = document.getElementsByClassName('no-habilitada');
+
+        if (checkbox.checked) {
+            for (var i = 0; i < noHabilitadas.length; i++) {
+                noHabilitadas[i].style.display = '';
+            }
+            for (var j = 0; j < habilitadas.length; j++) {
+                habilitadas[j].style.display = '';
+            }
+        } else {
+            for (var i = 0; i < noHabilitadas.length; i++) {
+                noHabilitadas[i].style.display = 'none';
+            }
+            for (var j = 0; j < habilitadas.length; j++) {
+                habilitadas[j].style.display = '';
+            }
+        }
+    }
+
     </script>
     
 <title>Listado de Cuentas</title>
@@ -64,7 +87,13 @@
     </div>
 </div>
 
- <div>
+	<div class="toggle-container filtro-container" >
+        <input type="checkbox" id="toggleHabilitados" onchange="toggleCuentas()">
+        <label for="toggleHabilitados">Mostrar todas las cuentas</label>
+    </div>
+
+
+ <div class="table-container">
         <table id="tablaCuentas" class="display">
             <thead>
                 <tr>
@@ -85,7 +114,7 @@
                 if (listaCuentas != null) {
                     for (Cuenta cuenta : listaCuentas) {
                 %>
-                <tr>
+                <tr class="<%= cuenta.getHabilitado() == 1 ? "habilitada" : "no-habilitada" %>">
                     <td><%= cuenta.getNumeroCuenta() %></td>
                     <td><%= cuenta.getClienteDni() %></td>
                     <td><%= cuenta.getFechaCreacion() %></td>
