@@ -42,7 +42,7 @@
                     first: "Primero",
                     previous: "Anterior",
                     next: "Siguiente",
-                    last: "Último"
+                    last: "Ãšltimo"
                 },
                 aria: {
                     sortAscending:  ": activar para ordenar columna ascendente",
@@ -72,7 +72,7 @@
         
 <div class="cuenta">
     <div class="cuenta-item">
-        <span class="label">Número de Cuenta:</span>
+        <span class="label">NÃºmero de Cuenta:</span>
         <span class="value"><%= request.getAttribute("cuentaId") %></span>
     </div>
     <div class="cuenta-item">
@@ -90,6 +90,13 @@
 
 	<div style= "margin: 0.5%;">
 		<h5>Detalle movimientos</h5>
+		<form action="ServletMovimientos" method="post">
+		<div id="FiltroBusqueda">
+		    <input type="hidden" name="cuentaId" value="<%= request.getParameter("cuentaId") %>" />
+		    <input type="text" id="parametro" placeholder="Buscar por monto o palabra clave" name="parametro" value="<%= request.getParameter("parametro") %>" />
+		    <input type="submit" value="Buscar" name="btnFiltrar" style="background-color: #78AD89; margin-top: 0px !important;">
+		</div>
+		</form>
 	   <table id="table_id" class="display">
 	   <thead>
 	        <tr>

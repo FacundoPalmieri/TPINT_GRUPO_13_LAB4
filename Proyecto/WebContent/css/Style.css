@@ -385,7 +385,7 @@ margin-top: auto!important;
 
 
 /*BUSCAR CLIENTES */
-#BusquedaCliente {
+#BusquedaCliente, #FiltroBusqueda {
     background-color: white;
     width: 300px; /* Ajustado para dar más espacio al botón */
     display: flex;

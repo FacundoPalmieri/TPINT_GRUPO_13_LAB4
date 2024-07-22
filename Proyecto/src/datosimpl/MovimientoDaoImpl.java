@@ -6,7 +6,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import datos.MovimientoDao;
-import entidad.Cuenta;
 import entidad.Movimientos;
 import entidad.TipoMovimiento;
 
@@ -131,7 +130,82 @@ public class MovimientoDaoImpl implements MovimientoDao{
 	    
 	   
 	    return listaMovimientos;
-   }
+	}
+	
+	@Override
+	public ArrayList<Movimientos> ObtenerMovimientosConFiltro(int nCuenta, String parametro) {
+		Conexion cn = new Conexion();
+		PreparedStatement preparedStatement = null;
+		ResultSet rs = null;
+		
+		ArrayList<Movimientos> listaMovimientos = new ArrayList<Movimientos>();
+	
+
+		
+		String query = "SELECT movimientos.numero_cuenta, movimientos.fecha, movimientos.detalle, movimientos.importe, tipomovimiento.id, tipomovimiento.descripcion " +
+                "FROM Movimientos " +
+                "INNER JOIN tipomovimiento ON tipomovimiento.id = movimientos.tipo_movimiento_id " +
+                "WHERE movimientos.numero_cuenta = ? " +
+                "AND (movimientos.detalle LIKE ? OR movimientos.detalle LIKE = ?)";
+		
+		try {
+			cn.Open();
+			System.out.println("CONEXION ABIERTA ObtenerMovimientosPorCliente ");
+			
+			preparedStatement = cn.prepareStatement(query);
+			preparedStatement.setInt(1, nCuenta);
+			preparedStatement.setString(1, parametro);
+		
+			
+			
+			rs = preparedStatement.executeQuery();
+			
+		    while(rs.next()){
+		    	Movimientos m = new Movimientos();	
+				TipoMovimiento tm = new TipoMovimiento();
+		
+				
+			    Date sqlDate = rs.getDate("movimientos.fecha");
+		            if (sqlDate != null) {
+		                LocalDate localDate = sqlDate.toLocalDate();
+		                m.setFecha(localDate);
+		            }
+		            
+		        m.setDetalle(rs.getString("movimientos.detalle"));
+		        m.setImporte(rs.getDouble("movimientos.importe"));
+		        tm.setId(rs.getInt("tipomovimiento.id"));
+		        tm.setDescripcion(rs.getString("descripcion"));
+		        
+		        //Asigno a movimiento los objetos cuenta y TipoMovimiento
+		        m.setTipo_Movimiento_id(tm);
+		        
+		        //Agrego movimiento a lista
+		        listaMovimientos.add(m);
+	       
+			}
+
+		} catch (Exception e) {
+			 System.out.println("ERROR ObtenerMovimientosPorCliente DAO");
+		}  finally {
+	        try {
+	            if (preparedStatement != null) {
+	                preparedStatement.close();
+	            }
+	            if (rs != null) {
+	                rs.close();
+	            }
+	            if (cn != null) {
+	                cn.close();
+	            }
+	        } catch (Exception e) {
+	        	System.out.println("ERROR AL CERRAR CONEXION ObtenerMovimientosPorCliente ") ;
+	            e.printStackTrace();
+	        }
+	    }
+	    
+	   
+	    return listaMovimientos;
+	}
 		
 		
 }
