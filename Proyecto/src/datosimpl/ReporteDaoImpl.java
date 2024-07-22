@@ -152,7 +152,9 @@ public class ReporteDaoImpl implements ReporteDao {
 
 
 	@Override
-	public ArrayList<Movimientos> PromedioIngresosMensuales(LocalDate fechaInicio, LocalDate fechaFin) {
+	public ArrayList<Movimientos> PromedioIngresosMensuales(String fechaInicio, String fechaFin) {
+		
+		System.out.println("entra a método PromedioIngresosMensuales ");
 		Conexion cn = new Conexion();
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -165,7 +167,7 @@ public class ReporteDaoImpl implements ReporteDao {
 			    	 + "WHERE tipomovimiento.id IN (1,2,4) AND movimientos.importe > 0 "
 			    	 + "AND movimientos.fecha between ? AND ? "
 			    	 + "group by movimientos.numero_cuenta ";
-		
+		System.out.println("query: "+query);
 		try {
 			cn.Open();
 			  System.out.println("Conexion abierta PromedioIngresosMensuales");

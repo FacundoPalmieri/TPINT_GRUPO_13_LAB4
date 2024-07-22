@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import entidad.Cuenta;
 import entidad.EstadoPrestamo;
+import entidad.Movimientos;
 import entidad.PagosPrestamos;
 import entidad.Prestamo;
 import excepcion.DniInvalido;
@@ -53,7 +54,21 @@ public class ServletReportes extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		if (request.getParameter("btnBuscar") != null) {
+			System.out.println("ENTRA A btnBuscar");
+			String fechaInicio = (String)request.getParameter("fechaInicio");
+			String fechaFin = (String)request.getParameter("fechaFin");
+			
+			ArrayList<Movimientos> listaMovimientos = new ArrayList<Movimientos>();
+			
+			listaMovimientos = reporteNeg.PromedioIngresosMensuales(fechaInicio, fechaFin);
+			System.out.println("LISTA MOVIMIENTOS FILTRADA"+listaMovimientos);
+			
+			request.setAttribute("listaMovimientos", listaMovimientos);	
+			RequestDispatcher dispatcher = request.getRequestDispatcher("/ReportePromedioIngresosMensuales.jsp");
+	          dispatcher.forward(request, response); 
+		}
+		
 	}
 
 	/**

@@ -16,5 +16,5 @@ public interface ReporteDao {
 	
 	public ArrayList<Movimientos> movimientos();
 	
-	public ArrayList <Movimientos> PromedioIngresosMensuales(LocalDate fechaInicio, LocalDate fechaFin);
+	public ArrayList <Movimientos> PromedioIngresosMensuales(String fechaInicio, String fechaFin);
 }
