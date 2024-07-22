@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import datos.ReporteDao;
 import datosimpl.ReporteDaoImpl;
 import entidad.Movimientos;
+import entidad.PagosPrestamos;
 import entidad.Prestamo;
 import negocio.ReporteNeg;
 
@@ -36,11 +37,6 @@ public class ReporteNegImpl implements ReporteNeg{
 		prestamos = reporteDao.prestamos(dni,estado,fecha1,fecha2);
 		return prestamos;
 	}
-	
-	
-	public ArrayList<Movimientos> movimientos(){
-		return new ArrayList<Movimientos> ();
-	}
 
 
 	@Override
@@ -48,7 +44,24 @@ public class ReporteNegImpl implements ReporteNeg{
 		ArrayList<Movimientos> listaMovimientos = new ArrayList<Movimientos>();
 		listaMovimientos =  reporteDao.PromedioIngresosMensuales(fechaInicio, fechaFin);
 		return listaMovimientos;
-		
 	}
+	
+	
+	//Este metodo recibe un ArrayList de Prestamos y obtiene los pagos
+		public ArrayList<Prestamo> verificarPagos(ArrayList<Prestamo> prestamos){
+			//Por cada prestamo busca en la db el estado de esos pagos con el idPrestamo
+			for (Prestamo p : prestamos ){
+				ArrayList<PagosPrestamos> pagos = new ArrayList<PagosPrestamos>();
+				pagos = reporteDao.pagosPrestamos(p.getId());
+				
+				//Si el prestamo tiene pagos, el ArrayList de PagosPrestamos se agrega a el Prestamo
+				if (pagos.size()>0) {
+					p.setPagosPrestamos(pagos);
+				}
+			}
+			
+			//Se devuelve el mismo ArrayList de Prestamos pero con el ArrayList PagosPrestamos seteado en cada Prestamo
+			return prestamos;
+		}
 
 }

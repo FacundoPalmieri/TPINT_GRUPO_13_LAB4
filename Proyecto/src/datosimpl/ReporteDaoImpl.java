@@ -10,6 +10,7 @@ import datos.ReporteDao;
 import entidad.Cuenta;
 import entidad.EstadoPrestamo;
 import entidad.Movimientos;
+import entidad.PagosPrestamos;
 import entidad.Persona;
 import entidad.Prestamo;
 
@@ -144,11 +145,6 @@ public class ReporteDaoImpl implements ReporteDao {
 
 	}
 	
-	
-	
-	public ArrayList<Movimientos> movimientos(){
-		return new ArrayList<Movimientos>();
-	}
 
 
 	@Override
@@ -236,5 +232,35 @@ public class ReporteDaoImpl implements ReporteDao {
 		return listaMovimientos;
 	}		
 		
+	
+	public ArrayList<PagosPrestamos> pagosPrestamos(int idPrestamo){
+		Conexion cn = new Conexion();
+	    ResultSet rs = null;
+		String query = "select * from pagosprestamo where prestamo_id='"+idPrestamo+"'";
+		System.out.println("QUERY: "+query);
+		ArrayList<PagosPrestamos> pagosPrestamos = new ArrayList<PagosPrestamos>();
+		
+		try {
+			cn.Open();
+	        System.out.println("Conexion abierta obtenerPagosPrestamos" + idPrestamo);
+	        rs = cn.query(query);
+	        while (rs.next()) {
+	        	PagosPrestamos pago = new PagosPrestamos();
+	        	pago.setImportePago(rs.getFloat("importe_pago"));
+	        	pago.setEstado(rs.getInt("estado"));
+	        	pagosPrestamos.add(pago);
+	        }
+		}
+		catch(Exception e) {
+			 System.out.println("ERROR obtenerPrestamos DAO");
+		     e.printStackTrace();
+		}
+		finally {
+			cn.close();
+		}
+		
+		return pagosPrestamos;
+	}
+	
 	
 }

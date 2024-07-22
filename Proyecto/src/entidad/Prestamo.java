@@ -2,6 +2,7 @@ package entidad;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 public class Prestamo {
 
@@ -16,6 +17,17 @@ public class Prestamo {
 	private EstadoPrestamo estado;
 	private int cuotasAbonadas;
 	private float saldoRestante;
+	private ArrayList<PagosPrestamos> pagosPrestamos;
+	
+	
+	public ArrayList<PagosPrestamos> getPagosPrestamos() {
+		return pagosPrestamos;
+	}
+	
+	
+	public void setPagosPrestamos(ArrayList<PagosPrestamos> pagosPrestamos) {
+		this.pagosPrestamos = pagosPrestamos;
+	}
 	
 	
 	public int getId() {
