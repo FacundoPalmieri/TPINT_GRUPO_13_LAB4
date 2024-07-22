@@ -77,6 +77,40 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 
+<!-- LIBRERIA DATATABLE -->
+<link rel="stylesheet" type="text/css" href="css/Style.css">
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#table_id').DataTable({
+            language: {
+                lengthMenu: "Mostrar _MENU_ registros",
+                info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                infoEmpty: "Mostrando 0 a 0 de 0 registros",
+                infoFiltered: "(filtrado de _MAX_ registros en total)",
+                loadingRecords: "Cargando...",
+                zeroRecords: "No se encontraron registros coincidentes",
+                emptyTable: "No hay datos disponibles en la tabla",
+                paginate: {
+                    first: "Primero",
+                    previous: "Anterior",
+                    next: "Siguiente",
+                    last: "Último"
+                },
+                aria: {
+                    sortAscending: ": activar para ordenar columna ascendente",
+                    sortDescending: ": activar para ordenar columna descendente"
+                },
+                lengthMenu: "Cantidad registros _MENU_",
+                search: "Buscar:"
+            },
+            dom: 'lfrtip'
+        });
+    });
+</script>
+
 </head>
 <body>
 <% if(session.getAttribute("tipoUsuario") != null){ %>

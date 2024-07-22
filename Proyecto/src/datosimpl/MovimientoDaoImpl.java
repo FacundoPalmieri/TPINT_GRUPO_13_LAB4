@@ -132,6 +132,7 @@ public class MovimientoDaoImpl implements MovimientoDao{
 	    return listaMovimientos;
 	}
 	
+	/*
 	@Override
 	public ArrayList<Movimientos> ObtenerMovimientosConFiltro(int nCuenta, String parametro) {
 		Conexion cn = new Conexion();
@@ -143,18 +144,21 @@ public class MovimientoDaoImpl implements MovimientoDao{
 
 		
 		String query = "SELECT movimientos.numero_cuenta, movimientos.fecha, movimientos.detalle, movimientos.importe, tipomovimiento.id, tipomovimiento.descripcion " +
-                "FROM Movimientos " +
-                "INNER JOIN tipomovimiento ON tipomovimiento.id = movimientos.tipo_movimiento_id " +
-                "WHERE movimientos.numero_cuenta = ? " +
-                "AND (movimientos.detalle LIKE ? OR movimientos.detalle LIKE = ?)";
+					   "FROM Movimientos " +
+                       "INNER JOIN tipomovimiento ON tipomovimiento.id = movimientos.tipo_movimiento_id " +
+                       "WHERE movimientos.numero_cuenta = ? " +
+                       "AND (movimientos.fecha = ? OR movimientos.detalle LIKE ? OR movimientos.detalle LIKE ?)";
 		
 		try {
 			cn.Open();
-			System.out.println("CONEXION ABIERTA ObtenerMovimientosPorCliente ");
+			System.out.println("CONEXION ABIERTA ObtenerMovimientosConFiltro ");
 			
 			preparedStatement = cn.prepareStatement(query);
 			preparedStatement.setInt(1, nCuenta);
-			preparedStatement.setString(1, parametro);
+			preparedStatement.setString(2, parametro);
+			preparedStatement.setString(3, parametro);
+			preparedStatement.setString(4, parametro);
+			
 		
 			
 			
@@ -174,7 +178,7 @@ public class MovimientoDaoImpl implements MovimientoDao{
 		        m.setDetalle(rs.getString("movimientos.detalle"));
 		        m.setImporte(rs.getDouble("movimientos.importe"));
 		        tm.setId(rs.getInt("tipomovimiento.id"));
-		        tm.setDescripcion(rs.getString("descripcion"));
+		        tm.setDescripcion(rs.getString("tipomovimiento.descripcion"));
 		        
 		        //Asigno a movimiento los objetos cuenta y TipoMovimiento
 		        m.setTipo_Movimiento_id(tm);
@@ -185,7 +189,8 @@ public class MovimientoDaoImpl implements MovimientoDao{
 			}
 
 		} catch (Exception e) {
-			 System.out.println("ERROR ObtenerMovimientosPorCliente DAO");
+			 System.out.println("ERROR ObtenerMovimientosConFiltro DAO");
+			 e.printStackTrace();
 		}  finally {
 	        try {
 	            if (preparedStatement != null) {
@@ -198,7 +203,7 @@ public class MovimientoDaoImpl implements MovimientoDao{
 	                cn.close();
 	            }
 	        } catch (Exception e) {
-	        	System.out.println("ERROR AL CERRAR CONEXION ObtenerMovimientosPorCliente ") ;
+	        	System.out.println("ERROR AL CERRAR CONEXION ObtenerMovimientosConFiltro ") ;
 	            e.printStackTrace();
 	        }
 	    }
@@ -206,7 +211,7 @@ public class MovimientoDaoImpl implements MovimientoDao{
 	   
 	    return listaMovimientos;
 	}
-		
+	*/	
 		
 }
 

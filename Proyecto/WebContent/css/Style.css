@@ -653,3 +653,53 @@ margin-top: auto!important;
 .toggle-container input[type="checkbox"] {
             order: 2;
         }
+        
+        
+ 
+ 
+ 
+ 
+/* DATA TABLE - BUSCADOR DINAMICO       
+        
+/* Cambia el color de fondo y el borde del campo de búsqueda */
+.dataTables_filter input {
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+/* Cambia el estilo del texto de la etiqueta del campo de búsqueda */
+.dataTables_filter label {
+    font-weight: bold;
+    color: #333;
+}
+
+
+
+
+/* DATA TABLE - DESPLEGABLE CANTIDAD DE REGISTROS
+
+/* Cambia el fondo y el borde del contenedor de longitud de DataTables */
+.dataTables_length {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+/* Cambia el estilo del texto del contenedor de longitud de DataTables */
+.dataTables_length label {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Cambia el estilo del elemento select dentro del contenedor de longitud */
+.dataTables_length select {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+}
+        

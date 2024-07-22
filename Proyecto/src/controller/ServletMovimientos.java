@@ -25,11 +25,19 @@ public class ServletMovimientos extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getParameter("cuentaId") != null) {
+        if (request.getParameter("Ver") != null) {
+        	
+        	// GENERO LISTA
             ArrayList<Movimientos> listaMovimientos = new ArrayList<Movimientos>();
+            
+           // OBTENGO ID DE LA CUENTA DEL JSP
             int cuentaId = Integer.parseInt(request.getParameter("cuentaId"));
             System.out.println("CUENTA ID (GET): " + cuentaId);
-
+            
+            if(cuentaId != 0) {
+            	
+            
+            // OBTENGO MOVIMIENTO POR CLIENTE POR CUENTA ID 
             listaMovimientos = movimientoNeg.ObtenerMovimientosPorCliente(cuentaId);
 
             if (listaMovimientos != null) {
@@ -42,11 +50,13 @@ public class ServletMovimientos extends HttpServlet {
             } else {
                 System.out.println("LISTA MOVIMIENTOS NULA");
             }
-        }
+          }
+       }
     }
 
+    /*
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getParameter("btnFiltrar") != null) {
+        if (request.getParameter("parametro") != null) {
             System.out.println("ENTRA A btnFiltrar");
 
             ArrayList<Movimientos> listaMovimientos = new ArrayList<Movimientos>();
@@ -57,7 +67,10 @@ public class ServletMovimientos extends HttpServlet {
             } else {
                 int cuentaId = Integer.parseInt(cuentaIdParam);
                 System.out.println("CUENTA ID (POST): " + cuentaId);
+                
+                
                 String parametro = request.getParameter("parametro");
+                System.out.println("btnFiltrar " + parametro);
 
                 listaMovimientos = movimientoNeg.ObtenerMovimientosConFiltro(cuentaId, parametro);
 
@@ -71,4 +84,5 @@ public class ServletMovimientos extends HttpServlet {
             }
         }
     }
+    */
 }

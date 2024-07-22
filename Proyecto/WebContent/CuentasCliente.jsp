@@ -57,7 +57,8 @@
 	            <td><%= cuenta.getCbu() %></td>
 	            <td><%= cuenta.getIdTipoCuenta().getDescripcion()%></td>
 	            <td><%= cuenta.getSaldo() %></td>
- 			<td><a href="ServletMovimientos?cuentaId=<%= cuenta.getNumeroCuenta() %>&saldo=<%= cuenta.getSaldo() %>&cbu=<%= cuenta.getCbu() %>" class="btnEspecial">Ver</a></tr>
+    <td><a href="ServletMovimientos?Ver&cuentaId=<%= cuenta.getNumeroCuenta() %>&saldo=<%= cuenta.getSaldo() %>&cbu=<%= cuenta.getCbu() %>" class="btnEspecial">Ver</a></td>
+
 	        <%
 	                }
 	            } else {
@@ -66,7 +67,7 @@
 	        <%
 	            }
 	        %>
-	       
+	      </tr> 
 	    </table>
 	 </div>
 

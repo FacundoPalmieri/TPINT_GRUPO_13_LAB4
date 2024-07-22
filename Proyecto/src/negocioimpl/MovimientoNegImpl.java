@@ -27,6 +27,7 @@ public class MovimientoNegImpl implements MovimientoNeg{
 		return listaMovimientos;
 	}
 	
+	/*
 	@Override
 	public ArrayList<Movimientos> ObtenerMovimientosConFiltro (int nCuenta, String parametro) {
 		ArrayList<Movimientos> listaMovimientos = new ArrayList<Movimientos>();
@@ -34,5 +35,5 @@ public class MovimientoNegImpl implements MovimientoNeg{
 		System.out.println("MOVIMIENTO DAO");
 		return listaMovimientos;
 	}
-
+	*/
 }
