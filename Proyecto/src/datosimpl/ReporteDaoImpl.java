@@ -4,7 +4,7 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import com.mysql.jdbc.PreparedStatement;
+import java.sql.PreparedStatement;
 
 import datos.ReporteDao;
 import entidad.Cuenta;
@@ -150,4 +150,77 @@ public class ReporteDaoImpl implements ReporteDao {
 		return new ArrayList<Movimientos>();
 	}
 
+
+	@Override
+	public ArrayList<Movimientos> PromedioIngresosMensuales(LocalDate fechaInicio, LocalDate fechaFin) {
+		Conexion cn = new Conexion();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		ArrayList<Movimientos> listaMovimientos = new ArrayList<Movimientos>();
+		
+		String query = "SELECT  movimientos.numero_cuenta, movimientos.fecha, movimientos.detalle, ROUND(AVG(movimientos.importe))AS PromedioIngresos, tipomovimiento.descripcion "
+			    	 + "FROM  Movimientos "
+			    	 + "INNER JOIN tipomovimiento ON tipomovimiento.id = movimientos.tipo_movimiento_id "
+			    	 + "WHERE tipomovimiento.id IN (1,2,4) AND movimientos.importe > 0 "
+			    	 + "AND movimientos.fecha between ? AND ? "
+			    	 + "group by movimientos.numero_cuenta ";
+		
+		try {
+			cn.Open();
+			  System.out.println("Conexion abierta PromedioIngresosMensuales");
+			  
+			  ps = cn.prepareStatement(query);
+			  // Convertir LocalDate a java.sql.Date
+		      java.sql.Date sqlFechaInicio = java.sql.Date.valueOf(fechaInicio);
+		      java.sql.Date sqlFechaFin = java.sql.Date.valueOf(fechaFin);
+		        
+		      // Establecer los parámetros de la consulta
+		      ps.setDate(1, sqlFechaInicio);
+		      ps.setDate(2, sqlFechaFin);
+		      
+		      rs = ps.executeQuery();
+		      while(rs.next()) {
+		    	Movimientos movimientos = new Movimientos();
+		    	Cuenta cuenta = new Cuenta ();
+		    	
+		    	cuenta.setNumeroCuenta(rs.getInt("movimientos.numero_cuenta"));
+		    	movimientos.setImporte(rs.getDouble("PromedioIngresos"));
+		    	
+		    	movimientos.setCuenta_origen(cuenta);
+		    	
+		    	listaMovimientos.add(movimientos);
+    	  
+		      }
+			
+			
+		} catch (Exception e) {
+			 System.out.println("Conexion abierta PromedioIngresosMensuales");
+			 e.printStackTrace();
+		}
+		finally {
+			try {
+				cn.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR AL CERRAR CONEXION PromedioIngresosMensuales");
+				 e2.printStackTrace();
+			}
+			
+			try {
+				ps.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR AL CERRAR PS PromedioIngresosMensuales");
+				 e2.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR AL CERRAR RS PromedioIngresosMensuales");
+				 e2.printStackTrace();
+			}
+		}
+		return listaMovimientos;
+	}		
+		
+	
 }

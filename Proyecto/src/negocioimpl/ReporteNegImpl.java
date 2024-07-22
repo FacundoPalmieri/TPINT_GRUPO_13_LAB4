@@ -42,4 +42,13 @@ public class ReporteNegImpl implements ReporteNeg{
 		return new ArrayList<Movimientos> ();
 	}
 
+
+	@Override
+	public ArrayList<Movimientos> PromedioIngresosMensuales(LocalDate fechaInicio, LocalDate fechaFin) {
+		ArrayList<Movimientos> listaMovimientos = new ArrayList<Movimientos>();
+		listaMovimientos =  reporteDao.PromedioIngresosMensuales(fechaInicio, fechaFin);
+		return listaMovimientos;
+		
+	}
+
 }
