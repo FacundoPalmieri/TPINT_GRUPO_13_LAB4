@@ -168,6 +168,7 @@ public class ReporteDaoImpl implements ReporteDao {
 			    	 + "INNER JOIN personas ON personas.dni = cuentas.cliente_dni "
 			    	 + "WHERE tipomovimiento.id IN (1,2,4) AND movimientos.importe > 0 "
 			    	 + "AND movimientos.fecha between ? AND ? "
+			    	 + "AND cuentas.habilitado = 1 "
 			    	 + "group by movimientos.numero_cuenta "
 			    	 + "order by PromedioIngresos Desc "
 			    	 + "LIMIT 3";
