@@ -26,5 +26,7 @@ public interface CuentaNeg {
 	public int setearEstadoPorCuenta(String dni, int estado, int nCuenta);
 	
 	public ArrayList<Cuenta> listarTodasLAsCuentas();
+	
+	public boolean modificarCuenta(int nCuenta, String Dni, int nuevoTipoCuenta);
 
 }

@@ -67,6 +67,11 @@ public class CuentaNegImpl implements CuentaNeg {
 		lista = cuentaDao.listarTodasLAsCuentas();
 		return lista;
 	}
+
+	@Override
+	public boolean modificarCuenta(int nCuenta, String Dni, int nuevoTipoCuenta) {
+		return cuentaDao.modificarCuenta(nCuenta, Dni, nuevoTipoCuenta);
+	}
 	
 }
 

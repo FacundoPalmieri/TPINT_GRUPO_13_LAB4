@@ -478,6 +478,44 @@ public class CuentaDaoImpl implements CuentaDao {
 		    return cuentas;
 	}
 
+	@Override
+	public boolean modificarCuenta(int nCuenta, String Dni,int nuevoTipoCuenta) {
+		Conexion cn = new Conexion();
+	    cn.Open();
+	    
+	    boolean estado = false;
+	    
+	    String query = "UPDATE cuentas SET tipo_cuenta_id = ? WHERE numero_cuenta = ? AND cliente_dni = ?";
+	    
+	    try {
+	        System.out.println("CONEXION ABIERTA modificarCuenta");
+	        
+	        PreparedStatement ps = cn.prepareStatement(query);
+	        ps.setInt(1, nuevoTipoCuenta);
+	        ps.setInt(2, nCuenta);
+	        ps.setString(3, Dni);
+	        
+	        int filasAfectadas = ps.executeUpdate();
+	        
+	        if (filasAfectadas > 0) {
+	            estado = true;
+	        }
+	        
+	    } catch (Exception e) {
+	        System.out.println("ERROR modificar cuenta DAO");
+	        e.printStackTrace();
+	    } finally {
+	        try {
+	            cn.close();
+	        } catch (Exception e2) {
+	            System.out.println("ERROR CERRAR CONEXION modificarSaldo DAO");
+	            e2.printStackTrace();
+	        }
+	    }
+	    
+	    return estado;
+	}
+
 }
 	
 
