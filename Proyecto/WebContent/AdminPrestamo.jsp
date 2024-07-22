@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.ArrayList" %>
@@ -5,7 +6,7 @@
 <%@ page import="entidad.EstadoPrestamo"%>
 <%@ page import="entidad.Persona"%>
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Actualizar Estado de Préstamos</title>
@@ -77,6 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 </script>
 
+
 <!-- LIBRERIA DATATABLE -->
 <link rel="stylesheet" type="text/css" href="css/Style.css">
 <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
@@ -110,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 </script>
-
 </head>
 <body>
 <% if(session.getAttribute("tipoUsuario") != null){ %>
@@ -142,6 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <th>Cuotas</th>
                     <th>Importe por Cuota</th>
                     <th>Actualizar Estado</th>
+                    <th class="invisible">ID Prestamo</th> <!-- Columna invisible -->
                 </tr>
             </thead>
             <tbody>
@@ -161,7 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                 <td><%= prestamo.getImporteAPagar() %></td>
                                 <td><%= prestamo.getCuotas() %></td>
                                 <td><%= prestamo.getImporteCuota() %></td>
-                                <th class="invisible">ID Pr�stamo</th> <!-- Columna invisible -->
+                               
                                 <td>                     
 								<select id="estadoPrestamo_<%= prestamo.getId() %>" data-estado-actual="<%= prestamo.getEstado().getId() %>" onchange="mostrarMensajeCambio('<%= prestamo.getId() %>', '<%= prestamo.getClienteDni().getDni() %>', '<%= prestamo.getImporteSolicitado() %>', '<%= prestamo.getCuentaDestino().getNumeroCuenta() %>', '<%= prestamo.getImporteCuota() %>', '<%= prestamo.getCuotas() %>', this.value)">
                                     <% for (EstadoPrestamo estado : listaEstadosPrestamo) { %>
