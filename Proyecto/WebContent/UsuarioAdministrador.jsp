@@ -31,7 +31,7 @@
 	            <a href="ABMLcuentas.jsp" class="botonera boton-link">ABML Cuentas</a>
 	            <a href="ServletPrestamo?PrestamoAdmin=1" class="botonera boton-link">Préstamos</a>
 	            <a href="InicioReporte.jsp" class="botonera boton-link">Reportes</a>
-	            <a href="ReportePromedioIngresosMensuales.jsp" class="botonera boton-link">Reporte Promedio Ingresos Mensuales</a>
+	            <a href="ReportePromedioIngresosMensuales.jsp" class="botonera boton-link">Reporte Promedio mayores Ingresos </a>
 	        </div>
 	</div>
 

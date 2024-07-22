@@ -12,6 +12,8 @@ public class Cuenta {
 	private float saldo;
 	private int habilitado;
 	
+	private Persona cliente_Dni;
+	
 	
 	
 	
@@ -59,6 +61,12 @@ public class Cuenta {
 	}
 	public void setHabilitado(int habilitado) {
 		this.habilitado = habilitado;
+	}
+	public Persona getCliente_Dni() {
+		return cliente_Dni;
+	}
+	public void setCliente_Dni(Persona cliente_Dni) {
+		this.cliente_Dni = cliente_Dni;
 	}
 	
 	

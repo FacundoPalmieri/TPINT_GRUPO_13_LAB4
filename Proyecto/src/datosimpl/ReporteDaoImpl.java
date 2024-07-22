@@ -161,12 +161,16 @@ public class ReporteDaoImpl implements ReporteDao {
 		
 		ArrayList<Movimientos> listaMovimientos = new ArrayList<Movimientos>();
 		
-		String query = "SELECT  movimientos.numero_cuenta, movimientos.fecha, movimientos.detalle, ROUND(AVG(movimientos.importe))AS PromedioIngresos, tipomovimiento.descripcion "
+		String query = "SELECT  movimientos.numero_cuenta, movimientos.fecha, movimientos.detalle, ROUND(AVG(movimientos.importe))AS PromedioIngresos, tipomovimiento.descripcion,personas.dni, personas.nombre, personas.apellido "
 			    	 + "FROM  Movimientos "
 			    	 + "INNER JOIN tipomovimiento ON tipomovimiento.id = movimientos.tipo_movimiento_id "
+			    	 + "INNER JOIN cuentas ON cuentas.numero_cuenta = movimientos.numero_cuenta "
+			    	 + "INNER JOIN personas ON personas.dni = cuentas.cliente_dni "
 			    	 + "WHERE tipomovimiento.id IN (1,2,4) AND movimientos.importe > 0 "
 			    	 + "AND movimientos.fecha between ? AND ? "
-			    	 + "group by movimientos.numero_cuenta ";
+			    	 + "group by movimientos.numero_cuenta "
+			    	 + "order by PromedioIngresos Desc "
+			    	 + "LIMIT 3";
 		System.out.println("query: "+query);
 		try {
 			cn.Open();
@@ -185,8 +189,15 @@ public class ReporteDaoImpl implements ReporteDao {
 		      while(rs.next()) {
 		    	Movimientos movimientos = new Movimientos();
 		    	Cuenta cuenta = new Cuenta ();
+		    	Persona persona = new Persona();
+		    	
+		    	persona.setDni(rs.getString("personas.dni"));
+		    	persona.setApellido(rs.getString("personas.apellido"));
+		     	persona.setNombre(rs.getString("personas.nombre"));
 		    	
 		    	cuenta.setNumeroCuenta(rs.getInt("movimientos.numero_cuenta"));
+		    	cuenta.setCliente_Dni(persona);
+		    	
 		    	movimientos.setImporte(rs.getDouble("PromedioIngresos"));
 		    	
 		    	movimientos.setCuenta_origen(cuenta);
