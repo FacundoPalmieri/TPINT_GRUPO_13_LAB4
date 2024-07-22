@@ -9,7 +9,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import entidad.Cuenta;
 import entidad.Persona;
@@ -38,8 +37,7 @@ public class ServletModificarCuenta extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-
+		
 		 if (request.getParameter("btnBuscarC") != null) {
 			 System.out.println("Botón actualizar presionado.");
 	        	String DNI = null;	        	
@@ -49,7 +47,7 @@ public class ServletModificarCuenta extends HttpServlet {
 	        	listaCuentas = cuentaNeg.obtenerCuentasPorDNI(DNI);
 	        	
 	  		  if(listaCuentas != null) {				  
-	  			session.setAttribute("listaCuentas", listaCuentas);
+				  
 				  request.setAttribute("listaCuentas", listaCuentas);
 				 
 				  RequestDispatcher dispatcher = request.getRequestDispatcher("/ModificarCuenta.jsp");
@@ -60,45 +58,28 @@ public class ServletModificarCuenta extends HttpServlet {
 	        	
 	            
 	        }
-		 if (request.getParameter("btnActualizarC") != null) {
+		 if (request.getParameter("btnActualizarCuenta") != null) {
 			 
-			 System.out.println("Botón actualizar presionado.");
+			 System.out.println("Botón actualizar cuenta presionado.");
 
 		        String dniCliente = request.getParameter("dniCliente");
+		        int numeroCuenta = Integer.parseInt(request.getParameter("numeroCuenta"));
+		        int nuevoTipoCuenta = Integer.parseInt(request.getParameter("tipoCuenta_" + numeroCuenta));
+
 		        System.out.println("DNI del cliente: " + dniCliente);
+		        System.out.println("Número de cuenta: " + numeroCuenta + " - Nuevo tipo de cuenta: " + nuevoTipoCuenta);
 
-		        ArrayList<Cuenta> listaCuentas = (ArrayList<Cuenta>) session.getAttribute("listaCuentas"); // Obtener de la sesión
-		        System.out.println("Lista de cuentas obtenida de la sesión: " + listaCuentas);
+		        boolean resultado = cuentaNeg.modificarCuenta(numeroCuenta, dniCliente, nuevoTipoCuenta);
+		        System.out.println("Resultado de la actualización: " + resultado);
 
-		        boolean actualizado = true;
-
-		        if (listaCuentas != null) {
-		            for (Cuenta cuenta : listaCuentas) {
-		                int nuevoTipoCuenta = Integer.parseInt(request.getParameter("tipoCuenta_" + cuenta.getNumeroCuenta()));
-		                System.out.println("Número de cuenta: " + cuenta.getNumeroCuenta() + " - Nuevo tipo de cuenta: " + nuevoTipoCuenta);
-
-		                boolean resultado = cuentaNeg.modificarCuenta(cuenta.getNumeroCuenta(), dniCliente, nuevoTipoCuenta);
-		                System.out.println("Resultado de la actualización: " + resultado);
-
-		                if (!resultado) {
-		                    actualizado = false;
-		                    break;
-		                }
-		            }
+		        if (resultado) {
+		            request.setAttribute("mensaje", "Cuenta actualizada correctamente.");
 		        } else {
-		            System.out.println("No se encontraron cuentas para actualizar.");
-		            actualizado = false;
-		        }
-
-		        if (actualizado) {
-		            request.setAttribute("mensaje", "Cuentas actualizadas correctamente.");
-		        } else {
-		            request.setAttribute("mensaje", "Error al actualizar las cuentas.");
+		            request.setAttribute("mensaje", "Error al actualizar la cuenta.");
 		        }
 
 		        // Volver a cargar la lista de cuentas actualizada
-		        listaCuentas = cuentaNeg.obtenerCuentasPorDNI(dniCliente);
-		        session.setAttribute("listaCuentas", listaCuentas); // Actualizar la sesión con la nueva lista
+		        ArrayList<Cuenta> listaCuentas = cuentaNeg.obtenerCuentasPorDNI(dniCliente);
 		        request.setAttribute("listaCuentas", listaCuentas);
 
 		        RequestDispatcher dispatcher = request.getRequestDispatcher("/ModificarCuenta.jsp");
