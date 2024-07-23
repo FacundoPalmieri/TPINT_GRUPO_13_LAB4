@@ -67,11 +67,11 @@ public class ServletReportes extends HttpServlet {
 	        LocalDate fechaFin = LocalDate.parse(fechaFinStr, formatter);
 	        
 	        //Verificación si la fecha de inicio es anterior a la fecha fin.
-			if(fechaInicio.isBefore(fechaFin)) {
+			if(fechaInicio.isBefore(fechaFin) || fechaInicio.isEqual(fechaFin)) {
 				// Obtengo la fecha actual
 	            LocalDate hoy = LocalDate.now();
 	            
-	            if(fechaFin.isBefore(hoy)) {
+	            if(fechaFin.isBefore(hoy)|| fechaFin.isEqual(hoy)) {
 	            	
 	            	
 	            	ArrayList<Movimientos> listaMovimientos = new ArrayList<Movimientos>();
