@@ -837,6 +837,8 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		    	p.setCuil(rs.getString("personas.cuil"));
 		    	p.setNombre(rs.getString("personas.nombre"));
 		    	p.setApellido(rs.getString("personas.apellido"));
+		    	p.setCelular(rs.getString("celular"));
+	            p.setTelefono(rs.getString("telefono"));
 		    	p.setEmail(rs.getString("personas.email"));
 		    	p.setSexo(rs.getString("personas.sexo"));
 		    	Date sqlDate = rs.getDate("personas.fecha_nacimiento");

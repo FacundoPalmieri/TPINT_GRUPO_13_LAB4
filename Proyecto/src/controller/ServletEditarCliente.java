@@ -99,7 +99,7 @@ public class ServletEditarCliente extends HttpServlet {
         	persona = usuarioNeg.GuardarPersonaCompleta(DNI);
         	
         	if (persona != null) {
-        	request.setAttribute("mensaje", "Cliente encontrado");
+
         	
         	request.setAttribute("usuario", persona.getUsuario());
         	request.setAttribute("pass", persona.getUsuario().getPass());
@@ -109,7 +109,7 @@ public class ServletEditarCliente extends HttpServlet {
             request.setAttribute("localidad", persona.getDireccion().getLocalidad() );
   
         	}else {
-        		request.setAttribute("error", "No se encontró ningún cliente con ese DNI.");
+        		request.setAttribute("mensaje", "No se encontró ningún cliente con ese DNI.");
             }
         	
             // Redirige al JSP de edición
