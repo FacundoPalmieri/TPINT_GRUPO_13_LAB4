@@ -69,9 +69,7 @@
                     }
                 } else {
             %>
-            <tr>
-                <td colspan="5">No se encontraron cuentas para el DNI ingresado.</td>
-            </tr>
+
             <%
                 }
             %>
