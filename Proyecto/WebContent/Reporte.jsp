@@ -42,13 +42,18 @@
                     <th>Importe por Cuota</th>
                     <th>Estado Prestamo</th>
                     <th>Porcentaje Pagado</th>
+            	     <th>Cantidad de cuotas atrasadas</th>
                 </tr>
+                
+                 
             </thead>
             <tbody>
                 <%  
                 ArrayList<Prestamo> listaPrestamos = (ArrayList<Prestamo>) request.getAttribute("listaPrestamos");
                 int cuotasPagas=0;
+               	int cuotasImpagas=0;
                 float porcentajePagado = 0;
+                float peligro = 0;
                 if (listaPrestamos != null) {
                         for (Prestamo prestamo : listaPrestamos) { 
                         	int cantCuotasTotales = prestamo.getCuotas();
@@ -76,6 +81,16 @@
                                 		}
                                 	}%>
                                 <td><%= porcentajePagado %>%</td>	
+                                
+                                             <% 
+                              	if(prestamo.getEstado().getId()==3 || prestamo.getEstado().getId()==5){ 
+                                		for(PagosPrestamos p : prestamo.getPagosPrestamos()){
+                                			if(p.getEstado()==3){
+                                				cuotasImpagas++;
+                                			}
+                            		  }
+                                	}%>
+                                <td><%= cuotasImpagas %></td>	
                             </tr>
                 <% 
                         }
@@ -89,6 +104,18 @@
                 %>
             </tbody>
         </table>
+        
+        
+              <th>Probabilidad de peligro de su siguiente credito?</th>
+                           <% 
+                        	{
+                               		peligro= (cuotasImpagas)*20;
+                                		
+                                	}%>
+                                <td><%= peligro %>%</td>
+         
+        
+        
     </div>
     <div class="button-container">
         <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='UsuarioAdministrador.jsp';">
