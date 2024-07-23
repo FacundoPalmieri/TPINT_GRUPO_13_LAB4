@@ -3,6 +3,7 @@
 <%@ page import="entidad.Prestamo"%>
 <%@ page import="entidad.EstadoPrestamo"%>
 <%@ page import="entidad.Persona"%>
+<%@ page import="entidad.PagosPrestamos"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,12 +41,14 @@
                     <th>Cuotas</th>
                     <th>Importe por Cuota</th>
                     <th>Estado Prestamo</th>
+                    <th>Cuotas Pagas</th>
                 </tr>
             </thead>
             <tbody>
                 <%  
-                    ArrayList<Prestamo> listaPrestamos = (ArrayList<Prestamo>) request.getAttribute("listaPrestamos");
-                    if (listaPrestamos != null) {
+                ArrayList<Prestamo> listaPrestamos = (ArrayList<Prestamo>) request.getAttribute("listaPrestamos");
+                int cuotasPagas=0;
+                if (listaPrestamos != null) {
                         for (Prestamo prestamo : listaPrestamos) { 
                 %>
                             <tr>
@@ -58,6 +61,16 @@
                                 <td><%= prestamo.getImporteCuota() %></td>
                                 <td><%= prestamo.getEstado().getDescripcion() %> </td>
                                 <td class="invisible"><%= prestamo.getId() %></td>
+          
+                                <% 
+                                	if(prestamo.getEstado().getId()==3 || prestamo.getEstado().getId()==5){ 
+                                		for(PagosPrestamos p : prestamo.getPagosPrestamos()){
+                                			if(p.getEstado()!=1){
+                                				cuotasPagas++;
+                                			}
+                                		}
+                                	}%>
+                                <td><%= cuotasPagas %></td>	
                             </tr>
                 <% 
                         }
