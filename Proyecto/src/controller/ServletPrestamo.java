@@ -190,7 +190,7 @@ public class ServletPrestamo extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		// SOLICITAR PRESTAMO CLIENTE
-		if(request.getParameter("btnSolicitarPrestamo")!= null) {
+		if(request.getParameter("confirmacionPrestamo")!= null) {
 			
 			// OBTENGO EL DNI DE LA SESSION
 			HttpSession session = request.getSession();

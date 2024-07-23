@@ -14,7 +14,7 @@ public interface ReporteNeg {
 	
 	public ArrayList<Prestamo> prestamos(String dni, ArrayList<Integer> estado,LocalDate fecha1, LocalDate fecha2);
 	
-	public ArrayList <Movimientos> PromedioIngresosMensuales(String fechaInicio, String fechaFin);
+	public ArrayList <Movimientos> PromedioIngresosMensuales(LocalDate fechaInicio, LocalDate fechaFin);
 	
 	public ArrayList <Prestamo> verificarPagos (ArrayList<Prestamo> prestamo);
 }

@@ -89,6 +89,14 @@
 </div>
 
 
+<!-- POP UP PARA MOSTRAR MENSAJE -->
+ <div id="popup" class="popup">
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        <p id="popupMessage"></p>
+ </div>
+
+       
+       
         
         
 <script type="text/javascript">
@@ -97,6 +105,36 @@
         document.getElementById("fechaFin").value = "";
         document.getElementById("table_body").innerHTML = "";
     }
+    
+    
+  //funcionalidad pop up
+
+    function showPopup(message) {
+        var popup = document.getElementById("popup");
+        var popupMessage = document.getElementById("popupMessage");
+        popupMessage.innerText = message;
+        popup.classList.add("active");
+    }
+
+    function closePopup() {
+        var popup = document.getElementById("popup");
+        popup.classList.remove("active");
+        
+    }
+
+   // POP UP OBTENGO MENSAJE DEL SERVLET
+    document.addEventListener('DOMContentLoaded', function() {
+        <% 
+            String mensaje = (String) request.getAttribute("Mensaje");
+      		  if (mensaje != null) { 
+        %>
+      	
+         	showPopup("<%= mensaje%>");
+         <% 
+              } 
+         %>
+      });
+    
 </script>
 </body>
 </html>

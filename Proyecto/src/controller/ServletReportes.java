@@ -56,17 +56,48 @@ public class ServletReportes extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("btnBuscar") != null) {
 			System.out.println("ENTRA A btnBuscar");
-			String fechaInicio = (String)request.getParameter("fechaInicio");
-			String fechaFin = (String)request.getParameter("fechaFin");
 			
-			ArrayList<Movimientos> listaMovimientos = new ArrayList<Movimientos>();
+			//Obtengo parametros del JSP
+			String fechaInicioStr = (String)request.getParameter("fechaInicio");
+			String fechaFinStr = (String)request.getParameter("fechaFin");
 			
-			listaMovimientos = reporteNeg.PromedioIngresosMensuales(fechaInicio, fechaFin);
-			System.out.println("LISTA MOVIMIENTOS FILTRADA"+listaMovimientos);
+			//Convierto las fechas de string a LocalDate para luego comparar.
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate fechaInicio = LocalDate.parse(fechaInicioStr, formatter);
+	        LocalDate fechaFin = LocalDate.parse(fechaFinStr, formatter);
+	        
+	        //Verificación si la fecha de inicio es anterior a la fecha fin.
+			if(fechaInicio.isBefore(fechaFin)) {
+				// Obtengo la fecha actual
+	            LocalDate hoy = LocalDate.now();
+	            
+	            if(fechaFin.isBefore(hoy)) {
+	            	
+	            	
+	            	ArrayList<Movimientos> listaMovimientos = new ArrayList<Movimientos>();
+					
+					listaMovimientos = reporteNeg.PromedioIngresosMensuales(fechaInicio, fechaFin);
+					System.out.println("LISTA MOVIMIENTOS FILTRADA"+listaMovimientos);
+					
+					request.setAttribute("listaMovimientos", listaMovimientos);	
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/ReportePromedioIngresosMensuales.jsp");
+			        dispatcher.forward(request, response); 
+	            }else {
+	            	request.setAttribute("Mensaje", "La fecha fin no puede ser posterior al día actual.");	
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/ReportePromedioIngresosMensuales.jsp");
+			        dispatcher.forward(request, response); 
+	            }
+	            
 			
-			request.setAttribute("listaMovimientos", listaMovimientos);	
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/ReportePromedioIngresosMensuales.jsp");
-	          dispatcher.forward(request, response); 
+				
+			}else {
+				System.out.println("ENTRA AL ELSE");
+				
+				request.setAttribute("Mensaje", "La fecha de inicio debe ser anterior a la fecha fin.");	
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/ReportePromedioIngresosMensuales.jsp");
+		        dispatcher.forward(request, response); 
+			}
+		
 		}
 		
 	}

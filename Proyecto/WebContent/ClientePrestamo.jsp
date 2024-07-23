@@ -52,7 +52,7 @@
                 </a>
             </div>
         </div>
-       <form action="ServletPrestamo" method="post" >
+       <form id="formPrestamo" action="ServletPrestamo" method="post" >
         <div style="margin: 0.5%;">
                 <button type="button" class="accordion">Solicitar Préstamo &#x1F4B3;</button>
                 <div class="panel">
@@ -119,10 +119,31 @@
                     </tr>
                 </table>
                 <div class="btnPrestamo">
-                    <input type="submit" value="Solicitar Préstamo"  name="btnSolicitarPrestamo" style="margin-top: 5px !important; margin-botton: 5px !important;">
+                    <input type="button" value="Solicitar Préstamo"  name="btnSolicitarPrestamo" onclick= "confirmar()" style="margin-top: 5px !important; margin-botton: 5px !important;background-color:  #5E9C6D;">
                 </div>
        
-                 </div>
+             </div>
+              
+ 				<!-- POPUP CON MENSAJES -->
+ 
+      
+		    <div id="popup" class="popup">
+					<span class="close-btn" onclick="closePopup()">&times;</span>
+					<p id="popupMessage"></p>
+					 <% 
+					 String mensaje = (String) request.getAttribute("Mensaje");
+					 if (mensaje == null || mensaje.isEmpty()) {
+				     %>
+				      <button type="button" onclick="enviarFormulario(true)">Sí</button>
+			          <button type="button" onclick="enviarFormulario(false)">No</button>
+					 <% 
+					    }
+					 %>		 
+			</div>
+		    
+		      <!-- COLUMNA OCULTA PARA MANEJAR EL SI/NO DE LOS MENSAJES -->
+                   <input type="hidden" id="confirmacion" name="confirmacionPrestamo" value= null>         
+		             
         </form>     
         
       <form action="ServletPrestamo" method="post" >   
@@ -324,6 +345,27 @@
         }
     }
 
+	
+    
+    function confirmar() {
+   	 showPopup("¿Estás seguro de que deseas confirmar el prestamo?");
+   }
+
+   function enviarFormulario(confirmado) {
+   	  if (confirmado == true) {
+   	     document.getElementById("confirmacion").value = "confirmado";
+   	     
+   	 	 // Especificar método POST y acción del formulario
+   	    var form = document.getElementById("formPrestamo");
+   	    form.method = "post";
+   	    form.action = "ServletPrestamo";
+
+      		 // Enviar el formulario
+      		  form.submit();
+    	   }else {
+           	  closePopup();
+   	 		 }
+   }
 
 
 </script>

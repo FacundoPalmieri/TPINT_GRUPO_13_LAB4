@@ -148,7 +148,7 @@ public class ReporteDaoImpl implements ReporteDao {
 
 
 	@Override
-	public ArrayList<Movimientos> PromedioIngresosMensuales(String fechaInicio, String fechaFin) {
+	public ArrayList<Movimientos> PromedioIngresosMensuales(LocalDate fechaInicio, LocalDate fechaFin) {
 		
 		System.out.println("entra a método PromedioIngresosMensuales ");
 		Conexion cn = new Conexion();
