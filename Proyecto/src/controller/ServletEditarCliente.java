@@ -193,24 +193,29 @@ public class ServletEditarCliente extends HttpServlet {
             usuario.setUsuario(request.getParameter("usuario"));
             usuario.setPass(request.getParameter("pass"));
             persona.setUsuario(usuario);
+           
+            int paisId = Integer.parseInt(request.getParameter("pais"));
+            int provinciaId = Integer.parseInt(request.getParameter("provincia"));
+            int localidadId = Integer.parseInt(request.getParameter("localidad"));
             
             Pais pais = new Pais();
-            pais.setNombre(request.getParameter("pais"));
+            pais.setId(paisId);
             
             Provincia provincia = new Provincia();
-            provincia.setId(Integer.parseInt(request.getParameter("provincia_id")));
-            provincia.setNombre(request.getParameter("provincia"));
+            provincia.setId(provinciaId);
+            provincia.setPais(pais);
+
             
             Localidad localidad = new Localidad();
-            localidad.setId(Integer.parseInt(request.getParameter("localidad_id")));
-            localidad.setNombre(request.getParameter("localidad"));
+            localidad.setId(localidadId);
+            localidad.setProvincia(provincia);
 
             Direccion direccion = new Direccion();
             direccion.setCalle(request.getParameter("calle"));
             direccion.setAltura(Integer.parseInt(request.getParameter("numero")));
             direccion.setPiso(request.getParameter("piso"));
             direccion.setDepartamento(request.getParameter("departamento"));
-            direccion.setLocalidad_id(Integer.parseInt(request.getParameter("localidad_id")));
+            direccion.setLocalidad(localidad);
             persona.setDireccion(direccion);
 
             boolean actualizado = usuarioNeg.actualizarPersonaCompleta(persona);

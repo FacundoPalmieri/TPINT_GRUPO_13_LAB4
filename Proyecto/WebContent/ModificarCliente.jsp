@@ -85,7 +85,11 @@
                 </div>
                 <div class="form-group flex-item">
                     <label for="sexo">Sexo:</label>
-                    <input type="text" id="sexo" name="sexo" value="<%= persona != null ? persona.getSexo() : "" %>"required>
+                    <select id="sexo" name="sexo" required>
+       			 	<option value="F" <%= (persona != null && "F".equals(persona.getSexo())) ? "selected" : "" %>>F</option>
+        			<option value="M" <%= (persona != null && "M".equals(persona.getSexo())) ? "selected" : "" %>>M</option>
+        			<option value="X" <%= (persona != null && "X".equals(persona.getSexo())) ? "selected" : "" %>>X</option>
+   					</select>
                 </div>
                 <div class="form-group flex-item">
                     <label for="fechaNacimiento">Fecha de Nacimiento:</label>
@@ -265,7 +269,26 @@
             };
             xhr.send();
         });
-    });  
+    }); 
+    // VALIDAR QUE LA PERSONA SEA MAYOR DE 18 AÑOS 
+    
+    function validarFechaNacimiento() {
+        const fechaNacimientoInput = document.getElementById('fechaNacimiento');
+        const fechaNacimiento = new Date(fechaNacimientoInput.value);
+        const fechaActual = new Date();
+        fechaActual.setFullYear(fechaActual.getFullYear() - 18);
+
+        if (fechaNacimiento > fechaActual) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Fecha no válida',
+                text: 'Debe ser mayor de 18 años.',
+            }).then(() => {
+                fechaNacimientoInput.value = '';
+            });
+        }
+    }
+    
     //funcionalidad pop up
     
     function showPopup(message) {

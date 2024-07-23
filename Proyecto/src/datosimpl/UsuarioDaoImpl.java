@@ -1152,6 +1152,8 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        preparedStatement.setString(2, persona.getDni());
 	        preparedStatement.executeUpdate();
 	        preparedStatement.close();
+	        
+	        
 
 	        // Actualizar la información en la tabla 'direcciones'
 	        String queryUpdateDireccion = "UPDATE direcciones SET calle = ?, numero = ?, piso = ?, departamento = ?, localidad_id = ? WHERE id = ?";
@@ -1160,10 +1162,23 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        preparedStatement.setInt(2, persona.getDireccion().getAltura());
 	        preparedStatement.setString(3, persona.getDireccion().getPiso());
 	        preparedStatement.setString(4, persona.getDireccion().getDepartamento());
-	        preparedStatement.setInt(5, persona.getDireccion().getLocalidad_id());
+	        preparedStatement.setInt(5, persona.getDireccion().getLocalidad().getId());
 	        preparedStatement.setInt(6, persona.getDireccion().getId());
 	        preparedStatement.executeUpdate();
 	        preparedStatement.close();
+	        	   
+	            String queryUpdatePais = "UPDATE paises SET nombre = ? WHERE id = ?";
+	            preparedStatement = cn.prepareStatement(queryUpdatePais);
+	            preparedStatement.setString(1, persona.getDireccion().getLocalidad().getProvincia().getPais().getNombre());
+	            preparedStatement.setInt(2, persona.getDireccion().getLocalidad().getProvincia().getPais().getId());
+
+
+	            String queryUpdateProvincia = "UPDATE provincias SET nombre = ? WHERE id = ?";
+	            preparedStatement = cn.prepareStatement(queryUpdateProvincia);
+	            preparedStatement.setString(1, persona.getDireccion().getLocalidad().getProvincia().getNombre());
+	            preparedStatement.setInt(2,persona.getDireccion().getLocalidad().getProvincia().getId());
+
+	        
 
 	        actualizado = true;
 	    } catch (Exception e) {
