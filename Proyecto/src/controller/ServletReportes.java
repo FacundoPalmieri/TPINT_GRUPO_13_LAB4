@@ -136,7 +136,18 @@ public class ServletReportes extends HttpServlet {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/InicioReporte.jsp");
 				dispatcher.forward(request, response);	
 			}
+			else {
+				System.out.println("reporte prestamos");
+				
+				//Se envia la lista de prestamos para buscar en la db el estado de sus pagos
+				reporteNeg.verificarPagos(listaPrestamos);
+				request.setAttribute("listaPrestamos", listaPrestamos);	
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/Reporte.jsp");
+				dispatcher.forward(request, response);	
+			}
 			
+			
+			/*
 			if(listaPrestamos != null) {
 				System.out.println("reporte prestamos");
 				
@@ -149,7 +160,7 @@ public class ServletReportes extends HttpServlet {
 				   request.setAttribute("Mensaje","No hay prestamos solicitados ");
 				   RequestDispatcher dispatcher = request.getRequestDispatcher("/Reporte.jsp");
 		           dispatcher.forward(request, response);
-			}
+			}*/
 		}		
 	}
 
