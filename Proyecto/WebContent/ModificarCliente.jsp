@@ -5,7 +5,8 @@
 <%@page import="entidad.Provincia"%>
 <%@page import="entidad.Localidad"%>
 <%@page import="entidad.Usuario"%>
-
+<%@page import="entidad.Pais" %>
+<%@page import="java.util.ArrayList" %>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -40,18 +41,11 @@
 
 	</div>
 	<%
-	Persona persona = new Persona();
- 	Direccion direccion = new Direccion();
-	Provincia provincia = new Provincia();
-	Localidad localidad = new Localidad();
-	Usuario usuario = new Usuario();
-	
- 	
-	persona   = (Persona)request.getAttribute("persona");
-	direccion = (Direccion)request.getAttribute("direccion");
-	provincia = (Provincia)request.getAttribute("provincia");
-	localidad = (Localidad)request.getAttribute("localidad");
-	usuario = (Usuario)request.getAttribute("usuario");
+	Persona persona = (Persona) request.getAttribute("persona");
+    Direccion direccion = (Direccion) request.getAttribute("direccion");
+    Provincia provinciaSeleccionada = (Provincia) request.getAttribute("provincia");
+    Localidad localidadSeleccionada = (Localidad) request.getAttribute("localidad");
+    Usuario usuario = (Usuario) request.getAttribute("usuario");
 	
  %>
 	
@@ -109,17 +103,56 @@
             <div class="flex-container">
                 <div class="form-group flex-item" style="margin-top: 10px;">
                     <label for="pais">País:</label>
-                    <input type="text" id="pais" name="pais" value="Argentina" required>
+                    <select name="pais" id="pais">
+					    <option value="">Selecciona un país</option>
+					    <% 
+					        ArrayList<Pais> listaPaises = (ArrayList<Pais>) request.getAttribute("paises");
+					        if (listaPaises != null) {
+					            for (Pais pais : listaPaises) {
+					                boolean selected = (direccion != null && direccion.getLocalidad() != null && direccion.getLocalidad().getProvincia() != null && direccion.getLocalidad().getProvincia().getPais() != null && direccion.getLocalidad().getProvincia().getPais().getId() == pais.getId());
+					    %>
+					                <option value="<%= pais.getId() %>" <%= selected ? "selected" : "" %>><%= pais.getNombre() %></option>
+					    <% 
+					            }
+					        } else {
+					            out.println("No se encontraron países.");
+					        }
+					    %>
+					</select>
                 </div>
                 <div class="form-group flex-item" style="margin-top: 10px;">
                     <label for="provincia">Provincia:</label>
-                    <input type="text" id="provincia" name="provincia" value="<%= provincia != null ? provincia.getNombre() : "" %>" required>
-                    <input type="hidden" id="provincia_id" name="provincia_id" value="<%= provincia != null ? provincia.getId() : "" %>">
+                     <select name="provincia" id="provincia">
+                        <option value="">Selecciona una provincia</option>
+                        <% 
+                            ArrayList<Provincia> listaProvincias = (ArrayList<Provincia>) request.getAttribute("provincias");
+                            if (listaProvincias != null) {
+                                for (Provincia provincia : listaProvincias) {
+                                    boolean selected = (direccion != null && direccion.getLocalidad() != null && direccion.getLocalidad().getProvincia() != null && direccion.getLocalidad().getProvincia().getId() == provincia.getId());
+                        %>
+                                    <option value="<%= provincia.getId() %>" <%= selected ? "selected" : "" %>><%= provincia.getNombre() %></option>
+                        <% 
+                                }
+                            }
+                        %>
+                    </select>
                 </div>
                 <div class="form-group flex-item" style="margin-top: 10px;">
                     <label for="localidad">Localidad:</label>
-                    <input type="text" id="localidad" name="localidad" value="<%= localidad != null ? localidad.getNombre() : "" %>" required>
-                  	 <input type="hidden" id="localidad_id" name="localidad_id" value="<%= localidad != null ? localidad.getId() : "" %>">
+                      <select name="localidad" id="localidad">
+                        <option value="">Selecciona una localidad</option>
+                        <% 
+                            ArrayList<Localidad> listaLocalidades = (ArrayList<Localidad>) request.getAttribute("localidades");
+                            if (listaLocalidades != null) {
+                                for (Localidad localidad : listaLocalidades) {
+                                    boolean selected = (direccion != null && direccion.getLocalidad() != null && direccion.getLocalidad().getId() == localidad.getId());
+                        %>
+                                    <option value="<%= localidad.getId() %>" <%= selected ? "selected" : "" %>><%= localidad.getNombre() %></option>
+                        <% 
+                                }
+                            }
+                        %>
+                    </select>
 				</div>
                 </div>
                 <div class="form-group-domicilio">
@@ -202,7 +235,37 @@
         });
     }
     
-    
+    document.addEventListener('DOMContentLoaded', function() {
+        var provinciaSelect = document.getElementById('provincia');
+        var localidadSelect = document.getElementById('localidad');
+
+        provinciaSelect.addEventListener('change', function() {
+            var provinciaId = this.value;
+
+            // Hacer una llamada AJAX al servlet para obtener las localidades
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'AltaCliente?provincia=' + provinciaId, true);
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    var localidades = JSON.parse(xhr.responseText);
+
+                    // Limpiar opciones actuales
+                    localidadSelect.innerHTML = '<option value="">Selecciona una localidad</option>';
+
+                    // Agregar las nuevas opciones de localidades
+                    localidades.forEach(function(localidad) {
+                        var option = document.createElement('option');
+                        option.value = localidad.id;
+                        option.textContent = localidad.nombre;
+                        localidadSelect.appendChild(option);
+                    });
+                } else {
+                    console.log('Error al obtener localidades');
+                }
+            };
+            xhr.send();
+        });
+    });  
     //funcionalidad pop up
     
     function showPopup(message) {

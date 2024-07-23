@@ -1008,15 +1008,39 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        System.out.println("EDITAR CLIENTE COMPLETO");
 
 	        // Primero, obtenemos la información de la persona basándonos en el DNI
-	        String querySelect = "SELECT personas.id,personas.dni,personas.cuil,personas.nombre,personas.apellido,personas.sexo, personas.celular, personas.telefono, personas.direccion_id, personas.nacionalidad, personas.fecha_nacimiento, personas.email, "
-				     +"direcciones.id, direcciones.calle, direcciones.numero, direcciones.piso, direcciones.departamento, direcciones.localidad_id,usuarios.id, usuarios.usuario, usuarios.pass, localidades.Nombre,provincias.nombre,paises.nombre "
-		    	     +" FROM personas"
-		    	     +" INNER JOIN usuarios ON usuarios.persona_dni=personas.dni"
-		         	 +" INNER JOIN direcciones ON Personas.Direccion_id=direcciones.id"
-		    	     +" INNER JOIN localidades ON direcciones.Localidad_id=localidades.id"
-		         	 +" INNER JOIN provincias ON localidades.Provincia_id=provincias.id"
-		    	     +" INNER JOIN paises ON provincias.Pais_id=paises.id"
-		    	     +" WHERE personas.dni = ?";
+	        String querySelect = "SELECT "
+	                + "personas.id AS persona_id, "
+	                + "personas.dni, "
+	                + "personas.cuil, "
+	                + "personas.nombre, "
+	                + "personas.apellido, "
+	                + "personas.sexo, "
+	                + "personas.celular, "
+	                + "personas.telefono, "
+	                + "personas.direccion_id AS direccion_id, "
+	                + "personas.nacionalidad, "
+	                + "personas.fecha_nacimiento, "
+	                + "personas.email, "
+	                + "direcciones.calle, "
+	                + "direcciones.numero, "
+	                + "direcciones.piso, "
+	                + "direcciones.departamento, "
+	                + "direcciones.localidad_id AS direccion_localidad_id, "
+	                + "usuarios.usuario AS usuario_nombre, "
+	                + "usuarios.pass AS usuario_pass, "
+	                + "localidades.nombre AS localidad_nombre, "
+	                + "localidades.id AS localidad_id, "
+	                + "provincias.nombre AS provincia_nombre, "
+	                + "provincias.id AS provincia_id, "
+	                + "paises.nombre AS pais_nombre, "
+	                + "paises.id AS pais_id "
+	                + "FROM personas "
+	                + "INNER JOIN usuarios ON usuarios.persona_dni = personas.dni "
+	                + "INNER JOIN direcciones ON personas.direccion_id = direcciones.id "
+	                + "INNER JOIN localidades ON direcciones.localidad_id = localidades.id "
+	                + "INNER JOIN provincias ON localidades.provincia_id = provincias.id "
+	                + "INNER JOIN paises ON provincias.pais_id = paises.id "
+	                + "WHERE personas.dni = ?";
 
 	        preparedStatement = cn.prepareStatement(querySelect);
 	        preparedStatement.setString(1, dni);
@@ -1025,7 +1049,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        if (rs.next()) {
 	            // Crear la instancia de Persona
 	            p = new Persona();
-	            p.setId(rs.getInt("id"));
+	            p.setId(rs.getInt("persona_id"));
 	            p.setDni(rs.getString("dni"));
 	            p.setCuil(rs.getString("cuil"));
 	            p.setNombre(rs.getString("nombre"));
@@ -1042,27 +1066,30 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	            
 	            //Usuario
 	            Usuario u = new Usuario(); 
-		    	u.setUsuario(rs.getString("usuarios.usuario"));
-		    	u.setPass(rs.getString("usuarios.pass"));
+		    	u.setUsuario(rs.getString("usuario_nombre"));
+		    	u.setPass(rs.getString("usuario_pass"));
 
 	            
 	            // Crear la instancia de Pais
 	            Pais ps = new Pais();
-	            ps.setNombre(rs.getString("nombre"));
+	            ps.setNombre(rs.getString("pais_nombre"));
+	            ps.setId(rs.getInt("pais_id"));
 	            
 	            // Crear la instancia de Provincia
 	            Provincia pv = new Provincia();
-	            pv.setNombre(rs.getString("provincias.nombre"));
+	            pv.setNombre(rs.getString("provincia_nombre"));
+	            pv.setId(rs.getInt("provincia_id"));
 	            pv.setPais(ps);
 	            
 	            // Crear la instancia de Localidad
 	            Localidad l = new Localidad();
-	            l.setNombre(rs.getString("localidades.Nombre"));
+	            l.setNombre(rs.getString("localidad_Nombre"));
+	            l.setId(rs.getInt("localidad_id"));
 	            l.setProvincia(pv);
 	            
 	            // Crear la instancia de Direccion
 	            Direccion d = new Direccion();
-	            d.setId(rs.getInt("id"));
+	            d.setId(rs.getInt("direccion_id"));
 	            d.setCalle(rs.getString("calle"));
 	            d.setAltura(rs.getInt("numero"));
 	            d.setPiso(rs.getString("piso"));
