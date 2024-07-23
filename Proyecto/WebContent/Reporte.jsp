@@ -41,15 +41,17 @@
                     <th>Cuotas</th>
                     <th>Importe por Cuota</th>
                     <th>Estado Prestamo</th>
-                    <th>Cuotas Pagas</th>
+                    <th>Porcentaje Pagado</th>
                 </tr>
             </thead>
             <tbody>
                 <%  
                 ArrayList<Prestamo> listaPrestamos = (ArrayList<Prestamo>) request.getAttribute("listaPrestamos");
                 int cuotasPagas=0;
+                float porcentajePagado = 0;
                 if (listaPrestamos != null) {
                         for (Prestamo prestamo : listaPrestamos) { 
+                        	int cantCuotasTotales = prestamo.getCuotas();
                 %>
                             <tr>
                                 <td><%= prestamo.getFecha() %></td>
@@ -69,8 +71,11 @@
                                 				cuotasPagas++;
                                 			}
                                 		}
+                                		if(cuotasPagas!=0){
+                                			porcentajePagado= (cuotasPagas/cantCuotasTotales)*100;
+                                		}
                                 	}%>
-                                <td><%= cuotasPagas %></td>	
+                                <td><%= porcentajePagado %>%</td>	
                             </tr>
                 <% 
                         }
