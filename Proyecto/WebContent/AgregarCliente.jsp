@@ -50,7 +50,7 @@
      <div class="flex-container">
         <div class="form-group flex-item" style= "margin-top: 10px;">
             <label for="dni">DNI:</label>
-            <input type="text" id="dni" name="dni" required>
+            <input type="number" id="dni" name="dni" required>
         </div>
            <div class="form-group flex-item" style= "margin-top: 10px;">
             <label for="cuil">CUIL:</label>
