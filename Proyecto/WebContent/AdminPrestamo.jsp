@@ -1,18 +1,17 @@
-
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="entidad.Prestamo"%>
 <%@ page import="entidad.EstadoPrestamo"%>
 <%@ page import="entidad.Persona"%>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <title>Actualizar Estado de Préstamos</title>
-    <style type="text/css">
-        <%@ include file="css/Style.css" %>
-    </style>
+
+<html>
+<head lang="es">
+<meta charset="UTF-8">
+<style type="text/css">
+	<%@ include file="css/Style.css" %>
+</style>
+</head>
 <script type="text/javascript">
 function mostrarMensajeCambio(idPrestamo, dniCliente, importeSolicitado, numeroCuenta, importeCuota, cuotas, nuevoEstado) {
     var select = document.getElementById('estadoPrestamo_' + idPrestamo);
@@ -87,6 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <script type="text/javascript">
     $(document).ready(function() {
         $('#table_id').DataTable({
+        	order: [[0, 'desc']],
             language: {
                 lengthMenu: "Mostrar _MENU_ registros",
                 info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
@@ -120,7 +120,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="banner">
         <div class="logo_encabezado_izquierda">
             <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
-            <h3>Prestamos</h3>
+            <h3>Préstamos</h3>
         </div>
         <div class="logo_encabezado_derecha">
             <%= (String) session.getAttribute("usuario") %>
@@ -130,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </div>
     <div>
-        <h3 style="display:flex; justify-content: center;">Prestamos solicitados</h3>
+        <h3 style="display:flex; justify-content: center;">Préstamos solicitados</h3>
         <table id="table_id" class="display">
             <thead>
                 <tr>
@@ -180,7 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     } else {
                 %>
                 <tr>
-                    <td colspan="7">No tiene pr�stamos actuales</td>
+                    <td colspan="7">No tiene préstamos actuales</td>
                 </tr>
                 <% 
                     }
