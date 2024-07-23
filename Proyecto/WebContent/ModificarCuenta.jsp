@@ -33,49 +33,49 @@
         </div>
     </form>
 
-<div style= "margin: 0.5%;">
-	<form action="ServletModificarCuenta" method="post">
-	   <table id="table_id" class="display">
-        <tr>
-            <th>Número de cuenta</th>
-            <th>CBU</th>
-            <th>Tipo de cuenta</th>
-            <th>Saldo</th>
-            <th>Acción</th>
-        </tr>
-        <%
-            ArrayList<Cuenta> listaCuentas = (ArrayList<Cuenta>) request.getAttribute("listaCuentas");
-            if (listaCuentas != null) {
-                for (Cuenta cuenta : listaCuentas) {
-        %>
-        <tr>
-            <td><%= cuenta.getNumeroCuenta() %></td>
-            <td><%= cuenta.getCbu() %></td>
-            <td>
-                <select name="tipoCuenta_<%= cuenta.getNumeroCuenta() %>">
-                    <option value="1" <%= cuenta.getIdTipoCuenta().getId() == 1 ? "selected" : "" %>>Caja de Ahorro</option>
-                    <option value="2" <%= cuenta.getIdTipoCuenta().getId() == 2 ? "selected" : "" %>>Cuenta Corriente</option>
-                </select>
-            </td>
-            <td><%= cuenta.getSaldo() %></td>
-            <td>
-                <input type="hidden" name="numeroCuenta" value="<%= cuenta.getNumeroCuenta() %>">
-                <input type="hidden" name="dniCliente" value="<%= request.getParameter("dniCliente") %>">
-                <input type="submit" value="Actualizar" name="btnActualizarCuenta">
-            </td>
-        </tr>
-        <%
+    <div style="margin: 0.5%;">
+        <table id="table_id" class="display">
+            <tr>
+                <th>Número de cuenta</th>
+                <th>CBU</th>
+                <th>Tipo de cuenta</th>
+                <th>Saldo</th>
+                <th>Acción</th>
+            </tr>
+            <%
+                ArrayList<Cuenta> listaCuentas = (ArrayList<Cuenta>) request.getAttribute("listaCuentas");
+                if (listaCuentas != null) {
+                    for (Cuenta cuenta : listaCuentas) {
+            %>
+            <tr>
+                <form action="ServletModificarCuenta" method="post">
+                    <td><%= cuenta.getNumeroCuenta() %></td>
+                    <td><%= cuenta.getCbu() %></td>
+                    <td>
+                        <select name="tipoCuenta_<%= cuenta.getNumeroCuenta() %>">
+                            <option value="1" <%= cuenta.getIdTipoCuenta().getId() == 1 ? "selected" : "" %>>Caja de Ahorro</option>
+                            <option value="2" <%= cuenta.getIdTipoCuenta().getId() == 2 ? "selected" : "" %>>Cuenta Corriente</option>
+                        </select>
+                    </td>
+                    <td><%= cuenta.getSaldo() %></td>
+                    <td>
+                        <input type="hidden" name="numeroCuenta" value="<%= cuenta.getNumeroCuenta() %>">
+                        <input type="hidden" name="dniCliente" value="<%= request.getParameter("dniCliente") %>">
+                        <input type="submit" value="Actualizar" name="btnActualizarCuenta">
+                    </td>
+                </form>
+            </tr>
+            <%
+                    }
+                } else {
+            %>
+            <tr>
+                <td colspan="5">No se encontraron cuentas para el DNI ingresado.</td>
+            </tr>
+            <%
                 }
-            } else {
-        %>
-        <tr>
-            <td colspan="5">No se encontraron cuentas para el DNI ingresado.</td>
-        </tr>
-        <%
-            }
-        %>
+            %>
     </table>
-	    </form>
 	 </div>
 
         <div class="button-container">
