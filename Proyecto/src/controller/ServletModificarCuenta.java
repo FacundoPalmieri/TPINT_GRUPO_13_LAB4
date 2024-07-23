@@ -46,10 +46,13 @@ public class ServletModificarCuenta extends HttpServlet {
 	        	DNI = (request.getParameter("dniCliente"));
 	        	listaCuentas = cuentaNeg.obtenerCuentasPorDNI(DNI);
 	        	
-	  		  if(listaCuentas != null) {				  
+	  		  if(listaCuentas != null && !listaCuentas.isEmpty()) {				  
 				  
 				  request.setAttribute("listaCuentas", listaCuentas);
-				 
+	  		  }
+	  		 else {
+		  			request.setAttribute("Mensaje", "El DNI ingresado no posee cuentas");
+		  		  } 
 				  RequestDispatcher dispatcher = request.getRequestDispatcher("/ModificarCuenta.jsp");
 		          dispatcher.forward(request, response); 
 				    
@@ -57,7 +60,7 @@ public class ServletModificarCuenta extends HttpServlet {
 			  }
 	        	
 	            
-	        }
+	        
 		 if (request.getParameter("btnActualizarCuenta") != null) {
 			 
 			 System.out.println("Botón actualizar cuenta presionado.");
@@ -73,9 +76,9 @@ public class ServletModificarCuenta extends HttpServlet {
 		        System.out.println("Resultado de la actualización: " + resultado);
 
 		        if (resultado) {
-		            request.setAttribute("mensaje", "Cuenta actualizada correctamente.");
+		            request.setAttribute("Mensaje", "Cuenta actualizada correctamente.");
 		        } else {
-		            request.setAttribute("mensaje", "Error al actualizar la cuenta.");
+		            request.setAttribute("Mensaje", "Error al actualizar la cuenta.");
 		        }
 
 		        // Volver a cargar la lista de cuentas actualizada

@@ -180,12 +180,11 @@
     </form>
 </div>
 
-    <div id="popup" class="popup">
-        <div class="popup-content">
-            <span class="close-btn" onclick="closePopup()">&times;</span>
-            <p id="popup-message">Aquí se mostrará un mensaje.</p>
-        </div>
-    </div>
+<div id="popup" class="popup">
+    <span class="close-btn" onclick="closePopup()">&times;</span>
+    <p id="popupMessage"></p>
+</div>
+
 
     <script>
     var acc = document.getElementsByClassName("accordion");
@@ -217,6 +216,14 @@
         var popup = document.getElementById("popup");
         popup.classList.remove("active");
     }
+    
+    window.onload = function() {
+        // Obtenemos el mensaje de error desde el servidor
+        var errorMensaje = "<%= (request.getAttribute("mensaje") != null) ? request.getAttribute("mensaje") : "" %>";
+        if (errorMensaje) {
+            showPopup(errorMensaje);
+        }
+    };
     </script>   
 </body>
 </html>
