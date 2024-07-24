@@ -612,7 +612,7 @@ margin-top: auto!important;
     background-color: #f9f9f9;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     max-width: 520px; /* Ajusta el ancho máximo según tu preferencia */
-    margin: 5px auto; /* Centra el contenedor horizontalmente y ajusta el margen superior */
+    margin: 10px auto; /* Centra el contenedor horizontalmente y ajusta el margen superior */
 }
 
 .cuenta-item {

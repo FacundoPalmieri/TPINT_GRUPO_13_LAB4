@@ -2,7 +2,6 @@ package controller;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
@@ -11,12 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import entidad.Cuenta;
-import entidad.EstadoPrestamo;
 import entidad.Movimientos;
-import entidad.PagosPrestamos;
+import entidad.Persona;
 import entidad.Prestamo;
 import excepcion.DniInvalido;
 import excepcion.fechaInvalida;
@@ -25,10 +20,13 @@ import negocio.CuentaNeg;
 import negocio.MovimientoNeg;
 import negocio.PrestamoNeg;
 import negocio.ReporteNeg;
+import negocio.UsuarioNeg;
 import negocioimpl.CuentaNegImpl;
 import negocioimpl.MovimientoNegImpl;
 import negocioimpl.PrestamoNegImpl;
 import negocioimpl.ReporteNegImpl;
+import negocioimpl.UsuarioNegImpl;
+
 
 /**
  * Servlet implementation class ServletReportes
@@ -36,10 +34,12 @@ import negocioimpl.ReporteNegImpl;
 @WebServlet("/ServletReportes")
 public class ServletReportes extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private ReporteNeg reporteNeg; //ver
+	private ReporteNeg reporteNeg; 
 	private PrestamoNeg prestamoNeg;
 	private CuentaNeg cuentaNeg;
 	private MovimientoNeg movimientoNeg;
+	private UsuarioNeg usuarioNeg;
+	private Persona persona;
        
 	 public void init() throws ServletException {
 	        super.init();
@@ -47,6 +47,7 @@ public class ServletReportes extends HttpServlet {
 	        prestamoNeg = new PrestamoNegImpl();
 	        cuentaNeg = new CuentaNegImpl();
 	        movimientoNeg = new MovimientoNegImpl();
+	        usuarioNeg = new UsuarioNegImpl();
 	        
 	    }
 
@@ -172,26 +173,37 @@ public class ServletReportes extends HttpServlet {
 				
 				//Se envia la lista de prestamos para buscar en la db el estado de sus pagos
 				reporteNeg.verificarPagos(listaPrestamos);
+				
+				// Suponiendo que listaPrestamos es una lista de objetos Prestamo
+				StringBuilder jsonBuilder = new StringBuilder();
+				jsonBuilder.append("[");
+
+				for (int i = 0; i < listaPrestamos.size(); i++) {
+				    Prestamo prestamo = listaPrestamos.get(i);
+				    jsonBuilder.append("{")
+				                .append("\"id\":").append(prestamo.getId()).append(",")
+				                .append("\"estado\":").append(prestamo.getEstado().getId()) // Asegúrate de ajustar según tu estructura
+				                .append("}");
+
+				    if (i < listaPrestamos.size() - 1) {
+				        jsonBuilder.append(",");
+				    }
+				}
+				
+				//Envio al jsp los datos de la persona
+				persona = usuarioNeg.obtenerClientePorDNI(Integer.parseInt(DNI));
+				request.setAttribute("persona", persona);
+				
+				//Envío la lista de préstamos con formato json para los cálculos
+				jsonBuilder.append("]");
+				String prestamosJson = jsonBuilder.toString();
+				request.setAttribute("prestamosJson", prestamosJson);
+
+				//envío listado préstamos 
 				request.setAttribute("listaPrestamos", listaPrestamos);	
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/Reporte.jsp");
 				dispatcher.forward(request, response);	
 			}
-			
-			
-			/*
-			if(listaPrestamos != null) {
-				System.out.println("reporte prestamos");
-				
-				request.setAttribute("listaPrestamos", listaPrestamos);	
-
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/Reporte.jsp");
-				dispatcher.forward(request, response);	
-				
-			}else {
-				   request.setAttribute("Mensaje","No hay prestamos solicitados ");
-				   RequestDispatcher dispatcher = request.getRequestDispatcher("/Reporte.jsp");
-		           dispatcher.forward(request, response);
-			}*/
 		}		
 	}
 

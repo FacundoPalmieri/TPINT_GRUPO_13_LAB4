@@ -7,11 +7,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <title>Reporte de Prestamos</title>
-    <style type="text/css">
-        <%@ include file="css/Style.css" %>
-    </style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+<meta charset="UTF-8">
+<title>Reporte de Prestamos</title>
+<style type="text/css">
+	<%@ include file="css/Style.css" %>
+    #estadoChart {
+        width: 300px !important;
+        height: 300px !important;
+    }
+</style>
+
 </head>
 <body>
 <% if (session.getAttribute("tipoUsuario") != null) { %>
@@ -28,14 +35,23 @@
             </a>
         </div>
     </div>
-    <div>
+    <div style="margin:2%;">
         <h3 style="display:flex; justify-content: center;">Reporte</h3>
+        <div class="cuenta">
+        	<% Persona persona = (Persona)request.getAttribute("persona"); %>
+        	<div class="cuenta-item">
+        		<span class="label">Cliente:</span>
+        		<span class="value"><%= persona.getApellido() %>, <%= persona.getNombre() %></span>
+        	</div>
+        	<div class="cuenta-item">
+        		<span class="label">DNI:</span>
+        		<span class="value"><%= persona.getDni() %></span>
+        	</div>
+        </div>
         <table id="table_id" class="display">
             <thead>
                 <tr>
                     <th>Fecha</th>
-                    <th>Cliente</th>
-                    <th>DNI</th>
                     <th>Importe Solicitado</th>
                     <th>Importe a Pagar</th>
                     <th>Cuotas</th>
@@ -44,7 +60,7 @@
                     <th>Porcentaje Pagado</th>
                     <th>Monto Adeudado a la fecha</th>
                     <th>Monto Abonado a la fecha</th>
-            	    <th>Cantidad de cuotas atrasadas</th>
+
                 </tr>
                 
                  
@@ -64,19 +80,17 @@
                 %>
                             <tr>
                                 <td><%= prestamo.getFecha() %></td>
-                                <td><%= prestamo.getClienteDni().getApellido() %>, <%= prestamo.getClienteDni().getNombre() %></td>
-                                <td><%= prestamo.getClienteDni().getDni() %></td>
-                                <td><%= prestamo.getImporteSolicitado() %></td>
-                                <td><%= prestamo.getImporteAPagar() %></td>
+                                <td>$<%= prestamo.getImporteSolicitado() %></td>
+                                <td>$<%= prestamo.getImporteAPagar() %></td>
                                 <td><%= prestamo.getCuotas() %></td>
-                                <td><%= prestamo.getImporteCuota() %></td>
+                                <td>$<%= prestamo.getImporteCuota() %></td>
                                 <td><%= prestamo.getEstado().getDescripcion() %> </td>
                                 <td class="invisible"><%= prestamo.getId() %></td>
           
                                 <% 
                                 	if(prestamo.getEstado().getId()==3 || prestamo.getEstado().getId()==5){ 
                                 		for(PagosPrestamos p : prestamo.getPagosPrestamos()){
-                                			if(p.getEstado()!=1){
+                                			if(p.getEstado()==3){
                                 				cuotasPagas++;
                                 				montoAbonado+=p.getImportePago();
                                 			}
@@ -96,9 +110,9 @@
                                 			}
                             		  }
                                 	}%>
-                                <td><%= montoTotalAdeudado %></td>
-                                <td><%= montoAbonado %></td>			
-                                <td><%= cuotasImpagas %></td>	
+                                <td>$<%= montoTotalAdeudado %></td>
+                                <td>$<%= montoAbonado %></td>			
+                               	
                             </tr>
                 <% 
                         }
@@ -112,18 +126,9 @@
                 %>
             </tbody>
         </table>
-        
-        
-              <th>Probabilidad de peligro de su siguiente credito?</th>
-                           <% 
-                        	{
-                               		peligro= (cuotasImpagas)*20;
-                                		
-                                	}%>
-                                <td><%= peligro %>%</td>
-         
-        
-        
+		
+		<canvas id="estadoChart"></canvas>
+
     </div>
     <div class="button-container">
         <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='UsuarioAdministrador.jsp';">
@@ -156,6 +161,97 @@
             showResultPopup(errorMensaje);
         }
     };
+    
+    // Grafico js
+        var estadoNombres = {
+            1: 'Solicitado',
+            2: 'En Analisis',
+            3: 'Aprobado',
+            4: 'Rechazado',
+            5: 'Abonado'
+        };
+
+        // Recuperar la cadena JSON desde el JSP
+        var prestamosJson = '<%= request.getAttribute("prestamosJson") %>';
+        var prestamos = JSON.parse(prestamosJson); // Parsear la cadena JSON a un objeto JavaScript
+
+        // Contar préstamos por estado
+        var conteoPorEstado = {};
+        prestamos.forEach(function(prestamo) {
+            var estadoId = prestamo.estado; // Ajusta según tu estructura de datos
+            if (!conteoPorEstado[estadoId]) {
+                conteoPorEstado[estadoId] = 0;
+            }
+            conteoPorEstado[estadoId]++;
+        });
+
+        // Convertir IDs a nombres y preparar datos para Chart.js
+        var labels = Object.keys(conteoPorEstado).map(function(id) {
+            return estadoNombres[id] || 'Desconocido'; // Asegura que el nombre esté definido
+        });
+        var data = Object.values(conteoPorEstado);
+
+        var ctx = document.getElementById('estadoChart').getContext('2d');
+        var estadoChart = new Chart(ctx, {
+            type: 'pie', // Cambiar a 'pie' para gráfico de torta
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Número de Préstamos',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            font: {
+                                size: 24 // Cambia el tamaño de la fuente en la leyenda
+                            }
+                        }
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                return tooltipItem.label + ': ' + tooltipItem.raw;
+                            }
+                        },
+                        bodyFont: {
+                            size: 24 // Cambia el tamaño de la fuente en el tooltip
+                        }
+                    },
+                    datalabels: {
+                        formatter: (value, context) => {
+                            return context.label + ': ' + value;
+                        },
+                        color: '#fff',
+                        font: {
+                            weight: 'bold',
+                            size: 16
+                        }
+                    }
+                }
+            }
+        });
 </script>
 </body>
 </html>
