@@ -92,6 +92,11 @@ public class ServletEditarCliente extends HttpServlet {
             dispatcher.forward(request, response); 
         }
     	
+    	
+    	
+    	
+    	
+    	
     	// MODIFICAR CLIENTE.JSP
         if (request.getParameter("btnBuscar") != null) {
         	
@@ -106,7 +111,7 @@ public class ServletEditarCliente extends HttpServlet {
         	ArrayList<Localidad> listaLocalidades = new ArrayList<Localidad> ();
         	ArrayList<Provincia> listaProvincias = new ArrayList<Provincia> ();
         	
-        	listaLocalidades = datosGeoNeg.ObtenerLocalidad(2);
+        	listaLocalidades = datosGeoNeg.ObtenerLocalidad(persona.getDireccion().getLocalidad().getProvincia().getId());
         	listaProvincias = datosGeoNeg.ObtenerProvincia();
         	
         	 for (Localidad localidad : listaLocalidades) {
