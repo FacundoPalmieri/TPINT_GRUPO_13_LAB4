@@ -74,7 +74,7 @@
                 if (listaPrestamos != null) {
                         for (Prestamo prestamo : listaPrestamos) { 
                         	float porcentajePagado = 0;
-                        	float montoTotalAdeudado = prestamo.getImporteAPagar();
+                        	float montoTotalAdeudado = 0;
                         	float montoAbonado = 0;
                         	int cantCuotasTotales = prestamo.getCuotas();
                 %>
@@ -89,8 +89,9 @@
           
                                 <% 
                                 	if(prestamo.getEstado().getId()==3 || prestamo.getEstado().getId()==5){ 
+                                		montoTotalAdeudado= prestamo.getImporteAPagar();
                                 		for(PagosPrestamos p : prestamo.getPagosPrestamos()){
-                                			if(p.getEstado()==3){
+                                			if(p.getEstado()!=1){
                                 				cuotasPagas++;
                                 				montoAbonado+=p.getImportePago();
                                 			}
