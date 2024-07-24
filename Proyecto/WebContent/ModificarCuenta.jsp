@@ -76,7 +76,7 @@
     </table>
 	 </div>
 
-        <div class="button-container">
+        <div style="display: flex; justify-content: end; margin: 2%;">
             <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLcuentas.jsp';"> 
         </div>
 
