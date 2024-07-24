@@ -48,7 +48,8 @@
 	
  <form action="EditarCliente" method="post">
     <div id="BusquedaCliente">
-        <input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%=request.getParameter("dniCliente")%>"style="background-color: #e9ecef;">
+    	
+        <input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%= (request.getParameter("dniCliente") != null) ? request.getParameter("dniCliente") : "" %>" required style="background-color: #e9ecef;">
         <input type="submit" value="Buscar" name="btnBuscar" style="background-color: #78AD89">
    </div>
 
