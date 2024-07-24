@@ -50,4 +50,6 @@ public interface UsuarioDao {
 	  public Persona obtenerPersonaCompleta(String dni);
 	  
 	  public boolean actualizarPersonaCompleta(Persona persona);
+	  
+	  public int validarMail(String email);
 }

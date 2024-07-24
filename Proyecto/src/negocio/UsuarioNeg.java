@@ -32,5 +32,6 @@ public interface UsuarioNeg {
 	public Persona obtenerClientePorDNI (int dni);
 	public Persona obtenerPersonaCompleta(String dni);
 	public boolean actualizarPersonaCompleta(Persona persona);
+	public int validarMail(String email);
 
 }

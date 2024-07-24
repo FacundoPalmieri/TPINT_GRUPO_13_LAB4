@@ -105,7 +105,7 @@
         <div class="panel">
             <div class="flex-container">
                 <div class="form-group flex-item" style="margin-top: 10px;">
-                    <label for="pais">País:</label>
+                    <label for="pais">Pais:</label>
                     <select name="pais" id="pais">
 					    <option value="">Selecciona un país</option>
 					    <% 
@@ -164,7 +164,7 @@
                         <input type="text" id="calle" name="calle" value="<%= direccion != null ? direccion.getCalle() : "" %>"  required>
                     </div>
                     <div class="group">
-                        <label for="numero">Número:</label>
+                        <label for="numero">Numero:</label>
                         <input type="text" id="numero" name="numero" value="<%= direccion != null ? direccion.getAltura() : "" %>"   required>
                     </div>
                     <div class="group">

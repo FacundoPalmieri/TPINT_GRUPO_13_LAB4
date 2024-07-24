@@ -111,7 +111,15 @@ public class ServletAltaCliente extends HttpServlet {
 			direccion.setCalle(request.getParameter("calle"));
 	        direccion.setAltura(Integer.parseInt(request.getParameter("numero")));
 	        direccion.setPiso(request.getParameter("piso"));
-	        direccion.setDepartamento(request.getParameter("depto")); 
+	        System.out.println(direccion.getPiso());
+	        if(direccion.getPiso() == null || direccion.getPiso().isEmpty()) {
+	        	direccion.setPiso("-");
+	        }
+	        direccion.setDepartamento(request.getParameter("depto"));
+	        System.out.println(direccion.getDepartamento());
+	        if(direccion.getDepartamento()== null || direccion.getDepartamento().isEmpty()) {
+	        	direccion.setDepartamento("-");
+	        }
             direccion.setLocalidad_id(Integer.parseInt(request.getParameter("localidad")));
 			
 			
@@ -140,18 +148,27 @@ public class ServletAltaCliente extends HttpServlet {
 						dispatcher.forward(request, response);	
 					}
 					else {
-						estado = usuarioNeg.agregarCliente(usuario, persona, direccion);
-						
-						if(estado == true) {
-							request.setAttribute("Mensaje", "Cliente agregado");
-					    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
-							dispatcher.forward(request, response);
-						}else {
-							request.setAttribute("Mensaje", "Ups! ha ocurrido un error inesperado");
-					    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
-							dispatcher.forward(request, response);
-						}
-				    		
+						  int validacionMail = 0;
+						  validacionMail = usuarioNeg.validarMail(persona.getEmail());
+						  if(validacionMail == 1) {
+							  
+						 
+								  estado = usuarioNeg.agregarCliente(usuario, persona, direccion);
+							
+								if(estado == true) {
+									request.setAttribute("Mensaje", "Cliente agregado");
+							    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
+									dispatcher.forward(request, response);
+								}else {
+									request.setAttribute("Mensaje", "Ups! ha ocurrido un error inesperado");
+							    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
+									dispatcher.forward(request, response);
+								}
+						  }else {
+							    request.setAttribute("Mensaje", "No se pudo agregar. El EMAIL ya se encuentra asignado a otro cliente");
+						    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
+								dispatcher.forward(request, response);
+						  }
 						
 				 }
 		  }else {

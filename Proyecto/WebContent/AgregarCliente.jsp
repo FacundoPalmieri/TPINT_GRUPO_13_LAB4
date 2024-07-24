@@ -87,7 +87,7 @@
 <div class="panel">
     <div class="flex-container">
         <div class="form-group flex-item" style="margin-top: 10px;">
-            <label for="pais">País:</label>
+            <label for="pais">Pais:</label>
             <select name="pais" id="pais">
                 <option value="">Selecciona un país</option>
                 <% 
@@ -145,7 +145,7 @@
                 <input type="text" id="calle" name="calle" required>
             </div>
             <div class="group">
-                <label for="numero">Número:</label>
+                <label for="numero">Numero:</label>
                 <input type="text" id="numero" name="numero" required>
             </div>
             <div class="group">
@@ -221,6 +221,9 @@
       %>
     	
        	showPopup("<%= mensaje%>");
+       	setTimeout(function() {
+            window.location.href = "<%= request.getContextPath() %>/AltaCliente?btnAgregarCliente=Agregar+Clientes";
+        }, 2000); // 2 segundos de retraso antes de redirigir
        <% 
             } 
        %>
@@ -255,6 +258,7 @@
         var popupMessage = document.getElementById("popupMessage");
         popupMessage.innerText = message;
         popup.classList.add("active");
+        
     }
 
     function closePopup() {

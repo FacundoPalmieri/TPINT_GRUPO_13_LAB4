@@ -218,8 +218,15 @@ public class ServletEditarCliente extends HttpServlet {
 	            direccion.setId(Integer.parseInt(request.getParameter("idDireccion")));
 	            direccion.setCalle(request.getParameter("calle"));
 	            direccion.setAltura(Integer.parseInt(request.getParameter("numero")));
+	            
 	            direccion.setPiso(request.getParameter("piso"));
+	            if(direccion.getPiso() == null) {
+	            	direccion.setPiso("-");
+	            }
 	            direccion.setDepartamento(request.getParameter("departamento"));
+	            if(direccion.getDepartamento() == null) {
+	            	direccion.setDepartamento("-");
+	            }
 	            direccion.setLocalidad(localidad);
 	            persona.setDireccion(direccion);
 	

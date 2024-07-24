@@ -90,7 +90,7 @@
 <div class="panel">
     <div class="flex-container">
         <div class="form-group flex-item" style="margin-top: 10px;">
-            <label for="pais">País:</label>
+            <label for="pais">Pais:</label>
          	 <input type="text" id="pais" name="pais" value="Argentina"   readonly>
         </div>
         <div class="form-group flex-item" style="margin-top: 10px;">
@@ -108,7 +108,7 @@
                  <input type="text" id="calle" name="calle" value="<%= direccion.getCalle() %>"  readonly> 
             </div>
             <div class="group">
-                <label for="numero">Número:</label>
+                <label for="numero">Numero:</label>
                     <input type="text" id="numero" name="numero" value="<%= direccion.getAltura() %>"    readonly> 
             </div>
             <div class="group">
@@ -133,7 +133,7 @@
             <input type="text" id="celular" name="celular" value="<%= persona.getCelular() %>"   readonly> 
         </div>
        <div class="form-group flex-item" style= "margin-top: 10px;">
-            <label for="telefonos">Telófono:</label>
+            <label for="telefonos">Telefono:</label>
             <input type="text" id="telefonos" name="telefonos" value="<%= persona.getTelefono() %>"  readonly> 
         </div>
         <div class="form-group  flex-item">
