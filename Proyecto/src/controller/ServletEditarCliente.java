@@ -1,7 +1,6 @@
 package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -32,6 +31,7 @@ public class ServletEditarCliente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	UsuarioNeg usuarioNeg = new UsuarioNegImpl();
 	DatosGeograficosNeg datosGeoNeg = new DatosGeograficosNegImpl();
+	
        
    
     public ServletEditarCliente() {
@@ -41,83 +41,40 @@ public class ServletEditarCliente extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Iniciando metodo doGet de ServletEditarCliente...");
-
-	    // Obtener las listas de paises y provincias
-	    ArrayList<Pais> listaPaises = datosGeoNeg.ObtenerPais();
-	    ArrayList<Provincia> listaProvincias = datosGeoNeg.ObtenerProvincia();
-	    request.setAttribute("paises", listaPaises);
-	    request.setAttribute("provincias", listaProvincias);
-
-	    // Verificar si el parametro "provincia" esta presente para cargar localidades
-	    String provinciaId = request.getParameter("provincia");
-	    if (provinciaId != null && !provinciaId.isEmpty()) {
-	        int idProvincia = Integer.parseInt(provinciaId);
-	        ArrayList<Localidad> listaLocalidades = datosGeoNeg.ObtenerLocalidad(idProvincia);
-
-	        // Construir el JSON manualmente
-	        StringBuilder jsonLocalidades = new StringBuilder();
-	        jsonLocalidades.append("[");
-	        for (int i = 0; i < listaLocalidades.size(); i++) {
-	            Localidad localidad = listaLocalidades.get(i);
-	            jsonLocalidades.append("{");
-	            jsonLocalidades.append("\"id\":").append(localidad.getId()).append(",");
-	            jsonLocalidades.append("\"nombre\":\"").append(localidad.getNombre()).append("\"");
-	            jsonLocalidades.append("}");
-	            if (i < listaLocalidades.size() - 1) {
-	                jsonLocalidades.append(",");
-	            }
-	        }
-	        jsonLocalidades.append("]");
-
-	        // Configurar la respuesta HTTP
-	        response.setContentType("application/json");
-	        response.setCharacterEncoding("UTF-8");
-
-	        // Enviar la respuesta JSON al cliente
-	        PrintWriter out = response.getWriter();
-	        out.print(jsonLocalidades.toString());
-	        out.flush();
-
-	        return;
-	    }
-
-	    // Verificar el tipo de usuario y obtener datos del cliente para edición
-	    HttpSession session = request.getSession(false);
-	    Integer tipoUsuario = (Integer) session.getAttribute("tipoUsuario");
-	    if (tipoUsuario != null && tipoUsuario == 2) {
-	        String nombreUsuario = (String) session.getAttribute("usuario");
-
-	        if (nombreUsuario != null) {
-	            // Obtener datos del cliente
-	            Persona persona = usuarioNeg.ObtenerCliente(nombreUsuario);
-
-	            if (persona != null) {
-	                Direccion direccion = persona.getDireccion();
-	                Provincia provincia = direccion.getLocalidad().getProvincia();
-	                Localidad localidad = direccion.getLocalidad();
-
-	                // Establecer atributos para el JSP
-	                request.setAttribute("persona", persona);
-	                request.setAttribute("direccion", direccion);
-	                request.setAttribute("provincia", provincia);
-	                request.setAttribute("localidad", localidad);
-
-	                // Redirigir al JSP
-	                RequestDispatcher dispatcher = request.getRequestDispatcher("/DatosCliente.jsp");
-	                dispatcher.forward(request, response);
-	            } else {
-	                // Manejar el caso donde no se encuentra la persona
-	                response.sendRedirect("Login.jsp");
-	            }
-	        } else {
-	            // Manejar el caso donde no se encuentra el nombre de usuario en la sesión
-	            response.sendRedirect("Login.jsp");
-	        }
-	    } else {
-	        // Manejar el caso donde el tipo de usuario no es 2
-	        response.sendRedirect("Login.jsp");
-	    }
+		
+		//VISUALIZAR DATOS SIENDO CLIENTE
+        HttpSession session = request.getSession(false);
+        Integer tipoUsuario = (Integer) session.getAttribute("tipoUsuario");
+    	if (tipoUsuario != null && tipoUsuario == 2) {
+        	String nombreUsuario = (String)  session.getAttribute("usuario");
+        	int IdDireccion = (int) session.getAttribute("Direccion_id");
+            if (nombreUsuario != null) {
+                if (request.getParameter("Param") != null) {
+    
+                	Persona persona = new Persona();
+                	Direccion direccion = new Direccion();
+                	Provincia provincia = new Provincia();
+                	Localidad localidad = new Localidad();
+                	
+                	
+		            persona = usuarioNeg.ObtenerCliente(nombreUsuario);
+		            direccion = usuarioNeg.ObtenerDireccionCliente(IdDireccion);
+		            provincia = usuarioNeg.ObtenerProvinciaCliente(1);
+		            localidad = usuarioNeg.ObtenerLocalidadCliente(direccion.getLocalidad_id());
+		            
+		            System.out.println("DNI" + persona.getDni());
+	
+		            request.setAttribute("persona", persona);
+		            request.setAttribute("direccion",direccion);
+		            request.setAttribute("provincia",provincia);
+		            request.setAttribute("localidad",localidad);
+		            
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/DatosCliente.jsp");              
+                    dispatcher.forward(request, response);
+              
+                } 
+            }
+        }              
 	}
 
 	
@@ -143,26 +100,30 @@ public class ServletEditarCliente extends HttpServlet {
 
         	
         	DNI = (request.getParameter("dniCliente"));
-        	persona = usuarioNeg.GuardarPersonaCompleta(DNI);
+        	persona = usuarioNeg.GuardarPersonaCompleta(DNI); // ACORDATE QUE CAMBIASTE EL LA QUERY
         	
         	if (persona != null) {
-        		ArrayList<Pais> listaPaises = datosGeoNeg.ObtenerPais();
-    		    ArrayList<Provincia> listaProvincias = datosGeoNeg.ObtenerProvincia();
-    		    
-    		    request.setAttribute("paises", listaPaises);
-    		    request.setAttribute("provincias", listaProvincias);	
+        	ArrayList<Localidad> listaLocalidades = new ArrayList<Localidad> ();
+        	ArrayList<Provincia> listaProvincias = new ArrayList<Provincia> ();
         	
-        	request.setAttribute("usuario", persona.getUsuario());
-        	request.setAttribute("pass", persona.getUsuario().getPass());
-            request.setAttribute("persona", persona);
-            ArrayList<Localidad> listaLocalidades = datosGeoNeg.ObtenerLocalidad(persona.getDireccion().getLocalidad().getProvincia().getId());
-            request.setAttribute("localidades", listaLocalidades);
-            request.setAttribute("direccion", persona.getDireccion());
-            request.setAttribute("provincia", persona.getDireccion().getLocalidad().getProvincia() );
-            request.setAttribute("localidad", persona.getDireccion().getLocalidad() );
-            request.setAttribute("pais", persona.getDireccion().getLocalidad().getProvincia().getPais());
+        	listaLocalidades = datosGeoNeg.ObtenerLocalidad(2);
+        	listaProvincias = datosGeoNeg.ObtenerProvincia();
+        	
+        	 for (Localidad localidad : listaLocalidades) {
+        		 if(localidad.getId() == persona.getDireccion().getLocalidad().getId());
+        		 	System.out.println(persona.getDireccion().getLocalidad().getNombre());
+        		 	System.out.println(persona.getDireccion().getLocalidad().getId());
+        		 	System.out.println(persona.getDireccion().getLocalidad().getProvincia().getNombre());
+        	 }
+        	 
+        	 
+        	request.setAttribute("listaProvincias", listaProvincias);
+        	request.setAttribute("listaLocalidades", listaLocalidades);
+        	request.setAttribute("persona", persona);
+
+  
         	}else {
-        		request.setAttribute("mensaje", "No se encontró ningún cliente con ese DNI.");
+        	request.setAttribute("mensaje", "No se encontró ningún cliente con ese DNI.");
             }
         	
             // Redirige al JSP de edición
@@ -193,29 +154,24 @@ public class ServletEditarCliente extends HttpServlet {
             usuario.setUsuario(request.getParameter("usuario"));
             usuario.setPass(request.getParameter("pass"));
             persona.setUsuario(usuario);
-           
-            int paisId = Integer.parseInt(request.getParameter("pais"));
-            int provinciaId = Integer.parseInt(request.getParameter("provincia"));
-            int localidadId = Integer.parseInt(request.getParameter("localidad"));
             
             Pais pais = new Pais();
-            pais.setId(paisId);
+            pais.setNombre(request.getParameter("pais"));
             
             Provincia provincia = new Provincia();
-            provincia.setId(provinciaId);
-            provincia.setPais(pais);
-
+            provincia.setId(Integer.parseInt(request.getParameter("provincia_id")));
+            provincia.setNombre(request.getParameter("provincia"));
             
             Localidad localidad = new Localidad();
-            localidad.setId(localidadId);
-            localidad.setProvincia(provincia);
+            localidad.setId(Integer.parseInt(request.getParameter("localidad_id")));
+            localidad.setNombre(request.getParameter("localidad"));
 
             Direccion direccion = new Direccion();
             direccion.setCalle(request.getParameter("calle"));
             direccion.setAltura(Integer.parseInt(request.getParameter("numero")));
             direccion.setPiso(request.getParameter("piso"));
             direccion.setDepartamento(request.getParameter("departamento"));
-            direccion.setLocalidad(localidad);
+            direccion.setLocalidad_id(Integer.parseInt(request.getParameter("localidad_id")));
             persona.setDireccion(direccion);
 
             boolean actualizado = usuarioNeg.actualizarPersonaCompleta(persona);
