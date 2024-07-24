@@ -1163,4 +1163,59 @@ public class UsuarioDaoImpl implements UsuarioDao{
 
 	    return actualizado;
 	}
+
+
+
+	@Override
+	public int validarMail(String email) {
+		Conexion cn = new Conexion();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		int estado = 1;
+		
+		String query = "Select email FROM personas where email = ? ";
+		
+		try {
+			cn.Open();
+			System.out.println("CONEXION ABIERTA validarMail ");
+			
+			ps = cn.prepareStatement(query);
+			ps.setString(1, email);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				estado = 0;
+				
+			}
+
+		} catch (Exception e) {
+			System.out.println("ERROR EN validarMail ");
+			e.printStackTrace();
+		}finally {
+			
+			 try {
+				cn.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR al cerrar CN  validarMail ");
+				e2.printStackTrace();
+			}
+			 try {
+				ps.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR al cerrar PS  validarMail ");
+				e2.printStackTrace();
+			}
+			 try {
+				rs.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR al cerrar PS  validarMail ");
+				e2.printStackTrace();
+			}
+		 
+		}
+		
+		return estado;
+		
+	}
 }

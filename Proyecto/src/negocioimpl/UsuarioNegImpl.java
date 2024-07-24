@@ -148,6 +148,12 @@ public class UsuarioNegImpl implements UsuarioNeg{
 	}
 
 
+	@Override
+	public int validarMail(String email) {
+		return usuarioDao.validarMail(email);
+	}
+
+
 	
 }
 
