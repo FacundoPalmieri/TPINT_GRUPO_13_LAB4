@@ -42,7 +42,9 @@
                     <th>Importe por Cuota</th>
                     <th>Estado Prestamo</th>
                     <th>Porcentaje Pagado</th>
-            	     <th>Cantidad de cuotas atrasadas</th>
+                    <th>Monto Adeudado a la fecha</th>
+                    <th>Monto Abonado a la fecha</th>
+            	    <th>Cantidad de cuotas atrasadas</th>
                 </tr>
                 
                  
@@ -56,6 +58,8 @@
                 if (listaPrestamos != null) {
                         for (Prestamo prestamo : listaPrestamos) { 
                         	float porcentajePagado = 0;
+                        	float montoTotalAdeudado = prestamo.getImporteAPagar();
+                        	float montoAbonado = 0;
                         	int cantCuotasTotales = prestamo.getCuotas();
                 %>
                             <tr>
@@ -74,10 +78,12 @@
                                 		for(PagosPrestamos p : prestamo.getPagosPrestamos()){
                                 			if(p.getEstado()!=1){
                                 				cuotasPagas++;
+                                				montoAbonado+=p.getImportePago();
                                 			}
                                 		}
                                 		if(cuotasPagas!=0){
                                 			porcentajePagado= ((float)cuotasPagas/(float)cantCuotasTotales)*100;
+                                			montoTotalAdeudado -= montoAbonado;
                                 		}
                                 	}%>
                                 <td><%= String.format("%.2f",porcentajePagado) %>%</td>	
@@ -90,6 +96,8 @@
                                 			}
                             		  }
                                 	}%>
+                                <td><%= montoTotalAdeudado %></td>
+                                <td><%= montoAbonado %></td>			
                                 <td><%= cuotasImpagas %></td>	
                             </tr>
                 <% 
