@@ -60,78 +60,71 @@
                     <th>Porcentaje Pagado</th>
                     <th>Monto Adeudado</th>
                     <th>Monto Abonado</th>
-
                 </tr>
-                
-                 
             </thead>
             <tbody>
                 <%  
                 ArrayList<Prestamo> listaPrestamos = (ArrayList<Prestamo>) request.getAttribute("listaPrestamos");
-                int cuotasPagas=0;
-               	int cuotasImpagas=0;
-                float peligro = 0;
                 if (listaPrestamos != null) {
-                        for (Prestamo prestamo : listaPrestamos) { 
-                        	float porcentajePagado = 0;
-                        	float montoTotalAdeudado = 0;
-                        	float montoAbonado = 0;
-                        	int cantCuotasTotales = prestamo.getCuotas();
-                %>
-                            <tr>
-                                <td><%= prestamo.getFecha() %></td>
-                                <td>$<%= prestamo.getImporteSolicitado() %></td>
-                                <td>$<%= prestamo.getImporteAPagar() %></td>
-                                <td><%= prestamo.getCuotas() %></td>
-                                <td>$<%= prestamo.getImporteCuota() %></td>
-                                <td><%= prestamo.getEstado().getDescripcion() %> </td>
-                                <td class="invisible"><%= prestamo.getId() %></td>
-          
-                                <% 
-                                	if(prestamo.getEstado().getId()==3 || prestamo.getEstado().getId()==5){ 
-                                		montoTotalAdeudado= prestamo.getImporteAPagar();
-                                		for(PagosPrestamos p : prestamo.getPagosPrestamos()){
-                                			if(p.getEstado()!=1){
-                                				cuotasPagas++;
-                                				montoAbonado+=p.getImportePago();
-                                			}
-                                		}
-                                		if(cuotasPagas!=0){
-                                			porcentajePagado= ((float)cuotasPagas/(float)cantCuotasTotales)*100;
-                                			montoTotalAdeudado -= montoAbonado;
-                                		}%>
-                                	<td><%= String.format("%.2f",porcentajePagado) %>%</td>		
-                                 <% }else{%>
-                                	<td>-</td>
-                               	<%}%>
-                                
-                                <% 
-                              	if(prestamo.getEstado().getId()==3 || prestamo.getEstado().getId()==5){ 
-                                		for(PagosPrestamos p : prestamo.getPagosPrestamos()){
-                                			if(p.getEstado()==3){
-                                				cuotasImpagas++;
-                                			}	
-                            		  }%>
-                                	<td>$<%= montoTotalAdeudado %></td>	
-                                <%}else{%>
-                                	<td>-</td>
-                               	<%}%>
-                               	<% 
-                              	if(prestamo.getEstado().getId()==3 || prestamo.getEstado().getId()==5){ %>
-                              		<td>$<%= montoAbonado %></td>		
-                                <%}else{%>
-                                	<td>-</td>
-                               	<%}%>
-                            </tr>
-                <% 
-                        }
-                    } else {
+                    for (Prestamo prestamo : listaPrestamos) { 
+                        float porcentajePagado = 0;
+                        float montoTotalAdeudado = 0;
+                        float montoAbonado = 0;
+                        int cantCuotasTotales = prestamo.getCuotas();
+                        int cuotasPagas = 0;
                 %>
                 <tr>
-                    <td colspan="8">No tiene préstamos actuales</td>
+                    <td><%= prestamo.getFecha() %></td>
+                    <td>$<%= prestamo.getImporteSolicitado() %></td>
+                    <td>$<%= prestamo.getImporteAPagar() %></td>
+                    <td><%= prestamo.getCuotas() %></td>
+                    <td>$<%= prestamo.getImporteCuota() %></td>
+                    <td><%= prestamo.getEstado().getDescripcion() %></td>
+                    <td class="invisible"><%= prestamo.getId() %></td>
+                    
+                    <% 
+                    if(prestamo.getEstado().getId() == 3 || prestamo.getEstado().getId() == 5) { 
+                        montoTotalAdeudado = prestamo.getImporteAPagar();
+                        for(PagosPrestamos p : prestamo.getPagosPrestamos()) {
+                            if(p.getEstado() != 1) {
+                                cuotasPagas++;
+                                montoAbonado += p.getImportePago();
+                            }
+                        }
+                        if(cuotasPagas != 0) {
+                            porcentajePagado = ((float)cuotasPagas / (float)cantCuotasTotales) * 100;
+                            montoTotalAdeudado -= montoAbonado;
+                        }
+                    %>
+                    <td><%= String.format("%.2f", porcentajePagado) %>%</td>        
+                    <% } else { %>
+                    <td>-</td>
+                    <% } %>
+                    
+                    <% 
+                    if(prestamo.getEstado().getId() == 3 || prestamo.getEstado().getId() == 5) { 
+                    %>
+                    <td>$<%= montoTotalAdeudado %></td>    
+                    <% } else { %>
+                    <td>-</td>
+                    <% } %>
+                    
+                    <% 
+                    if(prestamo.getEstado().getId() == 3 || prestamo.getEstado().getId() == 5) { %>
+                    <td>$<%= montoAbonado %></td>        
+                    <% } else { %>
+                    <td>-</td>
+                    <% } %>
                 </tr>
                 <% 
                     }
+                } else {
+                %>
+                <tr>
+                    <td colspan="9">No tiene préstamos actuales</td>
+                </tr>
+                <% 
+                }
                 %>
             </tbody>
         </table>
@@ -230,36 +223,22 @@
             options: {
                 responsive: true,
                 plugins: {
-                    legend: {
-                        position: 'top',
-                        labels: {
-                            font: {
-                                size: 24 // Cambia el tamaño de la fuente en la leyenda
-                            }
-                        }
-                    },
-                    tooltip: {
-                        callbacks: {
-                           label: function(tooltipItem) {
-                                return tooltipItem.label + ': ' + tooltipItem.raw;
-                            }
-                        },
-                        bodyFont: {
-                            size: 24 // Cambia el tamaño de la fuente en el tooltip
-                        }
-                    },
                     datalabels: {
-                        formatter: (value, context) => {
-                            return context.label + ': ' + value;
+                        formatter: (value, ctx) => {
+                            let datasets = ctx.chart.data.datasets;
+                            if (datasets.indexOf(ctx.dataset) === datasets.length - 1) {
+                                let sum = datasets[0].data.reduce((a, b) => a + b, 0);
+                                let percentage = Math.round((value / sum) * 100) + "%";
+                                return percentage;
+                            } else {
+                                return percentage;
+                            }
                         },
                         color: '#fff',
-                        font: {
-                            weight: 'bold',
-                            size: 16
-                        }
                     }
                 }
-            }
+            },
+            plugins: [ChartDataLabels]
         });
 </script>
 </body>
