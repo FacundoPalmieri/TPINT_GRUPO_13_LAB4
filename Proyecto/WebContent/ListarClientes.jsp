@@ -154,7 +154,7 @@
 	function enviarDetalles(usuario){
 		let form = document.createElement('form');
 	    form.method = 'post';
-	    form.action = 'EditarCliente';
+	    form.action = 'ServletDatosCliente';
 	    
 	    let input = document.createElement('input');
 	    input.type = 'hidden';

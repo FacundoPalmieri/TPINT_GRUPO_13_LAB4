@@ -1009,7 +1009,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 
 	        // Primero, obtenemos la información de la persona basándonos en el DNI
 	        String querySelect = "SELECT personas.id,personas.dni,personas.cuil,personas.nombre,personas.apellido,personas.sexo, personas.celular, personas.telefono, personas.direccion_id, personas.nacionalidad, personas.fecha_nacimiento, personas.email, "
-				     +"direcciones.id, direcciones.calle, direcciones.numero, direcciones.piso, direcciones.departamento, direcciones.localidad_id,usuarios.id, usuarios.usuario, usuarios.pass,localidades.id, localidades.Nombre,provincias.nombre,paises.nombre, "
+				     +"direcciones.id, direcciones.calle, direcciones.numero, direcciones.piso, direcciones.departamento, direcciones.localidad_id,usuarios.id, usuarios.usuario, usuarios.pass,localidades.id, localidades.Nombre,provincias.nombre,paises.id, paises.nombre, "
 				     + "provincias.id, provincias.nombre "
 		    	     +" FROM personas"
 		    	     +" INNER JOIN usuarios ON usuarios.persona_dni=personas.dni"
@@ -1049,7 +1049,8 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	            
 	            // Crear la instancia de Pais
 	            Pais ps = new Pais();
-	            ps.setNombre(rs.getString("nombre"));
+	            ps.setId(rs.getInt("paises.id"));
+	            ps.setNombre(rs.getString("paises.nombre"));
 	            
 	            // Crear la instancia de Provincia
 	            Provincia pv = new Provincia();
@@ -1136,7 +1137,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        preparedStatement.setInt(2, persona.getDireccion().getAltura());
 	        preparedStatement.setString(3, persona.getDireccion().getPiso());
 	        preparedStatement.setString(4, persona.getDireccion().getDepartamento());
-	        preparedStatement.setInt(5, persona.getDireccion().getLocalidad_id());
+	        preparedStatement.setInt(5, persona.getDireccion().getLocalidad().getId());
 	        preparedStatement.setInt(6, persona.getDireccion().getId());
 	        preparedStatement.executeUpdate();
 	        preparedStatement.close();
