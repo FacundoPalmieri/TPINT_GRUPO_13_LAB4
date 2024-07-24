@@ -58,8 +58,8 @@
                     <th>Importe por Cuota</th>
                     <th>Estado Prestamo</th>
                     <th>Porcentaje Pagado</th>
-                    <th>Monto Adeudado a la fecha</th>
-                    <th>Monto Abonado a la fecha</th>
+                    <th>Monto Adeudado</th>
+                    <th>Monto Abonado</th>
 
                 </tr>
                 
@@ -99,21 +99,29 @@
                                 		if(cuotasPagas!=0){
                                 			porcentajePagado= ((float)cuotasPagas/(float)cantCuotasTotales)*100;
                                 			montoTotalAdeudado -= montoAbonado;
-                                		}
-                                	}%>
-                                <td><%= String.format("%.2f",porcentajePagado) %>%</td>	
+                                		}%>
+                                	<td><%= String.format("%.2f",porcentajePagado) %>%</td>		
+                                 <% }else{%>
+                                	<td>-</td>
+                               	<%}%>
                                 
-                                             <% 
+                                <% 
                               	if(prestamo.getEstado().getId()==3 || prestamo.getEstado().getId()==5){ 
                                 		for(PagosPrestamos p : prestamo.getPagosPrestamos()){
                                 			if(p.getEstado()==3){
                                 				cuotasImpagas++;
-                                			}
-                            		  }
-                                	}%>
-                                <td>$<%= montoTotalAdeudado %></td>
-                                <td>$<%= montoAbonado %></td>			
-                               	
+                                			}	
+                            		  }%>
+                                	<td>$<%= montoTotalAdeudado %></td>	
+                                <%}else{%>
+                                	<td>-</td>
+                               	<%}%>
+                               	<% 
+                              	if(prestamo.getEstado().getId()==3 || prestamo.getEstado().getId()==5){ %>
+                              		<td>$<%= montoAbonado %></td>		
+                                <%}else{%>
+                                	<td>-</td>
+                               	<%}%>
                             </tr>
                 <% 
                         }
@@ -131,8 +139,8 @@
 		<canvas id="estadoChart"></canvas>
 
     </div>
-    <div class="button-container">
-        <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='UsuarioAdministrador.jsp';">
+    <div class="button-container" style="justify-content: end;">
+        <input type="button" style="margin-bottom:2%; margin-right:2%;" value="Volver" name="btnVolver" onclick="window.location.href='UsuarioAdministrador.jsp';">
     </div>
 </div>
 <% } else { %>
@@ -232,7 +240,7 @@
                     },
                     tooltip: {
                         callbacks: {
-                            label: function(tooltipItem) {
+                           label: function(tooltipItem) {
                                 return tooltipItem.label + ': ' + tooltipItem.raw;
                             }
                         },
