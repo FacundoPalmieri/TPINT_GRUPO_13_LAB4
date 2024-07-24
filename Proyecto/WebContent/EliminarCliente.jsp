@@ -16,7 +16,7 @@
     <div class="banner">
         <div class="logo_encabezado_izquierda">
             <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
-            <h3>Eliminar Usuario</h3>
+            <h3>Estado Usuario</h3>
         </div>
         <div class="logo_encabezado_derecha">
             <%= (String) session.getAttribute("usuario") %>
@@ -47,9 +47,20 @@
                     <input type="text" id="apellido" name="apellido" value="<%= request.getParameter("apellido1")  %>" readonly>
                 </div>
                 <div class="center-container">
-                <%if(request.getParameter("estadoCliente1")!=null){%>
-            		<input type="button" value="<%= Integer.parseInt(request.getParameter("estadoCliente1").toString())==1 ? "Eliminar" : "Habilitar" %>" name="<%= Integer.parseInt(request.getParameter("estadoCliente1").toString())==1 ? "btnEliminar" : "btnHabilitar" %>" style="background-color: #dc3545; margin-right: 2%;">
-            	<%}%>
+                <% if(request.getParameter("estadoCliente1") != null) { %>
+				    <% 
+				        String estadoCliente1 = request.getParameter("estadoCliente1");
+				        boolean esEliminar = Integer.parseInt(estadoCliente1) == 1;
+				        String valorBoton = esEliminar ? "Eliminar" : "Habilitar";
+				        String nombreBoton = esEliminar ? "btnEliminar" : "btnHabilitar";
+				        String colorBoton = esEliminar ? "#dc3545" : "#28a745"; // rojo para eliminar, verde para habilitar
+				    %>
+				    
+				    <input type="button" 
+				           value="<%= valorBoton %>" 
+				           name="<%= nombreBoton %>" 
+				           style="background-color: <%= colorBoton %> !important; margin-right: 2% !important;">
+				<% } %>
                     <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ListarClientes.jsp';">
                 </div>
             </div>
