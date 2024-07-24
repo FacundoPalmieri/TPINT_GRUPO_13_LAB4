@@ -200,10 +200,10 @@
     
       
     </div>
-
-    <input type="submit" value="Aceptar" name="btnAceptar">
-    <input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLclientes.jsp';">
-
+	<div style="display: flex; justify-content: end; margin: 2%;">
+    	<input type="submit" value="Aceptar" name="btnAceptar" style="margin-right: 5px;">
+    	<input type="button" value="Volver" name="btnVolver" onclick="window.location.href='ABMLclientes.jsp';">
+	</div>
 	</form>
 
 	    	
