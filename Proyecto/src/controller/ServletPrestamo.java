@@ -161,7 +161,7 @@ public class ServletPrestamo extends HttpServlet {
 			listaEstadosPrestamo = prestamoNeg.obtenerListadeEstado();
 			
 			
-				if(listaPrestamos != null && listaEstadosPrestamo != null && EstadoMovimiento != 0 && EstadoSaldoCuenta !=0 && EstadoCuotas !=0) {
+				if(listaPrestamos != null && listaEstadosPrestamo != null) {
 					System.out.println("completa lista prestamos");
 					
 					request.setAttribute("listaPrestamos", listaPrestamos);	
