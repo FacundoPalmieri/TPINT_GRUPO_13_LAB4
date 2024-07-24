@@ -52,10 +52,10 @@
                 ArrayList<Prestamo> listaPrestamos = (ArrayList<Prestamo>) request.getAttribute("listaPrestamos");
                 int cuotasPagas=0;
                	int cuotasImpagas=0;
-                float porcentajePagado = 0;
                 float peligro = 0;
                 if (listaPrestamos != null) {
                         for (Prestamo prestamo : listaPrestamos) { 
+                        	float porcentajePagado = 0;
                         	int cantCuotasTotales = prestamo.getCuotas();
                 %>
                             <tr>
@@ -77,10 +77,10 @@
                                 			}
                                 		}
                                 		if(cuotasPagas!=0){
-                                			porcentajePagado= (cuotasPagas/cantCuotasTotales)*100;
+                                			porcentajePagado= ((float)cuotasPagas/(float)cantCuotasTotales)*100;
                                 		}
                                 	}%>
-                                <td><%= porcentajePagado %>%</td>	
+                                <td><%= String.format("%.2f",porcentajePagado) %>%</td>	
                                 
                                              <% 
                               	if(prestamo.getEstado().getId()==3 || prestamo.getEstado().getId()==5){ 
