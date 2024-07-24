@@ -63,7 +63,7 @@
  
  <div style="display: flex; justify-content: center; align-items: center; margin: 0 auto;">
     <form action="EditarCliente" method="post" style="max-width: 800px; width: 100%;">
-        <button type="button" class="accordion">Información Personal &#x1F4DD;</button>
+        <button type="button" class="accordion">Informacion Personal &#x1F4DD;</button>
         <div class="panel">
             <div class="flex-container">
                 <div class="form-group flex-item" style="margin-top: 10px;">
@@ -169,18 +169,18 @@
                     </div>
                     <div class="group">
                         <label for="piso">Piso:</label>
-                        <input type="text" id="piso" name="piso" value="<%= direccion != null ? direccion.getPiso() : "" %>" >
+                        <input type="text" id="piso" name="piso" value="<%= (direccion != null && direccion.getPiso() != null) ? direccion.getPiso() : "" %>" >
                     </div>
                     <div class="group">
                         <label for="depto">Depto:</label>
-                        <input type="text" id="depto" name="depto" value="<%= direccion != null ? direccion.getDepartamento() : "" %>" >
+                        <input type="text" id="depto" name="depto" value="<%= (direccion != null && direccion.getDepartamento() != null) ? direccion.getDepartamento() : "" %>" >
                     </div>
                 </div>
             </div>
       
 
 
-        <button type="button" class="accordion">Información de Contacto &#x1F4F1;</button>
+        <button type="button" class="accordion">Informacion de Contacto &#x1F4F1;</button>
         <div class="panel">
             <div class="flex-container">
                 <div class="form-group flex-item" style="margin-top: 10px;">
@@ -331,6 +331,33 @@
               } 
          %>
       });
+   
+   
+    
+    // VALIDAR QUE LA PERSONA SEA MAYOR DE 18 AÑOS 
+   
+        function validarFechaNacimiento() {
+            const fechaNacimientoInput = document.getElementById('fechaNacimiento');
+            const fechaNacimiento = new Date(fechaNacimientoInput.value);
+            const fechaActual = new Date();
+            fechaActual.setFullYear(fechaActual.getFullYear() - 18);
+
+            if (fechaNacimiento > fechaActual) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Fecha no válida',
+                    text: 'Debe ser mayor de 18 años.',
+                }).then(() => {
+                    fechaNacimientoInput.value = '';
+                });
+            }
+        }
+
+        window.onload = function() {
+            const fechaNacimientoInput = document.getElementById('fechaNacimiento');
+            fechaNacimientoInput.addEventListener('change', validarFechaNacimiento);
+        };
+    
     </script>   
 </body>
 </html>

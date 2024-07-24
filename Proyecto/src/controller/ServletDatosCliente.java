@@ -33,11 +33,14 @@ public class ServletDatosCliente extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		//VISUALIZAR DATOS SIENDO CLIENTE
+		
         HttpSession session = request.getSession(false);
         Integer tipoUsuario = (Integer) session.getAttribute("tipoUsuario");
+        
+        
     	if (tipoUsuario != null && tipoUsuario == 2) {
         	String nombreUsuario = (String)  session.getAttribute("usuario");
-        	int IdDireccion = (int) session.getAttribute("Direccion_id");
+        	
             if (nombreUsuario != null) {
                 if (request.getParameter("Param") != null) {
     
@@ -47,10 +50,10 @@ public class ServletDatosCliente extends HttpServlet {
                 	Localidad localidad = new Localidad();
                 	
                 	
-		            persona = usuarioNeg.ObtenerCliente(nombreUsuario);
-		            direccion = usuarioNeg.ObtenerDireccionCliente(IdDireccion);
-		            provincia = usuarioNeg.ObtenerProvinciaCliente(1);
-		            localidad = usuarioNeg.ObtenerLocalidadCliente(direccion.getLocalidad_id());
+		            persona = usuarioNeg.ObtenerPersonaCompleta(nombreUsuario);
+		            direccion = usuarioNeg.ObtenerDireccionCliente(persona.getDireccion().getId());
+		            provincia = usuarioNeg.ObtenerProvinciaCliente(persona.getDireccion().getLocalidad().getProvincia().getId());
+		            localidad = usuarioNeg.ObtenerLocalidadCliente(persona.getDireccion().getLocalidad().getId());
 		            
 		            System.out.println("DNI" + persona.getDni());
 	

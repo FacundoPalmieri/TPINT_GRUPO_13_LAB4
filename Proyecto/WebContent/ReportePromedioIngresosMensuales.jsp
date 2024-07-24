@@ -52,7 +52,7 @@
                     <tr>
                   		<th>Número cuenta</th>
                   		<th>Cliente</th>
-                        <th>Importe</th>
+                        <th>Promedio de Ingresos</th>
                
                     </tr>
                 </thead>

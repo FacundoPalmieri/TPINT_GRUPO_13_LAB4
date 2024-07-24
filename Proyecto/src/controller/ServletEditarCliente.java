@@ -133,7 +133,7 @@ public class ServletEditarCliente extends HttpServlet {
 
         	
         	DNI = (request.getParameter("dniCliente"));
-        	persona = usuarioNeg.GuardarPersonaCompleta(DNI);
+        	persona = usuarioNeg.obtenerPersonaCompleta(DNI);
         	
         
         	

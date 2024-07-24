@@ -37,7 +37,7 @@
 		    <a href="ServletCuentas?Param=1" class="botonera">Cuentas</a> 	    
 	    	<a href="ClienteTransferencia.jsp" class="botonera">Transferencias</a>
 	        <a href="ServletPrestamo?Param=1" class="botonera">Préstamos</a> 
-	        <a href="EditarCliente?Param=1" class="botonera">Mis Datos</a>
+	        <a href="ServletDatosCliente?Param=1" class="botonera">Mis Datos</a>
 			
 	    </div>
 	</div>

@@ -815,7 +815,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		PreparedStatement preparedStatement = null;
 		Persona p = new Persona();
 		String query= "SELECT personas.id,personas.dni,personas.cuil,personas.nombre,personas.apellido,personas.sexo, personas.celular, personas.telefono, personas.direccion_id, personas.nacionalidad, personas.fecha_nacimiento, personas.email, "
-				     +"direcciones.id, direcciones.calle, direcciones.numero, direcciones.piso, direcciones.departamento, direcciones.localidad_id,usuarios.id, usuarios.usuario, usuarios.habilitado, localidades.Nombre,provincias.nombre,paises.nombre "
+				     +"direcciones.id, direcciones.calle, direcciones.numero, direcciones.piso, direcciones.departamento, direcciones.localidad_id,usuarios.id, usuarios.usuario, usuarios.habilitado, localidades.id, localidades.Nombre,provincias.id, provincias.nombre,paises.nombre "
 		    	     +" FROM personas"
 		    	     +" INNER JOIN usuarios ON usuarios.persona_dni=personas.dni"
 		         	 +" INNER JOIN direcciones ON Personas.Direccion_id=direcciones.id"
@@ -858,11 +858,13 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		    	
 		    	//Se agrega el objeto Pais a Provincia
 		    	Provincia pv = new Provincia();
+		    	pv.setId(rs.getInt("provincias.id"));
 		    	pv.setNombre(rs.getString("provincias.nombre"));
 		    	pv.setPais(ps);
 		    	
 		    	//Se agrega el objeto Provincia a Localidad
 		    	Localidad l = new Localidad();
+		    	l.setId(rs.getInt("localidades.id"));
 		    	l.setNombre(rs.getString("localidades.nombre"));
 		    	l.setProvincia(pv);
 		    	
@@ -997,7 +999,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 
 
 	@Override
-	public Persona GuardarPersonaCompleta(String dni) {
+	public Persona obtenerPersonaCompleta(String dni) {
 		Conexion cn = new Conexion();
 	    PreparedStatement preparedStatement = null;
 	    ResultSet rs = null;
@@ -1005,7 +1007,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    
 	    try {
 	        cn.Open();
-	        System.out.println("EDITAR CLIENTE COMPLETO");
+	        System.out.println(" CONEXION ABIERTA obtenerPersonaCompleta");
 
 	        // Primero, obtenemos la información de la persona basándonos en el DNI
 	        String querySelect = "SELECT personas.id,personas.dni,personas.cuil,personas.nombre,personas.apellido,personas.sexo, personas.celular, personas.telefono, personas.direccion_id, personas.nacionalidad, personas.fecha_nacimiento, personas.email, "
@@ -1017,7 +1019,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		    	     +" INNER JOIN localidades ON direcciones.Localidad_id=localidades.id"
 		         	 +" INNER JOIN provincias ON localidades.Provincia_id=provincias.id"
 		    	     +" INNER JOIN paises ON provincias.Pais_id=paises.id"
-		    	     +" WHERE personas.dni = ?";
+		    	     +" WHERE personas.dni = ? AND usuarios.habilitado = 1 ";
 
 	        preparedStatement = cn.prepareStatement(querySelect);
 	        preparedStatement.setString(1, dni);

@@ -226,8 +226,8 @@
                         <th>Nombre</th>
             			<th>Apellido</th>
                         <th>Usuario</th>
-                        <th>Opciones</th>
-                        <th>Contraseña</th>
+                        <th>habilitación</th>
+                        <th>Datos</th>
                         <th>Detalles</th>
                     </tr>
                 </thead>
