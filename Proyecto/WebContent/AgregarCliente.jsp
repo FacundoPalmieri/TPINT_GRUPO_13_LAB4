@@ -212,33 +212,21 @@
         <p id="popupMessage"></p>
    </div>
  <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            <% 
-                Boolean estadoCliente = (Boolean) request.getAttribute("estadoCliente");
-                Boolean validacion = (Boolean) request.getAttribute("validacionCliente");
-                String errorMensaje = (String) request.getAttribute("errorMensaje");
 
-                System.out.println("Estado Cliente: " + estadoCliente);
-                System.out.println("Validación Cliente: " + validacion);
-                System.out.println("Error Mensaje: " + errorMensaje);
-
-                if (validacion != null) {
-                    if (validacion == false) { 
-            %>
-                        showPopup("Usuario ya existente.");
-            <% 
-                    } else {
-            %>
-           			 showPopup("<%= estadoCliente != null && estadoCliente ? "Usuario agregado con éxito" : "Usuario no agregado, vuelva a intentarlo." %>");
-            <% 
-                    }
-                } else if (errorMensaje != null) {
-            %>
-                    showPopup("<%= errorMensaje %>");
-            <% 
-                }
-            %>
-        });
+ // POP UP OBTENGO MENSAJE DEL SERVLET
+  document.addEventListener('DOMContentLoaded', function() {
+      <% 
+          String mensaje = (String) request.getAttribute("Mensaje");
+    		  if (mensaje != null) { 
+      %>
+    	
+       	showPopup("<%= mensaje%>");
+       <% 
+            } 
+       %>
+    });
+ 
+ 
     </script>
 </div>
 

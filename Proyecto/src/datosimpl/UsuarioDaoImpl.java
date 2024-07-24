@@ -60,12 +60,15 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	@Override
 	public boolean validarUsuario(String DNI, String usuario) {
 	    Conexion cn = new Conexion();
-	    cn.Open();
+	    
 
 	    boolean estado = true;
-	    String query = "SELECT nombre, apellido FROM Usuarios WHERE persona_dni=? OR usuario=?";
+	    String query = "SELECT usuario, persona_dni FROM Usuarios WHERE persona_dni=? OR usuario=?";
 
 	    try {
+	    	cn.Open();
+	    	System.out.println("CONEXION ABIERTA VALIDAR USUARIO");
+	    	
 	        PreparedStatement preparedStatement = cn.prepareStatement(query);
 	        preparedStatement.setString(1, DNI);
 	        preparedStatement.setString(2, usuario);
@@ -76,7 +79,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        // Si se encuentra al menos un registro, el usuario existe
 	        if (rs.next()) {
 	            estado = false;
-	            System.out.println("Usuario encontrado: " + rs.getString("nombre") + " " + rs.getString("apellido"));
+	            System.out.println("Usuario encontrado: " + rs.getString("usuario") + " " + rs.getString("persona_dni"));
 	        } else {
 	            System.out.println("No se encontro usuario con DNI: " + DNI + " o usuario: " + usuario);
 	        }

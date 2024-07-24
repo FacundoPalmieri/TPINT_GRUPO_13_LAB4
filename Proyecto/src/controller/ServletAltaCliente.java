@@ -130,30 +130,35 @@ public class ServletAltaCliente extends HttpServlet {
 			System.out.println("PASS2 : "+ Contrasenia2);
 			
 			if (Contrasenia1.equals(Contrasenia2)) {
-				
-		   //Valida que el cliente no exista antes de agregarlo.
-			validacion = usuarioNeg.validarUsuario(persona.getDni(), usuario.getUsuario());
-			if (validacion == false){
-				 System.out.println("Estado de validacion : "+ validacion);
-				 
-				request.setAttribute("validacionCliente", validacion);
-		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
-				dispatcher.forward(request, response);	
-			}
-			else {
-				estado = usuarioNeg.agregarCliente(usuario, persona, direccion);
-		    
-		    	request.setAttribute("validacionCliente", validacion);
-		        request.setAttribute("estadoCliente", estado);
-		    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
-				dispatcher.forward(request, response);	
-			}
-		  }
-			else {
-			    request.setAttribute("errorMensaje", "Las contraseñas no coinciden.");
+				//Valida que el cliente no exista antes de agregarlo.
+			    validacion = usuarioNeg.validarUsuario(persona.getDni(), usuario.getUsuario());
+					if (validacion == false){
+						 System.out.println("Estado de validacion : "+ validacion);
+						 
+						request.setAttribute("Mensaje", "Ya existe cliente con ese DNI y/o Usuario");
+				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
+						dispatcher.forward(request, response);	
+					}
+					else {
+						estado = usuarioNeg.agregarCliente(usuario, persona, direccion);
+						
+						if(estado == true) {
+							request.setAttribute("Mensaje", "Cliente agregado");
+					    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
+							dispatcher.forward(request, response);
+						}else {
+							request.setAttribute("Mensaje", "Ups! ha ocurrido un error inesperado");
+					    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
+							dispatcher.forward(request, response);
+						}
+				    		
+						
+				 }
+		  }else {
+			    request.setAttribute("Mensaje", "Las contraseñas no coinciden.");
 			    RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
 			    dispatcher.forward(request, response);
-			}
+			    }
 			 
 	        
 	    }
