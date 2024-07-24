@@ -2,16 +2,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="entidad.Persona"%>
 <%@page import="entidad.Direccion"%>
-<%@page import="entidad.Provincia"%>
-<%@page import="entidad.Localidad"%>
 <%@page import="entidad.Usuario"%>
 <%@page import="entidad.Pais" %>
+<%@page import="entidad.Provincia" %>
+<%@page import="entidad.Localidad" %>
 <%@page import="java.util.ArrayList" %>
+
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <style type="text/css">
     .error {
             color: red;
@@ -42,24 +42,15 @@
 
 	</div>
 	<%
-	Persona persona = (Persona) request.getAttribute("persona");
-    Direccion direccion = (Direccion) request.getAttribute("direccion");
-    Provincia provinciaSeleccionada = (Provincia) request.getAttribute("provincia");
-    Localidad localidadSeleccionada = (Localidad) request.getAttribute("localidad");
-    Usuario usuario = (Usuario) request.getAttribute("usuario");
-	
- %>
+	Persona persona = new Persona();
+	persona = (Persona)request.getAttribute("persona");	
+  %>
 	
  <form action="EditarCliente" method="post">
     <div id="BusquedaCliente">
-    <% if (request.getParameter("usuario1")!=null && request.getParameter("dniCliente1")!=null){%>
-        <input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%=request.getParameter("dniCliente1")%>" readonly style="background-color: #e9ecef;">
+        <input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%=request.getParameter("dniCliente")%>"style="background-color: #e9ecef;">
         <input type="submit" value="Buscar" name="btnBuscar" style="background-color: #78AD89">
-    <%}else{ %>
-    	<input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%=(request.getParameter("dniCliente") != null) ? request.getParameter("dniCliente") : "" %>" required>
-        <input type="submit" value="Buscar" name="btnBuscar" style="background-color: #78AD89">
-        <%} %>
-    </div>
+   </div>
 
  </form>
  
@@ -86,15 +77,11 @@
                 </div>
                 <div class="form-group flex-item">
                     <label for="sexo">Sexo:</label>
-                    <select id="sexo" name="sexo" required>
-       			 	<option value="F" <%= (persona != null && "F".equals(persona.getSexo())) ? "selected" : "" %>>F</option>
-        			<option value="M" <%= (persona != null && "M".equals(persona.getSexo())) ? "selected" : "" %>>M</option>
-        			<option value="X" <%= (persona != null && "X".equals(persona.getSexo())) ? "selected" : "" %>>X</option>
-   					</select>
+                    <input type="text" id="sexo" name="sexo" value="<%= persona != null ? persona.getSexo() : "" %>"required>
                 </div>
                 <div class="form-group flex-item">
                     <label for="fechaNacimiento">Fecha de Nacimiento:</label>
-                    <input type="date" id="fechaNacimiento" name="fechaNacimiento" value="<%= persona != null ? persona.getFechaNacimiento().toString() : "" %>" onblur="validarFechaNacimiento()"  required>
+                    <input type="date" id="fechaNacimiento" name="fechaNacimiento" value="<%= persona != null ? persona.getFechaNacimiento() : "" %>" required>
                 </div>
                 <div class="form-group flex-item">
                     <label for="nacionalidad">Nacionalidad:</label>
@@ -108,74 +95,96 @@
             <div class="flex-container">
                 <div class="form-group flex-item" style="margin-top: 10px;">
                     <label for="pais">País:</label>
-                    <select name="pais" id="pais">
-					    <option value="">Selecciona un país</option>
-					    <% 
-					        ArrayList<Pais> listaPaises = (ArrayList<Pais>) request.getAttribute("paises");
-					        if (listaPaises != null) {
-					            for (Pais pais : listaPaises) {
-					                boolean selected = (direccion != null && direccion.getLocalidad() != null && direccion.getLocalidad().getProvincia() != null && direccion.getLocalidad().getProvincia().getPais() != null && direccion.getLocalidad().getProvincia().getPais().getId() == pais.getId());
-					    %>
-					                <option value="<%= pais.getId() %>" <%= selected ? "selected" : "" %>><%= pais.getNombre() %></option>
-					    <% 
-					            }
-					        } else {
-					            out.println("No se encontraron países.");
-					        }
-					    %>
-					</select>
+                    <input type="text" id="pais" name="pais" value="Argentina" required>
                 </div>
                 <div class="form-group flex-item" style="margin-top: 10px;">
                     <label for="provincia">Provincia:</label>
-                     <select name="provincia" id="provincia">
-                        <option value="">Selecciona una provincia</option>
-                        <% 
-                            ArrayList<Provincia> listaProvincias = (ArrayList<Provincia>) request.getAttribute("provincias");
-                            if (listaProvincias != null) {
-                                for (Provincia provincia : listaProvincias) {
-                                    boolean selected = (direccion != null && direccion.getLocalidad() != null && direccion.getLocalidad().getProvincia() != null && direccion.getLocalidad().getProvincia().getId() == provincia.getId());
-                        %>
-                                    <option value="<%= provincia.getId() %>" <%= selected ? "selected" : "" %>><%= provincia.getNombre() %></option>
-                        <% 
-                                }
-                            }
-                        %>
-                    </select>
+                   <select name="provincia" id="provincia" required>
+                       <%
+				        if (persona != null) {
+				            ArrayList<Provincia> listaProvincias = (ArrayList<Provincia>) request.getAttribute("listaProvincias");
+				            
+				            ArrayList<Provincia> provinciasOrdenadas = new ArrayList<>();
+				            
+				            // Encuentra la localidad seleccionada y agrégala primero
+				            for (Provincia provincia : listaProvincias) {
+				                if (provincia.getId() == persona.getDireccion().getLocalidad().getProvincia().getId()) {
+				                	provinciasOrdenadas.add(provincia);
+				                    break;  // Salir del bucle una vez encontrada la localidad seleccionada
+				                }
+				            }
+				            
+				            // Agrega el resto de las localidades
+				            for (Provincia provincia : listaProvincias) {
+				                if (provincia.getId() !=  persona.getDireccion().getLocalidad().getProvincia().getId()) {
+				                	provinciasOrdenadas.add(provincia);
+				                }
+				            }
+				            
+				            // Muestra todas las localidades en el desplegable
+				            for (Provincia provincia : provinciasOrdenadas) {
+				        %>
+				            <option value="<%= provincia.getId() %>"><%= provincia.getNombre() %></option>
+				        <%
+				            }
+				        }
+				        %>
+				    </select>
+                   
+                   
                 </div>
                 <div class="form-group flex-item" style="margin-top: 10px;">
                     <label for="localidad">Localidad:</label>
-                      <select name="localidad" id="localidad">
-                        <option value="">Selecciona una localidad</option>
-                        <% 
-                            ArrayList<Localidad> listaLocalidades = (ArrayList<Localidad>) request.getAttribute("localidades");
-                            if (listaLocalidades != null) {
-                                for (Localidad localidad : listaLocalidades) {
-                                    boolean selected = (direccion != null && direccion.getLocalidad() != null && direccion.getLocalidad().getId() == localidad.getId());
-                        %>
-                                    <option value="<%= localidad.getId() %>" <%= selected ? "selected" : "" %>><%= localidad.getNombre() %></option>
-                        <% 
-                                }
-                            }
-                        %>
-                    </select>
+                    <select name="localidad" id="localidad" required>
+				        <%
+				        if (persona != null) {
+				            ArrayList<Localidad> listaLocalidades = (ArrayList<Localidad>) request.getAttribute("listaLocalidades");
+				            
+				            ArrayList<Localidad> localidadesOrdenadas = new ArrayList<>();
+				            
+				            // Encuentra la localidad seleccionada y agrégala primero
+				            for (Localidad localidad : listaLocalidades) {
+				                if (localidad.getId() ==  persona.getDireccion().getLocalidad().getId()) {
+				                    localidadesOrdenadas.add(localidad);
+				                    break;  // Salir del bucle una vez encontrada la localidad seleccionada
+				                }
+				            }
+				            
+				            // Agrega el resto de las localidades
+				            for (Localidad localidad : listaLocalidades) {
+				                if (localidad.getId() !=  persona.getDireccion().getLocalidad().getId()) {
+				                    localidadesOrdenadas.add(localidad);
+				                }
+				            }
+				            
+				            // Muestra todas las localidades en el desplegable
+				            for (Localidad localidad : localidadesOrdenadas) {
+				        %>
+				            <option value="<%= localidad.getId() %>"><%= localidad.getNombre() %></option>
+				        <%
+				            }
+				        }
+				        %>
+				    </select>
+                  	
 				</div>
                 </div>
                 <div class="form-group-domicilio">
                     <div class="group">
                         <label for="calle">Calle:</label>
-                        <input type="text" id="calle" name="calle" value="<%= direccion != null ? direccion.getCalle() : "" %>"  required>
+                        <input type="text" id="calle" name="calle" value=""  required>
                     </div>
                     <div class="group">
                         <label for="numero">Número:</label>
-                        <input type="text" id="numero" name="numero" value="<%= direccion != null ? direccion.getAltura() : "" %>"   required>
+                        <input type="text" id="numero" name="numero" value=""   required>
                     </div>
                     <div class="group">
                         <label for="piso">Piso:</label>
-                        <input type="text" id="piso" name="piso" value="<%= direccion != null ? direccion.getPiso() : "" %>"   required>
+                        <input type="text" id="piso" name="piso" value=""   required>
                     </div>
                     <div class="group">
                         <label for="depto">Depto:</label>
-                        <input type="text" id="depto" name="depto" value="<%= direccion != null ? direccion.getDepartamento() : "" %>"  required>
+                        <input type="text" id="depto" name="depto" value=""  required>
                     </div>
                 </div>
             </div>
@@ -203,11 +212,11 @@
         <div class="panel">
             <div class="form-group" style="margin-top:10px;">
                 <label for="usuario">Usuario:</label>
-                <input type="text" id="usuario" name="usuario" value="<%= usuario != null ? usuario.getUsuario() : "" %>" readonly style="background-color: #e9ecef;">
+                <input type="text" id="usuario" name="usuario" value="" readonly style="background-color: #e9ecef;">
             </div>
             <div class="form-group" style="margin-top:10px;">
                 <label for="pass">Contraseña:</label>
-                <input type="text" id="pass" name="pass" value="<%= usuario != null ? usuario.getPass() : "" %>" >
+                <input type="text" id="pass" name="pass" value="" >
             </div>
         </div>
 
@@ -240,55 +249,6 @@
         });
     }
     
-    document.addEventListener('DOMContentLoaded', function() {
-        var provinciaSelect = document.getElementById('provincia');
-        var localidadSelect = document.getElementById('localidad');
-
-        provinciaSelect.addEventListener('change', function() {
-            var provinciaId = this.value;
-
-            // Hacer una llamada AJAX al servlet para obtener las localidades
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'AltaCliente?provincia=' + provinciaId, true);
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-                    var localidades = JSON.parse(xhr.responseText);
-
-                    // Limpiar opciones actuales
-                    localidadSelect.innerHTML = '<option value="">Selecciona una localidad</option>';
-
-                    // Agregar las nuevas opciones de localidades
-                    localidades.forEach(function(localidad) {
-                        var option = document.createElement('option');
-                        option.value = localidad.id;
-                        option.textContent = localidad.nombre;
-                        localidadSelect.appendChild(option);
-                    });
-                } else {
-                    console.log('Error al obtener localidades');
-                }
-            };
-            xhr.send();
-        });
-    }); 
-    // VALIDAR QUE LA PERSONA SEA MAYOR DE 18 AÑOS 
-    
-    function validarFechaNacimiento() {
-        const fechaNacimientoInput = document.getElementById('fechaNacimiento');
-        const fechaNacimiento = new Date(fechaNacimientoInput.value);
-        const fechaActual = new Date();
-        fechaActual.setFullYear(fechaActual.getFullYear() - 18);
-
-        if (fechaNacimiento > fechaActual) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Fecha no válida',
-                text: 'Debe ser mayor de 18 años.',
-            }).then(() => {
-                fechaNacimientoInput.value = '';
-            });
-        }
-    }
     
     //funcionalidad pop up
     
