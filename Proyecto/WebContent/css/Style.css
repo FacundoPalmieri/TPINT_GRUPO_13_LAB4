@@ -702,4 +702,18 @@ margin-top: auto!important;
     border-radius: 4px;
     padding: 5px;
 }
+
+
+/* Estilos gráficos */
+
+
+#estadoChart, #estadoFinanciero {
+	width: 300px !important;
+    height: 300px !important;
+}
+
+.contenedorGraficos{
+	display: flex;
+    justify-content: space-around;
+}
         
