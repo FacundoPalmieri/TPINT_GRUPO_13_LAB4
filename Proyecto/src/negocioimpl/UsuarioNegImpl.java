@@ -27,9 +27,9 @@ public class UsuarioNegImpl implements UsuarioNeg{
 	}
 
     @Override
-    public boolean validarUsuario(String DNI, String usuario) {
+    public boolean validarDNI(String DNI) {
     	
-        return usuarioDao.validarUsuario(DNI, usuario);
+        return usuarioDao.validarDNI(DNI);
     }
 
 	@Override
@@ -153,6 +153,11 @@ public class UsuarioNegImpl implements UsuarioNeg{
 		return usuarioDao.validarMail(email);
 	}
 
+	
+	@Override
+	public boolean validarUsuario(String usuario) {
+		return usuarioDao.validarUsuario(usuario);
+	}
 
 	
 }

@@ -211,25 +211,31 @@ public class ServletPrestamo extends HttpServlet {
 			
 			cuenta =Integer.parseInt(request.getParameter("cuentaDestino"));
 			
-			
-			estadoPrestamo = prestamoNeg.guardarPrestamo(prestamo, DNI, 1, cuenta);
-			
-			if(estadoPrestamo == true) {
+			if(prestamo.getImporteSolicitado() >= 0) {
 				
-			   request.setAttribute("Mensaje","Préstamo solicitado");
-			   RequestDispatcher dispatcher = request.getRequestDispatcher("/ClientePrestamo.jsp");
-	           dispatcher.forward(request, response);
-	
-			}else {
-				   request.setAttribute("Mensaje","Ups! ha ocurrido un error inesperado ");
+			
+				estadoPrestamo = prestamoNeg.guardarPrestamo(prestamo, DNI, 1, cuenta);
+				
+				if(estadoPrestamo == true) {
+					
+				   request.setAttribute("Mensaje","Préstamo solicitado");
 				   RequestDispatcher dispatcher = request.getRequestDispatcher("/ClientePrestamo.jsp");
 		           dispatcher.forward(request, response);
-				
-			}	
 		
-		}
+				}else {
+					   request.setAttribute("Mensaje","Ups! ha ocurrido un error inesperado ");
+					   RequestDispatcher dispatcher = request.getRequestDispatcher("/ClientePrestamo.jsp");
+			           dispatcher.forward(request, response);
+					
+				}
+		   }else {
+			   request.setAttribute("Mensaje","El importe debe ser positivo");
+			   RequestDispatcher dispatcher = request.getRequestDispatcher("/ClientePrestamo.jsp");
+	           dispatcher.forward(request, response);
 		
+		    }
 		
+	}
 		
 		// ABONAR PRESTAMO
 		if(request.getParameter("btnPagar")!= null) {

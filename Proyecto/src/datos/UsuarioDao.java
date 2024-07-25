@@ -11,7 +11,7 @@ public interface UsuarioDao {
 	
 	  public int validarLogin(String usuario, String contrasenia);
 	  
-	  public boolean validarUsuario(String DNI, String usuario);
+	  public boolean validarDNI(String DNI);
 	
 	  public boolean agregarCliente(Usuario usuario, Persona persona, Direccion direccion);
 	  
@@ -52,4 +52,8 @@ public interface UsuarioDao {
 	  public boolean actualizarPersonaCompleta(Persona persona);
 	  
 	  public int validarMail(String email);
+	  
+	  public boolean validarUsuario(String usuario);
+	  
+	  
 }

@@ -12,7 +12,7 @@ import entidad.Usuario;
 public interface UsuarioNeg {
 	
 	public int validarLogin(String usuario, String contrasenia);
-	public boolean validarUsuario(String DNI, String usuario);
+	public boolean validarDNI(String DNI);
 	public boolean agregarCliente (Usuario usuario, Persona persona, Direccion direccion);
 	public Usuario obtenerUsuario (String usuario);
 	public Usuario obtenerUsuarioPorDNI (String DNI);
@@ -33,5 +33,6 @@ public interface UsuarioNeg {
 	public Persona obtenerPersonaCompleta(String dni);
 	public boolean actualizarPersonaCompleta(Persona persona);
 	public int validarMail(String email);
+	public boolean validarUsuario(String usuario);
 
 }

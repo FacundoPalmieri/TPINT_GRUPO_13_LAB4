@@ -139,38 +139,47 @@ public class ServletAltaCliente extends HttpServlet {
 			
 			if (Contrasenia1.equals(Contrasenia2)) {
 				//Valida que el cliente no exista antes de agregarlo.
-			    validacion = usuarioNeg.validarUsuario(persona.getDni(), usuario.getUsuario());
+			    validacion = usuarioNeg.validarDNI(persona.getDni());
 					if (validacion == false){
 						 System.out.println("Estado de validacion : "+ validacion);
 						 
-						request.setAttribute("Mensaje", "Ya existe cliente con ese DNI y/o Usuario");
+						request.setAttribute("Mensaje", "Ya existe cliente con ese DNI");
 				    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
 						dispatcher.forward(request, response);	
 					}
 					else {
 						  int validacionMail = 0;
 						  validacionMail = usuarioNeg.validarMail(persona.getEmail());
-						  if(validacionMail == 1) {
-							  
-						 
-								  estado = usuarioNeg.agregarCliente(usuario, persona, direccion);
+						  if(validacionMail == 1) {  
+							  boolean estadoUsuario = false;
+							  estadoUsuario = usuarioNeg.validarUsuario(usuario.getUsuario());
+							   if(estadoUsuario == true) {
+								  
+								    estado = usuarioNeg.agregarCliente(usuario, persona, direccion);
 							
-								if(estado == true) {
-									request.setAttribute("Mensaje", "Cliente agregado");
-							    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
-									dispatcher.forward(request, response);
-								}else {
-									request.setAttribute("Mensaje", "Ups! ha ocurrido un error inesperado");
-							    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
-									dispatcher.forward(request, response);
-								}
+									if(estado == true) {
+										request.setAttribute("Mensaje", "Cliente agregado");
+								    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
+										dispatcher.forward(request, response);
+								    }else {
+											request.setAttribute("Mensaje", "Ups! ha ocurrido un error inesperado");
+									    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
+											dispatcher.forward(request, response);
+							    	      }
+							   } else {  
+									    request.setAttribute("Mensaje", "El usuario ya existe");
+								    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
+										dispatcher.forward(request, response);
+							          }
+										
+									
 						  }else {
-							    request.setAttribute("Mensaje", "No se pudo agregar. El EMAIL ya se encuentra asignado a otro cliente");
-						    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
-								dispatcher.forward(request, response);
-						  }
+								    request.setAttribute("Mensaje", "No se pudo agregar. El EMAIL ya se encuentra asignado a otro cliente");
+							    	RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");
+									dispatcher.forward(request, response);
+						        }
 						
-				 }
+				  } 
 		  }else {
 			    request.setAttribute("Mensaje", "Las contraseñas no coinciden.");
 			    RequestDispatcher dispatcher = request.getRequestDispatcher("/AgregarCliente.jsp");

@@ -58,12 +58,12 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	
 	
 	@Override
-	public boolean validarUsuario(String DNI, String usuario) {
+	public boolean validarDNI(String DNI) {
 	    Conexion cn = new Conexion();
 	    
 
 	    boolean estado = true;
-	    String query = "SELECT usuario, persona_dni FROM Usuarios WHERE persona_dni=? OR usuario=?";
+	    String query = "SELECT persona_dni FROM Usuarios WHERE persona_dni=?";
 
 	    try {
 	    	cn.Open();
@@ -71,7 +71,7 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	    	
 	        PreparedStatement preparedStatement = cn.prepareStatement(query);
 	        preparedStatement.setString(1, DNI);
-	        preparedStatement.setString(2, usuario);
+	
 
 	        // Usar executeQuery para obtener un ResultSet
 	        ResultSet rs = preparedStatement.executeQuery();
@@ -79,9 +79,9 @@ public class UsuarioDaoImpl implements UsuarioDao{
 	        // Si se encuentra al menos un registro, el usuario existe
 	        if (rs.next()) {
 	            estado = false;
-	            System.out.println("Usuario encontrado: " + rs.getString("usuario") + " " + rs.getString("persona_dni"));
+	     
 	        } else {
-	            System.out.println("No se encontro usuario con DNI: " + DNI + " o usuario: " + usuario);
+	       
 	        }
 
 	        rs.close();
@@ -1218,4 +1218,45 @@ public class UsuarioDaoImpl implements UsuarioDao{
 		return estado;
 		
 	}
+	
+	
+	@Override
+	public boolean validarUsuario(String usuario) {
+	    Conexion cn = new Conexion();
+	    
+
+	    boolean estado = true;
+	    String query = "SELECT usuario FROM Usuarios WHERE usuario=?";
+
+	    try {
+	    	cn.Open();
+	    	System.out.println("CONEXION ABIERTA VALIDAR USUARIO");
+	    	
+	        PreparedStatement preparedStatement = cn.prepareStatement(query);
+	        preparedStatement.setString(1, usuario);
+	
+
+	        // Usar executeQuery para obtener un ResultSet
+	        ResultSet rs = preparedStatement.executeQuery();
+
+	        // Si se encuentra al menos un registro, el usuario existe
+	        if (rs.next()) {
+	            estado = false;
+	     
+	        } else {
+	       
+	        }
+
+	        rs.close();
+	        preparedStatement.close();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    } finally {
+	        cn.close();
+	    }
+
+	    System.out.println("Estado retorno USUARIODAO: " + estado);
+	    return estado;
+	}
+
 }
