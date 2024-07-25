@@ -16,7 +16,9 @@ public interface PrestamoNeg {
     public ArrayList<EstadoPrestamo> obtenerListadeEstado();
     public int registrarCuotas(PagosPrestamos pagosPrestamo);
     public int actualizarCuota(int idPrestamo, int cuota, int estado);
-    public int actualizarCuotaPrestamo(int id, int cuota);    
+    public int actualizarCuotaYsaldoRestantePrestamo(int id, int cuota, float importeCuota);    
+    public int obtenerCuotasPrestamo(int id);
+    public int ajustePorRedondeo(int id);
 
  
 }

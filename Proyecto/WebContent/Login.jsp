@@ -47,6 +47,7 @@
 			        <span class="close-btn" onclick="closePopup()">&times;</span>
 			        <p id="popupMessage"></p>
 			    </div>
+		 </div>
         </form>
     </div>
 </div>

@@ -280,9 +280,20 @@ public class ServletPrestamo extends HttpServlet {
 			     estadoModificarSaldo= cuentaNeg.modificarSaldo(nCuenta, (importeCuota * -1));
 			     estadoMovimiento = movimientoNeg.CrearMovimiento(nCuenta, DetalleMovimiento, (importeCuota * -1), 3);
 			     estadoActualizarCuota = prestamoNeg.actualizarCuota(idPrestamo, cuota, 2);
-			     estadoActualizarPrestamo = prestamoNeg.actualizarCuotaPrestamo(idPrestamo, cuota );
+			     estadoActualizarPrestamo = prestamoNeg.actualizarCuotaYsaldoRestantePrestamo(idPrestamo, cuota, importeCuota );
 			     
-			     if(estadoModificarSaldo != 0 && estadoMovimiento != 0 && estadoActualizarCuota != 0 && estadoActualizarPrestamo!= 0 ) {
+			     
+			     //Obtenemos el n° de cuantas cuotas tiene el prestamo
+			     int cuotasPrestamo = prestamoNeg.obtenerCuotasPrestamo(idPrestamo);
+			     
+			     //Si la cuota que paga es igual al n° de cuotas de prestamos, el mismo queda ABONADO
+			     if(cuotasPrestamo == cuota) {
+			    	int estadoActualizacion = prestamoNeg.actualizarEstadoPrestamo(idPrestamo, 5);
+			    	int estadoAjuste = prestamoNeg.ajustePorRedondeo(idPrestamo);
+			    	
+			     }
+			     
+			     if(estadoModificarSaldo != 0 && estadoMovimiento != 0 && estadoActualizarCuota != 0 && estadoActualizarPrestamo!= 0) {
 			    	 
 			    	   request.setAttribute("Mensaje","El pago ha sido realizado con éxito");
 					   RequestDispatcher dispatcher = request.getRequestDispatcher("/ClientePrestamo.jsp");

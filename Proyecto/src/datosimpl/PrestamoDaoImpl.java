@@ -407,21 +407,23 @@ public class PrestamoDaoImpl implements PrestamoDao{
 	}
 
 	@Override
-	public int actualizarCuotaPrestamo(int id, int cuota) {
+	public int actualizarCuotaYsaldoRestantePrestamo(int id, int cuota, float importeCuota) {
 		Conexion cn = new Conexion();
 		PreparedStatement ps = null;
 		int estado = 0;
 		
-		String query = "UPDATE prestamos SET cuotas_abonadas = ? "
+		String query = "UPDATE prestamos SET cuotas_abonadas = ?, saldo_restante = saldo_restante - ? "
 			         + "WHERE id = ?";
 		
 		try {
 			cn.Open();
-			System.out.println("CONEXION ABIERTA actualizarCuotaPrestamo ");
+			System.out.println("CONEXION ABIERTA actualizarCuotaYsaldoRestantePrestamo ");
 			
 			ps = cn.prepareStatement(query);
 			ps.setInt(1,cuota);
-			ps.setInt(2, id);
+			ps.setFloat(2,importeCuota);
+			ps.setInt(3, id);
+		
 			
 			estado = ps.executeUpdate();
 			
@@ -448,6 +450,104 @@ public class PrestamoDaoImpl implements PrestamoDao{
 		
 		return estado;
 		
+	}
+
+	@Override
+	public int obtenerCuotasPrestamo(int id) {
+		Conexion cn = new Conexion();
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		
+		int cuotas = 0;
+		
+		String query = "SELECT cuotas FROM prestamos WHERE id = ? ";
+		
+		try {
+			cn.Open();
+			System.out.println("CONEXION ABIERTA obtenerCuotasPrestamo");
+			ps = cn.prepareStatement(query);
+			
+			ps.setInt(1,id);
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				
+			  cuotas = rs.getInt("cuotas");
+			  
+			}
+			
+			
+		} catch (Exception e) {
+			System.out.println("ERROR obtenerCuotasPrestamo");
+			e.printStackTrace();
+		}
+		finally {
+			try {
+				cn.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR CN obtenerCuotasPrestamo");
+				e2.printStackTrace();
+			}
+			try {
+				ps.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR PS obtenerCuotasPrestamo");
+				e2.printStackTrace();
+			}
+			try {
+				rs.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR PS obtenerCuotasPrestamo");
+				e2.printStackTrace();
+			}
+			
+		}
+		
+		return cuotas;
+	}
+
+	@Override
+	public int ajustePorRedondeo(int id) {
+		Conexion cn = new Conexion();
+		PreparedStatement ps = null;
+		int estado = 0;
+		
+		String query = "UPDATE prestamos SET  saldo_restante = 0.0 "
+			         + "WHERE id = ?";
+		
+		try {
+			cn.Open();
+			System.out.println("CONEXION ABIERTA ajustePorRedondeo ");
+			
+			ps = cn.prepareStatement(query);
+			ps.setInt(1, id);
+		
+			
+			estado = ps.executeUpdate();
+			
+			
+		} catch (Exception e) {
+		   System.out.println("ERROR ajustePorRedondeo ");
+		   e.printStackTrace();
+		}finally {
+			try {
+				cn.close();
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR CONEXION ajustePorRedondeo ");
+				e2.printStackTrace();		
+			}
+			try {
+				ps.close();
+				
+			} catch (Exception e2) {
+				System.out.println("ERROR CERRAR PS ajustePorRedondeo ");
+				e2.printStackTrace();		
+			}
+			
+		}
+		
+		return estado;
 	}
 	   
 
