@@ -84,6 +84,10 @@
         var errorMensaje = "<%= (request.getAttribute("Mensaje") != null) ? request.getAttribute("Mensaje") : "" %>";
         if (errorMensaje) {
             showPopup(errorMensaje);
+            setTimeout(function() {
+                window.location.href = "<%= request.getContextPath() %>/CrearCuenta.jsp";
+            }, 2000); // 2 segundos de retraso antes de redirigir
+            
         }
     };
 </script>

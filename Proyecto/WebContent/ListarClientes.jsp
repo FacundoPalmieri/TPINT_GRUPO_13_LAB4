@@ -17,7 +17,7 @@
         align-items: center;
         margin-bottom: 10px;
         margin-top: 10px;
-        margin-left:35px;
+    
     }
 
     #txtFiltro {
@@ -34,32 +34,33 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
 
 <script type="text/javascript">
-    $(document).ready(function() {
-		$('#table_id').DataTable({
-            language: {
-                lengthMenu: "Mostrar _MENU_ registros",
-                info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                infoEmpty: "Mostrando 0 a 0 de 0 registros",
-                infoFiltered: "(filtrado de _MAX_ registros en total)",
-                infoPostFix: "",
-                loadingRecords: "Cargando...",
-                zeroRecords: "No se encontraron registros coincidentes",
-                emptyTable: "No hay datos disponibles en la tabla",
-                paginate: {
-                    first: "Primero",
-                    previous: "Anterior",
-                    next: "Siguiente",
-                    last: "Último"
-                },
-                aria: {
-                    sortAscending:  ": activar para ordenar columna ascendente",
-                    sortDescending: ": activar para ordenar columna descendente"
-                },
-                lengthMenu: "Cantidad registros _MENU_"
+$(document).ready(function() {
+    $('#table_id').DataTable({
+    	order: [[0, 'desc']],
+        language: {
+            lengthMenu: "Mostrar _MENU_ registros",
+            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+            infoEmpty: "Mostrando 0 a 0 de 0 registros",
+            infoFiltered: "(filtrado de _MAX_ registros en total)",
+            loadingRecords: "Cargando...",
+            zeroRecords: "No se encontraron registros coincidentes",
+            emptyTable: "No hay datos disponibles en la tabla",
+            paginate: {
+                first: "Primero",
+                previous: "Anterior",
+                next: "Siguiente",
+                last: "Último"
             },
-            dom: 'ltipr' // Controla los elementos que se muestran (l: longitud del menú, t: tabla, i: información, p: paginación, r: procesamiento)
-        });
-	});
+            aria: {
+                sortAscending: ": activar para ordenar columna ascendente",
+                sortDescending: ": activar para ordenar columna descendente"
+            },
+            lengthMenu: "Cantidad registros _MENU_",
+            search: "Buscar:"
+        },
+        dom: 'lfrtip'
+    });
+});
 	
 	
 	document.addEventListener("DOMContentLoaded",function(){
@@ -194,7 +195,7 @@
         <div class="banner">
             <div class="logo_encabezado_izquierda">
                 <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
-                <h3>Bienvenido</h3>
+                <h3>Listado Clientes</h3>
             </div>
             <div class="logo_encabezado_derecha">
                 <%= (String) session.getAttribute("usuario") %>
@@ -203,23 +204,19 @@
                 </a>
             </div>
         </div>
-        <h3 style="display:flex; justify-content: center;">Clientes activos</h3>
+      
 
-        <div class="filtro-container">
-            <label for="txtFiltro">Filtrar</label>
-            <input type="text" id="txtFiltro">
-        </div>
+ 
         
-        <div class="toggle-container filtro-container">
-        	<input type="checkbox" id="toggleHabilitados" onchange="toggleClientes()">
-            <label for="toggleHabilitados">Mostrar todos</label>
-        </div>
-        
-        <div style="margin: 0.5%;">
+         <div class="table-container" >
+               	<div class="toggle-container filtro-container" style="margin-top:2%;" >
+	        	<input type="checkbox" id="toggleHabilitados" onchange="toggleClientes()">
+	            <label for="toggleHabilitados">Mostrar todos los clientes</label>
+      		  </div>
             <table id="table_id" class="display">
                 <thead>
                     <tr>
-                    	<th>Cliente</th>
+                    	<th> Cliente</th>
                         <th>DNI</th>
                         <th>Dirección</th>
                         <th>Email</th>

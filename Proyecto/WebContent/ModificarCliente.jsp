@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@page import="entidad.Persona"%>
@@ -53,9 +53,13 @@
 	
  <form action="EditarCliente" method="post">
     <div id="BusquedaCliente">
+    <% if (request.getParameter("usuario1")!=null && request.getParameter("dniCliente1")!=null){%>
+        <input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%=request.getParameter("dniCliente1")%>" readonly style="background-color: #e9ecef;">
+        <input type="submit" value="Buscar" name="btnBuscar" style="background-color: #78AD89">
+    <%}else{ %>
     	<input type="text" id="dniCliente" name="dniCliente" placeholder="Ingrese el DNI del cliente" value="<%=(request.getParameter("dniCliente") != null) ? request.getParameter("dniCliente") : "" %>" required>
         <input type="submit" value="Buscar" name="btnBuscar" style="background-color: #78AD89">
-        
+        <%} %>
     </div>
 
  </form>
@@ -164,7 +168,7 @@
                         <input type="text" id="calle" name="calle" value="<%= direccion != null ? direccion.getCalle() : "" %>"  required>
                     </div>
                     <div class="group">
-                        <label for="numero">Numero:</label>
+                        <label for="numero">Número:</label>
                         <input type="text" id="numero" name="numero" value="<%= direccion != null ? direccion.getAltura() : "" %>"   required>
                     </div>
                     <div class="group">

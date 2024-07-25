@@ -19,33 +19,34 @@
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
     
      <script type="text/javascript">
-    $(document).ready(function() {
-		$('#tablaCuentas').DataTable({
-            language: {
-                lengthMenu: "Mostrar _MENU_ registros",
-                info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
-                infoEmpty: "Mostrando 0 a 0 de 0 registros",
-                infoFiltered: "(filtrado de _MAX_ registros en total)",
-                infoPostFix: "",
-                loadingRecords: "Cargando...",
-                zeroRecords: "No se encontraron registros coincidentes",
-                emptyTable: "No hay datos disponibles en la tabla",
-                paginate: {
-                    first: "Primero",
-                    previous: "Anterior",
-                    next: "Siguiente",
-                    last: " ltimo"
-                },
-                aria: {
-                    sortAscending:  ": activar para ordenar columna ascendente",
-                    sortDescending: ": activar para ordenar columna descendente"
-                },
-                lengthMenu: "Cantidad registros _MENU_"
-            },
-            dom: 'ltipr' // Controla los elementos que se muestran (l: longitud del men , t: tabla, i: informaci n, p: paginaci n, r: procesamiento)
-        });
-		toggleCuentas();
-	});
+     $(document).ready(function() {
+    	    $('#tablaCuentas').DataTable({
+    	    	order: [[0, 'desc']],
+    	        language: {
+    	            lengthMenu: "Mostrar _MENU_ registros",
+    	            info: "Mostrando _START_ a _END_ de _TOTAL_ registros",
+    	            infoEmpty: "Mostrando 0 a 0 de 0 registros",
+    	            infoFiltered: "(filtrado de _MAX_ registros en total)",
+    	            loadingRecords: "Cargando...",
+    	            zeroRecords: "No se encontraron registros coincidentes",
+    	            emptyTable: "No hay datos disponibles en la tabla",
+    	            paginate: {
+    	                first: "Primero",
+    	                previous: "Anterior",
+    	                next: "Siguiente",
+    	                last: "Último"
+    	            },
+    	            aria: {
+    	                sortAscending: ": activar para ordenar columna ascendente",
+    	                sortDescending: ": activar para ordenar columna descendente"
+    	            },
+    	            lengthMenu: "Cantidad registros _MENU_",
+    	            search: "Buscar:"
+    	        },
+    	        dom: 'lfrtip'
+    	    });
+    	});
+    		
     
     function toggleCuentas() {
         var checkbox = document.getElementById('toggleHabilitados');
@@ -87,13 +88,14 @@
     </div>
 </div>
 
-	<div class="toggle-container filtro-container" >
+
+
+
+ <div class="table-container" >
+ 	<div class="toggle-container filtro-container" style="margin-top:2%;" >
         <input type="checkbox" id="toggleHabilitados" onchange="toggleCuentas()">
         <label for="toggleHabilitados">Mostrar todas las cuentas</label>
     </div>
-
-
- <div class="table-container">
         <table id="tablaCuentas" class="display">
             <thead>
                 <tr>

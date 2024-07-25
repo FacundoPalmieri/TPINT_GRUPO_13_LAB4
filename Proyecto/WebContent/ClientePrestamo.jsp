@@ -240,13 +240,13 @@
                     %>
                     <tr>
                         <td><%= prestamo.getFecha() %></td>
-                        <td><%= prestamo.getImporteSolicitado() %></td>
-                        <td><%= prestamo.getImporteAPagar() %></td>
+                        <td>$ <%= prestamo.getImporteSolicitado() %></td>
+                        <td>$ <%= prestamo.getImporteAPagar() %></td>
                         <td><%= prestamo.getCuotas() %></td>
-                        <td><%= prestamo.getImporteCuota() %></td>
+                        <td>$ <%= prestamo.getImporteCuota() %></td>
                         <td><%= prestamo.getEstado().getDescripcion() %></td>
                         <td><%= prestamo.getCuotasAbonadas() %></td>
-                        <td><%= prestamo.getSaldoRestante() %></td>                       
+                        <td>$ <%= prestamo.getSaldoRestante() %></td>                       
                     </tr>
                     <% 
                             }
