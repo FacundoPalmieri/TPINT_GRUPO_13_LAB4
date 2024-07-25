@@ -52,7 +52,7 @@ public class ServletTransferencia extends HttpServlet {
 			// OBTENGO CBU DEL JSP 
 			String cbu = request.getParameter("cbuCliente");
 			
-			// OBTENGO CUENTA POR CEBU
+			// OBTENGO CUENTA POR CBU
 			cuenta = cuentaNeg.obtenerCuentaporCBU(cbu);		
 			
 			// OBTENGO CLIENTE POR DNI CUENTA
@@ -70,6 +70,8 @@ public class ServletTransferencia extends HttpServlet {
 				
 				//Guardo en session para usarlo en el post 
 			    session.setAttribute("cuenta", cuenta);
+			    session.setAttribute("clienteDesintoNombre", persona.getNombre());
+			    session.setAttribute("clienteDesintoApellido", persona.getApellido());
 				
 				request.setAttribute("cuenta", cuenta);
 				request.setAttribute("persona", persona);
@@ -101,6 +103,12 @@ public class ServletTransferencia extends HttpServlet {
 		//Obtengo la cuenta destino del doGET
 	     HttpSession session = request.getSession();
 		 Cuenta cuenta = (Cuenta) session.getAttribute("cuenta");
+		 String nombreClienteDestino = (String)session.getAttribute("clienteDesintoNombre");
+		 String apellidoClienteDestino = (String)session.getAttribute("clienteDesintoApellido");
+		 String nombreCliente = (String)session.getAttribute("Nombre");
+		 String apellidoCliente = (String)session.getAttribute("Apellido");
+		 
+		 
 		 int nCuentaDestino = 0;
 		
 		 // Asigno el string al int para comparar
@@ -116,8 +124,8 @@ public class ServletTransferencia extends HttpServlet {
 					 int estadoModificarSaldoDestino = 0;
 					 int estadoMovimientoOrigen = 0;
 					 int estadoMovimientoDestino = 0;
-					 String detalleOrigen = "Transferencia realizada a cuenta N° " + nCuenta;
-					 String detalleDestino = "Transferencia recibida de cuenta N° " + nCuentaDestino;
+					 String detalleOrigen = "Transferencia realizada a " + apellidoClienteDestino + "," + nombreClienteDestino + " - cuenta N° " + nCuentaDestino;
+					 String detalleDestino = "Transferencia recibida de " + apellidoCliente + "," + nombreCliente + " - cuenta N° " + nCuenta;
 					 
 					 estadoModificarSaldoOrigen = cuentaNeg.modificarSaldo(nCuenta, (monto *-1));
 					 estadoModificarSaldoDestino = cuentaNeg.modificarSaldo(nCuentaDestino, monto);
