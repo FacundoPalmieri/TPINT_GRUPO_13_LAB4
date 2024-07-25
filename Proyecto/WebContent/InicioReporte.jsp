@@ -92,15 +92,7 @@
             <div class="form-group">
                 <label for="dniCliente">DNI:</label>
                 <input type="text" id="dniCliente" name="dniCliente" required>
-                <% if(request.getAttribute("errorDni")!=null){ %>
-                	<p><%= request.getAttribute("errorDni") %></p>
-               <%} %>
-                <% if(request.getAttribute("dniInexistente")!=null){ %>
-                    <p><%= request.getAttribute("dniInexistente") %></p>
-                <%} %>
-                <% if(request.getAttribute("sinPrestamos")!=null){ %>
-                    <p><%= request.getAttribute("sinPrestamos") %></p>
-                <%} %>
+            
             </div>
             <div class="form-group">
                 <label>Estado Préstamos:</label><br>
@@ -134,6 +126,44 @@
     <div style = "display: flex; justify-content: center; margin-botton: 2%;" >
  		<input type="button" value="Volver" name="btnVolver" style = "margin-bottom: 2%;"  onclick="window.location.href='UsuarioAdministrador.jsp';">
 	</div>
+	
+	<!-- POP UP PARA MOSTRAR MENSAJE -->
+ <div id="popup" class="popup">
+        <span class="close-btn" onclick="closePopup()">&times;</span>
+        <p id="popupMessage"></p>
+ </div>
+	
 </div>
+<script>
+ //funcionalidad pop up
+
+    function showPopup(message) {
+        var popup = document.getElementById("popup");
+        var popupMessage = document.getElementById("popupMessage");
+        popupMessage.innerText = message;
+        popup.classList.add("active");
+    }
+
+    function closePopup() {
+        var popup = document.getElementById("popup");
+        popup.classList.remove("active");
+        
+    }
+
+   // POP UP OBTENGO MENSAJE DEL SERVLET
+    document.addEventListener('DOMContentLoaded', function() {
+        <% 
+            String mensaje = (String) request.getAttribute("Mensaje");
+      		  if (mensaje != null) { 
+        %>
+      	
+         	showPopup("<%= mensaje%>");
+         <% 
+              } 
+         %>
+      });
+    
+</script>
+
 </body>
 </html>

@@ -121,7 +121,7 @@ public class ServletReportes extends HttpServlet {
 			try {
 				validacion.validarFormatoDNI(DNI);	
 				if(!reporteNeg.busquedaDNI(DNI)) {
-					request.setAttribute("dniInexistente","El dni no existe");
+					request.setAttribute("Mensaje","El dni no existe");
 					RequestDispatcher dispatcher = request.getRequestDispatcher("/InicioReporte.jsp");
 					dispatcher.forward(request, response);	
 					return;
@@ -133,7 +133,7 @@ public class ServletReportes extends HttpServlet {
 			}
 			catch(DniInvalido dniI) {
 				System.out.println("Error: "+dniI.getMessage());
-				request.setAttribute("errorDni",dniI.getMessage());
+				request.setAttribute("Mensaje",dniI.getMessage());
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/InicioReporte.jsp");
 				dispatcher.forward(request, response);	
 				return;
@@ -164,7 +164,7 @@ public class ServletReportes extends HttpServlet {
 			listaPrestamos = reporteNeg.prestamos(DNI,estados,fecha1,fecha2);
 			
 			if(listaPrestamos.size()==0) {
-				request.setAttribute("sinPrestamos","El cliente no tiene prestamos en esas fechas y/o en el estado seleccionado");
+				request.setAttribute("Mensaje","El cliente no tiene prestamos en esas fechas y/o en el estado seleccionado");
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/InicioReporte.jsp");
 				dispatcher.forward(request, response);	
 			}
