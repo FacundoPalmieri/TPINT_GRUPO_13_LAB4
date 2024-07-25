@@ -16,7 +16,7 @@
 	<div class="banner">
 		<div class="logo_encabezado_izquierda">
 		 	  <img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
-		  	  <h3>ABML Clientes</h3>
+		  	  <h3>ABML Cuentas</h3>
 		</div>
 	<div class="logo_encabezado_derecha">
 	     <%= (String) session.getAttribute("usuario") %>

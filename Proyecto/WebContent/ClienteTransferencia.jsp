@@ -63,9 +63,9 @@
 	<form id="formTransferencia" action="ServletTransferencia" method="post">
         <div id="ResultadoBusquedaCBU">
             <div class="form-group">
-                <div class="form-item" style="margin-top: 10px;">
+                <div class="form-group flex-item" style="margin-top: 10px;">
 	                <label for="monto">Monto $</label>
-	                <input type="text" id="monto" name="monto" required>
+	                <input type="number" style="width:450px;" id="monto" name="monto" required>
 	            </div>
 	            <div class="form-item" style="margin-top: 10px;">
 	                <label for="cuentaOrigen">Cuenta origen:</label>

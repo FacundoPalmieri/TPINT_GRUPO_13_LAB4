@@ -141,7 +141,7 @@ public class ServletReportes extends HttpServlet {
 			catch(fechaInvalida fi) {
 				System.out.println("Error: "+fi.getMessage());
 				System.out.println("Error: "+fi.getMessage());
-				request.setAttribute("errorFecha",fi.getMessage());
+				request.setAttribute("Mensaje",fi.getMessage());
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/InicioReporte.jsp");
 				dispatcher.forward(request, response);	
 				return;

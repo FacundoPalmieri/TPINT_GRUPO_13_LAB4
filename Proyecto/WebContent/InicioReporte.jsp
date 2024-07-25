@@ -77,7 +77,7 @@
 	<div class="banner">
 		<div class="logo_encabezado_izquierda">
 	    	<img src="img/Grupo 13_encabezado.png" alt="Logo" class="logo_encabezado">
-	        <h3>Gestión Admin</h3>
+	        <h3>Reporte Préstamos</h3>
 	    </div>
 	    <div class="logo_encabezado_derecha">
 	    	<%= (String) session.getAttribute("usuario") %>
@@ -114,9 +114,7 @@
             <div class="form-group">
                 <label for="fecha2">Hasta:</label>
                 <input type="date" id="fecha2" name="fecha2" required>
-                <% if(request.getAttribute("errorFecha")!=null){ %>
-                	<p><%= request.getAttribute("errorFecha") %></p>
-               <%} %>
+               
             </div>
             <div class="submit-container">
                 <input type="submit" value="Generar Reporte" name="btnReporte">
